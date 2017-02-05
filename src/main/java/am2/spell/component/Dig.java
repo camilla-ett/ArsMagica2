@@ -48,9 +48,9 @@ public class Dig extends SpellComponent {
 		if (!(caster instanceof EntityPlayer))
 			return false;
 		if (world.isRemote) return true;
-		if (!ForgeHooks.canHarvestBlock(world.getBlockState(blockPos).getBlock(), (EntityPlayer)caster, world, blockPos)) {
-		    return false;
-		}
+//		if (!ForgeHooks.canHarvestBlock(world.getBlockState(blockPos).getBlock(), (EntityPlayer)caster, world, blockPos)) {
+//		    return false;
+//		}
         if (SpellUtils.modifierIsPresent(SpellModifiers.SILKTOUCH_LEVEL, stack)) {
 			if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) <= 0) {
 				stack.addEnchantment(Enchantments.SILK_TOUCH, 1);
