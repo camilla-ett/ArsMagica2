@@ -254,6 +254,9 @@ entity.arsmagica2.NatureGuardian.name=Nature Guardian
 entity.arsmagica2.FireGuardian.name=Fire Guardian
 entity.arsmagica2.AirGuardian.name=Air Guardian
 
+entity.arsmagica2.AirSled.name=Air Sled
+entity.arsmagica2.ThrownSickle.name=Nature Scythe
+
 itemGroup.am2.blocks=Ars Magica 2 Blocks
 itemGroup.am2.items=Ars Magica 2 Items
 
