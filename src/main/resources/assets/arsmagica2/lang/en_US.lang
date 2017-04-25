@@ -1827,3 +1827,14 @@ compendium.water_guardian.page1=The guardian of water is a unique being. It is a
 compendium.water_guardian.page2=The water guardian can be summoned by creating a redstone inlay circle in any biome that is predominantly water. Then, while raining, throw a boat and a bucket of water into the circle as homage to the many ships lost at sea. 
 compendium.winter_guardian.page1=The Winter Guardian is truly the embodiment of it's namesake. Surrounded by frigid winds that sap the strength of all who near it, the Winter Guardian pummels its frozen foes and shatters them with powerful strikes.
 compendium.winter_guardian.page2=To summon the Winter Guardian, seek out an area in the grips of winter. Place a gold inlay circle on the ground and build an effigy to the Winter Guardian in the centre, Ice on top of two Blue Topaz blocks. Then create 3 snow golems close by to fuel the summoning. !d Warning: !l This is a very difficult boss that can take down even the most well geared players. 
+
+
+
+# Control Settings
+key.am2.bridge=Bridge
+key.am2.aura_customization=Aura Customization
+key.am2.dark_vision=Dark Vision
+key.am2.shape_groups=shape Groups
+key.am2.spellbooknext=SpellBook Next
+key.am2.spellbookprev=SpellBook Prev
+key.am2.teleport=Teleport
