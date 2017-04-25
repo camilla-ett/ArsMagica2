@@ -265,8 +265,15 @@ etherium.neutral.name=Neutral
 enchantment.magicresist=Magic Resistance
 enchantment.soulbound=Soulbound
 
+# Controls
 keybindings.am2=Ars Magica 2
-key.bridge=Toggle Ice Bridge
+key.am2.bridge=Toggle Ice Bridge
+key.am2.aura_customization=Aura Customization
+key.am2.dark_vision=Dark Vision
+key.am2.shape_groups=Change shape Groups
+key.am2.spellbooknext=SpellBook Next
+key.am2.spellbookprev=SpellBook Prev
+key.am2.teleport=Teleport
 
 skill.arsmagica2:manaregen1.name=Mana Regen I
 skill.arsmagica2:manaregen2.name=Mana Regen II
@@ -486,6 +493,7 @@ skill.arsmagica2:recall.name=Recall
 skill.arsmagica2:divine_intervention.name=Divine Intervention
 skill.arsmagica2:ender_intervention.name=Ender Intervention
 skill.arsmagica2:contingency_death.name=Contingency : Death
+skill.arsmagica2:toggle.name=Toggle
 
 skill.arsmagica2:blizzard.name=Blizzard
 skill.arsmagica2:falling_star.name=Starstrike
@@ -1830,11 +1838,3 @@ compendium.winter_guardian.page2=To summon the Winter Guardian, seek out an area
 
 
 
-# Control Settings
-key.am2.bridge=Bridge
-key.am2.aura_customization=Aura Customization
-key.am2.dark_vision=Dark Vision
-key.am2.shape_groups=shape Groups
-key.am2.spellbooknext=SpellBook Next
-key.am2.spellbookprev=SpellBook Prev
-key.am2.teleport=Teleport
