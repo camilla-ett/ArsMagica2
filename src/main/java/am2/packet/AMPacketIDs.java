@@ -54,4 +54,5 @@ public class AMPacketIDs{
 	public static final byte TOGGLE_ABILITY = 64;
 	public static final byte SYNC_SKILL_DATA = 65;
 	public static final byte SYNC_COMPENDIUM = 66;
+	public static final byte KEY_ABILITY_PRESS = 67;
 }
