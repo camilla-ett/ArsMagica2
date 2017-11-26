@@ -11,7 +11,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -236,7 +235,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 
 	@Override
 	public void addPotionEffect(PotionEffect effect){
-		if (effect.getPotion() == PotionEffectsDefs.silence)
+		if (effect.getPotion() == PotionEffectsDefs.SILENCE)
 			return;
 		super.addPotionEffect(effect);
 	}

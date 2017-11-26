@@ -32,7 +32,7 @@ public class TileIllusionBlockRenderer extends TileEntitySpecialRenderer<TileEnt
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		boolean flag = te.getMimicBlock() != null && te.getMimicBlock() != Blocks.AIR.getDefaultState();
 		if (BlockIllusionBlock.getIllusionType(te.getWorld().getBlockState(te.getPos())).canBeRevealed())
-			flag &= ArsMagica2.proxy.getLocalPlayer() != null && !ArsMagica2.proxy.getLocalPlayer().isPotionActive(PotionEffectsDefs.trueSight);
+			flag &= ArsMagica2.proxy.getLocalPlayer() != null && !ArsMagica2.proxy.getLocalPlayer().isPotionActive(PotionEffectsDefs.TRUE_SIGHT);
 		if (flag) {
 			Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
 			Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(te.getMimicBlock(), te.getPos(), te.getWorld(), Tessellator.getInstance().getBuffer());

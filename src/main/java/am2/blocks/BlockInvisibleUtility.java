@@ -243,7 +243,7 @@ public class BlockInvisibleUtility extends BlockAM{
 			List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos).expandXyz(r));
 			boolean buffNearby = false;
 			for (EntityLivingBase ent : ents){
-				buffNearby |= ent.isPotionActive(PotionEffectsDefs.illumination) ||
+				buffNearby |= ent.isPotionActive(PotionEffectsDefs.ILLUMINATION) ||
 						(ent instanceof EntityPlayer &&
 								((EntityPlayer)ent).inventory.getCurrentItem() != null &&
 								((EntityPlayer)ent).inventory.getCurrentItem().getItem() == ItemDefs.wardingCandle);

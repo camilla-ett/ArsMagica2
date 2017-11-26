@@ -69,7 +69,7 @@ public class BindingsDefs {
 			AMNetHandler.INSTANCE.sendShapeGroupChangePacket(shapeGroup, clientPlayer.getEntityId());
 
 		}
-		else if (this.SPELL_BOOK_NEXT.isPressed()){
+		else if (SPELL_BOOK_NEXT.isPressed()){
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ItemStack curItem = player.getHeldItem(EnumHand.MAIN_HAND);
 			if (curItem != null && curItem.getItem() instanceof ItemSpellBook){
@@ -82,7 +82,7 @@ public class BindingsDefs {
 						.generate());
 			}
 		}
-		else if (this.SPELL_BOOK_PREV.isPressed()){
+		else if (SPELL_BOOK_PREV.isPressed()){
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ItemStack curItem = player.getHeldItem(EnumHand.MAIN_HAND);
 			if (curItem != null && curItem.getItem() instanceof ItemSpellBook){

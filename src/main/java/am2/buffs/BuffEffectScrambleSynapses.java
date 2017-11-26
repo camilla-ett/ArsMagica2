@@ -6,7 +6,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectScrambleSynapses extends BuffEffect{
 
 	public BuffEffectScrambleSynapses(int duration, int amplifier){
-		super(PotionEffectsDefs.scrambleSynapses, duration, amplifier);
+		super(PotionEffectsDefs.SCRAMBLE_SYNAPSES, duration, amplifier);
 	}
 
 	@Override

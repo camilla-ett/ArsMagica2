@@ -705,7 +705,7 @@ public class AMGuiHelper{
 				player.movementInput.moveStrafe += 2;
 			}
 
-			if (mc.thePlayer.isPotionActive(PotionEffectsDefs.scrambleSynapses)){
+			if (mc.thePlayer.isPotionActive(PotionEffectsDefs.SCRAMBLE_SYNAPSES)){
 				if (mc.gameSettings.keyBindForward.isKeyDown()){
 					player.movementInput.moveForward -= 2;
 				}
@@ -722,7 +722,7 @@ public class AMGuiHelper{
 		if (!mc.inGameHasFocus || mc.thePlayer == null || mc.theWorld == null)
 			return true;
 
-		if (!mc.thePlayer.isPotionActive(PotionEffectsDefs.scrambleSynapses)){
+		if (!mc.thePlayer.isPotionActive(PotionEffectsDefs.SCRAMBLE_SYNAPSES)){
 			return true;
 		}
 

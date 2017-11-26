@@ -8,7 +8,7 @@ public class BuffEffectWaterBreathing extends BuffEffect{
 	int breath;
 
 	public BuffEffectWaterBreathing(int duration, int amplifier){
-		super(PotionEffectsDefs.waterBreathing, duration, amplifier);
+		super(PotionEffectsDefs.WATER_BREATHING, duration, amplifier);
 	}
 
 	@Override

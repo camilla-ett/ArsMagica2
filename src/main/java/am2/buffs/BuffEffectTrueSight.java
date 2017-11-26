@@ -5,7 +5,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectTrueSight extends BuffEffectShield{
 
 	public BuffEffectTrueSight(int duration, int amplifier) {
-		super(PotionEffectsDefs.trueSight, duration, amplifier);
+		super(PotionEffectsDefs.TRUE_SIGHT, duration, amplifier);
 	}
 
 	@Override

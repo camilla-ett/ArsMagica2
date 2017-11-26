@@ -7,7 +7,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectSwiftSwim extends BuffEffect{
 
 	public BuffEffectSwiftSwim(int duration, int amplifier){
-		super(PotionEffectsDefs.swiftSwim, duration, amplifier);
+		super(PotionEffectsDefs.SWIFT_SWIM, duration, amplifier);
 	}
 
 	@Override

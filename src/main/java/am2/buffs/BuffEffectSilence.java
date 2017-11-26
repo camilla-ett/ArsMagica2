@@ -6,7 +6,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectSilence extends BuffEffect{
 
 	public BuffEffectSilence(int duration, int amplifier){
-		super(PotionEffectsDefs.silence, duration, amplifier);
+		super(PotionEffectsDefs.SILENCE, duration, amplifier);
 	}
 
 	@Override

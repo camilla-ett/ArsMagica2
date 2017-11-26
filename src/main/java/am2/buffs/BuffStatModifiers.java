@@ -19,14 +19,14 @@ public class BuffStatModifiers {
 
 	public void applyStatModifiersBasedOnBuffs(EntityLivingBase entity){
 		//entangled
-		applyOrRemoveModifiersForBuff(entity, PotionEffectsDefs.entangle, ResourceUtils.createHashMap(SharedMonsterAttributes.MOVEMENT_SPEED, entangled));
+		applyOrRemoveModifiersForBuff(entity, PotionEffectsDefs.ENTANGLE, ResourceUtils.createHashMap(SharedMonsterAttributes.MOVEMENT_SPEED, entangled));
 		//frost slow
-		applyOrRemoveScalingModifiersForBuff(entity, PotionEffectsDefs.frostSlow, SharedMonsterAttributes.MOVEMENT_SPEED, frostSlow_Diminished, frostSlow_Normal, frostSlow_Augmented);
+		applyOrRemoveScalingModifiersForBuff(entity, PotionEffectsDefs.FROST_SLOW, SharedMonsterAttributes.MOVEMENT_SPEED, frostSlow_Diminished, frostSlow_Normal, frostSlow_Augmented);
 		//fury
 		HashMap<IAttribute, AttributeModifier> fury = new HashMap<IAttribute, AttributeModifier>();
 		fury.put(SharedMonsterAttributes.MOVEMENT_SPEED, furyMoveMod);
 		fury.put(SharedMonsterAttributes.ATTACK_DAMAGE, furyDmgMod);
-		applyOrRemoveModifiersForBuff(entity, PotionEffectsDefs.fury, fury);
+		applyOrRemoveModifiersForBuff(entity, PotionEffectsDefs.FURY, fury);
 	}
 
 	private void applyOrRemoveModifiersForBuff(EntityLivingBase entity, Potion buffID, Map<IAttribute, AttributeModifier> modifiers){

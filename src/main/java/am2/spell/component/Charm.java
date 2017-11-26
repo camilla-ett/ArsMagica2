@@ -53,7 +53,7 @@ public class Charm extends SpellComponent implements IRitualInteraction{
 
 	@Override
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		if (!(target instanceof EntityCreature) || ((EntityCreature)target).isPotionActive(PotionEffectsDefs.charme) || EntityUtils.isSummon((EntityCreature)target)){
+		if (!(target instanceof EntityCreature) || ((EntityCreature)target).isPotionActive(PotionEffectsDefs.CHARME) || EntityUtils.isSummon((EntityCreature)target)){
 			return false;
 		}
 

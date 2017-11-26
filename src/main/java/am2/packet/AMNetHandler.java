@@ -2,17 +2,14 @@ package am2.packet;
 
 import am2.LogHelper;
 import am2.api.power.IPowerNode;
-import am2.blocks.tileentity.TileEntityCalefactor;
 import am2.blocks.tileentity.TileEntityArmorImbuer;
+import am2.blocks.tileentity.TileEntityCalefactor;
 import am2.blocks.tileentity.TileEntityObelisk;
 import am2.bosses.IArsMagicaBoss;
 import am2.entity.EntityHecate;
 import am2.power.PowerNodeRegistry;
 import io.netty.buffer.Unpooled;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,7 +23,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AMNetHandler{
 

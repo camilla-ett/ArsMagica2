@@ -56,7 +56,7 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 			return false;
 		}
 
-		if (caster.isPotionActive(PotionEffectsDefs.astralDistortion) || ((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.astralDistortion)){
+		if (caster.isPotionActive(PotionEffectsDefs.ASTRAL_DISTORTION) || ((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.ASTRAL_DISTORTION)){
 			if (caster instanceof EntityPlayer)
 				((EntityPlayer)caster).addChatMessage(new TextComponentString(I18n.format("am2.tooltip.cantTeleport")));
 			return false;

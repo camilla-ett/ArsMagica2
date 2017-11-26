@@ -6,7 +6,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectGravityWell extends BuffEffect{
 
 	public BuffEffectGravityWell(int duration, int amplifier){
-		super(PotionEffectsDefs.gravityWell, duration, amplifier);
+		super(PotionEffectsDefs.GRQVITY_WELL, duration, amplifier);
 	}
 
 	@Override

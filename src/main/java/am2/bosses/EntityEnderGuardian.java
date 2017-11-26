@@ -221,9 +221,9 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 	
 	@Override
 	public boolean isPotionActive(Potion par1Potion){
-		if (par1Potion == PotionEffectsDefs.spellReflect && (currentAction == BossActions.SHIELD_BASH || currentAction == BossActions.LONG_CASTING))
+		if (par1Potion == PotionEffectsDefs.SPELL_REFLECT && (currentAction == BossActions.SHIELD_BASH || currentAction == BossActions.LONG_CASTING))
 			return true;
-		if (par1Potion == PotionEffectsDefs.magicShield && (currentAction == BossActions.SHIELD_BASH || currentAction == BossActions.LONG_CASTING))
+		if (par1Potion == PotionEffectsDefs.MAGIC_SHIELD && (currentAction == BossActions.SHIELD_BASH || currentAction == BossActions.LONG_CASTING))
 			return true;
 		return super.isPotionActive(par1Potion);
 	}

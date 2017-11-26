@@ -301,7 +301,7 @@ public class ModelDarkling extends ModelBase{
 
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-		if (transparencyFromTime >= 1.0f || Minecraft.getMinecraft().thePlayer.isPotionActive(PotionEffectsDefs.trueSight)){
+		if (transparencyFromTime >= 1.0f || Minecraft.getMinecraft().thePlayer.isPotionActive(PotionEffectsDefs.TRUE_SIGHT)){
 			GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 		}else{
 			GlStateManager.color(1.0f, 0.6f, 0.6f, transparencyFromTime);

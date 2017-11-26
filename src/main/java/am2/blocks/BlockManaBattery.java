@@ -2,7 +2,6 @@ package am2.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import am2.ArsMagica2;
 import am2.blocks.tileentity.TileEntityManaBattery;
@@ -86,7 +85,7 @@ public class BlockManaBattery extends BlockAMPowered{
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		List<ItemStack> drops = new ArrayList<ItemStack>();
-		Random rand = world instanceof World ? ((World)world).rand : RANDOM;
+		//Random rand = world instanceof World ? ((World)world).rand : RANDOM;
 
 		ItemStack stack = new ItemStack(this, 1);
 		drops.add(stack);

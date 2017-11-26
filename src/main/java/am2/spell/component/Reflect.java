@@ -37,7 +37,7 @@ public class Reflect extends SpellComponent{
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityLivingBase){
 
-			if (((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.magicShield)){
+			if (((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.MAGIC_SHIELD)){
 				return true;
 			}
 

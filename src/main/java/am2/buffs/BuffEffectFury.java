@@ -8,7 +8,7 @@ import net.minecraft.potion.PotionEffect;
 public class BuffEffectFury extends BuffEffect{
 
 	public BuffEffectFury(int duration, int amplifier){
-		super(PotionEffectsDefs.fury, duration, amplifier);
+		super(PotionEffectsDefs.FURY, duration, amplifier);
 	}
 
 	@Override

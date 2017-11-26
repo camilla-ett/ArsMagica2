@@ -2,9 +2,7 @@ package am2.blocks.render;
 
 import am2.blocks.BlockLectern;
 import am2.blocks.tileentity.TileEntityLectern;
-import am2.gui.AMGuiHelper;
 import am2.models.ModelArchmagePodium;
-import am2.proxy.tick.ClientTickHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.GlStateManager;
@@ -86,8 +84,8 @@ public class TileLecternRenderer extends TileEntitySpecialRenderer<TileEntityLec
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.translate(x +0.5f, y+1.4f, z+0.5f);
 		GlStateManager.rotate(deg, 0, f, 0);
-		if (this.curTick++ >= 100) {
-			this.curTick = 0;
+		if (curTick++ >= 100) {
+			curTick = 0;
 			curDye++;
 			if (curDye >= 16)
 				curDye = 1;

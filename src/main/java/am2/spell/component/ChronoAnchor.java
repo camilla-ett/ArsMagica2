@@ -35,8 +35,8 @@ public class ChronoAnchor extends SpellComponent{
 			int duration = SpellUtils.getModifiedInt_Mul(PotionEffectsDefs.default_buff_duration, stack, caster, target, world, SpellModifiers.DURATION);
 			//duration = SpellUtils.modifyDurationBasedOnArmor(caster, duration);
 			if (!world.isRemote) {
-				if (((EntityLivingBase)target).getActivePotionEffects().contains(BuffEffectTemporalAnchor.class))
-					((EntityLivingBase)target).getActivePotionEffects().remove(BuffEffectTemporalAnchor.class);
+				if (((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.TEMPORAL_ANCHOR))
+					((EntityLivingBase)target).removePotionEffect(PotionEffectsDefs.TEMPORAL_ANCHOR);;
 				((EntityLivingBase) target).addPotionEffect(new BuffEffectTemporalAnchor(duration, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
 				return true;
 			}

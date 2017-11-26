@@ -35,7 +35,7 @@ public class WaterBreathing extends ArmorImbuement{
 			return false;
 
 		if (player.getAir() < 10){
-			if (!player.isPotionActive(PotionEffectsDefs.waterBreathing)){
+			if (!player.isPotionActive(PotionEffectsDefs.WATER_BREATHING)){
 				BuffEffectWaterBreathing wb = new BuffEffectWaterBreathing(200, 0);
 				player.addPotionEffect(wb);
 				return true;

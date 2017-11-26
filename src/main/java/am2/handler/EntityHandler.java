@@ -48,7 +48,6 @@ import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -100,7 +99,7 @@ public class EntityHandler {
 				RiftStorage storage = new RiftStorage();
 				affData.init((EntityPlayer) event.getObject());
 				skillData.init((EntityPlayer) event.getObject());
-				compendium.init((EntityPlayer) event.getObject());
+				//compendium.init((EntityPlayer) event.getObject());
 				event.addCapability(new ResourceLocation("arsmagica2", "Compendium"), compendium);
 				event.addCapability(SkillData.ID, skillData);
 				event.addCapability(AffinityData.ID, affData);
@@ -212,7 +211,7 @@ public class EntityHandler {
 		}
 
 		// Reflect Spell
-		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.spellReflect)){
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.SPELL_REFLECT)){
 			int d0 = 3;
 			AxisAlignedBB bb = new AxisAlignedBB(event.getEntityLiving().posX - 0.5, event.getEntityLiving().posY - 0.5, event.getEntityLiving().posZ - 0.5, event.getEntityLiving().posX + 0.5, event.getEntityLiving().posY + 0.5, event.getEntityLiving().posZ + 0.5).expand(d0, d0, d0);
 			List<Entity> entityList = event.getEntityLiving().getEntityWorld().getEntitiesWithinAABB(Entity.class, bb);
@@ -243,9 +242,9 @@ public class EntityHandler {
             }
 		}
 
-		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.wateryGrave) && event.getEntityLiving().isInWater())
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.WATERY_GRAVE) && event.getEntityLiving().isInWater())
 		    event.getEntityLiving().addVelocity(0, -0.1, 0);
-        else if(event.getEntityLiving().isPotionActive(PotionEffectsDefs.entangle)){
+        else if(event.getEntityLiving().isPotionActive(PotionEffectsDefs.ENTANGLE)){
             event.getEntityLiving().motionX = 0;
             event.getEntityLiving().motionY = 0;
             event.getEntityLiving().motionZ = 0;

@@ -12,12 +12,12 @@ public class EntityAISpawnWhirlwind extends EntityAIBase{
 	private int cooldownTicks = 0;
 	private boolean hasCasted = false;
 	private int windTicks = 0;
-	private float movespeed = 0;
+	//private float movespeed = 0;
 
 	public EntityAISpawnWhirlwind(IArsMagicaBoss host, float movespeed){
 		this.host = (EntityLiving)host;
 		this.setMutexBits(1);
-		this.movespeed = movespeed;
+		//this.movespeed = movespeed;
 	}
 
 	@Override

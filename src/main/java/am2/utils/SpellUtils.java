@@ -149,7 +149,7 @@ public class SpellUtils {
 					return false;
 				}
 
-				if (source.isPotionActive(PotionEffectsDefs.fury))
+				if (source.isPotionActive(PotionEffectsDefs.FURY))
 					magnitude += 4;
 			}
 
@@ -461,7 +461,7 @@ public class SpellUtils {
 	}
 	
 	public static SpellCastResult applyStackStage(ItemStack stack, EntityLivingBase caster, EntityLivingBase target, double x, double y, double z, @Nullable EnumFacing side, World world, boolean consumeMBR, boolean giveXP, int ticksUsed) {
-		if (caster.isPotionActive(PotionEffectsDefs.silence))
+		if (caster.isPotionActive(PotionEffectsDefs.SILENCE))
 			return SpellCastResult.SILENCED;
 		
 		IEntityExtension ext = EntityExtension.For(caster);

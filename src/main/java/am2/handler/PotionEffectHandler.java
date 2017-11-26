@@ -45,10 +45,10 @@ public class PotionEffectHandler {
 	
 	@SubscribeEvent(priority=EventPriority.HIGHEST)
 	public void playerPreDeathEvent(LivingDeathEvent e) {
-		PotionEffect effect = e.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.temporalAnchor);
+		PotionEffect effect = e.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.TEMPORAL_ANCHOR);
 		if (effect != null) {
 			((BuffEffectTemporalAnchor)effect).stopEffect(e.getEntityLiving());
-			e.getEntityLiving().removePotionEffect(PotionEffectsDefs.temporalAnchor);
+			e.getEntityLiving().removePotionEffect(PotionEffectsDefs.TEMPORAL_ANCHOR);
 			e.setCanceled(true);
 		}
 	}
@@ -75,7 +75,7 @@ public class PotionEffectHandler {
 		
 		if (event.getSource().damageType.equals(DamageSource.outOfWorld.damageType)) return;
 		
-		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.magicShield))
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.MAGIC_SHIELD))
 			event.setAmount(event.getAmount() * 0.25f);
 		
 		float damage = EntityExtension.For(event.getEntityLiving()).protect(event.getAmount());
@@ -85,15 +85,15 @@ public class PotionEffectHandler {
 	@SubscribeEvent
 	public void livingUpdate (LivingUpdateEvent e) {
 		BuffStatModifiers.instance.applyStatModifiersBasedOnBuffs(e.getEntityLiving());
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.slowfall)) {
+		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.SLOWFALL)) {
 			e.getEntityLiving().setPosition(e.getEntityLiving().posX, e.getEntityLiving().posY + (e.getEntityLiving().fallDistance / 1.1), e.getEntityLiving().posZ);
 			e.getEntityLiving().fallDistance = 0;
 		}
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.gravityWell)&& e.getEntityLiving().motionY < 0) {
+		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.GRQVITY_WELL)&& e.getEntityLiving().motionY < 0) {
 			e.getEntityLiving().motionY *= 2;
 		}
 		
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.agility)) {
+		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.AGILITY)) {
 			e.getEntityLiving().stepHeight = 1.01f;
 		}else if (e.getEntityLiving().stepHeight == 1.01f) {
 			e.getEntityLiving().stepHeight = 0.6f;
@@ -102,10 +102,10 @@ public class PotionEffectHandler {
 	
 	@SubscribeEvent
 	public void playerJumpEvent(LivingJumpEvent event) {
-		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.agility)){
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.AGILITY)){
 			event.getEntityLiving().motionY *= 1.5f;
 		}
-		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.leap)){
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.LEAP)){
 
 			Entity velocityTarget = event.getEntityLiving();
 
@@ -121,13 +121,13 @@ public class PotionEffectHandler {
 			double zVelocity = 0;
 
 			Vec3d vec = event.getEntityLiving().getLookVec().normalize();
-			yVelocity = 0.4 + (event.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.leap).getAmplifier() * 0.3);
-			xVelocity = velocityTarget.motionX * (Math.pow(2, event.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.leap).getAmplifier())) * Math.abs(vec.xCoord);
-			zVelocity = velocityTarget.motionZ * (Math.pow(2, event.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.leap).getAmplifier())) * Math.abs(vec.zCoord);
+			yVelocity = 0.4 + (event.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.LEAP).getAmplifier() * 0.3);
+			xVelocity = velocityTarget.motionX * (Math.pow(2, event.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.LEAP).getAmplifier())) * Math.abs(vec.xCoord);
+			zVelocity = velocityTarget.motionZ * (Math.pow(2, event.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.LEAP).getAmplifier())) * Math.abs(vec.zCoord);
 
 			float maxHorizontalVelocity = 1.45f;
 
-			if (event.getEntityLiving().getRidingEntity() != null && (event.getEntityLiving().getRidingEntity() instanceof EntityMinecart || event.getEntityLiving().getRidingEntity() instanceof EntityBoat) || event.getEntityLiving().isPotionActive(PotionEffectsDefs.haste)){
+			if (event.getEntityLiving().getRidingEntity() != null && (event.getEntityLiving().getRidingEntity() instanceof EntityMinecart || event.getEntityLiving().getRidingEntity() instanceof EntityBoat) || event.getEntityLiving().isPotionActive(PotionEffectsDefs.HASTE)){
 				maxHorizontalVelocity += 25;
 				xVelocity *= 2.5;
 				zVelocity *= 2.5;
@@ -151,32 +151,32 @@ public class PotionEffectHandler {
 
 			velocityTarget.addVelocity(xVelocity, yVelocity, zVelocity);
 		}
-		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.entangle)){
+		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.ENTANGLE)){
 			event.getEntityLiving().motionY = 0;
 		}
 	}
 	
 	@SubscribeEvent
 	public void livingFall (LivingFallEvent e) {
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.agility)) {
+		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.AGILITY)) {
 			e.setDistance(e.getDistance() / 1.5F);
 		}
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.leap)) {
-			if (e.getDistance() < (e.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.leap).getAmplifier() + 1) * 10) {
+		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.LEAP)) {
+			if (e.getDistance() < (e.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.LEAP).getAmplifier() + 1) * 10) {
 				e.setCanceled(true);
 			} else {
-				e.setDistance(e.getDistance() - (e.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.leap).getAmplifier() + 1) * 10);
+				e.setDistance(e.getDistance() - (e.getEntityLiving().getActivePotionEffect(PotionEffectsDefs.LEAP).getAmplifier() + 1) * 10);
 			}
 		}
 	}
 	
 	@SubscribeEvent
 	public void spellCast (SpellCastEvent.Pre e) {
-		if (e.entityLiving.isPotionActive(PotionEffectsDefs.clarity)) {
+		if (e.entityLiving.isPotionActive(PotionEffectsDefs.CLARITY)) {
 			e.manaCost = 0;
 			e.burnout = 0;
-			PotionEffect effect = e.entityLiving.getActivePotionEffect(PotionEffectsDefs.clarity);
-			e.entityLiving.removePotionEffect(PotionEffectsDefs.clarity);
+			PotionEffect effect = e.entityLiving.getActivePotionEffect(PotionEffectsDefs.CLARITY);
+			e.entityLiving.removePotionEffect(PotionEffectsDefs.CLARITY);
 			if (effect.getAmplifier() <= 0)
 				return;
 			e.entityLiving.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier() - 1));
@@ -188,7 +188,7 @@ public class PotionEffectHandler {
 		ArrayList<Long> keystoneKeys = KeystoneUtilities.instance.GetKeysInInvenory(e.getEntityLiving());
 		TileEntityAstralBarrier blockingBarrier = DimensionUtilities.GetBlockingAstralBarrier(e.getEntityLiving().worldObj, new BlockPos(e.getTargetX(), e.getTargetY(), e.getTargetZ()), keystoneKeys);
 
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.astralDistortion) || blockingBarrier != null){
+		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.ASTRAL_DISTORTION) || blockingBarrier != null){
 			e.setCanceled(true);
 			if (blockingBarrier != null){
 				blockingBarrier.onEntityBlocked(e.getEntityLiving());
@@ -200,7 +200,7 @@ public class PotionEffectHandler {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void playerRender(RenderPlayerEvent.Pre e) {
-		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.trueSight)) {
+		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.TRUE_SIGHT)) {
 			GL11.glPushMatrix();
 			GL11.glRotated(e.getEntityPlayer().rotationYawHead, 0, -1, 0);
 			int[] runes = SelectionUtils.getRuneSet(e.getEntityPlayer());

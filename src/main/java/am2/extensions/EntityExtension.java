@@ -221,8 +221,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	@Override
 	public float getMaxMana() {
 		float mana = (float)(Math.pow(getCurrentLevel(), 1.5f) * (85f * ((float)getCurrentLevel() / 100f)) + 500f);
-		if (this.entity.isPotionActive(PotionEffectsDefs.manaBoost))
-			mana *= 1 + (0.25 * (this.entity.getActivePotionEffect(PotionEffectsDefs.manaBoost).getAmplifier() + 1));
+		if (this.entity.isPotionActive(PotionEffectsDefs.MANA_BOOST))
+			mana *= 1 + (0.25 * (this.entity.getActivePotionEffect(PotionEffectsDefs.MANA_BOOST).getAmplifier() + 1));
 		return (float)(mana + this.entity.getAttributeMap().getAttributeInstance(ArsMagicaAPI.maxManaBonus).getAttributeValue());
 	}
 	
@@ -611,7 +611,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public boolean shouldReverseInput() {
-		return getFlipRotation() > 0 || this.entity.isPotionActive(PotionEffectsDefs.scrambleSynapses);
+		return getFlipRotation() > 0 || this.entity.isPotionActive(PotionEffectsDefs.SCRAMBLE_SYNAPSES);
 	}
 
 	@Override
@@ -697,8 +697,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 				int regenTicks = (int) Math.ceil(ticksForFullRegen * entity.getAttributeMap()
 						.getAttributeInstance(ArsMagicaAPI.manaRegenTimeModifier).getAttributeValue());
 
-				if (entity.isPotionActive(PotionEffectsDefs.manaRegen)) {
-					PotionEffect pe = entity.getActivePotionEffect(PotionEffectsDefs.manaRegen);
+				if (entity.isPotionActive(PotionEffectsDefs.MANA_REGEN)) {
+					PotionEffect pe = entity.getActivePotionEffect(PotionEffectsDefs.MANA_REGEN);
 					regenTicks *= Math.max(0.01, 1.0f - ((pe.getAmplifier() + 1) * 0.25f));
 				}
 

@@ -7,7 +7,7 @@ public class BuffEffectEntangled extends BuffEffect{
 
 
 	public BuffEffectEntangled(int duration, int amplifier){
-		super(PotionEffectsDefs.entangle, duration, amplifier);
+		super(PotionEffectsDefs.ENTANGLE, duration, amplifier);
 	}
 
 	@Override

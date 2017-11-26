@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 public class BuffEffectInstantMana extends BuffEffect{
 
 	public BuffEffectInstantMana(int duration, int amplifier){
-		super(PotionEffectsDefs.instantMana, duration, amplifier);
+		super(PotionEffectsDefs.INSTANT_MANA, duration, amplifier);
 	}
 
 	@Override

@@ -16,14 +16,12 @@ import am2.packet.AMNetHandler;
 import am2.proxy.tick.ServerTickHandler;
 import am2.utils.EntityUtils;
 import am2.utils.WebRequestUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
@@ -192,7 +190,6 @@ public class PlayerTracker{
 		
 		try{
 			String s = WebRequestUtils.sendPost(new String(dl), new HashMap<String, String>());
-			@SuppressWarnings("unchecked")
 			ArrayList<String> lines = new ArrayList<String>(Arrays.asList(s.replace("\r\n", "\n").split("\n")));
 			addContributors(lines);
 			for (String line : lines){

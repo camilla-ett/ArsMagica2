@@ -35,7 +35,7 @@ public class SwimSpeed extends ArmorImbuement{
 		if (world.isRemote)
 			return false;
 
-		if (player.isInsideOfMaterial(Material.WATER) && !player.isPotionActive(PotionEffectsDefs.swiftSwim)){
+		if (player.isInsideOfMaterial(Material.WATER) && !player.isPotionActive(PotionEffectsDefs.SWIFT_SWIM)){
 			player.addPotionEffect(new BuffEffectSwiftSwim(10, 1));
 			return true;
 		}

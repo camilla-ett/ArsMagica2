@@ -6,7 +6,7 @@ public class BuffEffectMagicShield extends BuffEffectShield{
 
 	public BuffEffectMagicShield(int duration,
 								 int amplifier){
-		super(PotionEffectsDefs.magicShield, duration, amplifier);
+		super(PotionEffectsDefs.MAGIC_SHIELD, duration, amplifier);
 	}
 
 	@Override

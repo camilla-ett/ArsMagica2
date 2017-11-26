@@ -6,7 +6,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectManaRegen extends BuffEffect{
 
 	public BuffEffectManaRegen(int duration, int amplifier){
-		super(PotionEffectsDefs.manaRegen, duration, amplifier);
+		super(PotionEffectsDefs.MANA_REGEN, duration, amplifier);
 	}
 
 	@Override

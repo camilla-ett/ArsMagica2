@@ -1,9 +1,13 @@
 package am2.utils;
 
+import java.io.File;
+import java.util.TreeMap;
+
+import org.lwjgl.opengl.GL11;
+
 import am2.ArsMagica2;
 import am2.models.ModelCloaks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ElytraSound;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -11,10 +15,6 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-
-import java.io.File;
-import java.util.TreeMap;
 
 public class CloakUtils{
 	private static TreeMap<String, ThreadDownloadImageData> downloadedCloaks = new TreeMap<String, ThreadDownloadImageData>();
@@ -30,6 +30,7 @@ public class CloakUtils{
 		
 		int dm = ArsMagica2.proxy.playerTracker.getCLDM(player.getUniqueID().toString());
 		ResourceLocation capeLoc = getCapeLocation(player.getUniqueID().toString());
+		@SuppressWarnings("unused")
 		ThreadDownloadImageData capeImg = downloadCapeTexture(capeLoc, player.getUniqueID().toString());
 
 		EntityPlayer localPlayer = Minecraft.getMinecraft().thePlayer;

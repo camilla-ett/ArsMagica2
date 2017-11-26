@@ -42,7 +42,7 @@ public class Shield extends SpellComponent implements IRitualInteraction{
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityLivingBase){
 
-			if (((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.spellReflect)){
+			if (((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.SPELL_REFLECT)){
 				return true;
 			}
 

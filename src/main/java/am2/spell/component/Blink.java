@@ -77,7 +77,7 @@ public class Blink extends SpellComponent{
 
 		while (!coordsValid && distance > 0){
 
-			if (caster.isPotionActive(PotionEffectsDefs.astralDistortion)){
+			if (caster.isPotionActive(PotionEffectsDefs.ASTRAL_DISTORTION)){
 				coordsValid = true;
 				newX = caster.posX;
 				newY = caster.posY;

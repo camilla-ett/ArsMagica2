@@ -6,7 +6,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectSpellReflect extends BuffEffect{
 
 	public BuffEffectSpellReflect(int duration, int amplifier){
-		super(PotionEffectsDefs.spellReflect, duration, amplifier);
+		super(PotionEffectsDefs.SPELL_REFLECT, duration, amplifier);
 	}
 
 	@Override

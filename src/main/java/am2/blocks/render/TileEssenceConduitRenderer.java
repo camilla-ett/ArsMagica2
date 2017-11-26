@@ -1,11 +1,10 @@
 package am2.blocks.render;
 
-import am2.defs.BlockDefs;
-import net.minecraft.init.Blocks;
 import org.lwjgl.opengl.GL11;
 
 import am2.blocks.BlockEssenceConduit;
 import am2.blocks.tileentity.TileEntityEssenceConduit;
+import am2.defs.BlockDefs;
 import am2.models.ModelEssenceConduit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

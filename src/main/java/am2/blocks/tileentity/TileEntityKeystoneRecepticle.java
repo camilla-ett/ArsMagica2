@@ -211,7 +211,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				Entity entity = entities.get(0);
 				if (entity instanceof EntityPlayer){
 					EntityPlayer player = (EntityPlayer)entity;
-					if (player.isPotionActive(PotionEffectsDefs.haste) && player.isPotionActive(Potion.getPotionFromResourceLocation("speed")) && player.isSprinting()){
+					if (player.isPotionActive(PotionEffectsDefs.HASTE) && player.isPotionActive(Potion.getPotionFromResourceLocation("speed")) && player.isSprinting()){
 						//if (worldObj.isRemote)
 						//player.addStat(ArsMagica2.achievements.EightyEightMilesPerHour, 1);
 						this.key = 0;

@@ -6,7 +6,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectAgility extends BuffEffect{
 
 	public BuffEffectAgility(int duration, int amplifier){
-		super(PotionEffectsDefs.agility, duration, amplifier);
+		super(PotionEffectsDefs.AGILITY, duration, amplifier);
 	}
 
 	@Override

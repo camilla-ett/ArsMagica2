@@ -2,8 +2,6 @@ package am2.entity;
 
 import java.util.List;
 
-import am2.spell.component.Dig;
-import am2.spell.modifier.Piercing;
 import com.google.common.base.Optional;
 
 import am2.api.affinity.Affinity;
@@ -39,7 +37,7 @@ public class EntitySpellProjectile extends Entity {
 	private static final DataParameter<Boolean> DW_HOMING = EntityDataManager.createKey(EntitySpellProjectile.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> DW_HOMING_TARGET = EntityDataManager.createKey(EntitySpellProjectile.class, DataSerializers.VARINT);
 
-	private static int currentPierces;
+	private int currentPierces;
 	public EntitySpellProjectile(World worldIn) {
 		super(worldIn);
 		setSize(0.5F, 0.5F);
@@ -81,7 +79,7 @@ public class EntitySpellProjectile extends Entity {
 		return this.getDataManager().get(DW_BOUNCE_COUNTER);
 	}
 
-	public int getPierces () { return this.getDataManager().get(DW_PIERCE_COUNT) - this.currentPierces; }
+	public int getPierces () { return this.getDataManager().get(DW_PIERCE_COUNT) - currentPierces; }
 	
 	public ItemStack getSpell () {
 		return this.getDataManager().get(DW_EFFECT).orNull();

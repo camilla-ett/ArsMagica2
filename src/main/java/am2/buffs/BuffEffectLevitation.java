@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class BuffEffectLevitation extends BuffEffect{
 
 	public BuffEffectLevitation(int duration, int amplifier){
-		super(PotionEffectsDefs.levitation, duration, amplifier);
+		super(PotionEffectsDefs.LEVITATION, duration, amplifier);
 	}
 
 	@Override

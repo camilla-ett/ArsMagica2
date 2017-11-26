@@ -96,8 +96,8 @@ public class Dispel extends SpellComponent{
 
 	private void removePotionEffects(EntityLivingBase target, List<Potion> effectsToRemove){
 		for (Potion i : effectsToRemove){
-			if (i == PotionEffectsDefs.flight || i == PotionEffectsDefs.levitation){
-				if (target instanceof EntityPlayer && target.isPotionActive(PotionEffectsDefs.flight)){
+			if (i == PotionEffectsDefs.FLIGHT || i == PotionEffectsDefs.LEVITATION){
+				if (target instanceof EntityPlayer && target.isPotionActive(PotionEffectsDefs.FLIGHT)){
 					((EntityPlayer)target).capabilities.isFlying = false;
 					((EntityPlayer)target).capabilities.allowFlying = false;
 				}

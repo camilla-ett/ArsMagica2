@@ -133,7 +133,7 @@ public class Story{
 
 	public void WritePartToNBT(NBTTagCompound compound, int part){
 		ArrayList<NBTTagString> storyData = getStoryPart(part);
-		if (storyData.equals("")) return;
+		if (storyData == null) return;
 
 		//part
 		compound.setInteger("story_part", part);
@@ -186,7 +186,7 @@ public class Story{
 		NBTTagList pages = new NBTTagList();
 		for (Short i : parts){
 			ArrayList<NBTTagString> storyData = getStoryPart(i);
-			if (storyData.equals("")) continue;
+			if (storyData == null) continue;
 			for (NBTTagString page : storyData){
 				pages.appendTag(page);
 			}

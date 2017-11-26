@@ -33,7 +33,7 @@ public class AbilityLightAsAFeather extends AbstractAffinityAbility {
 	@Override
 	public void applyPreSpellCast(EntityPlayer ent, Pre event) {
 		if (ent.worldObj.isRaining() && !ent.worldObj.isRemote && ent.getEntityWorld().getBiome(ent.getPosition()).canRain() && !ent.worldObj.isRemote && ent.worldObj.rand.nextInt(100) < 10){
-			if (!ent.isSneaking() && !ent.isPotionActive(PotionEffectsDefs.gravityWell) && !ent.isInsideOfMaterial(Material.WATER) && ent.isWet()){
+			if (!ent.isSneaking() && !ent.isPotionActive(PotionEffectsDefs.GRQVITY_WELL) && !ent.isInsideOfMaterial(Material.WATER) && ent.isWet()){
 				double velX = ent.worldObj.rand.nextDouble() - 0.5;
 				double velY = ent.worldObj.rand.nextDouble() - 0.5;
 				double velZ = ent.worldObj.rand.nextDouble() - 0.5;

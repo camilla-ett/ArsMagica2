@@ -28,7 +28,7 @@ public class AbilityOneWithMagic extends AbstractAffinityAbility {
 		event.manaCost *= 0.95f;
 		event.burnout *= 0.95f;
 
-		if (event.entityLiving.isPotionActive(PotionEffectsDefs.clarity)){
+		if (event.entityLiving.isPotionActive(PotionEffectsDefs.CLARITY)){
 			event.manaCost = 0f;
 			event.burnout = 0f;
 		}

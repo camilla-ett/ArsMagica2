@@ -1,16 +1,18 @@
 package am2.items.rendering;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.*;
-import java.security.CodeSource;
-import java.util.*;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import com.google.common.collect.Lists;
 
@@ -66,8 +68,8 @@ public class SpellRenderer implements ItemMeshDefinition {
 
     private static ArrayList<ResourceLocation> processDirectory(Path dir, FileSystem fs){
         ArrayList<ResourceLocation> toReturn = new ArrayList<>();
-        try {
-            Stream<Path> walk = Files.walk(dir, 1);
+        //Was a memory leak
+        try (Stream<Path> walk = Files.walk(dir, 1)) {
             for(Iterator<Path> file = walk.iterator(); file.hasNext();){
                 String name = file.next().toString();
                 if (name.lastIndexOf(fs.getSeparator()) + 1 > name.length()) continue;

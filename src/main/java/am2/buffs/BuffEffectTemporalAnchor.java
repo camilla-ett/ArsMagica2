@@ -18,7 +18,7 @@ public class BuffEffectTemporalAnchor extends BuffEffect{
 	private float health;
 
 	public BuffEffectTemporalAnchor(int duration, int amplifier){
-		super(PotionEffectsDefs.temporalAnchor, duration, amplifier);
+		super(PotionEffectsDefs.TEMPORAL_ANCHOR, duration, amplifier);
 	}
 
 	@Override

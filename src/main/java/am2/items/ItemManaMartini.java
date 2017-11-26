@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ItemManaMartini extends ItemFood{
 	public ItemManaMartini(){
 		super(0, 0, false);
-		this.setPotionEffect(new PotionEffect(PotionEffectsDefs.burnoutReduction, 300, 0), 1.0f);
+		this.setPotionEffect(new PotionEffect(PotionEffectsDefs.BURNOUT_REDUCTION, 300, 0), 1.0f);
 	}
 
 	public Item registerAndName(String name) {

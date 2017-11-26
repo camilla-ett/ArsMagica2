@@ -6,7 +6,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectShrink extends BuffEffect{
 
 	public BuffEffectShrink(int duration, int amplifier){
-		super(PotionEffectsDefs.shrink, duration, amplifier);
+		super(PotionEffectsDefs.SHRINK, duration, amplifier);
 	}
 
 	@Override

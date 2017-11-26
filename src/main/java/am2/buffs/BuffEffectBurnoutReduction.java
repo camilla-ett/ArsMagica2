@@ -5,7 +5,7 @@ import am2.defs.PotionEffectsDefs;
 
 public class BuffEffectBurnoutReduction extends BuffEffect{
 	public BuffEffectBurnoutReduction(int duration, int amplifier){
-		super(PotionEffectsDefs.burnoutReduction, duration, amplifier);
+		super(PotionEffectsDefs.BURNOUT_REDUCTION, duration, amplifier);
 	}
 
 	@Override

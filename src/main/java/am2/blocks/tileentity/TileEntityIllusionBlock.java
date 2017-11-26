@@ -21,7 +21,7 @@ public class TileEntityIllusionBlock extends TileEntity implements ITickable{
 	
 	@SideOnly(Side.CLIENT)
 	public boolean isRevealed(IBlockState state) {
-		return BlockIllusionBlock.getIllusionType(state).canBeRevealed() && ArsMagica2.proxy.getLocalPlayer().isPotionActive(PotionEffectsDefs.trueSight);
+		return BlockIllusionBlock.getIllusionType(state).canBeRevealed() && ArsMagica2.proxy.getLocalPlayer().isPotionActive(PotionEffectsDefs.TRUE_SIGHT);
 	}
 
 	@Override

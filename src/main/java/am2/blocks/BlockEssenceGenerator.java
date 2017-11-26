@@ -178,7 +178,7 @@ public class BlockEssenceGenerator extends BlockAMPowered{
 	
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, placer.getHorizontalFacing());
+		return getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing());
 	}
 
 }

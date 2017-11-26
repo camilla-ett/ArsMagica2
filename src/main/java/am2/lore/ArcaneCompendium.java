@@ -31,7 +31,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	
 	public static final int SYNC_COMPENDIUM = 0x1;
 	
-	private EntityPlayer player;
+//	private EntityPlayer player;
 	private String path = "";
 	private int syncCode = 0;
 	
@@ -54,9 +54,9 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 		return false;
 	}
 	
-	public void init(EntityPlayer player) {
-		this.player = player;
-	}
+//	public void init(EntityPlayer player) {
+//		this.player = player;
+//	}
 
 	public static IArcaneCompendium For(EntityPlayer entityPlayer) {
 		return entityPlayer.getCapability(INSTANCE, null);

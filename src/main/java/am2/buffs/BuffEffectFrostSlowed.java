@@ -13,7 +13,7 @@ public class BuffEffectFrostSlowed extends BuffEffect{
 	private static final UUID frostSlowID = UUID.fromString("03B0A79B-9569-43AE-BFE3-820D993D4A64");
 
 	public BuffEffectFrostSlowed(int duration, int amplifier){
-		super(PotionEffectsDefs.frostSlow, duration, amplifier);
+		super(PotionEffectsDefs.FROST_SLOW, duration, amplifier);
 	}
 
 	@Override

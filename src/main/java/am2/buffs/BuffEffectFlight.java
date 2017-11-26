@@ -10,7 +10,7 @@ public class BuffEffectFlight extends BuffEffect{
 	private boolean enableFlight = true;
 
 	public BuffEffectFlight(int duration, int amplifier){
-		super(PotionEffectsDefs.flight, duration, amplifier);
+		super(PotionEffectsDefs.FLIGHT, duration, amplifier);
 	}
 
 	@Override

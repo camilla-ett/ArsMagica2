@@ -6,7 +6,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectWateryGrave extends BuffEffect{
 
 	public BuffEffectWateryGrave(int duration, int amplifier){
-		super(PotionEffectsDefs.wateryGrave, duration, amplifier);
+		super(PotionEffectsDefs.WATERY_GRAVE, duration, amplifier);
 	}
 
 	@Override

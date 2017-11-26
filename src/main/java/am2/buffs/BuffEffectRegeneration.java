@@ -7,7 +7,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectRegeneration extends BuffEffect{
 
 	public BuffEffectRegeneration(int duration, int amplifier){
-		super(PotionEffectsDefs.regeneration, duration, amplifier);
+		super(PotionEffectsDefs.REGENERATION, duration, amplifier);
 	}
 
 	@Override

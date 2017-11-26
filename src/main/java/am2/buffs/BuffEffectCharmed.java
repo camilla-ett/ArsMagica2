@@ -19,7 +19,7 @@ public class BuffEffectCharmed extends BuffEffect{
 	private EntityLivingBase charmer;
 	
 	public BuffEffectCharmed(int duration, int amplifier){
-		super(PotionEffectsDefs.charme, duration, amplifier);
+		super(PotionEffectsDefs.CHARME, duration, amplifier);
 	}
 
 	public void setCharmer(EntityLivingBase entity){

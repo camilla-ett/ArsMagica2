@@ -6,7 +6,7 @@ import am2.defs.PotionEffectsDefs;
 public class BuffEffectAstralDistortion extends BuffEffect{
 
 	public BuffEffectAstralDistortion(int duration, int amplifier){
-		super(PotionEffectsDefs.astralDistortion, duration, amplifier);
+		super(PotionEffectsDefs.ASTRAL_DISTORTION, duration, amplifier);
 	}
 
 	@Override

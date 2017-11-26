@@ -1,19 +1,21 @@
 package am2.models;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.file.*;
-import java.security.CodeSource;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.stream.Collectors;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import com.google.common.base.Charsets;
@@ -155,8 +157,7 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 
 	private static ArrayList<ResourceLocation> processDirectory(Path dir, FileSystem fs){
 		ArrayList<ResourceLocation> toReturn = new ArrayList<>();
-		try {
-			Stream<Path> walk = Files.walk(dir, 1);
+		try (Stream<Path> walk = Files.walk(dir, 1)){
 			for(Iterator<Path> file = walk.iterator(); file.hasNext();){
 				String name = file.next().toString();
 				if (name.lastIndexOf(fs.getSeparator()) + 1 > name.length()) continue;

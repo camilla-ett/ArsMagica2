@@ -105,7 +105,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 			
 			EntityLivingBase ent = it.next();
 			
-			if (!ent.isPotionActive(PotionEffectsDefs.astralDistortion))
+			if (!ent.isPotionActive(PotionEffectsDefs.ASTRAL_DISTORTION))
 				ent.addPotionEffect(new BuffEffectAstralDistortion(600, 0));
 			
 			if (ent.isDead || new AMVector3(pos).distanceTo(new AMVector3(ent)) > 10){
@@ -183,7 +183,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 			if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
 				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
 				for (EntityPlayer p : nearbyPlayers){
-					if (p.isPotionActive(PotionEffectsDefs.manaRegen)) continue;
+					if (p.isPotionActive(PotionEffectsDefs.MANA_REGEN)) continue;
 					p.addPotionEffect(new BuffEffectManaRegen(600, 2));
 				}
 			}

@@ -12,7 +12,7 @@ public class BuffEffectHaste extends BuffEffect{
 	private static final AttributeModifier hasteSpeedBoost = (new AttributeModifier(IDDefs.hasteID, "Haste Speed Boost", 0.2D, 2));
 
 	public BuffEffectHaste(int duration, int amplifier){
-		super(PotionEffectsDefs.haste, duration, amplifier);
+		super(PotionEffectsDefs.HASTE, duration, amplifier);
 	}
 
 	@Override

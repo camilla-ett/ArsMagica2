@@ -35,7 +35,7 @@ public class EnderIntervention extends SpellComponent{
 	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
 		if (world.isRemote || !(target instanceof EntityLivingBase)) return true;
 
-		if (((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.astralDistortion)){
+		if (((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.ASTRAL_DISTORTION)){
 			if (target instanceof EntityPlayer)
 				((EntityPlayer)target).addChatMessage(new TextComponentString("The distortion around you prevents you from teleporting"));
 			return true;

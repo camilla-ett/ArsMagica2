@@ -35,11 +35,11 @@ public class ShrinkHandler{
 
 		boolean shrunk = exProps.isShrunk();
 
-		if (!player.worldObj.isRemote && shrunk && !player.isPotionActive(PotionEffectsDefs.shrink)){
+		if (!player.worldObj.isRemote && shrunk && !player.isPotionActive(PotionEffectsDefs.SHRINK)){
 			exProps.setShrunk(false);
 			shrunk = false;
 			//player.yOffset = (float)exProps.getOriginalSize().y * 0.9f;
-		}else if (!player.worldObj.isRemote && !shrunk && player.isPotionActive(PotionEffectsDefs.shrink)){
+		}else if (!player.worldObj.isRemote && !shrunk && player.isPotionActive(PotionEffectsDefs.SHRINK)){
 			exProps.setShrunk(true);
 			shrunk = true;
 			//player.yOffset = 0.0F;

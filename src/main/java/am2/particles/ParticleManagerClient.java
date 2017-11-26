@@ -519,7 +519,7 @@ public class ParticleManagerClient extends ParticleManagerServer{
 		if (!world.isRemote) return;
 
 		if (entityliving == Minecraft.getMinecraft().thePlayer){
-			if (entityliving.isPotionActive(PotionEffectsDefs.trueSight) && entityliving.ticksExisted % 20 == 0){
+			if (entityliving.isPotionActive(PotionEffectsDefs.TRUE_SIGHT) && entityliving.ticksExisted % 20 == 0){
 				int radius = 5;
 				for (int i = -radius; i <= radius; ++i){
 					for (int j = -radius; j <= radius; ++j){
