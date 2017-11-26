@@ -9,6 +9,7 @@ import am2.particles.ParticleHoldPosition;
 import am2.particles.ParticleOrbitPoint;
 import am2.power.PowerNodeRegistry;
 import am2.power.PowerTypes;
+import am2.utils.DimensionUtilities;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -19,6 +20,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 public class TileEntityAstralBarrier extends TileEntityAMPower implements IInventory, IKeystoneLockable<TileEntityAstralBarrier>{
@@ -63,6 +65,18 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.getNbtCompound());
+	}
+	
+	@Override
+	public void setWorldObj(World par1World) {
+		super.setWorldObj(par1World);
+		DimensionUtilities.registerAstralBarrier(this);
+	}
+	
+	@Override
+	public void invalidate() {
+		DimensionUtilities.invalidateAstralBarrier(this);
+		super.invalidate();
 	}
 
 	@Override
