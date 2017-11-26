@@ -3,14 +3,13 @@ package am2.container.slot;
 import am2.blocks.tileentity.TileEntityInscriptionTable;
 import am2.defs.ItemDefs;
 import am2.items.ItemSpellBase;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class SlotInscriptionTable extends Slot{
 
 	public SlotInscriptionTable(TileEntityInscriptionTable par1iInventory, int par2, int par3, int par4){
@@ -51,11 +50,12 @@ public class SlotInscriptionTable extends Slot{
 		super.onSlotChanged();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void putStack(ItemStack stack){
 		if (stack != null && stack.getItem() == Items.WRITABLE_BOOK){
 			stack.setItem(Items.WRITTEN_BOOK);
-			stack.setStackDisplayName(I18n.translateToLocal("am2.tooltip.unfinishedSpellRecipe"));
+			stack.setStackDisplayName(I18n.format("am2.tooltip.unfinishedSpellRecipe"));
 		}
 		super.putStack(stack);
 	}

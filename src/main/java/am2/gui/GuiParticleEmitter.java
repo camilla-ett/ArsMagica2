@@ -11,18 +11,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 @SideOnly(Side.CLIENT)
 public class GuiParticleEmitter extends GuiScreen{
 
 	/**
 	 * The title string that is displayed in the top-center of the screen.
 	 */
-	protected String screenTitle = I18n.translateToLocal("am2.gui.particleEmitter");
+	protected String screenTitle = I18n.format("am2.gui.particleEmitter");
 
 	private GuiButtonVariableDims btnParticleType;
 	private GuiButtonVariableDims btnParticleBehaviour;
@@ -64,30 +63,30 @@ public class GuiParticleEmitter extends GuiScreen{
 
 		btnParticleType = new GuiButtonVariableDims(10, 50, 40, AMParticle.particleTypes[tile.getParticleType()]);
 		btnParticleBehaviour = new GuiButtonVariableDims(11, 50, 60, ParticleController.AuraControllerOptions[tile.getParticleBehaviour()]);
-		btnParticleColorMode = new GuiButtonVariableDims(12, 50, 80, tile.getColorDefault() ? I18n.translateToLocal("am2.gui.default") : tile.getColorRandom() ? I18n.translateToLocal("am2.gui.random") : I18n.translateToLocal("am2.gui.custom"));
-		hideBlock = new GuiButtonVariableDims(19, 50, 100, tile.getShow() ? I18n.translateToLocal("am2.gui.visible") : I18n.translateToLocal("am2.gui.hidden"));
+		btnParticleColorMode = new GuiButtonVariableDims(12, 50, 80, tile.getColorDefault() ? I18n.format("am2.gui.default") : tile.getColorRandom() ? I18n.format("am2.gui.random") : I18n.format("am2.gui.custom"));
+		hideBlock = new GuiButtonVariableDims(19, 50, 100, tile.getShow() ? I18n.format("am2.gui.visible") : I18n.format("am2.gui.hidden"));
 
 		btnParticleType.setDimensions(80, 20);
 		btnParticleBehaviour.setDimensions(80, 20);
 		btnParticleColorMode.setDimensions(80, 20);
 		hideBlock.setDimensions(80, 20);
 
-		sliParticleScale = new GuiSlideControl(14, width - 110, 40, 100, I18n.translateToLocal("am2.gui.scale"), tile.getScale() * 100, 1f, 200f);
-		sliParticleAlpha = new GuiSlideControl(15, width - 110, 60, 100, I18n.translateToLocal("am2.gui.alpha"), tile.getAlpha() * 100, 1f, 100f);
-		sliParticleRed = new GuiSlideControl(16, width - 110, 80, 100, I18n.translateToLocal("am2.gui.red"), (tile.getColor() >> 16) & 0xFF, 0f, 255f);
+		sliParticleScale = new GuiSlideControl(14, width - 110, 40, 100, I18n.format("am2.gui.scale"), tile.getScale() * 100, 1f, 200f);
+		sliParticleAlpha = new GuiSlideControl(15, width - 110, 60, 100, I18n.format("am2.gui.alpha"), tile.getAlpha() * 100, 1f, 100f);
+		sliParticleRed = new GuiSlideControl(16, width - 110, 80, 100, I18n.format("am2.gui.red"), (tile.getColor() >> 16) & 0xFF, 0f, 255f);
 		sliParticleRed.setInteger(true);
-		sliParticleGreen = new GuiSlideControl(17, width - 110, 100, 100, I18n.translateToLocal("am2.gui.green"), (tile.getColor() >> 8) & 0xFF, 0f, 255f);
+		sliParticleGreen = new GuiSlideControl(17, width - 110, 100, 100, I18n.format("am2.gui.green"), (tile.getColor() >> 8) & 0xFF, 0f, 255f);
 		sliParticleGreen.setInteger(true);
-		sliParticleBlue = new GuiSlideControl(18, width - 110, 120, 100, I18n.translateToLocal("am2.gui.blue"), tile.getColor() & 0xFF, 0f, 255f);
+		sliParticleBlue = new GuiSlideControl(18, width - 110, 120, 100, I18n.format("am2.gui.blue"), tile.getColor() & 0xFF, 0f, 255f);
 		sliParticleBlue.setInteger(true);
 
-		sliParticleQuantity = new GuiSlideControl(20, width - 110, 140, 100, I18n.translateToLocal("am2.gui.qty"), tile.getQuantity(), 1, 5);
+		sliParticleQuantity = new GuiSlideControl(20, width - 110, 140, 100, I18n.format("am2.gui.qty"), tile.getQuantity(), 1, 5);
 		sliParticleQuantity.setInteger(true);
 
-		sliParticleDelay = new GuiSlideControl(21, width - 110, 160, 100, I18n.translateToLocal("am2.gui.delay"), tile.getDelay(), 1, 100);
+		sliParticleDelay = new GuiSlideControl(21, width - 110, 160, 100, I18n.format("am2.gui.delay"), tile.getDelay(), 1, 100);
 		sliParticleDelay.setInteger(true);
 
-		sliParticleSpeed = new GuiSlideControl(22, width - 110, 180, 100, I18n.translateToLocal("am2.gui.speed"), 1.0f, 0.25f, 10.0f);
+		sliParticleSpeed = new GuiSlideControl(22, width - 110, 180, 100, I18n.format("am2.gui.speed"), 1.0f, 0.25f, 10.0f);
 
 		if (tile.getColorDefault() || tile.getColorRandom()){
 			sliParticleRed.enabled = false;
@@ -100,7 +99,7 @@ public class GuiParticleEmitter extends GuiScreen{
 		}
 
 
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height - 28, I18n.translateToLocal("am2.gui.done")));
+		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height - 28, I18n.format("am2.gui.done")));
 
 		this.buttonList.add(btnParticleType);
 		this.buttonList.add(btnParticleBehaviour);
@@ -120,13 +119,13 @@ public class GuiParticleEmitter extends GuiScreen{
 	public void drawScreen(int par1, int par2, float par3){
 		this.drawDefaultBackground();
 		drawCenteredString(fontRendererObj, screenTitle, width / 2, 4, 0xffffff);
-		drawString(fontRendererObj, I18n.translateToLocal("am2.gui.type"), 10, 45, 0xffffff);
-		drawString(fontRendererObj, I18n.translateToLocal("am2.gui.action"), 10, 65, 0xffffff);
-		drawString(fontRendererObj, I18n.translateToLocal("am2.gui.color"), 10, 85, 0xffffff);
-		drawString(fontRendererObj, I18n.translateToLocal("am2.gui.border"), 10, 105, 0xffffff);
+		drawString(fontRendererObj, I18n.format("am2.gui.type"), 10, 45, 0xffffff);
+		drawString(fontRendererObj, I18n.format("am2.gui.action"), 10, 65, 0xffffff);
+		drawString(fontRendererObj, I18n.format("am2.gui.color"), 10, 85, 0xffffff);
+		drawString(fontRendererObj, I18n.format("am2.gui.border"), 10, 105, 0xffffff);
 
 		if (!tile.getShow()){
-			fontRendererObj.drawSplitString(I18n.translateToLocal("am2.gui.wrenchWarning"), 10, 125, 100, 0xff0000);
+			fontRendererObj.drawSplitString(I18n.format("am2.gui.wrenchWarning"), 10, 125, 100, 0xff0000);
 		}
 		
 		if (activeButton != null && activeButton instanceof GuiSlideControl){
@@ -180,7 +179,7 @@ public class GuiParticleEmitter extends GuiScreen{
 				sliParticleBlue.enabled = false;
 				sliParticleGreen.enabled = false;
 			}
-			btnParticleColorMode.displayString = tile.getColorDefault() ? "Default" : tile.getColorRandom() ? I18n.translateToLocal("am2.gui.random") : I18n.translateToLocal("am2.gui.custom");
+			btnParticleColorMode.displayString = tile.getColorDefault() ? "Default" : tile.getColorRandom() ? I18n.format("am2.gui.random") : I18n.format("am2.gui.custom");
 			break;
 		case 14: //scale
 			tile.setScale(((GuiSlideControl)par1GuiButton).getShiftedValue() / 100);
@@ -197,7 +196,7 @@ public class GuiParticleEmitter extends GuiScreen{
 		case 19: //hide/show
 			flag = tile.getShow();
 			tile.setShow(!flag);
-			hideBlock.displayString = !flag ? I18n.translateToLocal("am2.gui.visible") : I18n.translateToLocal("am2.gui.hidden");
+			hideBlock.displayString = !flag ? I18n.format("am2.gui.visible") : I18n.format("am2.gui.hidden");
 			break;
 		case 20: //quantity
 			tile.setQuantity((int)sliParticleQuantity.getShiftedValue());

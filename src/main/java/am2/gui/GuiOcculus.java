@@ -37,14 +37,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class GuiOcculus extends GuiScreen {
 	int xSize = 210;
 	int ySize = 210;
@@ -359,11 +358,11 @@ public class GuiOcculus extends GuiScreen {
 					ArrayList<String> list = new ArrayList<String>();
 					list.add(s.getPoint().getChatColor().toString() + s.getName());
 					if (ArsMagica2.disabledSkills.isSkillDisabled(s.getID()))
-						list.add(TextFormatting.DARK_RED.toString() + I18n.translateToLocal("am2.gui.occulus.disabled"));
+						list.add(TextFormatting.DARK_RED.toString() + I18n.format("am2.gui.occulus.disabled"));
 					else if (hasPrereq)
 						list.add(TextFormatting.DARK_GRAY.toString() + s.getOcculusDesc()); 
 					else
-						list.add(TextFormatting.DARK_RED.toString() + I18n.translateToLocal("am2.gui.occulus.missingrequirements"));
+						list.add(TextFormatting.DARK_RED.toString() + I18n.format("am2.gui.occulus.missingrequirements"));
 					
 					drawHoveringText(list, mouseX, mouseY, Minecraft.getMinecraft().fontRendererObj);
 					flag = true;
@@ -441,7 +440,7 @@ public class GuiOcculus extends GuiScreen {
 							drawString.add(TextFormatting.RESET.toString()
 									+ (ability.isEligible(player) ? TextFormatting.GREEN.toString()
 											: TextFormatting.DARK_RED.toString())
-									+ I18n.translateToLocal("affinityability."
+									+ I18n.format("affinityability."
 											+ ability.getRegistryName().toString().replaceAll("arsmagica2:", "")
 											+ ".name") + advancedTooltip);
 						}
@@ -450,7 +449,7 @@ public class GuiOcculus extends GuiScreen {
 			}
 			if (!drawString.isEmpty()) {
 				if (!isShiftDown)
-					drawString.add(TextFormatting.GRAY.toString() + I18n.translateToLocal("am2.tooltip.shiftForDetails"));
+					drawString.add(TextFormatting.GRAY.toString() + I18n.format("am2.tooltip.shiftForDetails"));
 				drawHoveringText(drawString, mouseX, mouseY);
 			}
 			GlStateManager.color(1, 1, 1);

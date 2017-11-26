@@ -6,19 +6,16 @@ import am2.ArsMagica2;
 import am2.gui.controls.GuiButtonVariableDims;
 import am2.gui.controls.GuiSlideControl;
 import am2.packet.AMDataWriter;
-import am2.packet.AMNetHandler;
-import am2.packet.AMPacketIDs;
 import am2.particles.AMParticle;
 import am2.particles.ParticleController;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 @SideOnly(Side.CLIENT)
 public class AuraCustomizationMenu extends GuiScreen{
 
@@ -61,28 +58,28 @@ public class AuraCustomizationMenu extends GuiScreen{
 	public void initGui(){
 		btnParticleType = new GuiButtonVariableDims(10, 50, 40, AMParticle.particleTypes[ArsMagica2.config.getAuraIndex()]);
 		btnParticleBehaviour = new GuiButtonVariableDims(11, 50, 60, ParticleController.AuraControllerOptions[ArsMagica2.config.getAuraBehaviour()]);
-		btnParticleColorMode = new GuiButtonVariableDims(12, 50, 80, ArsMagica2.config.getAuraColorDefault() ? I18n.translateToLocal("am2.gui.default") : ArsMagica2.config.getAuraColorRandom() ? I18n.translateToLocal("am2.gui.random") : I18n.translateToLocal("am2.gui.custom"));
+		btnParticleColorMode = new GuiButtonVariableDims(12, 50, 80, ArsMagica2.config.getAuraColorDefault() ? I18n.format("am2.gui.default") : ArsMagica2.config.getAuraColorRandom() ? I18n.format("am2.gui.random") : I18n.format("am2.gui.custom"));
 
 		btnParticleType.setDimensions(80, 20);
 		btnParticleBehaviour.setDimensions(80, 20);
 		btnParticleColorMode.setDimensions(80, 20);
 
-		sliParticleScale = new GuiSlideControl(14, width - 110, 40, 100, I18n.translateToLocal("am2.gui.scale"), ArsMagica2.config.getAuraScale() * 10, 1f, 200f);
-		sliParticleAlpha = new GuiSlideControl(15, width - 110, 60, 100, I18n.translateToLocal("am2.gui.alpha"), ArsMagica2.config.getAuraAlpha() * 100, 1f, 100f);
-		sliParticleRed = new GuiSlideControl(16, width - 110, 80, 100, I18n.translateToLocal("am2.gui.red"), (ArsMagica2.config.getAuraColor() >> 16) & 0xFF, 0f, 255f);
+		sliParticleScale = new GuiSlideControl(14, width - 110, 40, 100, I18n.format("am2.gui.scale"), ArsMagica2.config.getAuraScale() * 10, 1f, 200f);
+		sliParticleAlpha = new GuiSlideControl(15, width - 110, 60, 100, I18n.format("am2.gui.alpha"), ArsMagica2.config.getAuraAlpha() * 100, 1f, 100f);
+		sliParticleRed = new GuiSlideControl(16, width - 110, 80, 100, I18n.format("am2.gui.red"), (ArsMagica2.config.getAuraColor() >> 16) & 0xFF, 0f, 255f);
 		sliParticleRed.setInteger(true);
-		sliParticleGreen = new GuiSlideControl(17, width - 110, 100, 100, I18n.translateToLocal("am2.gui.green"), (ArsMagica2.config.getAuraColor() >> 8) & 0xFF, 0f, 255f);
+		sliParticleGreen = new GuiSlideControl(17, width - 110, 100, 100, I18n.format("am2.gui.green"), (ArsMagica2.config.getAuraColor() >> 8) & 0xFF, 0f, 255f);
 		sliParticleGreen.setInteger(true);
-		sliParticleBlue = new GuiSlideControl(18, width - 110, 120, 100, I18n.translateToLocal("am2.gui.blue"), ArsMagica2.config.getAuraColor() & 0xFF, 0f, 255f);
+		sliParticleBlue = new GuiSlideControl(18, width - 110, 120, 100, I18n.format("am2.gui.blue"), ArsMagica2.config.getAuraColor() & 0xFF, 0f, 255f);
 		sliParticleBlue.setInteger(true);
 
-		sliParticleQuantity = new GuiSlideControl(20, width - 110, 140, 100, I18n.translateToLocal("am2.gui.qty"), ArsMagica2.config.getAuraQuantity(), 1, 5);
+		sliParticleQuantity = new GuiSlideControl(20, width - 110, 140, 100, I18n.format("am2.gui.qty"), ArsMagica2.config.getAuraQuantity(), 1, 5);
 		sliParticleQuantity.setInteger(true);
 
-		sliParticleDelay = new GuiSlideControl(21, width - 110, 160, 100, I18n.translateToLocal("am2.gui.delay"), ArsMagica2.config.getAuraDelay(), 1, 100);
+		sliParticleDelay = new GuiSlideControl(21, width - 110, 160, 100, I18n.format("am2.gui.delay"), ArsMagica2.config.getAuraDelay(), 1, 100);
 		sliParticleDelay.setInteger(true);
 
-		sliParticleSpeed = new GuiSlideControl(22, width - 110, 180, 100, I18n.translateToLocal("am2.gui.speed"), ArsMagica2.config.getAuraSpeed(), 0.05f, 10.0f);
+		sliParticleSpeed = new GuiSlideControl(22, width - 110, 180, 100, I18n.format("am2.gui.speed"), ArsMagica2.config.getAuraSpeed(), 0.05f, 10.0f);
 
 		if (ArsMagica2.config.getAuraColorDefault() || ArsMagica2.config.getAuraColorRandom()){
 			sliParticleRed.enabled = false;
@@ -95,7 +92,7 @@ public class AuraCustomizationMenu extends GuiScreen{
 		}
 
 
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height - 28, I18n.translateToLocal("am2.gui.done")));
+		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height - 28, I18n.format("am2.gui.done")));
 
 		this.buttonList.add(btnParticleType);
 		this.buttonList.add(btnParticleBehaviour);
@@ -114,10 +111,10 @@ public class AuraCustomizationMenu extends GuiScreen{
 	public void drawScreen(int par1, int par2, float par3){
 		this.drawDefaultBackground();
 		drawCenteredString(fontRendererObj, screenTitle, width / 2, 4, 0xffffff);
-		drawString(fontRendererObj, I18n.translateToLocal("am2.gui.type"), 10, 45, 0xffffff);
-		drawString(fontRendererObj, I18n.translateToLocal("am2.gui.action"), 10, 65, 0xffffff);
-		drawString(fontRendererObj, I18n.translateToLocal("am2.gui.color"), 10, 85, 0xffffff);
-		drawString(fontRendererObj, I18n.translateToLocal("am2.gui.border"), 10, 105, 0xffffff);
+		drawString(fontRendererObj, I18n.format("am2.gui.type"), 10, 45, 0xffffff);
+		drawString(fontRendererObj, I18n.format("am2.gui.action"), 10, 65, 0xffffff);
+		drawString(fontRendererObj, I18n.format("am2.gui.color"), 10, 85, 0xffffff);
+		drawString(fontRendererObj, I18n.format("am2.gui.border"), 10, 105, 0xffffff);
 		super.drawScreen(par1, par2, par3);
 	}
 
@@ -164,7 +161,7 @@ public class AuraCustomizationMenu extends GuiScreen{
 				sliParticleBlue.enabled = false;
 				sliParticleGreen.enabled = false;
 			}
-			btnParticleColorMode.displayString = ArsMagica2.config.getAuraColorDefault() ? "Default" : ArsMagica2.config.getAuraColorRandom() ? I18n.translateToLocal("am2.gui.random") : I18n.translateToLocal("am2.gui.custom");
+			btnParticleColorMode.displayString = ArsMagica2.config.getAuraColorDefault() ? "Default" : ArsMagica2.config.getAuraColorRandom() ? I18n.format("am2.gui.random") : I18n.format("am2.gui.custom");
 			break;
 		case 14: //scale
 			ArsMagica2.config.setAuraScale(((GuiSlideControl)par1GuiButton).getShiftedValue() / 10f);
@@ -209,7 +206,7 @@ public class AuraCustomizationMenu extends GuiScreen{
 		writer.add(ArsMagica2.config.getAuraQuantity());
 		writer.add(ArsMagica2.config.getAuraSpeed());
 
-		byte[] data = writer.generate();
+		//byte[] data = writer.generate();
 
 //		AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.SYNC_BETA_PARTICLES, data);
 

@@ -1,12 +1,11 @@
 package am2.buffs;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public abstract class BuffEffect extends PotionEffect{
 	protected boolean InitialApplication;
 	protected boolean HasNotified;
@@ -78,7 +77,7 @@ public abstract class BuffEffect extends PotionEffect{
 
 	@Override
 	public String getEffectName(){
-		return I18n.translateToLocal(this.getPotion().getRegistryName().toString());
+		return I18n.format(this.getPotion().getRegistryName().toString());
 	}
 	
 	@Override

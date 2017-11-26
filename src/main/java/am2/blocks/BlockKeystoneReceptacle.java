@@ -11,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,11 +20,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
-@SuppressWarnings("deprecation")
 public class BlockKeystoneReceptacle extends BlockAMPowered{
 	
 	public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class, EnumFacing.HORIZONTALS);
@@ -111,7 +110,7 @@ public class BlockKeystoneReceptacle extends BlockAMPowered{
 	
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+		return getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
 	
 	@Override
@@ -120,7 +119,7 @@ public class BlockKeystoneReceptacle extends BlockAMPowered{
 		IKeystoneLockable<?> lockable = (IKeystoneLockable<?>)world.getTileEntity(pos);
 		if (KeystoneUtilities.instance.getKeyFromRunes(lockable.getRunesInKey()) != 0){
 			if (!world.isRemote)
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.clearKey")));
+				player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.clearKey")));
 			return false;
 		}
 

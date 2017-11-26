@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
-import am2.extensions.AffinityData;
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
@@ -27,15 +26,16 @@ import am2.defs.SpellDefs;
 import am2.enchantments.AMEnchantmentHelper;
 import am2.entity.EntityDarkMage;
 import am2.entity.EntityLightMage;
+import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.gui.AMGuiHelper;
 import am2.items.ItemSpellBase;
 import am2.spell.SpellCastResult;
 import am2.spell.modifier.Colour;
 import am2.spell.shape.MissingShape;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -52,13 +52,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
-@SuppressWarnings("deprecation")
 public class SpellUtils {
 	
 	public static final String TYPE_SHAPE = "Shape";
@@ -340,6 +338,7 @@ public class SpellUtils {
 		return stack;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static ItemStack merge(ItemStack spellIn) {
 
 		if (spellIn.getTagCompound() == null)
@@ -552,7 +551,7 @@ public class SpellUtils {
 		if (caster instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) caster;
 			if (player.capabilities.isCreativeMode) return "";
-			StringBuilder string = new StringBuilder(I18n.translateToLocal("am2.tooltip.missingReagents"));
+			StringBuilder string = new StringBuilder(I18n.format("am2.tooltip.missingReagents"));
 			boolean first = true;
 			for (SpellComponent part : getComponentsForStage(spellStack, -1)) {
 				if (part.reagents(caster) == null) continue;

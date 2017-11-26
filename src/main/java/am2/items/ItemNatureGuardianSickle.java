@@ -2,6 +2,7 @@ package am2.items;
 
 import java.util.List;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import am2.ArsMagica2;
@@ -23,11 +24,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
-@SuppressWarnings("deprecation")
 public class ItemNatureGuardianSickle extends ItemArsMagica{
 
 	public ItemNatureGuardianSickle(){
@@ -37,7 +37,7 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 
 	@Override
 	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot){
-		Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(slot);
+		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
 		if (slot.equals(EntityEquipmentSlot.MAINHAND)) {
 			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 9, 0));
 			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3, 0));
@@ -47,7 +47,7 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 
 	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.translateToLocal("am2.tooltip.nature_scythe"));
+		par3List.add(I18n.format("am2.tooltip.nature_scythe"));
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 	

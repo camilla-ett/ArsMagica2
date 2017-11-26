@@ -5,11 +5,10 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class ItemBindingCatalyst extends ItemArsMagica{
 
 	public static final int META_PICK = 0;
@@ -32,23 +31,23 @@ public class ItemBindingCatalyst extends ItemArsMagica{
 	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
 
-		String baseName = I18n.translateToLocal("item.arsmagica2:bindingCatalyst.name");
+		String baseName = I18n.format("item.arsmagica2:bindingCatalyst.name");
 
 		switch (meta){
 		case META_PICK:
-			return baseName + I18n.translateToLocal("item.arsmagica2:bindingCatalystPick.name");
+			return baseName + I18n.format("item.arsmagica2:bindingCatalystPick.name");
 		case META_AXE:
-			return baseName + I18n.translateToLocal("item.arsmagica2:bindingCatalystAxe.name");
+			return baseName + I18n.format("item.arsmagica2:bindingCatalystAxe.name");
 		case META_SWORD:
-			return baseName + I18n.translateToLocal("item.arsmagica2:bindingCatalystSword.name");
+			return baseName + I18n.format("item.arsmagica2:bindingCatalystSword.name");
 		case META_SHOVEL:
-			return baseName + I18n.translateToLocal("item.arsmagica2:bindingCatalystShovel.name");
+			return baseName + I18n.format("item.arsmagica2:bindingCatalystShovel.name");
 		case META_HOE:
-			return baseName + I18n.translateToLocal("item.arsmagica2:bindingCatalystHoe.name");
+			return baseName + I18n.format("item.arsmagica2:bindingCatalystHoe.name");
 		case META_BOW:
-			return baseName + I18n.translateToLocal("item.arsmagica2:bindingCatalystBow.name");
+			return baseName + I18n.format("item.arsmagica2:bindingCatalystBow.name");
 		case META_SHIELD:
-			return baseName + I18n.translateToLocal("item.arsmagica2:bindingCatalystShield.name");
+			return baseName + I18n.format("item.arsmagica2:bindingCatalystShield.name");
 		}
 		return baseName;
 	}

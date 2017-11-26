@@ -23,7 +23,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
@@ -31,7 +31,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 
-@SuppressWarnings("deprecation")
 public class ItemSpellBook extends ItemArsMagica{
 
 	public static final byte ID_NEXT_SPELL = 0;
@@ -50,9 +49,9 @@ public class ItemSpellBook extends ItemArsMagica{
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		ItemStack activeSpell = GetActiveItemStack(par1ItemStack);
 		if (activeSpell != null){
-			return String.format("\2477%s (" + activeSpell.getDisplayName() + "\2477)", I18n.translateToLocal("item.arsmagica2:spellbook.name"));
+			return String.format("\2477%s (" + activeSpell.getDisplayName() + "\2477)", I18n.format("item.arsmagica2:spellbook.name"));
 		}
-		return I18n.translateToLocal("item.arsmagica2:spellbook.name");
+		return I18n.format("item.arsmagica2:spellbook.name");
 	}
 
 	@Override
@@ -260,7 +259,7 @@ public class ItemSpellBook extends ItemArsMagica{
 	public String GetActiveSpellName(ItemStack bookStack){
 		ItemStack stack = GetActiveItemStack(bookStack);
 		if (stack == null){
-			return I18n.translateToLocal("am2.tooltip.none");
+			return I18n.format("am2.tooltip.none");
 		}
 		return stack.getDisplayName();
 	}
@@ -270,16 +269,16 @@ public class ItemSpellBook extends ItemArsMagica{
 		ItemSpellBase activeScroll = GetActiveScroll(par1ItemStack);
 		ItemStack stack = GetActiveItemStack(par1ItemStack);
 
-		String s = I18n.translateToLocal("am2.tooltip.open");
-		String s2 = I18n.translateToLocal("am2.tooltip.scroll");
+		String s = I18n.format("am2.tooltip.open");
+		String s2 = I18n.format("am2.tooltip.scroll");
 		par3List.add((new StringBuilder()).append("\2477").append(s).toString());
 		par3List.add((new StringBuilder()).append("\2477").append(s2).toString());
 		if (activeScroll != null){
 			activeScroll.addInformation(stack, par2EntityPlayer, par3List, par4);
 		}
 
-		par3List.add("\247c" + I18n.translateToLocal("am2.tooltip.spellbookWarning1") + "\247f");
-		par3List.add("\247c" + I18n.translateToLocal("am2.tooltip.spellbookWarning2") + "\247f");
+		par3List.add("\247c" + I18n.format("am2.tooltip.spellbookWarning1") + "\247f");
+		par3List.add("\247c" + I18n.format("am2.tooltip.spellbookWarning2") + "\247f");
 	}
 
 	@Override

@@ -25,12 +25,11 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class PageMultiblock extends CompendiumPage<MultiblockStructureDefinition> {
 
 	private int curLayer = -1;
@@ -51,7 +50,7 @@ public class PageMultiblock extends CompendiumPage<MultiblockStructureDefinition
 	public GuiButton[] getButtons(int id, int posX, int posY) {
 		prevLayer = new GuiButtonCompendiumNext(id++, posX, posY + 19, false);
 		nextLayer = new GuiButtonCompendiumNext(id++, posX + 125, posY + 19, true);
-		pauseCycling = new GuiButtonVariableDims(5, posX + 105, posY + 190, AMGuiHelper.instance.runCompendiumTicker ? I18n.translateToLocal("am2.gui.pause") : I18n.translateToLocal("am2.gui.cycle")).setDimensions(40, 20);
+		pauseCycling = new GuiButtonVariableDims(5, posX + 105, posY + 190, AMGuiHelper.instance.runCompendiumTicker ? I18n.format("am2.gui.pause") : I18n.format("am2.gui.cycle")).setDimensions(40, 20);
 		prevLayer.visible = true;
 		nextLayer.visible = true;
 		pauseCycling.visible = true;
@@ -85,7 +84,7 @@ public class PageMultiblock extends CompendiumPage<MultiblockStructureDefinition
 			}
 		} else if (button == pauseCycling) {
 			AMGuiHelper.instance.runCompendiumTicker = !AMGuiHelper.instance.runCompendiumTicker;
-			pauseCycling.displayString = AMGuiHelper.instance.runCompendiumTicker ? I18n.translateToLocal("am2.gui.pause") : I18n.translateToLocal("am2.gui.cycle");
+			pauseCycling.displayString = AMGuiHelper.instance.runCompendiumTicker ? I18n.format("am2.gui.pause") : I18n.format("am2.gui.cycle");
 		}
 		super.actionPerformed(button);
 	}
@@ -95,7 +94,7 @@ public class PageMultiblock extends CompendiumPage<MultiblockStructureDefinition
 		stackTip = null;
 		int cx = posX + 60;
 		int cy = posY + 92;
-		String label = String.format("%s: %s", I18n.translateToLocal("am2.gui.layer"), curLayer == -1 ? I18n.translateToLocal("am2.gui.all") : "" + curLayer);
+		String label = String.format("%s: %s", I18n.format("am2.gui.layer"), curLayer == -1 ? I18n.format("am2.gui.all") : "" + curLayer);
 
 		mc.fontRendererObj.drawString(label, cx - mc.fontRendererObj.getStringWidth(label) / 2, cy - 90, 0x000000);
 

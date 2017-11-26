@@ -3,13 +3,12 @@ package am2.armor;
 import java.util.List;
 
 import am2.extensions.EntityExtension;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-@SuppressWarnings("deprecation")
 public class ItemEnderBoots extends AMArmor{
 
 	public ItemEnderBoots(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, EntityEquipmentSlot par4){
@@ -29,7 +28,7 @@ public class ItemEnderBoots extends AMArmor{
 
 	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.translateToLocal("am2.tooltip.ender_boots"));
+		par3List.add(I18n.format("am2.tooltip.ender_boots"));
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 }

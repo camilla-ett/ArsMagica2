@@ -7,9 +7,8 @@ import am2.api.flickers.AbstractFlickerFunctionality;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
-@SuppressWarnings("deprecation")
 public class ItemFlickerFocus extends ItemArsMagica{
 
 	public ItemFlickerFocus(){
@@ -23,7 +22,7 @@ public class ItemFlickerFocus extends ItemArsMagica{
 		AbstractFlickerFunctionality operator = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(meta);
 		if (operator == null)
 			return "Trash";
-		return String.format(I18n.translateToLocal("item.arsmagica2:FlickerFocusPrefix"), I18n.translateToLocal("item.arsmagica2:" + operator.getClass().getSimpleName() + ".name"));
+		return String.format(I18n.format("item.arsmagica2:FlickerFocusPrefix"), I18n.format("item.arsmagica2:" + operator.getClass().getSimpleName() + ".name"));
 	}
 
 	@Override

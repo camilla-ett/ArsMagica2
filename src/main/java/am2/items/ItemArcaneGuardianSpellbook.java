@@ -8,9 +8,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
-@SuppressWarnings("deprecation")
 public class ItemArcaneGuardianSpellbook extends ItemSpellBook{
 
 	public ItemArcaneGuardianSpellbook(){
@@ -19,7 +18,7 @@ public class ItemArcaneGuardianSpellbook extends ItemSpellBook{
 
 	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.translateToLocal("am2.tooltip.arcanespellbook"));
+		par3List.add(I18n.format("am2.tooltip.arcanespellbook"));
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 
@@ -47,8 +46,8 @@ public class ItemArcaneGuardianSpellbook extends ItemSpellBook{
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		ItemStack activeSpell = GetActiveItemStack(par1ItemStack);
 		if (activeSpell != null){
-			return String.format("\2477%s \2477(" + activeSpell.getDisplayName() + "\2477)", I18n.translateToLocal("item.arsmagica2:arcaneSpellBook.name"));
+			return String.format("\2477%s \2477(" + activeSpell.getDisplayName() + "\2477)", I18n.format("item.arsmagica2:arcaneSpellBook.name"));
 		}
-		return I18n.translateToLocal("item.arsmagica2:arcane_spellbook.name");
+		return I18n.format("item.arsmagica2:arcane_spellbook.name");
 	}
 }

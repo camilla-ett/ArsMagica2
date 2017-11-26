@@ -1,5 +1,12 @@
 package am2.blocks.tileentity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
+import com.google.common.collect.Lists;
+
 import am2.ArsMagica2;
 import am2.api.CraftingAltarMaterials;
 import am2.api.IMultiblockStructureController;
@@ -26,7 +33,6 @@ import am2.spell.shape.Binding;
 import am2.utils.KeyValuePair;
 import am2.utils.NBTUtils;
 import am2.utils.SpellUtils;
-import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLever;
 import net.minecraft.block.BlockLever.EnumOrientation;
@@ -44,14 +50,8 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.OreDictionary;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
 
 public class TileEntityCraftingAltar extends TileEntityAMPower implements IMultiblockStructureController, ITileEntityAMBase {
 
@@ -854,7 +854,7 @@ private IBlockState mimicState;
 			}
 			
 			//find otherworld auras
-			IPowerNode<?>[] nodes = PowerNodeRegistry.For(worldObj).getAllNearbyNodes(worldObj, new Vec3d(pos), PowerTypes.DARK);
+			IPowerNode<?>[] nodes = PowerNodeRegistry.For(worldObj).getAllNearbyNodes(worldObj, pos, PowerTypes.DARK);
 			for (IPowerNode<?> node : nodes){
 				if (node instanceof TileEntityOtherworldAura){
 					((TileEntityOtherworldAura)node).setActive(true, this);

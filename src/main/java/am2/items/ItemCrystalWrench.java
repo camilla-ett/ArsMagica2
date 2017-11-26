@@ -19,10 +19,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 
-@SuppressWarnings("deprecation")
 public class ItemCrystalWrench extends ItemArsMagicaRotated{
 
 	private static String KEY_PAIRLOC = "PAIRLOC";
@@ -47,7 +46,7 @@ public class ItemCrystalWrench extends ItemArsMagicaRotated{
 
 		int cMode = getMode(stack);
 		if (te != null && !(te instanceof IPowerNode || te instanceof TileEntityParticleEmitter) && cMode == MODE_DISCONNECT){
-			player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.wrongWrenchMode")));
+			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.wrongWrenchMode")));
 			return EnumActionResult.FAIL;
 		}
 
@@ -123,7 +122,7 @@ public class ItemCrystalWrench extends ItemArsMagicaRotated{
 		if (world.isRemote){
 			spawnLinkParticles(player.worldObj, hitX, hitY, hitZ, true);
 		}else{
-			player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.disconnectPower")));
+			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.disconnectPower")));
 		}
 	}
 

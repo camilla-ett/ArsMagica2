@@ -1,26 +1,163 @@
 package am2.proxy;
 
+import static am2.defs.IDDefs.GUI_ARCANE_DECONSTRUCTOR;
+import static am2.defs.IDDefs.GUI_ARCANE_RECONSTRUCTOR;
+import static am2.defs.IDDefs.GUI_ARMOR_INFUSION;
+import static am2.defs.IDDefs.GUI_ASTRAL_BARRIER;
+import static am2.defs.IDDefs.GUI_CALEFACTOR;
+import static am2.defs.IDDefs.GUI_CRYSTAL_MARKER;
+import static am2.defs.IDDefs.GUI_ESSENCE_BAG;
+import static am2.defs.IDDefs.GUI_ESSENCE_REFINER;
+import static am2.defs.IDDefs.GUI_FLICKER_HABITAT;
+import static am2.defs.IDDefs.GUI_INERT_SPAWNER;
+import static am2.defs.IDDefs.GUI_INSCRIPTION_TABLE;
+import static am2.defs.IDDefs.GUI_KEYSTONE;
+import static am2.defs.IDDefs.GUI_KEYSTONE_CHEST;
+import static am2.defs.IDDefs.GUI_KEYSTONE_LOCKABLE;
+import static am2.defs.IDDefs.GUI_MAGICIANS_WORKBENCH;
+import static am2.defs.IDDefs.GUI_OBELISK;
+import static am2.defs.IDDefs.GUI_OCCULUS;
+import static am2.defs.IDDefs.GUI_RIFT;
+import static am2.defs.IDDefs.GUI_RUNE_BAG;
+import static am2.defs.IDDefs.GUI_SEER_STONE;
+import static am2.defs.IDDefs.GUI_SPELL_BOOK;
+import static am2.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
+import static am2.defs.IDDefs.GUI_SPELL_SEALED_DOOR;
+import static am2.defs.IDDefs.GUI_SUMMONER;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+
+import com.google.common.collect.ImmutableMap;
+
 import am2.AMChunkLoader;
 import am2.ArsMagica2;
 import am2.affinity.AffinityAbilityHelper;
 import am2.api.ArsMagicaAPI;
 import am2.api.blocks.IKeystoneLockable;
-import am2.api.extensions.*;
+import am2.api.extensions.IAffinityData;
+import am2.api.extensions.IArcaneCompendium;
+import am2.api.extensions.IEntityExtension;
+import am2.api.extensions.IRiftStorage;
+import am2.api.extensions.ISkillData;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.api.spell.AbstractSpellPart;
 import am2.armor.ArmorEventHandler;
-import am2.armor.infusions.*;
+import am2.armor.infusions.DamageReductionImbuement;
+import am2.armor.infusions.Dispelling;
+import am2.armor.infusions.FallProtection;
+import am2.armor.infusions.FireProtection;
+import am2.armor.infusions.Freedom;
+import am2.armor.infusions.GenericImbuement;
+import am2.armor.infusions.Healing;
+import am2.armor.infusions.HungerBoost;
+import am2.armor.infusions.ImbuementRegistry;
+import am2.armor.infusions.JumpBoost;
+import am2.armor.infusions.LifeSaving;
+import am2.armor.infusions.Lightstep;
+import am2.armor.infusions.MiningSpeed;
+import am2.armor.infusions.Recoil;
+import am2.armor.infusions.SwimSpeed;
+import am2.armor.infusions.WaterBreathing;
+import am2.armor.infusions.WaterWalking;
 import am2.blocks.BlockArsMagicaBlock.EnumBlockType;
 import am2.blocks.BlockArsMagicaOre.EnumOreType;
-import am2.blocks.tileentity.*;
-import am2.blocks.tileentity.flickers.*;
-import am2.container.*;
-import am2.defs.*;
+import am2.blocks.tileentity.TileEntityArcaneDeconstructor;
+import am2.blocks.tileentity.TileEntityArcaneReconstructor;
+import am2.blocks.tileentity.TileEntityArmorImbuer;
+import am2.blocks.tileentity.TileEntityAstralBarrier;
+import am2.blocks.tileentity.TileEntityBlackAurem;
+import am2.blocks.tileentity.TileEntityBrokenPowerLink;
+import am2.blocks.tileentity.TileEntityCalefactor;
+import am2.blocks.tileentity.TileEntityCandle;
+import am2.blocks.tileentity.TileEntityCelestialPrism;
+import am2.blocks.tileentity.TileEntityCraftingAltar;
+import am2.blocks.tileentity.TileEntityCrystalMarker;
+import am2.blocks.tileentity.TileEntityCrystalMarkerSpellExport;
+import am2.blocks.tileentity.TileEntityEssenceConduit;
+import am2.blocks.tileentity.TileEntityEssenceRefiner;
+import am2.blocks.tileentity.TileEntityEverstone;
+import am2.blocks.tileentity.TileEntityFlickerHabitat;
+import am2.blocks.tileentity.TileEntityFlickerLure;
+import am2.blocks.tileentity.TileEntityGroundRuneSpell;
+import am2.blocks.tileentity.TileEntityIllusionBlock;
+import am2.blocks.tileentity.TileEntityInertSpawner;
+import am2.blocks.tileentity.TileEntityInscriptionTable;
+import am2.blocks.tileentity.TileEntityKeystoneChest;
+import am2.blocks.tileentity.TileEntityKeystoneDoor;
+import am2.blocks.tileentity.TileEntityKeystoneRecepticle;
+import am2.blocks.tileentity.TileEntityLectern;
+import am2.blocks.tileentity.TileEntityMagiciansWorkbench;
+import am2.blocks.tileentity.TileEntityManaBattery;
+import am2.blocks.tileentity.TileEntityManaDrain;
+import am2.blocks.tileentity.TileEntityObelisk;
+import am2.blocks.tileentity.TileEntityOcculus;
+import am2.blocks.tileentity.TileEntityOtherworldAura;
+import am2.blocks.tileentity.TileEntityParticleEmitter;
+import am2.blocks.tileentity.TileEntitySeerStone;
+import am2.blocks.tileentity.TileEntitySlipstreamGenerator;
+import am2.blocks.tileentity.TileEntitySpellSealedDoor;
+import am2.blocks.tileentity.TileEntitySummoner;
+import am2.blocks.tileentity.flickers.FlickerOperatorButchery;
+import am2.blocks.tileentity.flickers.FlickerOperatorContainment;
+import am2.blocks.tileentity.flickers.FlickerOperatorFelledOak;
+import am2.blocks.tileentity.flickers.FlickerOperatorFishing;
+import am2.blocks.tileentity.flickers.FlickerOperatorFlatLands;
+import am2.blocks.tileentity.flickers.FlickerOperatorGentleRains;
+import am2.blocks.tileentity.flickers.FlickerOperatorInterdiction;
+import am2.blocks.tileentity.flickers.FlickerOperatorItemTransport;
+import am2.blocks.tileentity.flickers.FlickerOperatorLight;
+import am2.blocks.tileentity.flickers.FlickerOperatorMoonstoneAttractor;
+import am2.blocks.tileentity.flickers.FlickerOperatorNaturesBounty;
+import am2.blocks.tileentity.flickers.FlickerOperatorPackedEarth;
+import am2.blocks.tileentity.flickers.FlickerOperatorProgeny;
+import am2.container.ContainerArcaneDeconstructor;
+import am2.container.ContainerArcaneReconstructor;
+import am2.container.ContainerArmorInfuser;
+import am2.container.ContainerAstralBarrier;
+import am2.container.ContainerCalefactor;
+import am2.container.ContainerCrystalMarker;
+import am2.container.ContainerEssenceBag;
+import am2.container.ContainerEssenceRefiner;
+import am2.container.ContainerFlickerHabitat;
+import am2.container.ContainerInertSpawner;
+import am2.container.ContainerInscriptionTable;
+import am2.container.ContainerKeystone;
+import am2.container.ContainerKeystoneLockable;
+import am2.container.ContainerMagiciansWorkbench;
+import am2.container.ContainerObelisk;
+import am2.container.ContainerRiftStorage;
+import am2.container.ContainerRuneBag;
+import am2.container.ContainerSeerStone;
+import am2.container.ContainerSpellBook;
+import am2.container.ContainerSpellCustomization;
+import am2.container.ContainerSpellSealedDoor;
+import am2.container.ContainerSummoner;
+import am2.defs.AMRecipes;
+import am2.defs.BlockDefs;
+import am2.defs.CreativeTabsDefs;
+import am2.defs.EntityManager;
+import am2.defs.ItemDefs;
+import am2.defs.LootTablesArsMagica;
+import am2.defs.LoreDefs;
+import am2.defs.PotionEffectsDefs;
+import am2.defs.SkillDefs;
+import am2.defs.SpellDefs;
 import am2.enchantments.AMEnchantments;
 import am2.extensions.RiftStorage;
-import am2.handler.*;
-import am2.items.*;
+import am2.handler.EntityHandler;
+import am2.handler.EventManager;
+import am2.handler.FlickerEvents;
+import am2.handler.FuelHandler;
+import am2.handler.PotionEffectHandler;
+import am2.handler.ShrinkHandler;
+import am2.items.ItemEssenceBag;
+import am2.items.ItemKeystone;
+import am2.items.ItemOre;
+import am2.items.ItemRuneBag;
+import am2.items.ItemSpellBook;
 import am2.lore.CompendiumUnlockHandler;
 import am2.network.PacketHandler;
 import am2.network.SeventhSanctum;
@@ -38,7 +175,6 @@ import am2.utils.InventoryUtilities;
 import am2.utils.NPCSpells;
 import am2.world.AM2WorldDecorator;
 import am2.world.BiomeWitchwoodForest;
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,7 +188,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -67,12 +202,6 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-
-import static am2.defs.IDDefs.*;
 
 
 public class CommonProxy implements IGuiHandler{
@@ -93,7 +222,7 @@ public class CommonProxy implements IGuiHandler{
 	private AM2WorldDecorator worldGen;
 	public NBTTagCompound cwCopyLoc = null;
 	
-	public static HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> powerPathVisuals;
+	public static HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> powerPathVisuals;
 	
 	public CommonProxy() {
 		playerTracker = new PlayerTracker();
@@ -333,11 +462,11 @@ public class CommonProxy implements IGuiHandler{
 
 	public void drawPowerOnBlockHighlight(EntityPlayer player, RayTraceResult target, float partialTicks) {}
 
-	public void receivePowerPathVisuals(HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> nodePaths) {}
+	public void receivePowerPathVisuals(HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> nodePaths) {}
 
 	public void requestPowerPathVisuals(IPowerNode<?> node, EntityPlayerMP player) {}
 
-	public HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> getPowerPathVisuals() {
+	public HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> getPowerPathVisuals() {
 		return null;
 	}
 

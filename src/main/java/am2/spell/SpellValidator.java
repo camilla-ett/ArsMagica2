@@ -8,9 +8,8 @@ import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellShape;
 import am2.spell.component.Summon;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
-@SuppressWarnings("deprecation")
 public class SpellValidator{
 	public static final SpellValidator instance = new SpellValidator();
 
@@ -70,11 +69,11 @@ public class SpellValidator{
 			StageValidations result = validateStage(segmented.get(i), i == segmented.size() - 1);
 
 			if (result == StageValidations.NOT_VALID){
-				return new ValidationResult(segmented.get(i).get(0), I18n.translateToLocal("am2.spell.validate.compMiss"));
+				return new ValidationResult(segmented.get(i).get(0), I18n.format("am2.spell.validate.compMiss"));
 			}else if (result == StageValidations.PRINCIPUM && i == segmented.size() - 1){
-				return new ValidationResult(segmented.get(i).get(0), String.format("%s %s", SpellRegistry.getSkillFromPart(segmented.get(i).get(0)), I18n.translateToLocal("am2.spell.validate.principum")));
+				return new ValidationResult(segmented.get(i).get(0), String.format("%s %s", SpellRegistry.getSkillFromPart(segmented.get(i).get(0)), I18n.format("am2.spell.validate.principum")));
 			}else if (result == StageValidations.TERMINUS && i < segmented.size() - 1){
-				return new ValidationResult(segmented.get(i).get(0), String.format("%s %s", SpellRegistry.getSkillFromPart(segmented.get(i).get(0)), I18n.translateToLocal("am2.spell.validate.terminus")));
+				return new ValidationResult(segmented.get(i).get(0), String.format("%s %s", SpellRegistry.getSkillFromPart(segmented.get(i).get(0)), I18n.format("am2.spell.validate.terminus")));
 			}
 		}
 

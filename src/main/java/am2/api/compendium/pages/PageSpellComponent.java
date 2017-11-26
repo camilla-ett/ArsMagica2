@@ -24,14 +24,13 @@ import net.minecraft.client.renderer.GlStateManager.DestFactor;
 import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 
-@SuppressWarnings("deprecation")
 public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 
 	private Object[] craftingComponents;
@@ -103,7 +102,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		int startX = 72 - (8 * modifiers.size());
 		int yOffset = 10;
 		if (!modifiers.isEmpty()) {
-			String shapeName = I18n.translateToLocal(element instanceof SpellComponent ? "am2.gui.modifies" :  "am2.gui.modifiedBy");
+			String shapeName = I18n.format(element instanceof SpellComponent ? "am2.gui.modifies" :  "am2.gui.modifiedBy");
 			mc.fontRendererObj.drawString(shapeName, posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY, 0);
 			GlStateManager.color(1.0f, 1.0f, 1.0f);
 		}

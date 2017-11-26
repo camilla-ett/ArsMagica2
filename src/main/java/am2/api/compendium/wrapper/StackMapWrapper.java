@@ -5,11 +5,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class StackMapWrapper {
 	
 	private static Map<ItemStack, Integer> wrapBlockMap(Map<IBlockState, Integer> input) {
@@ -76,6 +75,6 @@ public class StackMapWrapper {
 	}
 	
 	public String getLocalizedName() {
-		return I18n.translateToLocal(getUnlocalizedName());
+		return I18n.format(getUnlocalizedName());
 	}
 }

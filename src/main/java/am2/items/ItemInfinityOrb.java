@@ -16,10 +16,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 
-@SuppressWarnings("deprecation")
 public class ItemInfinityOrb extends ItemArsMagica {
 	
 	@Override
@@ -36,7 +35,7 @@ public class ItemInfinityOrb extends ItemArsMagica {
 		SkillPoint point = SkillPointRegistry.getPointForTier(stack.getItemDamage());
 		if (point == null)
 			return "Unavailable Item";
-		return I18n.translateToLocal("item.arsmagica2:inf_orb_" + point.toString().toLowerCase() + ".name");
+		return I18n.format("item.arsmagica2:inf_orb_" + point.toString().toLowerCase() + ".name");
 	}
 	
 	@Override
@@ -51,7 +50,7 @@ public class ItemInfinityOrb extends ItemArsMagica {
 			if (!player.worldObj.isRemote)
 				SkillData.For(player).setSkillPoint(type, SkillData.For(player).getSkillPoint(type) + 1);
 			if (player.worldObj.isRemote){
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.infOrb" + type.toString())));
+				player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.infOrb" + type.toString())));
 			}
 			if (!player.capabilities.isCreativeMode)
 			stack.stackSize--;
@@ -61,7 +60,7 @@ public class ItemInfinityOrb extends ItemArsMagica {
 		}else{
 			if (player.worldObj.isRemote){
 				int message = player.worldObj.rand.nextInt(10);
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.infOrbFail" + message)));
+				player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.infOrbFail" + message)));
 			}
 		}
 		return stack;

@@ -27,12 +27,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class ItemSpellStaff extends ItemArsMagica{
 
 	private final int castingMode;
@@ -131,14 +130,14 @@ public class ItemSpellStaff extends ItemArsMagica{
 		float chargeRemaining = stack.getTagCompound().getFloat(NBT_CHARGE);
 		int chargesRemaining = (int)Math.ceil(chargeRemaining / chargeCost);
 
-		par3List.add(I18n.translateToLocal("am2.tooltip.charge") + ": " + (int)chargeRemaining + " / " + maxCharge);
-		par3List.add("" + chargesRemaining + " " + I18n.translateToLocal("am2.tooltip.uses") + ".");
+		par3List.add(I18n.format("am2.tooltip.charge") + ": " + (int)chargeRemaining + " / " + maxCharge);
+		par3List.add("" + chargesRemaining + " " + I18n.format("am2.tooltip.uses") + ".");
 	}
 
 	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		if (isMagiTechStaff()){
-			return I18n.translateToLocal("item.arsmagica2:spell_staff_magitech.name");
+			return I18n.format("item.arsmagica2:spell_staff_magitech.name");
 		}
 		String name = super.getItemStackDisplayName(par1ItemStack);
 		if (par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey(NBT_SPELL_NAME))
@@ -175,7 +174,7 @@ public class ItemSpellStaff extends ItemArsMagica{
 						for (PowerTypes type : types){
 							float power = PowerNodeRegistry.For(world).getPower((IPowerNode<?>)te, type);
 							player.addChatMessage(
-									new TextComponentString(String.format(I18n.translateToLocal("am2.tooltip.det_eth"),
+									new TextComponentString(String.format(I18n.format("am2.tooltip.det_eth"),
 											type.getChatColor(), type.name(), String.format("%.2f", power))));
 						}
 					}

@@ -17,14 +17,13 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class GuiMagiciansWorkbench extends GuiContainer{
 
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/magicians_workbench.png");
@@ -150,22 +149,22 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 					ttList.add(stack.output.getDisplayName());
 					color = 0x40FF40;
 				}else if (!((ContainerMagiciansWorkbench)this.inventorySlots).gridIsFreeFor(recipeIndex)){
-					ttList.add("\247o" + I18n.translateToLocal("am2.gui.gridInUse1"));
-					ttList.add("\247o" + I18n.translateToLocal("am2.gui.gridInUse2"));
+					ttList.add("\247o" + I18n.format("am2.gui.gridInUse1"));
+					ttList.add("\247o" + I18n.format("am2.gui.gridInUse2"));
 					color = 0x666666;
 					recipeIndex = -1;
 				}else if (((ContainerMagiciansWorkbench)this.inventorySlots).hasComponents(recipeIndex)){
 					ttList.add(stack.output.getDisplayName());
 					color = -1;
 				}else{
-					ttList.add(stack.output.getDisplayName() + " (" + I18n.translateToLocal("am2.gui.componentsMissing") + ")");
+					ttList.add(stack.output.getDisplayName() + " (" + I18n.format("am2.gui.componentsMissing") + ")");
 					color = 0xFF0000;
 					recipeIndex = -1;
 				}
 				if (stack.isLocked())
-					ttList.add(I18n.translateToLocal("am2.tooltip.mwUnlock"));
+					ttList.add(I18n.format("am2.tooltip.mwUnlock"));
 				else
-					ttList.add(I18n.translateToLocal("am2.tooltip.mwLock"));
+					ttList.add(I18n.format("am2.tooltip.mwLock"));
 
 				if (stack.is2x2)
 					ttList.add("(2x2)");

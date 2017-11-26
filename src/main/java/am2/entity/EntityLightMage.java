@@ -12,6 +12,7 @@ import am2.extensions.EntityExtension;
 import am2.extensions.SkillData;
 import am2.utils.EntityUtils;
 import am2.utils.NPCSpells;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -35,13 +36,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class EntityLightMage extends EntityCreature{
 
 	int hp;
@@ -227,24 +226,24 @@ public class EntityLightMage extends EntityCreature{
 		
 		if (SkillData.For(player).hasSkill(SkillDefs.MAGE_POSSE_1.getID())){
 			if (EntityUtils.isSummon(this)){
-				player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.translateToLocal("am2.npc.partyleave"))));
+				player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.format("am2.npc.partyleave"))));
 				EntityUtils.revertAI(this);
 			}else{
 				if (EntityExtension.For(player).getCanHaveMoreSummons()){
 					if (EntityExtension.For(player).getCurrentLevel() - 5 >= EntityExtension.For(this).getCurrentLevel()){
-						player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.translateToLocal("am2.npc.partyjoin"))));
+						player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.format("am2.npc.partyjoin"))));
 						EntityUtils.setOwner(this, player);
 						EntityUtils.makeSummon_PlayerFaction(this, player, true);
 						EntityUtils.setSummonDuration(this, -1);
 					}else{
-						player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.translateToLocal("am2.npc.partyrefuse"))));
+						player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.format("am2.npc.partyrefuse"))));
 					}
 				}else{
-					player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.translateToLocal("am2.npc.partyfull"))));
+					player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.format("am2.npc.partyfull"))));
 				}
 			}
 		}else{
-			player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.translateToLocal("am2.npc.nopartyskill"))));
+			player.addChatMessage(new TextComponentString(String.format("\247o%s", I18n.format("am2.npc.nopartyskill"))));
 		}
 		return EnumActionResult.SUCCESS;
 	}

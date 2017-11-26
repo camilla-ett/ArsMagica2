@@ -12,13 +12,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class ItemEssenceBag extends ItemArsMagica{
 
 	public ItemEssenceBag(){
@@ -35,7 +34,7 @@ public class ItemEssenceBag extends ItemArsMagica{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.translateToLocal("am2.tooltip.rupees"));
+		par3List.add(I18n.format("am2.tooltip.rupees"));
 	}
 
 	

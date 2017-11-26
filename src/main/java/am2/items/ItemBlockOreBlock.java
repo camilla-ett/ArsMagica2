@@ -5,9 +5,8 @@ import am2.blocks.BlockArsMagicaOre.EnumOreType;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
-@SuppressWarnings("deprecation")
 public class ItemBlockOreBlock extends ItemBlockSubtypes {
 
 	public ItemBlockOreBlock(Block block) {
@@ -16,6 +15,6 @@ public class ItemBlockOreBlock extends ItemBlockSubtypes {
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return I18n.translateToLocal("tile.arsmagica2:block_" + EnumBlockType.values()[MathHelper.clamp_int(stack.getItemDamage(), 0, EnumOreType.values().length - 1)].getName().toLowerCase() + ".name");
+		return I18n.format("tile.arsmagica2:block_" + EnumBlockType.values()[MathHelper.clamp_int(stack.getItemDamage(), 0, EnumOreType.values().length - 1)].getName().toLowerCase() + ".name");
 	}
 }

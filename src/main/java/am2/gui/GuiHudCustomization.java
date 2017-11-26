@@ -13,9 +13,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
-@SuppressWarnings("deprecation")
 public class GuiHudCustomization extends GuiScreen{
 	private GuiButtonVariableDims manaButton;
 	private GuiButtonVariableDims burnoutButton;
@@ -84,37 +83,37 @@ public class GuiHudCustomization extends GuiScreen{
 		manaButton = new GuiButtonVariableDims(0, 0, 0, "").setDimensions(barWidth, 14).setBorderOnly(true);
 		burnoutButton = new GuiButtonVariableDims(1, 0, 0, "").setDimensions(barWidth, 14).setBorderOnly(true);
 		levelButton = new GuiButtonVariableDims(2, 0, 0, "").setDimensions(10, 10).setBorderOnly(true);
-		affinityButton = new GuiButtonVariableDims(3, 0, 0, "").setDimensions(10, 20).setBorderOnly(true).setPopupText(I18n.translateToLocal("am2.gui.affinity"));
-		positiveBuffs = new GuiButtonVariableDims(4, 0, 0, "").setPopupText(I18n.translateToLocal("am2.gui.positiveBuffs")).setDimensions(10, 10).setBorderOnly(true);
-		negativeBuffs = new GuiButtonVariableDims(5, 0, 0, "").setPopupText(I18n.translateToLocal("am2.gui.negativeBuffs")).setDimensions(10, 10).setBorderOnly(true);
-		armorHead = new GuiButtonVariableDims(6, 0, 0, "").setDimensions(10, 10).setPopupText(I18n.translateToLocal("am2.gui.headwear")).setBorderOnly(true);
-		armorChest = new GuiButtonVariableDims(7, 0, 0, "").setDimensions(10, 10).setPopupText(I18n.translateToLocal("am2.gui.chestplate")).setBorderOnly(true);
-		armorLegs = new GuiButtonVariableDims(8, 0, 0, "").setDimensions(10, 10).setPopupText(I18n.translateToLocal("am2.gui.leggings")).setBorderOnly(true);
-		armorBoots = new GuiButtonVariableDims(9, 0, 0, "").setDimensions(10, 10).setPopupText(I18n.translateToLocal("am2.gui.boots")).setBorderOnly(true);
-		xpBar = new GuiButtonVariableDims(10, 0, 0, "").setDimensions(182, 5).setPopupText(I18n.translateToLocal("am2.gui.xpBar")).setBorderOnly(true);
-		contingency = new GuiButtonVariableDims(10, 0, 0, "").setDimensions(16, 16).setPopupText(I18n.translateToLocal("am2.gui.contingency")).setBorderOnly(true);
-		showBuffs = new GuiButtonVariableDims(11, width / 2 - 90, height - 88, I18n.translateToLocal("am2.gui.buffTimers")).setDimensions(180, 20);
-		showNumerics = new GuiButtonVariableDims(12, width / 2 - 90, height - 66, I18n.translateToLocal("am2.gui.numericValues")).setDimensions(180, 20);
-		options = new GuiButtonVariableDims(13, width / 2 - 90, height - 22, I18n.translateToLocal("am2.gui.options")).setDimensions(180, 20);
-		showHudMinimally = new GuiButtonVariableDims(14, width / 2 - 90, height - 110, I18n.translateToLocal("am2.gui.minimalHud")).setDimensions(180, 20).setPopupText(I18n.translateToLocal("am2.gui.minimalHudDesc"));
-		showArmorUI = new GuiButtonVariableDims(15, width / 2 - 90, height - 132, I18n.translateToLocal("am2.gui.armorUI")).setDimensions(180, 20);
-		showXPAlways = new GuiButtonVariableDims(16, width / 2 - 90, height - 154, I18n.translateToLocal("am2.gui.xpAlways")).setDimensions(180, 20);
-		showHudBars = new GuiButtonVariableDims(17, width / 2 - 90, height - 176, I18n.translateToLocal("am2.gui.hudBars")).setDimensions(180, 20);
+		affinityButton = new GuiButtonVariableDims(3, 0, 0, "").setDimensions(10, 20).setBorderOnly(true).setPopupText(I18n.format("am2.gui.affinity"));
+		positiveBuffs = new GuiButtonVariableDims(4, 0, 0, "").setPopupText(I18n.format("am2.gui.positiveBuffs")).setDimensions(10, 10).setBorderOnly(true);
+		negativeBuffs = new GuiButtonVariableDims(5, 0, 0, "").setPopupText(I18n.format("am2.gui.negativeBuffs")).setDimensions(10, 10).setBorderOnly(true);
+		armorHead = new GuiButtonVariableDims(6, 0, 0, "").setDimensions(10, 10).setPopupText(I18n.format("am2.gui.headwear")).setBorderOnly(true);
+		armorChest = new GuiButtonVariableDims(7, 0, 0, "").setDimensions(10, 10).setPopupText(I18n.format("am2.gui.chestplate")).setBorderOnly(true);
+		armorLegs = new GuiButtonVariableDims(8, 0, 0, "").setDimensions(10, 10).setPopupText(I18n.format("am2.gui.leggings")).setBorderOnly(true);
+		armorBoots = new GuiButtonVariableDims(9, 0, 0, "").setDimensions(10, 10).setPopupText(I18n.format("am2.gui.boots")).setBorderOnly(true);
+		xpBar = new GuiButtonVariableDims(10, 0, 0, "").setDimensions(182, 5).setPopupText(I18n.format("am2.gui.xpBar")).setBorderOnly(true);
+		contingency = new GuiButtonVariableDims(10, 0, 0, "").setDimensions(16, 16).setPopupText(I18n.format("am2.gui.contingency")).setBorderOnly(true);
+		showBuffs = new GuiButtonVariableDims(11, width / 2 - 90, height - 88, I18n.format("am2.gui.buffTimers")).setDimensions(180, 20);
+		showNumerics = new GuiButtonVariableDims(12, width / 2 - 90, height - 66, I18n.format("am2.gui.numericValues")).setDimensions(180, 20);
+		options = new GuiButtonVariableDims(13, width / 2 - 90, height - 22, I18n.format("am2.gui.options")).setDimensions(180, 20);
+		showHudMinimally = new GuiButtonVariableDims(14, width / 2 - 90, height - 110, I18n.format("am2.gui.minimalHud")).setDimensions(180, 20).setPopupText(I18n.format("am2.gui.minimalHudDesc"));
+		showArmorUI = new GuiButtonVariableDims(15, width / 2 - 90, height - 132, I18n.format("am2.gui.armorUI")).setDimensions(180, 20);
+		showXPAlways = new GuiButtonVariableDims(16, width / 2 - 90, height - 154, I18n.format("am2.gui.xpAlways")).setDimensions(180, 20);
+		showHudBars = new GuiButtonVariableDims(17, width / 2 - 90, height - 176, I18n.format("am2.gui.hudBars")).setDimensions(180, 20);
 		
-		manaNumeric = new GuiButtonVariableDims(18, 0, 0, "").setDimensions(25, 10).setPopupText(I18n.translateToLocal("am2.gui.manaNumeric")).setBorderOnly(true);
-		burnoutNumeric = new GuiButtonVariableDims(19, 0, 0, "").setDimensions(25, 10).setPopupText(I18n.translateToLocal("am2.gui.burnoutNumeric")).setBorderOnly(true);
-		XPNumeric = new GuiButtonVariableDims(20, 0, 0, "").setDimensions(25, 10).setPopupText(I18n.translateToLocal("am2.gui.XPNumeric")).setBorderOnly(true);
+		manaNumeric = new GuiButtonVariableDims(18, 0, 0, "").setDimensions(25, 10).setPopupText(I18n.format("am2.gui.manaNumeric")).setBorderOnly(true);
+		burnoutNumeric = new GuiButtonVariableDims(19, 0, 0, "").setDimensions(25, 10).setPopupText(I18n.format("am2.gui.burnoutNumeric")).setBorderOnly(true);
+		XPNumeric = new GuiButtonVariableDims(20, 0, 0, "").setDimensions(25, 10).setPopupText(I18n.format("am2.gui.XPNumeric")).setBorderOnly(true);
 
-		spellBook = new GuiButtonVariableDims(21, 0, 0, I18n.translateToLocal("item.arsmagica2:spellBook.name")).setBorderOnly(true).setDimensions(106, 15);
+		spellBook = new GuiButtonVariableDims(21, 0, 0, I18n.format("item.arsmagica2:spellBook.name")).setBorderOnly(true).setDimensions(106, 15);
 		
-		manaShielding = new GuiButtonVariableDims(22, 0, 0, "").setDimensions(90, 9).setBorderOnly(true).setPopupText(I18n.translateToLocal("am2.gui.manaShielding"));
+		manaShielding = new GuiButtonVariableDims(22, 0, 0, "").setDimensions(90, 9).setBorderOnly(true).setPopupText(I18n.format("am2.gui.manaShielding"));
 
-		showBuffs.displayString = I18n.translateToLocal("am2.gui.buffTimers") + ": " + ((doShowBuffs) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
-		showNumerics.displayString = I18n.translateToLocal("am2.gui.numericValues") + ": " + ((doShowNumerics) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
-		showHudMinimally.displayString = I18n.translateToLocal("am2.gui.minimalHud") + ": " + ((doShowHudMinimally) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
-		showArmorUI.displayString = I18n.translateToLocal("am2.gui.armorUI") + ": " + ((doShowArmor) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
-		showXPAlways.displayString = I18n.translateToLocal("am2.gui.xpAlways") + ": " + ((doShowXPAlways) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
-		showHudBars.displayString = I18n.translateToLocal("am2.gui.hudBars") + ": " + ((doShowBars) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
+		showBuffs.displayString = I18n.format("am2.gui.buffTimers") + ": " + ((doShowBuffs) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
+		showNumerics.displayString = I18n.format("am2.gui.numericValues") + ": " + ((doShowNumerics) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
+		showHudMinimally.displayString = I18n.format("am2.gui.minimalHud") + ": " + ((doShowHudMinimally) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
+		showArmorUI.displayString = I18n.format("am2.gui.armorUI") + ": " + ((doShowArmor) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
+		showXPAlways.displayString = I18n.format("am2.gui.xpAlways") + ": " + ((doShowXPAlways) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
+		showHudBars.displayString = I18n.format("am2.gui.hudBars") + ": " + ((doShowBars) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
 
 
 		positiveBuffs.enabled = doShowBuffs;
@@ -282,37 +281,37 @@ public class GuiHudCustomization extends GuiScreen{
 				if (((GuiButtonVariableDims)button).mousePressed(mc, par1, par2)){
 					if (button == showBuffs){
 						doShowBuffs = !doShowBuffs;
-						showBuffs.displayString = I18n.translateToLocal("am2.gui.buffTimers") + ": " + ((doShowBuffs) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
+						showBuffs.displayString = I18n.format("am2.gui.buffTimers") + ": " + ((doShowBuffs) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
 						positiveBuffs.enabled = doShowBuffs;
 						negativeBuffs.enabled = doShowBuffs;
 						storeGuiPositions();
 					}else if (button == showNumerics){
 						doShowNumerics = !doShowNumerics;
-						showNumerics.displayString = I18n.translateToLocal("am2.gui.numericValues") + ": " + ((doShowNumerics) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
+						showNumerics.displayString = I18n.format("am2.gui.numericValues") + ": " + ((doShowNumerics) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
 						manaNumeric.enabled = doShowNumerics;
 						burnoutNumeric.enabled = doShowNumerics;
 						XPNumeric.enabled = doShowNumerics;
 						storeGuiPositions();
 					}else if (button == showHudMinimally){
 						doShowHudMinimally = !doShowHudMinimally;
-						showHudMinimally.displayString = I18n.translateToLocal("am2.gui.minimalHud") + ": " + ((doShowHudMinimally) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
+						showHudMinimally.displayString = I18n.format("am2.gui.minimalHud") + ": " + ((doShowHudMinimally) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
 						storeGuiPositions();
 					}else if (button == options){
 						showOptions = !showOptions;
 						setOptionsVisibility(showOptions);
 					}else if (button == showXPAlways){
 						doShowXPAlways = !doShowXPAlways;
-						showXPAlways.displayString = I18n.translateToLocal("am2.gui.xpAlways") + ": " + ((doShowXPAlways) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
+						showXPAlways.displayString = I18n.format("am2.gui.xpAlways") + ": " + ((doShowXPAlways) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
 						storeGuiPositions();
 					}else if (button == showHudBars){
 						doShowBars = !doShowBars;
-						showHudBars.displayString = I18n.translateToLocal("am2.gui.hudBars") + ": " + ((doShowBars) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
+						showHudBars.displayString = I18n.format("am2.gui.hudBars") + ": " + ((doShowBars) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
 						manaButton.enabled = doShowBars;
 						burnoutButton.enabled = doShowBars;
 						storeGuiPositions();
 					}else if (button == showArmorUI){
 						doShowArmor = !doShowArmor;
-						showArmorUI.displayString = I18n.translateToLocal("am2.gui.armorUI") + ": " + ((doShowHudMinimally) ? I18n.translateToLocal("am2.gui.yes") : I18n.translateToLocal("am2.gui.no"));
+						showArmorUI.displayString = I18n.format("am2.gui.armorUI") + ": " + ((doShowHudMinimally) ? I18n.format("am2.gui.yes") : I18n.format("am2.gui.no"));
 						armorHead.enabled = doShowArmor;
 						armorChest.enabled = doShowArmor;
 						armorLegs.enabled = doShowArmor;

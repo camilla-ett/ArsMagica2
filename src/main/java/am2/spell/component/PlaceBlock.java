@@ -14,6 +14,7 @@ import am2.utils.InventoryUtilities;
 import am2.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,11 +26,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
-@SuppressWarnings("deprecation")
 public class PlaceBlock extends SpellComponent{
 
 	private static final String KEY_BLOCKID = "PlaceBlockID";
@@ -45,6 +44,7 @@ public class PlaceBlock extends SpellComponent{
 		};
 	}
 
+	@SuppressWarnings("deprecation")
 	private IBlockState getPlaceBlock(ItemStack stack){
 		if (stack.hasTagCompound() && stack.getTagCompound().hasKey(KEY_BLOCKID)){
 			return Block.getBlockById(stack.getTagCompound().getInteger(KEY_BLOCKID)).getStateFromMeta(stack.getTagCompound().getInteger(KEY_META));
@@ -68,11 +68,11 @@ public class PlaceBlock extends SpellComponent{
 		NBTTagList tagList = stack.getTagCompound().getTagList("Lore", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < tagList.tagCount(); ++i){
 			String str = tagList.getStringTagAt(i);
-			if (str.startsWith(String.format(I18n.translateToLocal("am2.tooltip.placeBlockSpell"), ""))){
+			if (str.startsWith(String.format(I18n.format("am2.tooltip.placeBlockSpell"), ""))){
 				tagList.removeTag(i);
 			}
 		}
-		tagList.appendTag(new NBTTagString(String.format(I18n.translateToLocal("am2.tooltip.placeBlockSpell"), blockStack.getDisplayName())));
+		tagList.appendTag(new NBTTagString(String.format(I18n.format("am2.tooltip.placeBlockSpell"), blockStack.getDisplayName())));
 
 		stack.getTagCompound().setTag("Lore", tagList);
 	}

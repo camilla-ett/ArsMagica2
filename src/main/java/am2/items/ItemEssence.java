@@ -7,9 +7,8 @@ import am2.api.affinity.Affinity;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
-@SuppressWarnings("deprecation")
 public class ItemEssence extends ItemArsMagica {
 	
 	public ItemEssence() {
@@ -29,6 +28,6 @@ public class ItemEssence extends ItemArsMagica {
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return String.format(I18n.translateToLocal("item.arsmagica2:essence.name"), ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage()).getLocalizedName());
+		return String.format(I18n.format("item.arsmagica2:essence.name"), ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage()).getLocalizedName());
 	}
 }

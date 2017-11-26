@@ -5,23 +5,21 @@ import java.util.List;
 import am2.defs.ItemDefs;
 import am2.proxy.gui.ModelLibrary;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.PotionTypes;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class ItemFireGuardianEars extends AMArmor{
 
 	public ItemFireGuardianEars(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, EntityEquipmentSlot par4){
@@ -43,7 +41,7 @@ public class ItemFireGuardianEars extends AMArmor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.translateToLocal("am2.tooltip.fire_ears"));
+		par3List.add(I18n.format("am2.tooltip.fire_ears"));
 	}
 
 	@Override
@@ -59,7 +57,8 @@ public class ItemFireGuardianEars extends AMArmor{
 	@Override
 	public void onArmorTick(World world, EntityPlayer plr, ItemStack stack) {
 		super.onArmorTick(world, plr, stack);
-		if (!plr.getActivePotionEffects().contains(PotionTypes.FIRE_RESISTANCE))
-			plr.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation(new ResourceLocation("fire_resistance").toString())));
+		Potion fireResist = Potion.getPotionFromResourceLocation(new ResourceLocation("fire_resistance").toString());
+		if (!plr.isPotionActive(fireResist))
+			plr.addPotionEffect(new PotionEffect(fireResist));
 	}
 }

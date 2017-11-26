@@ -6,11 +6,10 @@ import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.recipe.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class EssenceRefinerRecipeCategory implements IRecipeCategory<EssenceRefinerRecipeWrapper> {
 
 	IDrawableStatic background;
@@ -21,7 +20,7 @@ public class EssenceRefinerRecipeCategory implements IRecipeCategory<EssenceRefi
 
 	@Override
 	public String getTitle() {
-		return I18n.translateToLocal(getUid());
+		return I18n.format(getUid());
 	}
 
 	@Override

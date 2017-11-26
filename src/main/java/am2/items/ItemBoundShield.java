@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @SuppressWarnings("deprecation")
@@ -36,7 +36,7 @@ public class ItemBoundShield extends ItemShield implements IBoundItem {
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return I18n.translateToLocal("item." + getRegistryName().toString() + ".name");
+		return I18n.format("item." + getRegistryName().toString() + ".name");
 	}
 
 	public ItemBoundShield registerAndName(String name) {

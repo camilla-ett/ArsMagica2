@@ -221,7 +221,6 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private ItemStack objectToItemStack(Object o){
 		ItemStack output = null;
 		if (o instanceof ItemStack)
@@ -231,7 +230,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 		else if (o instanceof Block)
 			output = new ItemStack((Block)o);
 		else if (o instanceof List)
-			output = objectToItemStack(((List) o).get(0));
+			output = objectToItemStack(((List<?>) o).get(0));
 
 		if (output != null){
 			if (output.stackSize == 0)

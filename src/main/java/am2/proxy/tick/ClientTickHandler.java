@@ -13,12 +13,9 @@ import am2.api.spell.SpellComponent;
 import am2.armor.ArmorHelper;
 import am2.armor.infusions.GenericImbuement;
 import am2.bosses.BossSpawnHelper;
-import am2.commands.ConfigureAMUICommand;
 import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.gui.AMGuiHelper;
-import am2.gui.AMIngameGUI;
-import am2.gui.GuiHudCustomization;
 import am2.items.ItemSpellBase;
 import am2.items.ItemSpellBook;
 import am2.packet.AMDataWriter;
@@ -45,8 +42,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -143,7 +138,7 @@ public class ClientTickHandler{
 
 				AMVector3 playerPos = new AMVector3(Minecraft.getMinecraft().thePlayer);
 
-				HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> paths = ArsMagica2.proxy.getPowerPathVisuals();
+				HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> paths = ArsMagica2.proxy.getPowerPathVisuals();
 				if (paths != null){
 					for (PowerTypes type : paths.keySet()){
 
@@ -153,13 +148,13 @@ public class ClientTickHandler{
 												type == PowerTypes.DARK ? "textures/blocks/oreblocksunstone.png" :
 														"textures/blocks/oreblocksunstone.png";
 
-						ArrayList<LinkedList<Vec3d>> pathList = paths.get(type);
-						for (LinkedList<Vec3d> individualPath : pathList){
+						ArrayList<LinkedList<BlockPos>> pathList = paths.get(type);
+						for (LinkedList<BlockPos> individualPath : pathList){
 							for (int i = 0; i < individualPath.size() - 1; ++i){
-								Vec3d start = individualPath.get(i + 1);
-								Vec3d end = individualPath.get(i);
+								BlockPos start = individualPath.get(i + 1);
+								BlockPos end = individualPath.get(i);
 
-								if (start.squareDistanceTo(playerPos.toVec3D()) > 2500 || end.squareDistanceTo(playerPos.toVec3D()) > 2500){
+								if (start.distanceSq(playerPos.toBlockPos()) > 2500 || end.distanceSq(playerPos.toBlockPos()) > 2500){
 									continue;
 								}
 
@@ -170,13 +165,13 @@ public class ClientTickHandler{
 								if (teEnd == null || !(teEnd instanceof IPowerNode))
 									break;
 
-								double startX = start.xCoord + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode<?>)teStart).particleOffset(0) : 0.5f);
-								double startY = start.yCoord + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode<?>)teStart).particleOffset(1) : 0.5f);
-								double startZ = start.zCoord + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode<?>)teStart).particleOffset(2) : 0.5f);
+								double startX = start.getX() + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode<?>)teStart).particleOffset(0) : 0.5f);
+								double startY = start.getY() + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode<?>)teStart).particleOffset(1) : 0.5f);
+								double startZ = start.getZ() + ((teStart != null && teStart instanceof IPowerNode) ? ((IPowerNode<?>)teStart).particleOffset(2) : 0.5f);
 
-								double endX = end.xCoord + ((IPowerNode<?>)teEnd).particleOffset(0);
-								double endY = end.yCoord + ((IPowerNode<?>)teEnd).particleOffset(1);
-								double endZ = end.zCoord + ((IPowerNode<?>)teEnd).particleOffset(2);
+								double endX = end.getX() + ((IPowerNode<?>)teEnd).particleOffset(0);
+								double endY = end.getY() + ((IPowerNode<?>)teEnd).particleOffset(1);
+								double endZ = end.getZ() + ((IPowerNode<?>)teEnd).particleOffset(2);
 
 								AMLineArc arc = (AMLineArc)ArsMagica2.proxy.particleManager.spawn(
 										Minecraft.getMinecraft().theWorld,

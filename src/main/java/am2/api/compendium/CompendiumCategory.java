@@ -7,12 +7,11 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public final class CompendiumCategory {
 	
 	private static final ArrayList<CompendiumCategory> CATEGORIES = new ArrayList<>();
@@ -118,7 +117,7 @@ public final class CompendiumCategory {
 	}
 	
 	public String getCategoryName() {
-		return I18n.translateToLocal("compendium.category." + getID() + ".name");
+		return I18n.format("compendium.category." + getID() + ".name");
 	}
 	
 	public static ImmutableList<CompendiumCategory> getCategories() {

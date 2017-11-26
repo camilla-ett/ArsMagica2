@@ -7,6 +7,7 @@ import am2.power.PowerNodeRegistry;
 import am2.power.PowerTypes;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,11 +17,9 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-@SuppressWarnings("deprecation")
 public abstract class BlockAMPowered extends BlockAMContainer{
 	
 	protected boolean defaultRender = false;
@@ -43,7 +42,7 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 	}
 
 	protected String getColorNameFromPowerType(PowerTypes type){
-		return I18n.translateToLocal("am2.gui.powerType" + type.name());
+		return I18n.format("am2.gui.powerType" + type.name());
 	}
 	
 	@Override
@@ -77,6 +76,7 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 		return BlockRenderLayer.CUTOUT;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		if (defaultRender) return super.shouldSideBeRendered(blockState, blockAccess, pos, side);
@@ -94,18 +94,21 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 		return true;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isFullBlock(IBlockState state) {
 		if (defaultRender) return super.isFullBlock(state);
 		return false;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		if (defaultRender) return super.isFullCube(state);
 		return false;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isNormalCube(IBlockState state) {
 		if (defaultRender) return super.isNormalCube(state);

@@ -15,11 +15,10 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class GuiSpellCustomization extends GuiContainer{
 
 	private int page = 0;
@@ -114,8 +113,8 @@ public class GuiSpellCustomization extends GuiContainer{
 		}
 
 
-		btnPrev = new GuiButtonVariableDims(0, l + 8, i1 + 26, I18n.translateToLocal("am2.gui.prev")).setDimensions(48, 20);
-		btnNext = new GuiButtonVariableDims(1, l + xSize - 56, i1 + 26, I18n.translateToLocal("am2.gui.next")).setDimensions(48, 20);
+		btnPrev = new GuiButtonVariableDims(0, l + 8, i1 + 26, I18n.format("am2.gui.prev")).setDimensions(48, 20);
+		btnNext = new GuiButtonVariableDims(1, l + xSize - 56, i1 + 26, I18n.format("am2.gui.next")).setDimensions(48, 20);
 
 		btnRandomName = new GuiButtonVariableDims(2, l + xSize - 24, i1 + 5, "???");
 		btnRandomName.setDimensions(20, 20);

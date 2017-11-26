@@ -13,11 +13,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
-@SuppressWarnings("deprecation")
 public class ItemKeystone extends ItemArsMagica{
 
 	public static final int KEYSTONE_INVENTORY_SIZE = 3;
@@ -164,18 +163,18 @@ public class ItemKeystone extends ItemArsMagica{
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		ItemStack[] items = getMyInventory(par1ItemStack);
 
-		String s = I18n.translateToLocal("am2.tooltip.open");
+		String s = I18n.format("am2.tooltip.open");
 		par3List.add((new StringBuilder()).append("\2477").append(s).toString());
 
 		if (items.length > 0){
-			s = I18n.translateToLocal("am2.tooltip.runes") + ": ";
+			s = I18n.format("am2.tooltip.runes") + ": ";
 			par3List.add((new StringBuilder()).append("\2477").append(s).toString());
 			s = "";
 			for (int i = 0; i < KEYSTONE_INVENTORY_SIZE; ++i){
 				if (items[i] == null) continue;
 				s += items[i].getDisplayName().replace("Rune", "").trim() + " ";
 			}
-			if (s == "") s = I18n.translateToLocal("am2.tooltip.none");
+			if (s == "") s = I18n.format("am2.tooltip.none");
 			par3List.add((new StringBuilder()).append("\2477").append(s).toString());
 		}
 	}

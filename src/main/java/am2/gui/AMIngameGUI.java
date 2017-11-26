@@ -3,11 +3,6 @@ package am2.gui;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import am2.blocks.BlockManaBattery;
-import am2.commands.ConfigureAMUICommand;
-import am2.defs.BlockDefs;
-import am2.power.PowerNodeRegistry;
-import am2.power.PowerTypes;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import am2.ArsMagica2;
@@ -19,10 +14,13 @@ import am2.api.extensions.IEntityExtension;
 import am2.api.math.AMVector2;
 import am2.api.spell.AbstractSpellPart;
 import am2.armor.ArmorHelper;
+import am2.blocks.BlockManaBattery;
+import am2.commands.ConfigureAMUICommand;
 import am2.defs.ItemDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
 import am2.items.ItemSpellBook;
+import am2.power.PowerTypes;
 import am2.spell.ContingencyType;
 import am2.texture.SpellIconManager;
 import am2.utils.AffinityShiftUtils;
@@ -32,27 +30,23 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.GlStateManager.DestFactor;
-import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 @SideOnly(Side.CLIENT)
 public class AMIngameGUI extends Gui {
 	private final Minecraft mc;
@@ -283,8 +277,8 @@ public class AMIngameGUI extends Gui {
 				}
 			}
 
-			String manaStr = I18n.translateToLocal("am2.gui.mana") + ": " + (int)(mana + bonusMana) + "/" + (int)maxMana + spellcost;
-			String burnoutStr = I18n.translateToLocal("am2.gui.burnout") + ": " + (int)props.getCurrentBurnout() + "/" + (int)props.getMaxBurnout();
+			String manaStr = I18n.format("am2.gui.mana") + ": " + (int)(mana + bonusMana) + "/" + (int)maxMana + spellcost;
+			String burnoutStr = I18n.format("am2.gui.burnout") + ": " + (int)props.getCurrentBurnout() + "/" + (int)props.getMaxBurnout();
 			AMVector2 manaNumericPos = getShiftedVector(ArsMagica2.config.getManaNumericPosition(), i, j);
 			AMVector2 burnoutNumericPos = getShiftedVector(ArsMagica2.config.getBurnoutNumericPosition(), i, j);
 			fontRendererObj.drawString(manaStr, manaNumericPos.iX, manaNumericPos.iY, hasBonusMana ? 0xeae31c : hasOverloadMana ? 0xFF2020 : 0x2080FF);
@@ -540,7 +534,7 @@ public class AMIngameGUI extends Gui {
 			}
 
 			if (ArsMagica2.config.getShowNumerics() && (ArsMagica2.config.showXPAlways() || AMGuiHelper.instance.getMagicXPBarAlpha() > 0)){
-				String xpStr = I18n.translateToLocal("am2.gui.xp") + ": " + +(int)(props.getCurrentXP() * 100) + "/" + (int)(props.getMaxXP() * 100);
+				String xpStr = I18n.format("am2.gui.xp") + ": " + +(int)(props.getCurrentXP() * 100) + "/" + (int)(props.getMaxXP() * 100);
 				AMVector2 numericPos = getShiftedVector(ArsMagica2.config.getXPNumericPosition(), i, j);
 				Minecraft.getMinecraft().fontRendererObj.drawString(xpStr, numericPos.iX, numericPos.iY, 0x999999);
 			}

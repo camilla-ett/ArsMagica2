@@ -7,11 +7,10 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 
 import am2.api.compendium.pages.CompendiumPage;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class CompendiumEntry {
 	
 	private CompendiumCategory category;
@@ -41,11 +40,11 @@ public class CompendiumEntry {
 	}
 	
 	public String getName() {
-		return I18n.translateToLocal("compendium." + this.getID() + ".name");
+		return I18n.format("compendium." + this.getID() + ".name");
 	}
 	
 	public String getDescription() {
-		return I18n.translateToLocal("compendium." + this.getID() + ".desc");
+		return I18n.format("compendium." + this.getID() + ".desc");
 	}
 	
 	public boolean isDefaultUnlocked() {

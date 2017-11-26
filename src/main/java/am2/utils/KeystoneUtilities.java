@@ -8,13 +8,12 @@ import am2.defs.ItemDefs;
 import am2.extensions.EntityExtension;
 import am2.items.ItemKeystone;
 import am2.items.ItemRune;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class KeystoneUtilities {
   
 	// constants to pass to the canPlayerAccess() function to say what you're trying to do
@@ -37,7 +36,7 @@ public class KeystoneUtilities {
 				}
 				player.addChatMessage(new TextComponentString(combo));
 			}else{
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.noKeyPresent")));
+				player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.noKeyPresent")));
 			}
 			EntityExtension.For(player).isRecoveringKeystone = false;
 			return true;
@@ -110,10 +109,10 @@ public class KeystoneUtilities {
 		}
 
 		if (accessMode == KeystoneAccessType.USE && !player.worldObj.isRemote){
-			player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.wrongKeystoneUse")));
+			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.wrongKeystoneUse")));
 		}
 		else if (accessMode == KeystoneAccessType.BREAK && !player.worldObj.isRemote){
-			player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.wrongKeystoneBreak")));
+			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.wrongKeystoneBreak")));
 		}
 		return false;
 	}

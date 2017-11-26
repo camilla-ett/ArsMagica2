@@ -8,6 +8,7 @@ import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.defs.BlockDefs;
 import am2.extensions.AffinityData;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -18,7 +19,6 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -31,7 +31,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class ArmorEventHandler{
 
 	@SubscribeEvent
@@ -129,16 +128,16 @@ public class ArmorEventHandler{
 			}
 
 			if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-				event.getToolTip().add(I18n.translateToLocalFormatted("am2.tooltip.armorxp", String.format("%.2f", xp)));
-				event.getToolTip().add(String.format(I18n.translateToLocal("am2.tooltip.armorlevel"), armorLevel));
+				event.getToolTip().add(I18n.format("am2.tooltip.armorxp", String.format("%.2f", xp)));
+				event.getToolTip().add(String.format(I18n.format("am2.tooltip.armorlevel"), armorLevel));
 				if (effects.length > 0)
-					event.getToolTip().add(I18n.translateToLocal("am2.toolip.infusions"));
+					event.getToolTip().add(I18n.format("am2.toolip.infusions"));
 				for (String s : effects){
-					event.getToolTip().add("-" + I18n.translateToLocal("am2.tooltip." + s.replaceAll("arsmagica2:", "")));
+					event.getToolTip().add("-" + I18n.format("am2.tooltip." + s.replaceAll("arsmagica2:", "")));
 				}
 
 			}else{
-				event.getToolTip().add(I18n.translateToLocal("am2.tooltip.shiftForDetails"));
+				event.getToolTip().add(I18n.format("am2.tooltip.shiftForDetails"));
 			}
 		}else if (stack.getItem() instanceof ItemBlock){
 			if (((ItemBlock)stack.getItem()).block == BlockDefs.manaBattery){

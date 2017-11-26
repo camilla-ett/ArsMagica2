@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 public class NBTUtils {
@@ -31,10 +32,20 @@ public class NBTUtils {
 		nbt.setDouble("Z", vec.zCoord);
 	}
 	
+	public static void writeBlockPosToNBT(BlockPos pos, NBTTagCompound nbt) {
+		nbt.setInteger("X", pos.getX());
+		nbt.setInteger("Y", pos.getY());
+		nbt.setInteger("Z", pos.getZ());
+	}
+	
 	public static Vec3d readVecFromNBT(NBTTagCompound nbt) {
 		Vec3d vec = new Vec3d(nbt.getDouble("X"), nbt.getDouble("Y"), nbt.getDouble("Z"));
-		//LogHelper.info(vec);
 		return vec;
+	}
+	
+	public static BlockPos readBlockPosFromNBT(NBTTagCompound nbt) {
+		BlockPos pos = new BlockPos(nbt.getInteger("X"), nbt.getInteger("Y"), nbt.getInteger("Z"));
+		return pos;
 	}
 	
 	public static Object getValueAt (NBTTagCompound baseTag, String tagName) {

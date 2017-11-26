@@ -4,6 +4,7 @@ import java.util.List;
 
 import am2.defs.ItemDefs;
 import am2.entity.EntityAirSled;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,10 +13,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-@SuppressWarnings("deprecation")
 public class ItemAirSled extends ItemArsMagica{
 
 	public ItemAirSled(){
@@ -25,7 +24,7 @@ public class ItemAirSled extends ItemArsMagica{
 
 	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.translateToLocal("am2.tooltip.air_sled"));
+		par3List.add(I18n.format("am2.tooltip.air_sled"));
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 	}
 

@@ -6,23 +6,22 @@ import java.util.List;
 import am2.api.power.IPowerNode;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
-public class PowerNodePathfinder extends AStar<Vec3d>{
+public class PowerNodePathfinder extends AStar<BlockPos>{
 
 	private World world;
-	private Vec3d end;
+	private BlockPos end;
 	private PowerTypes powerType;
 
-	PowerNodePathfinder(World world, Vec3d start, Vec3d end, PowerTypes type){
+	PowerNodePathfinder(World world, BlockPos start, BlockPos end, PowerTypes type){
 		this.world = world;
 		this.end = end;
 		this.powerType = type;
 	}
 
-	private IPowerNode<?> getPowerNode(World world, Vec3d location){
+	private IPowerNode<?> getPowerNode(World world, BlockPos location){
 		if (world.getChunkFromBlockCoords(new BlockPos(location)) != null){
 			Chunk chunk = world.getChunkFromBlockCoords(new BlockPos(location));
 			if (chunk.isLoaded()){
@@ -35,32 +34,32 @@ public class PowerNodePathfinder extends AStar<Vec3d>{
 	}
 
 	@Override
-	protected boolean isGoal(Vec3d node){
+	protected boolean isGoal(BlockPos node){
 		return node.equals(end);
 	}
 
 	@Override
-	protected Double g(Vec3d from, Vec3d to){
-		return from.squareDistanceTo(to);
+	protected Double g(BlockPos from, BlockPos to){
+		return from.distanceSq(to);
 	}
 
 	@Override
-	protected Double h(Vec3d from, Vec3d to){
-		return from.squareDistanceTo(to);
+	protected Double h(BlockPos from, BlockPos to){
+		return from.distanceSq(to);
 	}
 
 	@Override
-	protected List<Vec3d> generateSuccessors(Vec3d node){
+	protected List<BlockPos> generateSuccessors(BlockPos node){
 		IPowerNode<?> powerNode = getPowerNode(world, node);
 		if (powerNode == null)
-			return new ArrayList<Vec3d>();
+			return new ArrayList<BlockPos>();
 
 		IPowerNode<?>[] candidates = PowerNodeRegistry.For(world).getAllNearbyNodes(world, node, powerType);
 
-		ArrayList<Vec3d> prunedCandidates = new ArrayList<Vec3d>();
+		ArrayList<BlockPos> prunedCandidates = new ArrayList<BlockPos>();
 		for (IPowerNode<?> candidate : candidates){
 			if (verifyCandidate(candidate)){
-				prunedCandidates.add(new Vec3d(((TileEntity)candidate).getPos()));
+				prunedCandidates.add(new BlockPos(((TileEntity)candidate).getPos()));
 			}
 		}
 
@@ -68,7 +67,7 @@ public class PowerNodePathfinder extends AStar<Vec3d>{
 	}
 
 	private boolean verifyCandidate(IPowerNode<?> powerNode){
-		if (new Vec3d(((TileEntity)powerNode).getPos()).equals(end)){
+		if (new BlockPos(((TileEntity)powerNode).getPos()).equals(end)){
 			for (PowerTypes type : powerNode.getValidPowerTypes())
 				if (type == powerType)
 					return true;

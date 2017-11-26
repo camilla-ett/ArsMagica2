@@ -9,10 +9,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 
-@SuppressWarnings("deprecation")
 public class ItemJournal extends ItemArsMagica{
 
 	private static final String KEY_NBT_XP = "Stored_XP";
@@ -36,19 +35,19 @@ public class ItemJournal extends ItemArsMagica{
 	public void addInformation(ItemStack journal, EntityPlayer player, List<String> list, boolean par4){
 		String owner = getOwner(journal);
 		if (owner == null){
-			list.add(I18n.translateToLocal("am2.tooltip.unowned"));
-			list.add(I18n.translateToLocal("am2.tooltip.journalUse"));
+			list.add(I18n.format("am2.tooltip.unowned"));
+			list.add(I18n.format("am2.tooltip.journalUse"));
 			return;
 		}else{
-			list.add(String.format(I18n.translateToLocal("am2.tooltip.journalOwner")));
-			list.add(String.format(I18n.translateToLocal("am2.tooltip.journalOwner2"), owner));
+			list.add(String.format(I18n.format("am2.tooltip.journalOwner")));
+			list.add(String.format(I18n.format("am2.tooltip.journalOwner2"), owner));
 		}
 
 		if (owner.equals(player.getName()))
-			list.add(String.format(I18n.translateToLocal("am2.tooltip.containedXP"), getXPInJournal(journal)));
+			list.add(String.format(I18n.format("am2.tooltip.containedXP"), getXPInJournal(journal)));
 
 		if (owner == null || owner.equals(player.getName()))
-			list.add(I18n.translateToLocal("am2.tooltip.journalUse"));
+			list.add(I18n.format("am2.tooltip.journalUse"));
 	}
 
 	@Override
@@ -58,7 +57,7 @@ public class ItemJournal extends ItemArsMagica{
 			if (getOwner(journal) == null){
 				setOwner(journal, player);
 			}else if (!getOwner(journal).equals(player.getName())){
-			  player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.notYourJournal")));
+			  player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.notYourJournal")));
 				return super.onItemRightClick(journal, world, player, hand);
 			}
 

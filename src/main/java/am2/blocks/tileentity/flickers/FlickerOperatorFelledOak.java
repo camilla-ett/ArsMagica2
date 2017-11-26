@@ -1,5 +1,9 @@
 package am2.blocks.tileentity.flickers;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.AbstractFlickerFunctionality;
@@ -26,11 +30,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 
 	public final static FlickerOperatorFelledOak instance = new FlickerOperatorFelledOak();
@@ -42,7 +41,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 	private int horizRange, vertRange;
 	private Set<BlockPos> tree;
 	private static BlockPos origin;
-	private IBlockState originalBlockType;
+	//private IBlockState originalBlockType;
 
 	public FlickerOperatorFelledOak(){
 		horizRange = radius_horiz + 7;
@@ -87,10 +86,10 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 		wood = world.getBlockState(pos);
 		if (wood.getBlock().isWood(world, pos)){
 			height = pos.getY();
-			boolean foundTop = false;
+			//boolean foundTop = false;
 			while (true) {
 				height++;
-				IBlockState block = world.getBlockState(new BlockPos(pos.getX(), height, pos.getZ()));
+				//IBlockState block = world.getBlockState(new BlockPos(pos.getX(), height, pos.getZ()));
 				//if (block.getBlock() != wood.getBlock()) break;
 				if (!isLog(world, new BlockPos(pos.getX(), height, pos.getZ()))) break;
 			}
@@ -232,7 +231,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 
 	@Override
 	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
-		int radius = 6;
+		//int radius = 6;
 		
 		dummyPlayer = new DummyEntityPlayer(worldObj);
 
@@ -269,7 +268,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 	@Override
 	public int TimeBetweenOperation(boolean powered, Affinity[] flickers){
 		int base = powered ? 300 : 3600;
-		float augments = 1.0f;
+		//float augments = 1.0f;
 		for (Affinity aff : flickers){
 			if (aff == Affinity.LIGHTNING)
 				base = (int)Math.ceil(base * 0.5f);

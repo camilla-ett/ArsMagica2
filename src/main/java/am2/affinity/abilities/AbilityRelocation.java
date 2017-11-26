@@ -6,6 +6,7 @@ import am2.api.affinity.Affinity;
 import am2.defs.BindingsDefs;
 import am2.extensions.AffinityData;
 import am2.extensions.EntityExtension;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -13,13 +14,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class AbilityRelocation extends AbstractAffinityAbility {
 
 	public AbilityRelocation() {
@@ -51,7 +50,7 @@ public class AbilityRelocation extends AbstractAffinityAbility {
 	public void applyKeyPress(EntityPlayer player) {
 		if (AffinityData.For(player).getCooldown("EnderTP") > 0) {
 			if (!player.worldObj.isRemote)
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.relocation_cooldown")));
+				player.addChatMessage(new TextComponentString(I18n.format("am2.chat.relocation_cooldown")));
 			return;
 		}
 	
@@ -62,7 +61,7 @@ public class AbilityRelocation extends AbstractAffinityAbility {
 		EnderTeleportEvent event = new EnderTeleportEvent(player, result.hitVec.xCoord, result.hitVec.yCoord, result.hitVec.zCoord, 0.0f);
 		if (MinecraftForge.EVENT_BUS.post(event)) {
 			if (!player.worldObj.isRemote)
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.relocation_failed")));
+				player.addChatMessage(new TextComponentString(I18n.format("am2.chat.relocation_failed")));
 			return;
 		}
 		double posY = event.getTargetY();
@@ -70,7 +69,7 @@ public class AbilityRelocation extends AbstractAffinityAbility {
 			posY++;
 		if (player.getDistanceSq(event.getTargetX(), posY, event.getTargetZ()) > 1024) {
 			if (!player.worldObj.isRemote)
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.chat.relocation_out_of_range")));
+				player.addChatMessage(new TextComponentString(I18n.format("am2.chat.relocation_out_of_range")));
 			return;
 		}
 		player.setPositionAndUpdate(event.getTargetX(), posY, event.getTargetZ());

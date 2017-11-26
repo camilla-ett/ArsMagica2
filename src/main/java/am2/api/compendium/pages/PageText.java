@@ -1,9 +1,8 @@
 package am2.api.compendium.pages;
 
 import am2.gui.AMGuiHelper;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
-@SuppressWarnings("deprecation")
 public class PageText extends CompendiumPage<String> {
 
 	public PageText(String element) {
@@ -20,7 +19,7 @@ public class PageText extends CompendiumPage<String> {
 //
 //		if (page == 0)
 //			fontRendererObj.drawString(entrySkill != null ? entrySkill.getName() : entry.getName(), x_start_title, y_start_title, 0x000000);
-		AMGuiHelper.drawCompendiumText(I18n.translateToLocal(element), posX, posY, 140, 0x000000, mc.fontRendererObj);
+		AMGuiHelper.drawCompendiumText(I18n.format(element), posX, posY, 140, 0x000000, mc.fontRendererObj);
 	}
 
 }

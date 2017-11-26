@@ -9,18 +9,16 @@ import java.util.TreeMap;
 
 import am2.LogHelper;
 import am2.api.power.IPowerNode;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.Constants;
 
-@SuppressWarnings("deprecation")
 public class PowerNodeRegistry{
 
 	//private static final HashMap<Integer, PowerNodeRegistry> dimensionPowerManagers = new HashMap<Integer, PowerNodeRegistry>();
@@ -49,10 +47,10 @@ public class PowerNodeRegistry{
 
 	private PowerNodeRegistry(){
 		ChunkCoordComparator comparator = new ChunkCoordComparator();
-		powerNodes = new TreeMap<ChunkPos, HashMap<Vec3d, PowerNodeEntry>>(comparator);
+		powerNodes = new TreeMap<ChunkPos, HashMap<BlockPos, PowerNodeEntry>>(comparator);
 	}
 
-	private TreeMap<ChunkPos, HashMap<Vec3d, PowerNodeEntry>> powerNodes;
+	private TreeMap<ChunkPos, HashMap<BlockPos, PowerNodeEntry>> powerNodes;
 
 	public void registerPowerNode(IPowerNode<?> node){
 		registerPowerNodeInternal(node);
@@ -60,7 +58,7 @@ public class PowerNodeRegistry{
 
 	PowerNodeEntry registerPowerNodeInternal(IPowerNode<?> node){
 		ChunkPos chunk = getChunkFromNode(node);
-		HashMap<Vec3d, PowerNodeEntry> nodeList;
+		HashMap<BlockPos, PowerNodeEntry> nodeList;
 		TileEntity te = ((TileEntity)node);
 		World world = te.getWorld();
 		if (powerNodes.containsKey(chunk)){
@@ -69,7 +67,7 @@ public class PowerNodeRegistry{
 		}else{
 			LogHelper.trace("Node list not found.  Checking cache/files for prior data");
 			NBTTagCompound compound = PowerNodeCache.instance.getNBTForChunk(world, chunk);
-			nodeList = new HashMap<Vec3d, PowerNodeEntry>();
+			nodeList = new HashMap<BlockPos, PowerNodeEntry>();
 			if (compound == null || !compound.hasKey("AM2PowerData")){
 				powerNodes.put(chunk, nodeList);
 				LogHelper.trace("Prior node list not found.  Created Power Node list for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos);
@@ -78,14 +76,14 @@ public class PowerNodeRegistry{
 				nodeList = powerNodes.get(chunk);
 				//sanity check
 				if (nodeList == null) {
-					nodeList = new HashMap<Vec3d, PowerNodeEntry>();
+					nodeList = new HashMap<BlockPos, PowerNodeEntry>();
 					powerNodes.put(chunk, nodeList);
 				}
 				LogHelper.trace(String.format("Loaded power data for chunk %d, %d", chunk.chunkXPos, chunk.chunkZPos));
 			}
 		}
 
-		Vec3d nodeLoc = new Vec3d(((TileEntity)node).getPos());
+		BlockPos nodeLoc = ((TileEntity)node).getPos();
 
 		//prevent duplicate registrations
 		if (nodeList.containsKey(nodeLoc))
@@ -101,7 +99,7 @@ public class PowerNodeRegistry{
 
 	public void removePowerNode(IPowerNode<?> node){
 		ChunkPos chunk = getChunkFromNode(node);
-		removePowerNode(chunk, new Vec3d(((TileEntity)node).getPos()));
+		removePowerNode(chunk, ((TileEntity)node).getPos());
 	}
 
 	/**
@@ -115,7 +113,7 @@ public class PowerNodeRegistry{
 		//some simple validation
 
 		if (powerSource == destination){
-			return I18n.translateToLocal("am2.tooltip.nodePairToSelf");
+			return I18n.format("am2.tooltip.nodePairToSelf");
 		}
 
 		//Can the power source provide any of the valid power types for the destination?
@@ -127,28 +125,28 @@ public class PowerNodeRegistry{
 		}
 		if (typesProvided.size() == 0){
 			//no valid power types can be provided
-			return I18n.translateToLocal("am2.tooltip.noSupportedPowertypes");
+			return I18n.format("am2.tooltip.noSupportedPowertypes");
 		}
 
 		//set up vectors and calculate distance for pathing purposes
-		Vec3d sourceLocation = new Vec3d(((TileEntity)powerSource).getPos());
-		Vec3d destLocation = new Vec3d(((TileEntity)destination).getPos());
-		double rawDist = sourceLocation.squareDistanceTo(destLocation);
+		BlockPos sourceLocation = ((TileEntity)powerSource).getPos();
+		BlockPos destLocation = ((TileEntity)destination).getPos();
+		double rawDist = sourceLocation.distanceSq(destLocation);
 
 		if (rawDist > MAX_POWER_SEARCH_RADIUS){
-			return I18n.translateToLocal("am2.tooltip.nodesTooFar");
+			return I18n.format("am2.tooltip.nodesTooFar");
 		}
 
 		//construct a list of all valid power types common between the source and destination
 		int successes = 0;
 
 		for (PowerTypes type : typesProvided){
-			LinkedList<Vec3d> powerPath = new LinkedList<Vec3d>();
+			LinkedList<BlockPos> powerPath = new LinkedList<BlockPos>();
 			PowerNodePathfinder pathfinder = new PowerNodePathfinder(((TileEntity)powerSource).getWorld(), sourceLocation, destLocation, type);
-			List<Vec3d> path = pathfinder.compute(sourceLocation);
+			List<BlockPos> path = pathfinder.compute(sourceLocation);
 			if (path == null)
 				continue;
-			for (Vec3d vec : path){
+			for (BlockPos vec : path){
 				powerPath.addFirst(vec);
 			}
 			successes++;
@@ -157,12 +155,12 @@ public class PowerNodeRegistry{
 
 		//are the nodes too far apart?
 		if (successes == 0){
-			return I18n.translateToLocal("am2.tooltip.noPathFound");
+			return I18n.format("am2.tooltip.noPathFound");
 		}
 
 		if (successes == typesProvided.size())
-			return I18n.translateToLocal("am2.tooltip.success");
-		return I18n.translateToLocal("am2.tooltip.partialSuccess");
+			return I18n.format("am2.tooltip.success");
+		return I18n.format("am2.tooltip.partialSuccess");
 	}
 
 	/**
@@ -172,8 +170,8 @@ public class PowerNodeRegistry{
 		getPowerNodeData(node).clearNodePaths();
 	}
 
-	private void removePowerNode(ChunkPos chunk, Vec3d location){
-		HashMap<Vec3d, PowerNodeEntry> nodeList;
+	private void removePowerNode(ChunkPos chunk, BlockPos location){
+		HashMap<BlockPos, PowerNodeEntry> nodeList;
 		if (powerNodes.containsKey(chunk)){
 			nodeList = powerNodes.get(chunk);
 			nodeList.remove(location);
@@ -294,7 +292,7 @@ public class PowerNodeRegistry{
 	PowerNodeEntry getPowerNodeData(IPowerNode<?> node){
 		ChunkPos pair = getChunkFromNode(node);
 		if (pair != null && powerNodes.containsKey(pair)){
-			PowerNodeEntry pnd = powerNodes.get(pair).get(new Vec3d(((TileEntity)node).getPos()));
+			PowerNodeEntry pnd = powerNodes.get(pair).get(((TileEntity)node).getPos());
 			if (pnd != null)
 				return pnd;
 		}
@@ -309,18 +307,18 @@ public class PowerNodeRegistry{
 	 * @param power    The power type that the provider needs to supply or accept to be considered valid
 	 * @return An array of IPowerNodes
 	 */
-	public IPowerNode<?>[] getAllNearbyNodes(World world, Vec3d location, PowerTypes power){
+	public IPowerNode<?>[] getAllNearbyNodes(World world, BlockPos location, PowerTypes power){
 		//get the list of chunks we'll need to search in
 		ChunkPos[] search = getSearchChunks(location);
 
 		//build the list of nodes from that chunk
-		HashMap<Vec3d, PowerNodeEntry> nodesToSearch = new HashMap<Vec3d, PowerNodeEntry>();
+		HashMap<BlockPos, PowerNodeEntry> nodesToSearch = new HashMap<BlockPos, PowerNodeEntry>();
 		for (ChunkPos pair : search){
-			HashMap<Vec3d, PowerNodeEntry> nodesInChunk = powerNodes.get(pair);
+			HashMap<BlockPos, PowerNodeEntry> nodesInChunk = powerNodes.get(pair);
 			if (nodesInChunk != null){
 				//Add only vectors that are less than or equal to POWER_SEARCH_RADIUS_SQ away
-				for (Vec3d vector : nodesInChunk.keySet()){
-					if (location.squareDistanceTo(vector) <= POWER_SEARCH_RADIUS_SQ && !vector.equals(location)){
+				for (BlockPos vector : nodesInChunk.keySet()){
+					if (location.distanceSq(vector) <= POWER_SEARCH_RADIUS_SQ && !vector.equals(location)){
 						nodesToSearch.put(vector, nodesInChunk.get(vector));
 					}
 				}
@@ -330,14 +328,14 @@ public class PowerNodeRegistry{
 		//spin through and create our list of providers
 		ArrayList<IPowerNode<?>> nodes = new ArrayList<IPowerNode<?>>();
 		int deadNodesRemoved = 0;
-		for (Vec3d vector : nodesToSearch.keySet()){
-			if (world.getChunkFromBlockCoords(new BlockPos(vector)) == null){
+		for (BlockPos vector : nodesToSearch.keySet()){
+			if (world.getChunkFromBlockCoords(vector) == null){
 				continue;
 			}
-			Chunk chunk = world.getChunkFromBlockCoords(new BlockPos(vector));
+			Chunk chunk = world.getChunkFromBlockCoords(vector);
 			if (!chunk.isLoaded())
 				continue;
-			TileEntity te = world.getTileEntity(new BlockPos(vector));
+			TileEntity te = world.getTileEntity(vector);
 			if (te == null || !(te instanceof IPowerNode)){
 				//opportune time to remove dead power nodes
 				removePowerNode(chunk.getChunkCoordIntPair(), vector);
@@ -358,10 +356,10 @@ public class PowerNodeRegistry{
 		return nodeArray;
 	}
 
-	private ChunkPos[] getSearchChunks(Vec3d location){
+	private ChunkPos[] getSearchChunks(BlockPos location){
 		//Calculate the chunk X/Z location of the search center
-		int chunkX = (int)location.xCoord >> 4;
-		int chunkZ = (int)location.zCoord >> 4;
+		int chunkX = location.getX() >> 4;
+		int chunkZ = location.getZ() >> 4;
 
 		ArrayList<ChunkPos> searchChunks = new ArrayList<ChunkPos>();
 		//always search the chunk you're already in!
@@ -375,7 +373,7 @@ public class PowerNodeRegistry{
 				ChunkPos newPair = new ChunkPos(chunkX + i, chunkZ + j);
 				//offset the x/z locations by POWER_SEARCH_RADIUS * i/j respectively and calculate the chunk that would fall in.
 				//If it matches the new chunk coordinates, we add that chunk to the list of chunks to search.
-				if (((int)location.xCoord + (POWER_SEARCH_RADIUS * i)) >> 4 == newPair.chunkXPos && ((int)location.zCoord + (POWER_SEARCH_RADIUS * j)) >> 4 == newPair.chunkZPos){
+				if (((int)location.getX() + (POWER_SEARCH_RADIUS * i)) >> 4 == newPair.chunkXPos && ((int)location.getZ() + (POWER_SEARCH_RADIUS * j)) >> 4 == newPair.chunkZPos){
 					searchChunks.add(newPair);
 				}
 			}
@@ -393,22 +391,22 @@ public class PowerNodeRegistry{
 //		return te.getWorld().getChunkFromBlockCoords(te.getPos()).getChunkCoordIntPair();
 	}
 
-//	private ChunkPos getChunkFromPosition(World world, Vec3d location){
+//	private ChunkPos getChunkFromPosition(World world, BlockPos location){
 //		return new ChunkPos((int)location.xCoord >> 4, (int)location.zCoord >> 4);
 //	}
 
 	public void SaveChunkToNBT(ChunkPos chunk, NBTTagCompound compound){
-		HashMap<Vec3d, PowerNodeEntry> nodeData = powerNodes.get(chunk);
+		HashMap<BlockPos, PowerNodeEntry> nodeData = powerNodes.get(chunk);
 		if (nodeData == null){
 			//we're not tracking anything in this chunk
 			return;
 		}
 		NBTTagList powerNodeTagList = new NBTTagList();
-		for (Vec3d location : nodeData.keySet()){
+		for (BlockPos location : nodeData.keySet()){
 			NBTTagCompound nodeCompound = new NBTTagCompound();
-			nodeCompound.setInteger("xCoord", (int)location.xCoord);
-			nodeCompound.setInteger("yCoord", (int)location.yCoord);
-			nodeCompound.setInteger("zCoord", (int)location.zCoord);
+			nodeCompound.setInteger("xCoord", location.getX());
+			nodeCompound.setInteger("yCoord", location.getY());
+			nodeCompound.setInteger("zCoord", location.getZ());
 			PowerNodeEntry pnd = nodeData.get(location);
 			nodeCompound.setTag("nodeData", pnd.saveToNBT());
 
@@ -424,10 +422,10 @@ public class PowerNodeRegistry{
 		if (!compound.hasKey("AM2PowerData"))
 			return; //nothing was saved in this chunk for the power system
 		NBTTagList powerNodeTagList = compound.getTagList("AM2PowerData", Constants.NBT.TAG_COMPOUND);
-		HashMap<Vec3d, PowerNodeEntry> chunkPowerData = new HashMap<Vec3d, PowerNodeEntry>();
+		HashMap<BlockPos, PowerNodeEntry> chunkPowerData = new HashMap<BlockPos, PowerNodeEntry>();
 		for (int i = 0; i < powerNodeTagList.tagCount(); ++i){
 			NBTTagCompound nodeCompound = (NBTTagCompound)powerNodeTagList.getCompoundTagAt(i);
-			Vec3d nodeLocation = new Vec3d(nodeCompound.getInteger("xCoord"), nodeCompound.getInteger("yCoord"), nodeCompound.getInteger("zCoord"));
+			BlockPos nodeLocation = new BlockPos(nodeCompound.getInteger("xCoord"), nodeCompound.getInteger("yCoord"), nodeCompound.getInteger("zCoord"));
 			PowerNodeEntry pnd = new PowerNodeEntry();
 			pnd.readFromNBT(nodeCompound.getCompoundTag("nodeData"));
 
@@ -467,8 +465,8 @@ public class PowerNodeRegistry{
 //
 //		@Override
 //		public int compare(IPowerNode<?> o1, IPowerNode<?> o2){
-//			Vec3d te1 = new Vec3d(((TileEntity)o1).getPos());
-//			Vec3d te2 = new Vec3d(((TileEntity)o2).getPos());
+//			BlockPos te1 = new BlockPos(((TileEntity)o1).getPos());
+//			BlockPos te2 = new BlockPos(((TileEntity)o2).getPos());
 //
 //			if (te1.xCoord == te2.xCoord && te1.zCoord == te2.zCoord && te1.yCoord == te2.yCoord)
 //				return 0;

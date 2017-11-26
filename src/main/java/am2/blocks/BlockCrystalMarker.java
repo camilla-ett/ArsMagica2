@@ -15,6 +15,7 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -30,13 +31,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@SuppressWarnings("deprecation")
 public class BlockCrystalMarker extends BlockAMContainer{
 
 	public static final int META_IN = 0;
@@ -137,7 +136,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 
 			//input node?  Nothing more to do here than notify the player.
 			if (operandType == META_IN){
-				player.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.noPriIn")));
+				player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.noPriIn")));
 				return false;
 			}
 
@@ -165,7 +164,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 				//finally, notify the player of the new priority
 				player.addChatMessage(
 						new TextComponentString(String.format(
-								I18n.translateToLocal("am2.tooltip.priSet"),
+								I18n.format("am2.tooltip.priSet"),
 								String.format("%d", crystalMarkerTE.getPriority()) //need to put this as a string, because for some reason %d doesn't work when used in a localized string, but %s does
 						)));
 			}
@@ -181,7 +180,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 	
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, facing.getOpposite());
+		return getStateFromMeta(meta).withProperty(FACING, facing.getOpposite());
 	}
 	
 	@Override

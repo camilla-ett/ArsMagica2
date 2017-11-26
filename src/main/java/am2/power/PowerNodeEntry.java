@@ -11,18 +11,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.Constants;
 
 public class PowerNodeEntry{
 	HashMap<PowerTypes, Float> powerAmounts;
-	private HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> nodePaths;
+	private HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> nodePaths;
 
 	public PowerNodeEntry(){
 		powerAmounts = new HashMap<PowerTypes, Float>();
-		nodePaths = new HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>>();
+		nodePaths = new HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>>();
 	}
 
 	public void clearNodePaths(){
@@ -31,15 +30,15 @@ public class PowerNodeEntry{
 		}
 	}
 
-	public void registerNodePath(PowerTypes type, LinkedList<Vec3d> path){
-		ArrayList<LinkedList<Vec3d>> paths = nodePaths.get(type);
+	public void registerNodePath(PowerTypes type, LinkedList<BlockPos> path){
+		ArrayList<LinkedList<BlockPos>> paths = nodePaths.get(type);
 		if (paths == null){
-			paths = new ArrayList<LinkedList<Vec3d>>();
+			paths = new ArrayList<LinkedList<BlockPos>>();
 			nodePaths.put(type, paths);
 		}
 
 		//do we already have a path that ends here?
-		Iterator<LinkedList<Vec3d>> it = paths.iterator();
+		Iterator<LinkedList<BlockPos>> it = paths.iterator();
 		while (it.hasNext()){
 			if (it.next().getLast().equals(path.getLast())){
 				it.remove();
@@ -53,7 +52,7 @@ public class PowerNodeEntry{
 	public float requestPower(World world, PowerTypes type, float amount, float capacity){
 		if (getPower(type) >= capacity)
 			return 0f;
-		ArrayList<LinkedList<Vec3d>> paths = nodePaths.get(type);
+		ArrayList<LinkedList<BlockPos>> paths = nodePaths.get(type);
 		if (paths == null || paths.size() == 0){
 			//AMCore.log.info("No Paths!");
 			return 0;
@@ -66,7 +65,7 @@ public class PowerNodeEntry{
 		}
 
 		float requested = 0f;
-		for (LinkedList<Vec3d> path : paths){
+		for (LinkedList<BlockPos> path : paths){
 			requested += requestPowerFrom(world, path, type, amount - requested);
 			if (requested >= amount)
 				break;
@@ -74,20 +73,20 @@ public class PowerNodeEntry{
 		return requested;
 	}
 
-	private boolean validatePath(World world, LinkedList<Vec3d> path){
-		for (Vec3d vec : path){
+	private boolean validatePath(World world, LinkedList<BlockPos> path){
+		for (BlockPos vec : path){
 			//power can't transfer through unloaded chunks!
-			Chunk chunk = world.getChunkFromBlockCoords(new BlockPos(vec));
+			Chunk chunk = world.getChunkFromBlockCoords(vec);
 			if (!chunk.isLoaded())
 				return false;
-			TileEntity te = world.getTileEntity(new BlockPos(vec));
+			TileEntity te = world.getTileEntity(vec);
 			//if valid, continue the loop, otherwise return false.
 			if (te != null && te instanceof IPowerNode)
 				continue;
 
 			//set a marker block to say that a conduit or other power relay of some sort was here and is now not
-			if (!world.isRemote && world.isAirBlock(new BlockPos(vec))){
-//				world.setBlock(new BlockPos(vec), BlocksCommonProxy.brokenLinkBlock);
+			if (!world.isRemote && world.isAirBlock(vec)){
+//				world.setBlock(vec, BlocksCommonProxy.brokenLinkBlock);
 			}
 
 			return false;
@@ -96,11 +95,11 @@ public class PowerNodeEntry{
 		return true;
 	}
 
-	private float requestPowerFrom(World world, LinkedList<Vec3d> path, PowerTypes type, float amount){
+	private float requestPowerFrom(World world, LinkedList<BlockPos> path, PowerTypes type, float amount){
 		if (!validatePath(world, path))
 			return 0f;
-		Vec3d end = path.getLast();
-		TileEntity te = world.getTileEntity(new BlockPos(end));
+		BlockPos end = path.getLast();
+		TileEntity te = world.getTileEntity(end);
 		if (te != null && te instanceof IPowerNode){
 			if (((IPowerNode<?>)te).canProvidePower(type)){
 				return PowerNodeRegistry.For(world).consumePower(((IPowerNode<?>)te), type, amount);
@@ -170,16 +169,16 @@ public class PowerNodeEntry{
 			//This is the actual entry in the power path list
 			NBTTagCompound powerPathEntry = new NBTTagCompound();
 
-			ArrayList<LinkedList<Vec3d>> paths = nodePaths.get(type);
+			ArrayList<LinkedList<BlockPos>> paths = nodePaths.get(type);
 			//This stores each path individually for a given power type
 			NBTTagList pathsForType = new NBTTagList();
-			for (LinkedList<Vec3d> path : paths){
+			for (LinkedList<BlockPos> path : paths){
 				//This stores each individual node in the given path
 				NBTTagList pathNodes = new NBTTagList();
-				for (Vec3d pathNode : path){
+				for (BlockPos pathNode : path){
 					//This stores one individual node in the given path
 					NBTTagCompound node = new NBTTagCompound();
-					NBTUtils.writeVecToNBT(pathNode, node);
+					NBTUtils.writeBlockPosToNBT(pathNode, node);
 					//Append individual node to path
 					pathNodes.appendTag(node);
 				}
@@ -230,15 +229,15 @@ public class PowerNodeEntry{
 				NBTTagCompound powerPathEntry = (NBTTagCompound)powerPathList.getCompoundTagAt(i);
 				PowerTypes type = PowerTypes.getByID(powerPathEntry.getInteger("powerType"));
 				NBTTagList pathNodes = powerPathEntry.getTagList("nodePaths", Constants.NBT.TAG_LIST);
-				ArrayList<LinkedList<Vec3d>> pathsList = new ArrayList<LinkedList<Vec3d>>();
+				ArrayList<LinkedList<BlockPos>> pathsList = new ArrayList<LinkedList<BlockPos>>();
 				if (pathNodes != null){
 					for (int j = 0; j < pathNodes.tagCount(); j++){
 						NBTTagList nodeList = (NBTTagList)pathNodes.get(j);
-						LinkedList<Vec3d> powerPath = new LinkedList<Vec3d>();
+						LinkedList<BlockPos> powerPath = new LinkedList<BlockPos>();
 						if (nodeList != null){
 							for (int b = 0; b < nodeList.tagCount(); ++b){
 								NBTTagCompound node = (NBTTagCompound)nodeList.getCompoundTagAt(b);
-								Vec3d nodeLocation = NBTUtils.readVecFromNBT(node);
+								BlockPos nodeLocation = NBTUtils.readBlockPosFromNBT(node);
 								powerPath.add(nodeLocation);
 							}
 							pathsList.add(powerPath);
@@ -252,7 +251,7 @@ public class PowerNodeEntry{
 	}
 
 	@SuppressWarnings("unchecked")
-	public HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> getNodePaths(){
-		return (HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>>)nodePaths.clone();
+	public HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> getNodePaths(){
+		return (HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>>)nodePaths.clone();
 	}
 }

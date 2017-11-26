@@ -90,7 +90,33 @@ import am2.defs.BlockDefs;
 import am2.defs.EntityManager;
 import am2.defs.ItemDefs;
 import am2.extensions.RiftStorage;
-import am2.gui.*;
+import am2.gui.AMGuiHelper;
+import am2.gui.AMIngameGUI;
+import am2.gui.GuiArcaneDeconstructor;
+import am2.gui.GuiArcaneReconstructor;
+import am2.gui.GuiArmorImbuer;
+import am2.gui.GuiAstralBarrier;
+import am2.gui.GuiCalefactor;
+import am2.gui.GuiCrystalMarker;
+import am2.gui.GuiEssenceBag;
+import am2.gui.GuiEssenceRefiner;
+import am2.gui.GuiFlickerHabitat;
+import am2.gui.GuiInertSpawner;
+import am2.gui.GuiInscriptionTable;
+import am2.gui.GuiKeystone;
+import am2.gui.GuiKeystoneChest;
+import am2.gui.GuiKeystoneLockable;
+import am2.gui.GuiMagiciansWorkbench;
+import am2.gui.GuiObelisk;
+import am2.gui.GuiOcculus;
+import am2.gui.GuiParticleEmitter;
+import am2.gui.GuiRiftStorage;
+import am2.gui.GuiRuneBag;
+import am2.gui.GuiSeerStone;
+import am2.gui.GuiSpellBook;
+import am2.gui.GuiSpellCustomization;
+import am2.gui.GuiSpellSealedDoor;
+import am2.gui.GuiSummoner;
 import am2.handler.BakingHandler;
 import am2.items.ItemEssenceBag;
 import am2.items.ItemKeystone;
@@ -124,7 +150,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -393,12 +418,12 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void receivePowerPathVisuals(HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> paths){
+	public void receivePowerPathVisuals(HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> paths){
 		powerPathVisuals = paths;
 	}
 
 	@Override
-	public HashMap<PowerTypes, ArrayList<LinkedList<Vec3d>>> getPowerPathVisuals(){
+	public HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> getPowerPathVisuals(){
 		return powerPathVisuals;
 	}
 	

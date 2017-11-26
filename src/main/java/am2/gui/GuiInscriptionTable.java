@@ -31,13 +31,12 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class GuiInscriptionTable extends GuiContainer{
 
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/inscriptionTableGui.png");
@@ -87,8 +86,8 @@ public class GuiInscriptionTable extends GuiContainer{
 	private GuiButtonVariableDims createSpellButton;
 	private GuiButtonVariableDims resetSpellButton;
 
-	private String defaultSearchLabel = "\2477\247o" + I18n.translateToLocal("am2.gui.search");
-	private String defaultNameLabel = "\2477\247o" + I18n.translateToLocal("am2.gui.name");
+	private String defaultSearchLabel = "\2477\247o" + I18n.format("am2.gui.search");
+	private String defaultNameLabel = "\2477\247o" + I18n.format("am2.gui.name");
 
 	public GuiInscriptionTable(InventoryPlayer playerInventory, TileEntityInscriptionTable table){
 		super(new ContainerInscriptionTable(table, playerInventory));
@@ -122,10 +121,10 @@ public class GuiInscriptionTable extends GuiContainer{
 		int l = (width - xSize) / 2;
 		int i1 = (height - ySize) / 2;
 
-		createSpellButton = new GuiButtonVariableDims(0, l - 65, i1, I18n.translateToLocal("am2.gui.makeSpell"));
+		createSpellButton = new GuiButtonVariableDims(0, l - 65, i1, I18n.format("am2.gui.makeSpell"));
 		createSpellButton.setDimensions(60, 20);
 
-		resetSpellButton = new GuiButtonVariableDims(1, l + 120, i1 + 72, I18n.translateToLocal("am2.gui.resetSpell"));
+		resetSpellButton = new GuiButtonVariableDims(1, l + 120, i1 + 72, I18n.format("am2.gui.resetSpell"));
 		resetSpellButton.setDimensions(60, 20);
 		resetSpellButton.visible = false;
 
@@ -361,7 +360,7 @@ public class GuiInscriptionTable extends GuiContainer{
 		if (result.valid){
 			if (((ContainerInscriptionTable)this.inventorySlots).slotHasStack(0)){
 				if (((ContainerInscriptionTable)this.inventorySlots).slotIsBook(0)){
-					Minecraft.getMinecraft().fontRendererObj.drawSplitString(I18n.translateToLocal("am2.gui.bookOut"), 225, 5, 100, 0xFF7700);
+					Minecraft.getMinecraft().fontRendererObj.drawSplitString(I18n.format("am2.gui.bookOut"), 225, 5, 100, 0xFF7700);
 				}else{
 					resetSpellButton.visible = true;
 				}

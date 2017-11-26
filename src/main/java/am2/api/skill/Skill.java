@@ -1,12 +1,11 @@
 package am2.api.skill;
 
 import am2.api.ArsMagicaAPI;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
-@SuppressWarnings("deprecation")
 public class Skill extends IForgeRegistryEntry.Impl<Skill>{
 	
 	private int posX, posY;
@@ -67,10 +66,10 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>{
 	}
 	
 	public String getName() {
-		return I18n.translateToLocal("skill." + getID() + ".name");
+		return I18n.format("skill." + getID() + ".name");
 	}
 	
 	public String getOcculusDesc() {
-		return I18n.translateToLocal("skill." + getID() + ".occulusdesc");
+		return I18n.format("skill." + getID() + ".occulusdesc");
 	}
 }

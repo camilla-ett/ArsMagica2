@@ -6,6 +6,7 @@ import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.extensions.AffinityData;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -13,10 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-@SuppressWarnings("deprecation")
 public class ItemAffinityTome extends ItemArsMagica {
 
 	
@@ -54,7 +53,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage());
-		return String.format(I18n.translateToLocal("item.arsmagica2:tome.name"), aff.getLocalizedName());
+		return String.format(I18n.format("item.arsmagica2:tome.name"), aff.getLocalizedName());
 	}
 	
 	@Override

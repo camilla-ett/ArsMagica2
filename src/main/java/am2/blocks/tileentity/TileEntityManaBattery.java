@@ -14,7 +14,7 @@ public class TileEntityManaBattery extends TileEntityAMPower implements ITileEnt
 	private boolean active;
 	public static int storageCapacity = 250000;
 	private PowerTypes outputPowerType = PowerTypes.NONE;
-	private int tickCounter = 0;
+	//private int tickCounter = 0;
 	boolean hasUpdated = false;
 	int prevEnergy;
 
@@ -58,12 +58,12 @@ public class TileEntityManaBattery extends TileEntityAMPower implements ITileEnt
 			if (amt > 0) {
 				if(this.outputPowerType != highest) {
 					this.outputPowerType = highest;
-					this.tickCounter = 0;
+					//this.tickCounter = 0;
 				}
 			} else {
 				if(this.outputPowerType != PowerTypes.NONE) {
 					this.outputPowerType = PowerTypes.NONE;
-					this.tickCounter = 0;
+					//this.tickCounter = 0;
 				}
 			}
 		}

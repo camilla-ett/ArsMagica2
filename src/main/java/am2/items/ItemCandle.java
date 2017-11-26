@@ -21,11 +21,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
-@SuppressWarnings("deprecation")
 public class ItemCandle extends ItemArsMagica{
 
 	private static final int radius = 10;
@@ -60,7 +59,7 @@ public class ItemCandle extends ItemArsMagica{
 		if (!worldIn.isRemote){
 
 			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("search_block")){
-				playerIn.addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.candlecantplace")));
+				playerIn.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.candlecantplace")));
 				return EnumActionResult.PASS;
 			}
 
@@ -101,7 +100,7 @@ public class ItemCandle extends ItemArsMagica{
 //		if (!world.isRemote){
 //
 //			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("search_block")){
-//				player.addChatMessage(new ChatComponentText(I18n.translateToLocal("am2.tooltip.candlecantplace")));
+//				player.addChatMessage(new ChatComponentText(I18n.format("am2.tooltip.candlecantplace")));
 //				return false;
 //			}
 //
@@ -208,7 +207,7 @@ public class ItemCandle extends ItemArsMagica{
 				
 				if (!player.capabilities.isCreativeMode)
 					stack.damageItem(1, player);
-				if (!world.isRemote && stack.getItemDamage() >= this.getMaxDamage())
+				if (!world.isRemote && stack.getItemDamage() >= stack.getMaxDamage())
 					player.setItemStackToSlot((player.getHeldItemOffhand() == stack ? EntityEquipmentSlot.OFFHAND : EntityEquipmentSlot.MAINHAND), null);
 			}
 		}
@@ -216,7 +215,7 @@ public class ItemCandle extends ItemArsMagica{
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
-		String name = I18n.translateToLocal("item.arsmagica2:warding_candle.name");
+		String name = I18n.format("item.arsmagica2:warding_candle.name");
 		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("search_block")){
 			IBlockState state = Block.getStateById(stack.getTagCompound().getInteger("search_block"));
 			ItemStack blockStack = new ItemStack(state.getBlock(), 0, state.getBlock().getMetaFromState(state));
@@ -228,7 +227,7 @@ public class ItemCandle extends ItemArsMagica{
 				name += " (" + blockStack.getDisplayName() + ")";
 			}
 		}else{
-			name += " (" + I18n.translateToLocal("am2.tooltip.unattuned") + ")";
+			name += " (" + I18n.format("am2.tooltip.unattuned") + ")";
 		}
 
 		return name;

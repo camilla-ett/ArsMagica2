@@ -1,9 +1,8 @@
 package am2.api.skill;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class SkillTree {
 		
 //	static {
@@ -43,7 +42,7 @@ public class SkillTree {
 	}
 	
 	public String getLocalizedName() {
-		return I18n.translateToLocal(getUnlocalizedName());
+		return I18n.format(getUnlocalizedName());
 	}
 
 	public SkillTree disableRender(String compendiumUnlock) {

@@ -3,7 +3,9 @@ package am2.spell.component;
 import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
+
 import com.google.common.collect.Sets;
+
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifiers;
@@ -15,6 +17,7 @@ import am2.items.ItemOre;
 import am2.power.PowerTypes;
 import am2.utils.EntityUtils;
 import am2.utils.SpellUtils;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityList;
@@ -31,10 +34,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-@SuppressWarnings("deprecation")
 public class Summon extends SpellComponent{
 	
 
@@ -145,7 +146,7 @@ public class Summon extends SpellComponent{
 				}
 			}else{
 				if (caster instanceof EntityPlayer){
-					((EntityPlayer)caster).addChatMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.noMoreSummons")));
+					((EntityPlayer)caster).addChatMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
 				}
 			}
 		}
@@ -166,7 +167,7 @@ public class Summon extends SpellComponent{
 				}
 			}else{
 				if (caster instanceof EntityPlayer){
-					((EntityPlayer)caster).addChatComponentMessage(new TextComponentString(I18n.translateToLocal("am2.tooltip.noMoreSummons")));
+					((EntityPlayer)caster).addChatComponentMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
 				}
 			}
 		}

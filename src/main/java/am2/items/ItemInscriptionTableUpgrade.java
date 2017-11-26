@@ -5,9 +5,8 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
-@SuppressWarnings("deprecation")
 public class ItemInscriptionTableUpgrade extends ItemArsMagica{
 
 	public ItemInscriptionTableUpgrade(){
@@ -28,12 +27,12 @@ public class ItemInscriptionTableUpgrade extends ItemArsMagica{
 		int meta = stack.getItemDamage();
 		switch (meta){
 		case 2:
-			return I18n.translateToLocal("item.arsmagica2:inscup_3.name");
+			return I18n.format("item.arsmagica2:inscup_3.name");
 		case 1:
-			return I18n.translateToLocal("item.arsmagica2:inscup_2.name");
+			return I18n.format("item.arsmagica2:inscup_2.name");
 		case 0:
 		default:
-			return I18n.translateToLocal("item.arsmagica2:inscup_1.name");
+			return I18n.format("item.arsmagica2:inscup_1.name");
 		}
 	}
 }

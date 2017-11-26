@@ -10,11 +10,10 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 
-@SuppressWarnings("deprecation")
 public class ItemManaMartini extends ItemFood{
 	public ItemManaMartini(){
 		super(0, 0, false);
@@ -34,6 +33,6 @@ public class ItemManaMartini extends ItemFood{
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> lines, boolean iHaveNoIdea){
 		super.addInformation(stack, player, lines, iHaveNoIdea);
-		lines.add(I18n.translateToLocal("am2.tooltip.shaken"));
+		lines.add(I18n.format("am2.tooltip.shaken"));
 	}
 }

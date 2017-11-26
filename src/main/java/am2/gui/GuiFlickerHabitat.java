@@ -10,15 +10,14 @@ import am2.power.PowerNodeRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
 /**
  * @author Zero, Mithion
  */
-@SuppressWarnings("deprecation")
 public class GuiFlickerHabitat extends GuiContainer{
 
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/FlickerHabitat.png");
@@ -68,9 +67,9 @@ public class GuiFlickerHabitat extends GuiContainer{
 		String curLine = "";
 
 		if (func.RequiresPower()){
-			curLine = I18n.translateToLocal("am2.gui.flicker_needspower");
+			curLine = I18n.format("am2.gui.flicker_needspower");
 		}else{
-			curLine = I18n.translateToLocal("am2.gui.flicker_doesntneedpower");
+			curLine = I18n.format("am2.gui.flicker_doesntneedpower");
 		}
 
 		drawCenteredString(curLine, yPos);
@@ -78,7 +77,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 
 		drawCenteredString(
 				String.format(
-						I18n.translateToLocal("am2.gui.flicker_powerperop"),
+						I18n.format("am2.gui.flicker_powerperop"),
 						String.format("%s%d\2470", colorCode, func.PowerPerOperation())),
 				yPos);
 
@@ -91,7 +90,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 
 		drawCenteredString(
 				String.format(
-						I18n.translateToLocal("am2.gui.flicker_optime"),
+						I18n.format("am2.gui.flicker_optime"),
 						String.format("%s%.2f\2470", colorCode,
 								func.TimeBetweenOperation(powered, flickerHabitat.getNearbyUpgrades()) / 20.0f
 						)), yPos);

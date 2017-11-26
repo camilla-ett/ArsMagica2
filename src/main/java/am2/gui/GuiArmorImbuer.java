@@ -17,14 +17,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class GuiArmorImbuer extends GuiContainer{
 
 	private TileEntityArmorImbuer tileEntity;
@@ -160,7 +159,7 @@ public class GuiArmorImbuer extends GuiContainer{
 					
 					if (i >= drawX && i <= drawX + spriteWidth){
 						if (j >= drawY && j <= drawY + spriteHeight){
-							hoverLines.add(I18n.translateToLocal("am2.tooltip." + infusion.getID()));
+							hoverLines.add(I18n.format("am2.tooltip." + infusion.getID()));
 						}
 					}
 					num++;

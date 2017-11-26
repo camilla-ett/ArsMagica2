@@ -21,6 +21,7 @@ import am2.lore.ArcaneCompendium;
 import am2.power.PowerNodeRegistry;
 import am2.utils.SpellUtils;
 import io.netty.buffer.ByteBufInputStream;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,14 +34,12 @@ import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-@SuppressWarnings("deprecation")
 public class AMPacketProcessorServer{
 
 	@SubscribeEvent
@@ -161,7 +160,7 @@ public class AMPacketProcessorServer{
 		AMDataReader reader = new AMDataReader(remaining, false);
 		String str = reader.getString();
 		boolean newState = !AffinityData.For(player).getAbilityBoolean(str);
-		String text = String.format(I18n.translateToLocal("am2.chat.activation"), I18n.translateToLocal("am2.chat.ability_" + str), I18n.translateToLocal(newState ? "am2.chat.enabled" : "am2.chat.disabled"));
+		String text = String.format(I18n.format("am2.chat.activation"), I18n.format("am2.chat.ability_" + str), I18n.format(newState ? "am2.chat.enabled" : "am2.chat.disabled"));
 		player.addChatComponentMessage(new TextComponentString(text));
 		AffinityData.For(player).addAbilityBoolean(str, newState);
 	}

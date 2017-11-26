@@ -238,8 +238,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		inList.remove(new AMVector3(pos));
 	}
 
-	public void removeOutMarkerLocation(BlockPos pos){
-		outList.remove(new AMVector3(pos));
+	public void removeOutMarkerLocation(BlockPos pos) {
+		for (ArrayList<AMVector3> ls : outList.values())
+			ls.remove(new AMVector3(pos));
 	}
 
 	@Override

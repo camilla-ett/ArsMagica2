@@ -15,11 +15,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@SuppressWarnings("deprecation")
 public class ItemKeystoneDoor extends Item{
 
 	public static final int KEYSTONE_DOOR = 0;
@@ -37,11 +36,11 @@ public class ItemKeystoneDoor extends Item{
 	public String getItemStackDisplayName(ItemStack stack){
 		switch (stack.getItemDamage()){
 		case KEYSTONE_DOOR:
-			return I18n.translateToLocal("item.arsmagica2:keystone_door.name");
+			return I18n.format("item.arsmagica2:keystone_door.name");
 		case SPELL_SEALED_DOOR:
-			return I18n.translateToLocal("item.arsmagica2:spell_sealed_door.name");
+			return I18n.format("item.arsmagica2:spell_sealed_door.name");
 		default:
-			return I18n.translateToLocal("item.arsmagica2:unknown.name");
+			return I18n.format("item.arsmagica2:unknown.name");
 		}
 	}
 

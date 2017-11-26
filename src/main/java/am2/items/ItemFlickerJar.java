@@ -8,9 +8,8 @@ import am2.entity.EntityFlicker;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
-@SuppressWarnings("deprecation")
 public class ItemFlickerJar extends ItemArsMagica{
 
 	public ItemFlickerJar(){
@@ -22,12 +21,12 @@ public class ItemFlickerJar extends ItemArsMagica{
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
-		String baseName = I18n.translateToLocal("am2.item.flickerJar");
+		String baseName = I18n.format("am2.item.flickerJar");
 		if (meta == ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE))
-			return String.format(I18n.translateToLocal("item.arsmagica2:flickerJar.name"), I18n.translateToLocal("am2.tooltip.empty"));
+			return String.format(I18n.format("item.arsmagica2:flickerJar.name"), I18n.format("am2.tooltip.empty"));
 
 		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
-		baseName = String.format(I18n.translateToLocal("item.arsmagica2:flickerJar.name"), aff.getLocalizedName());
+		baseName = String.format(I18n.format("item.arsmagica2:flickerJar.name"), aff.getLocalizedName());
 
 		return baseName;
 	}

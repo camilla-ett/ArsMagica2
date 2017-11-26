@@ -9,11 +9,11 @@ import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.PotionTypes;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,12 +24,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class ItemWaterGuardianOrbs extends AMArmor{
 
 	public ItemWaterGuardianOrbs(ArmorMaterial inheritFrom, ArsMagicaArmorMaterial enumarmormaterial, int par3, EntityEquipmentSlot par4){
@@ -51,7 +49,7 @@ public class ItemWaterGuardianOrbs extends AMArmor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.translateToLocal("am2.tooltip.water_orbs"));
+		par3List.add(I18n.format("am2.tooltip.water_orbs"));
 	}
 
 	@Override
@@ -68,8 +66,9 @@ public class ItemWaterGuardianOrbs extends AMArmor{
 	@Override
 	public void onArmorTick(World world, EntityPlayer plr, ItemStack stack) {
 		super.onArmorTick(world, plr, stack);
-		if (!plr.getActivePotionEffects().contains(PotionTypes.WATER_BREATHING))
-			plr.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation(new ResourceLocation("water_breathing").toString())));
+		Potion waterBreathing = Potion.getPotionFromResourceLocation(new ResourceLocation("water_breathing").toString());
+		if (!plr.isPotionActive(waterBreathing))
+			plr.addPotionEffect(new PotionEffect(waterBreathing));
 
 		if (plr.isInWater());
 			reverseMaterialAcceleration(world, plr);
@@ -115,7 +114,7 @@ public class ItemWaterGuardianOrbs extends AMArmor{
 		if (vec3d.lengthVector() > 0.0D && entityIn.isPushedByWater())
 		{
 			vec3d = vec3d.normalize();
-			double d1 = 0.014D;
+			//double d1 = 0.014D;
 			entityIn.motionX -= vec3d.xCoord * 0.014D;
 			entityIn.motionY -= vec3d.yCoord * 0.014D;
 			entityIn.motionZ -= vec3d.zCoord * 0.014D;

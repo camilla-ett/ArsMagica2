@@ -20,13 +20,12 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
 
-@SuppressWarnings("deprecation")
 public class GuiKeystone extends GuiContainer{
 
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/keystone_GUI.png");
@@ -141,11 +140,11 @@ public class GuiKeystone extends GuiContainer{
 		}
 		if (button == addCombination){
 			if (combinationName.getText() == null || combinationName.getText().trim().equals("")){
-				displayMessage = I18n.translateToLocal("am2.gui.nameRequired");
+				displayMessage = I18n.format("am2.gui.nameRequired");
 				displayTime = AMGuiHelper.instance.getSlowTicker() + 3;
 				displayColor = 0xff0000;
 			}else{
-				displayMessage = I18n.translateToLocal("am2.gui.comboStored");
+				displayMessage = I18n.format("am2.gui.comboStored");
 				displayTime = AMGuiHelper.instance.getSlowTicker() + 3;
 				displayColor = 0x00ff00;
 
@@ -168,11 +167,11 @@ public class GuiKeystone extends GuiContainer{
 		}else if (button == forgetCombination){
 			KeystoneCombination matchedCombo = ((ContainerKeystone)this.inventorySlots).getCurrentMatchedCombination();
 			if (matchedCombo == null){
-				displayMessage = I18n.translateToLocal("am2.gui.comboNotSaved");
+				displayMessage = I18n.format("am2.gui.comboNotSaved");
 				displayTime = AMGuiHelper.instance.getSlowTicker() + 3;
 				displayColor = 0xff0000;
 			}else{
-				displayMessage = I18n.translateToLocal("am2.gui.comboRemoved");
+				displayMessage = I18n.format("am2.gui.comboRemoved");
 				displayTime = AMGuiHelper.instance.getSlowTicker() + 3;
 				displayColor = 0x00ff00;
 
@@ -239,11 +238,11 @@ public class GuiKeystone extends GuiContainer{
 			}
 
 			if (!changed){
-				displayMessage = I18n.translateToLocal("am2.gui.comboMissingRunes");
+				displayMessage = I18n.format("am2.gui.comboMissingRunes");
 				displayTime = AMGuiHelper.instance.getSlowTicker() + 3;
 				displayColor = 0xff0000;
 			}else if (skipped){
-				displayMessage = I18n.translateToLocal("am2.gui.oneOrMoreSkipped");
+				displayMessage = I18n.format("am2.gui.oneOrMoreSkipped");
 				displayTime = AMGuiHelper.instance.getSlowTicker() + 3;
 				displayColor = 0xff0000;
 			}
@@ -264,7 +263,7 @@ public class GuiKeystone extends GuiContainer{
 
 		if (hoveredCombo > -1){
 			if (!((ContainerKeystone)this.inventorySlots).setInventoryToCombination(hoveredCombo)){
-				displayMessage = I18n.translateToLocal("am2.gui.comboMissingRunes");
+				displayMessage = I18n.format("am2.gui.comboMissingRunes");
 				displayTime = AMGuiHelper.instance.getSlowTicker() + 3;
 				displayColor = 0xff0000;
 			}
@@ -378,8 +377,8 @@ public class GuiKeystone extends GuiContainer{
 			KeystoneCombination combo = ItemDefs.keystone.getCombinationAt(((ContainerKeystone)this.inventorySlots).getKeystoneStack(), hoveredCombo);
 			ArrayList<String> lines = new ArrayList<String>();
 			lines.add(combo.name);
-			lines.add("\2477\247o" + I18n.translateToLocal("am2.gui.keystoneComboClick"));
-			lines.add("\2477\247o" + I18n.translateToLocal("am2.gui.keystoneComboClick2") + "\247r");
+			lines.add("\2477\247o" + I18n.format("am2.gui.keystoneComboClick"));
+			lines.add("\2477\247o" + I18n.format("am2.gui.keystoneComboClick2") + "\247r");
 			AMGuiHelper.drawHoveringText(lines, par1 - 25, par2 + 18, Minecraft.getMinecraft().fontRendererObj, this.xSize, this.ySize);
 		}
 	}

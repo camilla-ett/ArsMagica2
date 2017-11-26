@@ -7,11 +7,10 @@ import am2.container.ContainerSummoner;
 import am2.power.PowerNodeRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
-@SuppressWarnings("deprecation")
 public class GuiSummoner extends GuiContainer{
 
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/SummonerGui.png");
@@ -35,8 +34,8 @@ public class GuiSummoner extends GuiContainer{
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2){
 
-		String essenceString = I18n.translateToLocal("am2.gui.summonCost") + ":";
-		String maintainString = I18n.translateToLocal("am2.gui.maintainCost") + ":";
+		String essenceString = I18n.format("am2.gui.summonCost") + ":";
+		String maintainString = I18n.format("am2.gui.maintainCost") + ":";
 		float cost = summonerInventory.getSummonCost();
 		float maintainCost = summonerInventory.getMaintainCost() * 20;
 		String essenceCostString = cost >= 0 ? String.format("%.2f/s", maintainCost) : "N/A";
@@ -54,7 +53,7 @@ public class GuiSummoner extends GuiContainer{
 		fontRendererObj.drawString(essenceString, 20, ySize - 130, 0x777777);
 		fontRendererObj.drawString(essenceCostString, 20, ySize - 120, color);
 
-		String readyString = summonerInventory.canSummon() ? I18n.translateToLocal("am2.gui.summonReady") : I18n.translateToLocal("am2.gui.summonNotReady");
+		String readyString = summonerInventory.canSummon() ? I18n.format("am2.gui.summonReady") : I18n.format("am2.gui.summonNotReady");
 		color = summonerInventory.canSummon() ? 0x007700 : 0x770000;
 
 		fontRendererObj.drawString(readyString, xSize / 2 - (fontRendererObj.getStringWidth(readyString) / 2), ySize - 107, color);
