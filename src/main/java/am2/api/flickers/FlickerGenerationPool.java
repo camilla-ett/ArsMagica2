@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import am2.LogHelper;
 import am2.api.affinity.Affinity;
+import am2.common.LogHelper;
 
 /**
  * This class is used in the flicker lure, it manages the different flicker generation weights

@@ -46,7 +46,7 @@ minecraft {
 
 jar {
 	manifest {
-		attributes 'FMLCorePlugin' : 'am2.asm.Preloader'
+		attributes 'FMLCorePlugin' : 'am2.common.asm.Preloader'
 		attributes 'FMLCorePluginContainsFMLMod' : 'true'
 	}
 }

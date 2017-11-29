@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import am2.api.compendium.wrapper.StackMapWrapper;
-import am2.gui.controls.GuiButtonCompendiumNext;
+import am2.client.gui.controls.GuiButtonCompendiumNext;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;

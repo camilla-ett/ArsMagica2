@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import am2.api.event.SpellCastEvent;
 import am2.api.extensions.IAffinityData;
-import am2.extensions.AffinityData;
+import am2.common.extensions.AffinityData;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;

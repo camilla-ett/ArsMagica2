@@ -2,7 +2,6 @@ package am2.api;
 
 import java.util.ArrayList;
 
-import am2.LogHelper;
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
 import am2.api.skill.SkillTree;
@@ -10,8 +9,9 @@ import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellShape;
-import am2.utils.NBTUtils;
-import am2.utils.RecipeUtils;
+import am2.common.LogHelper;
+import am2.common.utils.NBTUtils;
+import am2.common.utils.RecipeUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;

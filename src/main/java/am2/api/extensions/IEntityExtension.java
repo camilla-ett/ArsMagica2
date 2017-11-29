@@ -2,9 +2,9 @@ package am2.api.extensions;
 
 import java.util.concurrent.Callable;
 
-import am2.extensions.EntityExtension;
-import am2.spell.ContingencyType;
-import am2.utils.NBTUtils;
+import am2.common.extensions.EntityExtension;
+import am2.common.spell.ContingencyType;
+import am2.common.utils.NBTUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;

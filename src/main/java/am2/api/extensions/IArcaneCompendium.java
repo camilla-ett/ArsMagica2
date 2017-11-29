@@ -5,8 +5,8 @@ import java.util.concurrent.Callable;
 
 import am2.api.compendium.CompendiumCategory;
 import am2.api.compendium.CompendiumEntry;
-import am2.lore.ArcaneCompendium;
-import am2.utils.NBTUtils;
+import am2.common.lore.ArcaneCompendium;
+import am2.common.utils.NBTUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;

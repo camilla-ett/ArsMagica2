@@ -1,6 +1,6 @@
 package am2.api.compendium.pages;
 
-import am2.gui.AMGuiHelper;
+import am2.client.gui.AMGuiHelper;
 import net.minecraft.client.resources.I18n;
 
 public class PageText extends CompendiumPage<String> {

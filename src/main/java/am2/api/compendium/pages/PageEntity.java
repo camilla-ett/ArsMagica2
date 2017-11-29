@@ -2,8 +2,8 @@ package am2.api.compendium.pages;
 
 import java.io.IOException;
 
-import am2.bosses.AM2Boss;
-import am2.entity.EntityFlicker;
+import am2.common.bosses.AM2Boss;
+import am2.common.entity.EntityFlicker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;

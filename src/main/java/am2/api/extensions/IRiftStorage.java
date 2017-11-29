@@ -2,8 +2,8 @@ package am2.api.extensions;
 
 import java.util.concurrent.Callable;
 
-import am2.extensions.RiftStorage;
-import am2.utils.NBTUtils;
+import am2.common.extensions.RiftStorage;
+import am2.common.utils.NBTUtils;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;

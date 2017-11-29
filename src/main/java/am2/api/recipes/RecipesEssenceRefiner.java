@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
-import am2.defs.BlockDefs;
-import am2.defs.ItemDefs;
-import am2.items.ItemCore;
-import am2.items.ItemOre;
+import am2.common.defs.BlockDefs;
+import am2.common.defs.ItemDefs;
+import am2.common.items.ItemCore;
+import am2.common.items.ItemOre;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;

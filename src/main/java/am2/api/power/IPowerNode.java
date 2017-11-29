@@ -2,7 +2,7 @@ package am2.api.power;
 
 import java.util.List;
 
-import am2.power.PowerTypes;
+import am2.common.power.PowerTypes;
 import net.minecraft.tileentity.TileEntity;
 
 /**

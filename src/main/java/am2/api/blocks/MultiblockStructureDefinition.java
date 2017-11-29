@@ -7,7 +7,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import am2.gui.AMGuiHelper;
+import am2.client.gui.AMGuiHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

@@ -5,9 +5,9 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
 
-import am2.blocks.BlockArsMagicaBlock;
-import am2.defs.BlockDefs;
-import am2.utils.KeyValuePair;
+import am2.common.blocks.BlockArsMagicaBlock;
+import am2.common.defs.BlockDefs;
+import am2.common.utils.KeyValuePair;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;

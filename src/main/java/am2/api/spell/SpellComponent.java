@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Set;
 
 import am2.api.affinity.Affinity;
-import am2.config.AMConfig;
+import am2.common.config.AMConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;

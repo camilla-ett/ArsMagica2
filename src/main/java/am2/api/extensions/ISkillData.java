@@ -14,8 +14,8 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 import am2.api.SkillPointRegistry;
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
-import am2.extensions.SkillData;
-import am2.utils.NBTUtils;
+import am2.common.extensions.SkillData;
+import am2.common.utils.NBTUtils;
 
 public interface ISkillData {
 	

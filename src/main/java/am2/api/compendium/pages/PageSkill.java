@@ -4,9 +4,9 @@ import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_T
 
 import am2.api.ArsMagicaAPI;
 import am2.api.skill.Skill;
-import am2.defs.ItemDefs;
-import am2.gui.AMGuiHelper;
-import am2.texture.SpellIconManager;
+import am2.client.gui.AMGuiHelper;
+import am2.client.texture.SpellIconManager;
+import am2.common.defs.ItemDefs;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
 import net.minecraft.client.renderer.GlStateManager.SourceFactor;

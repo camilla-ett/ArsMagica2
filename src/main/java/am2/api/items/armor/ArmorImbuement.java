@@ -2,7 +2,7 @@ package am2.api.items.armor;
 
 import java.util.EnumSet;
 
-import am2.extensions.AffinityData;
+import am2.common.extensions.AffinityData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;

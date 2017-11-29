@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 
-import am2.blocks.CraftingEssenceExtractor;
+import am2.common.blocks.CraftingEssenceExtractor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 

@@ -8,11 +8,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import am2.LogHelper;
 import am2.api.blocks.MultiblockGroup;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
-import am2.defs.BlockDefs;
+import am2.common.LogHelper;
+import am2.common.defs.BlockDefs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;

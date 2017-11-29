@@ -14,8 +14,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import am2.api.affinity.Affinity;
-import am2.extensions.AffinityData;
-import am2.utils.NBTUtils;
+import am2.common.extensions.AffinityData;
+import am2.common.utils.NBTUtils;
 
 public interface IAffinityData {	
 

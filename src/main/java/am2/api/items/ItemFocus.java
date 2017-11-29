@@ -1,6 +1,6 @@
 package am2.api.items;
 
-import am2.defs.CreativeTabsDefs;
+import am2.common.defs.CreativeTabsDefs;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;

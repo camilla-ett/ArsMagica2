@@ -7,9 +7,9 @@ import java.util.Random;
 
 import am2.api.recipes.RecipeArsMagica;
 import am2.api.recipes.RecipesEssenceRefiner;
-import am2.defs.ItemDefs;
-import am2.gui.AMGuiHelper;
-import am2.utils.RecipeUtils;
+import am2.client.gui.AMGuiHelper;
+import am2.common.defs.ItemDefs;
+import am2.common.utils.RecipeUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
