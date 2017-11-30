@@ -11,7 +11,6 @@ import java.util.Random;
 import am2.api.ArsMagicaAPI;
 import am2.api.event.SpellRecipeItemsEvent;
 import am2.api.spell.AbstractSpellPart;
-import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
 import am2.client.gui.AMGuiHelper;
@@ -102,7 +101,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		int startX = 72 - (8 * modifiers.size());
 		int yOffset = 10;
 		if (!modifiers.isEmpty()) {
-			String shapeName = I18n.format(element instanceof SpellComponent ? "am2.gui.modifies" :  "am2.gui.modifiedBy");
+			String shapeName = I18n.format(element instanceof SpellModifier ? "am2.gui.modifies" :  "am2.gui.modifiedBy");
 			mc.fontRendererObj.drawString(shapeName, posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY, 0);
 			GlStateManager.color(1.0f, 1.0f, 1.0f);
 		}

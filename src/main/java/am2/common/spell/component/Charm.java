@@ -142,7 +142,7 @@ public class Charm extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(Items.WHEAT),
 				new ItemStack(Items.WHEAT_SEEDS),
@@ -151,7 +151,7 @@ public class Charm extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 

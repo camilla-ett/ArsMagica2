@@ -110,14 +110,14 @@ public class WateryGrave extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(Blocks.STONE)
 		};
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 

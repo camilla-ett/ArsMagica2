@@ -108,14 +108,14 @@ public class Leap extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(Items.FERMENTED_SPIDER_EYE)
 		};
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 	

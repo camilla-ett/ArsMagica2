@@ -150,7 +150,7 @@ public class Transplace extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM),
 				new ItemStack(ItemDefs.mageArmor),
@@ -162,7 +162,7 @@ public class Transplace extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 

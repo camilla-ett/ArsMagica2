@@ -45,7 +45,7 @@ public class PageRitual extends CompendiumPage<IRitualInteraction.Wrapper> {
 		mc.fontRendererObj.drawString(reagentsName, posX + 72 - (mc.fontRendererObj.getStringWidth(reagentsName) / 2), posY + 50, 0);
 		Random randomizer = new Random(new Random(AMGuiHelper.instance.getSlowTicker()).nextLong());
 		
-		ItemStack[] reagents = element.getRitualInteraction().getReagents();
+		ItemStack[] reagents = element.getRitualInteraction().getRitualReagents();
 		int lines = (int) Math.ceil(reagents.length / 4F);
 		int yOffset = 0;
 		ItemStack stackTip = null;

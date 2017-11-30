@@ -112,7 +112,7 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 				((EntityLivingBase)target).setPositionAndUpdate(vector.x, vector.y - target.height, vector.z);
 				return true;
 			}
-		}else if (hasVinteumDust){
+		} else if (hasVinteumDust) {
 			ArrayList<Integer> copy = new ArrayList<Integer>();
 			for (ItemStack stack : ritualRunes){
 				if (stack.getItem() == ItemDefs.rune && stack.getItemDamage() <= 16){
@@ -197,7 +197,7 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemDefs.rune, 1, OreDictionary.WILDCARD_VALUE),
 				new ItemStack(ItemDefs.rune, 1, OreDictionary.WILDCARD_VALUE),
@@ -206,7 +206,7 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return RitualShapeHelper.instance.ringedCross.getWidth();
 	}
 

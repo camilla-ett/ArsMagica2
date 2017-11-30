@@ -109,7 +109,7 @@ public class Flight extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(Items.FEATHER),
 				AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
@@ -118,7 +118,7 @@ public class Flight extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 	

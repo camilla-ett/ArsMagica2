@@ -165,7 +165,7 @@ public class Light extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE),
 				new ItemStack(ItemDefs.manaFocus)
@@ -173,7 +173,7 @@ public class Light extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 

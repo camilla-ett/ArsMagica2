@@ -109,7 +109,7 @@ public class Entangle extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(Items.SLIME_BALL),
 				new ItemStack(Blocks.WEB)
@@ -117,7 +117,7 @@ public class Entangle extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 	

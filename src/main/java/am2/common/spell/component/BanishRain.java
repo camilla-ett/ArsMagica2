@@ -124,7 +124,7 @@ public class BanishRain extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(Items.WATER_BUCKET),
 				new ItemStack(Blocks.SNOW)
@@ -132,7 +132,7 @@ public class BanishRain extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 

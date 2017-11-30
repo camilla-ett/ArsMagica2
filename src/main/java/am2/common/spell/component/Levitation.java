@@ -109,7 +109,7 @@ public class Levitation extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(Items.FEATHER),
 				//TODO new ItemStack(BlockDefs.tarmaRoot)
@@ -117,7 +117,7 @@ public class Levitation extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 

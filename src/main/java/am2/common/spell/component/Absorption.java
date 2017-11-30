@@ -119,7 +119,7 @@ public MultiblockStructureDefinition getRitualShape(){
 }
 
 @Override
-public ItemStack[] getReagents(){
+public ItemStack[] getRitualReagents(){
 	return new ItemStack[]{
 			new ItemStack(Items.APPLE),
 			new ItemStack(Items.GOLD_NUGGET)
@@ -127,7 +127,7 @@ public ItemStack[] getReagents(){
 }
 
 @Override
-public int getReagentSearchRadius(){
+public int getRitualReagentSearchRadius(){
 	return 3;
 }
 

@@ -135,7 +135,7 @@ public class Rift extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemDefs.mobFocus),
 				AffinityShiftUtils.getEssenceForAffinity(Affinity.ENDER)
@@ -143,7 +143,7 @@ public class Rift extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 

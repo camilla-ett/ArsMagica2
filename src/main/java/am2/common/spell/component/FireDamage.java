@@ -138,7 +138,7 @@ public class FireDamage extends SpellComponent implements IRitualInteraction{
 
 
 	@Override
-	public ItemStack[] getReagents(){
+	public ItemStack[] getRitualReagents(){
 		return new ItemStack[]{
 				new ItemStack(ItemDefs.mobFocus),
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_SUNSTONE)
@@ -146,7 +146,7 @@ public class FireDamage extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public int getReagentSearchRadius(){
+	public int getRitualReagentSearchRadius(){
 		return 3;
 	}
 

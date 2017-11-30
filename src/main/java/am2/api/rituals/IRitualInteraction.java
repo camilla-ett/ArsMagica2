@@ -7,8 +7,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IRitualInteraction {
 	
-	public ItemStack[] getReagents();
-	public int getReagentSearchRadius();
+	public ItemStack[] getRitualReagents();
+	public int getRitualReagentSearchRadius();
 	public MultiblockStructureDefinition getRitualShape();
 	@SideOnly(Side.CLIENT)
 	public ItemStack getResult();
