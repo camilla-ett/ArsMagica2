@@ -67,7 +67,7 @@ public class Shield extends SpellComponent implements IRitualInteraction{
 	}
 	
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 80;
 	}
 

@@ -38,8 +38,8 @@ public class Speed extends SpellModifier{
 	}
 
 	@Override
-	public float getManaCostMultiplier(ItemStack spellStack, int stage, int quantity){
-		return 1.15f * quantity;
+	public float getManaCostMultiplier(){
+		return 1.15f;
 	}
 
 	@Override

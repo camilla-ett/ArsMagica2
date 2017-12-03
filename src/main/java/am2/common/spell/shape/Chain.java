@@ -146,7 +146,7 @@ public class Chain extends SpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack){
+	public float manaCostMultiplier(){
 		return 1.5f;
 	}
 

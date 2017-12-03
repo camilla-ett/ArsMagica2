@@ -142,7 +142,7 @@ public class Grow extends SpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 17.4f;
 	}
 

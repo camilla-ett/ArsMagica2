@@ -36,8 +36,8 @@ public class Healing extends SpellModifier{
 	}
 
 	@Override
-	public float getManaCostMultiplier(ItemStack spellStack, int stage, int quantity){
-		return 1 * quantity;
+	public float getManaCostMultiplier() {
+		return 1.2F;
 	}
 
 	@Override

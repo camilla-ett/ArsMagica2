@@ -31,13 +31,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
 
-@SuppressWarnings("deprecation")
 public class Appropriation extends SpellComponent{
 
 	private static final String storageKey = "stored_data";
@@ -145,13 +145,12 @@ public class Appropriation extends SpellComponent{
 					}
 				}else if (type.equals("block")){
 					//String blockName = storageCompound.getString("blockName");
-					int blockID = storageCompound.getInteger("blockID");
-					int meta = storageCompound.getInteger("meta");
+					int stateID = storageCompound.getInteger("stateID");
 
 					//Block block = Block.getBlockFromName(blockName);
-					Block block = Block.getBlockById(blockID);
-					if (block != null){
-						world.setBlockState(pos, block.getStateFromMeta(meta), 2);
+					IBlockState state = Block.getStateById(stateID);
+					if (state != null){
+						world.setBlockState(pos, state, 2);
 					}else{
 						if (!player.worldObj.isRemote)
 							player.addChatComponentMessage(new TextComponentString(I18n.format("am2.tooltip.approError")));
@@ -178,7 +177,7 @@ public class Appropriation extends SpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 415;
 	}
 
@@ -232,7 +231,7 @@ public class Appropriation extends SpellComponent{
 			return false;
 		}
 
-		Block block = world.getBlockState(blockPos).getBlock();
+		IBlockState state = world.getBlockState(blockPos);
 //
 //		if (block == null){
 //			return false;
@@ -282,9 +281,9 @@ public class Appropriation extends SpellComponent{
 						stack.setTagCompound(nbt);
 					}
 					if (blockSnapshots.size() > 1){
-						placeEvent = ForgeEventFactory.onPlayerMultiBlockPlace(casterPlayer, blockSnapshots, blockFace);
+						placeEvent = ForgeEventFactory.onPlayerMultiBlockPlace(casterPlayer, blockSnapshots, blockFace, EnumHand.MAIN_HAND);
 					} else if (blockSnapshots.size() == 1){
-						placeEvent = ForgeEventFactory.onPlayerBlockPlace(casterPlayer, blockSnapshots.get(0), blockFace);
+						placeEvent = ForgeEventFactory.onPlayerBlockPlace(casterPlayer, blockSnapshots.get(0), blockFace, EnumHand.MAIN_HAND);
 					}
 
 					if (placeEvent != null && (placeEvent.isCanceled())){
@@ -319,16 +318,14 @@ public class Appropriation extends SpellComponent{
 				}
 			}else{
 
-				if (block == null || block.getBlockHardness(world.getBlockState(blockPos), world, blockPos) == -1.0f){
+				if (state == null || state.getBlockHardness(world, blockPos) == -1.0f){
 					return false;
 				}
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString(storageType, "block");
 				//data.setString("blockName", block.getUnlocalizedName().replace("tile.", ""));
-				data.setInteger("blockID", Block.getIdFromBlock(block));
-				int meta = world.getBlockState(blockPos).getBlock().getMetaFromState(world.getBlockState(blockPos));
-				data.setInteger("meta", meta);
+				data.setInteger("stateID", Block.getStateId(state));
 
 				EntityPlayerMP casterPlayer = (EntityPlayerMP)DummyEntityPlayer.fromEntityLiving(caster);
 				if (!ForgeEventFactory.doPlayerHarvestCheck(casterPlayer, world.getBlockState(blockPos), true)){

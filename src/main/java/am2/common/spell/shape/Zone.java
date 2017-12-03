@@ -57,7 +57,7 @@ public class Zone extends SpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack){
+	public float manaCostMultiplier(){
 		return 4.5f;
 	}
 

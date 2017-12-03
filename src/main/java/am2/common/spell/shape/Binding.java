@@ -85,7 +85,7 @@ public class Binding extends SpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack){
+	public float manaCostMultiplier(){
 		return 1;
 	}
 

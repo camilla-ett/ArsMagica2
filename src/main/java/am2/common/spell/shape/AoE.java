@@ -184,21 +184,23 @@ public class AoE extends SpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack){
-		int multiplier = 2;
-		int radiusMods = 0;
-		int stages = SpellUtils.numStages(spellStack);
-		for (int i = SpellUtils.currentStage(spellStack); i < stages; ++i){
-			if (!SpellUtils.getShapeForStage(spellStack, i).equals(this)) continue;
-
-			ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, i);
-			for (SpellModifier modifier : mods){
-				if (modifier.getAspectsModified().contains(SpellModifiers.RADIUS)){
-					radiusMods++;
-				}
-			}
-		}
-		return multiplier * (radiusMods + 1);
+	public float manaCostMultiplier(){
+		//FIXME
+//		int multiplier = 2;
+//		int radiusMods = 0;
+//		int stages = SpellUtils.numStages(spellStack);
+//		for (int i = SpellUtils.currentStage(spellStack); i < stages; ++i){
+//			if (!SpellUtils.getShapeForStage(spellStack, i).equals(this)) continue;
+//
+//			ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, i);
+//			for (SpellModifier modifier : mods){
+//				if (modifier.getAspectsModified().contains(SpellModifiers.RADIUS)){
+//					radiusMods++;
+//				}
+//			}
+//		}
+//		return multiplier * (radiusMods + 1);
+		return 2F;
 	}
 
 	@Override

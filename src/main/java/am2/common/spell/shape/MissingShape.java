@@ -27,7 +27,7 @@ public class MissingShape extends SpellShape {
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack) {
+	public float manaCostMultiplier() {
 		// TODO Auto-generated method stub
 		return 0F;
 	}

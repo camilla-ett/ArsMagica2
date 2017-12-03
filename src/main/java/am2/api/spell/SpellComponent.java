@@ -42,7 +42,7 @@ public abstract class SpellComponent extends AbstractSpellPart{
 	/**
 	 * Gets the mana cost of the spell
 	 */
-	public abstract float manaCost(EntityLivingBase caster);
+	public abstract float manaCost();
 
 	/**
 	 * Gets any reagents that must be present in the caster's inventory in order
@@ -66,7 +66,7 @@ public abstract class SpellComponent extends AbstractSpellPart{
 	 * Gets the burnout of the spell
 	 */
 	public float burnout(EntityLivingBase caster) {
-		return manaCost(caster) * AMConfig.MANA_BURNOUT_RATIO;
+		return manaCost() * AMConfig.MANA_BURNOUT_RATIO;
 	}
 	
 	/**

@@ -70,7 +70,7 @@ public class WizardsAutumn extends SpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 15;
 	}
 

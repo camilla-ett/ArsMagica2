@@ -78,7 +78,7 @@ public class Ignition extends SpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 35;
 	}
 

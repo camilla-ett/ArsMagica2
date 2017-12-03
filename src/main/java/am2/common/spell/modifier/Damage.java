@@ -36,8 +36,8 @@ public class Damage extends SpellModifier{
 	}
 
 	@Override
-	public float getManaCostMultiplier(ItemStack spellStack, int stage, int quantity){
-		return 1.3f * quantity;
+	public float getManaCostMultiplier(){
+		return 1.3f;
 	}
 
 	@Override

@@ -83,7 +83,7 @@ public class Repel extends SpellComponent{
 	}
 	
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 5.0f;
 	}
 

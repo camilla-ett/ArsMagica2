@@ -400,7 +400,7 @@ public class SpellUtils {
 					String type = tmp.getString(TYPE);
 					if (type.equalsIgnoreCase(TYPE_COMPONENT)) {
 						SpellComponent component = SpellRegistry.getComponentFromName(tmp.getString(ID));
-						cost += component.manaCost(ArsMagica2.proxy.getLocalPlayer());
+						cost += component.manaCost();
 						if (caster instanceof EntityPlayer) {
                             for (Affinity aff : affinities) {
                                 for (Affinity aff2 : component.getAffinity()) {
@@ -416,11 +416,11 @@ public class SpellUtils {
 					}
 					if (type.equalsIgnoreCase(TYPE_MODIFIER)) {
 						SpellModifier mod = SpellRegistry.getModifierFromName(tmp.getString(ID));
-						modMultiplier *= mod.getManaCostMultiplier(mergedStack, j, 1);
+						modMultiplier *= mod.getManaCostMultiplier();
 					}
 					if (type.equalsIgnoreCase(TYPE_SHAPE)) {
 						SpellShape shape = SpellRegistry.getShapeFromName(tmp.getString(ID));
-						modMultiplier *= shape.manaCostMultiplier(mergedStack);
+						modMultiplier *= shape.manaCostMultiplier();
 					}
 				}
 			}

@@ -67,8 +67,8 @@ public class Lunar extends SpellModifier{
 	}
 
 	@Override
-	public float getManaCostMultiplier(ItemStack spellStack, int stage, int quantity){
-		return 4.0f * quantity;
+	public float getManaCostMultiplier(){
+		return 4.0f;
 	}
 
 	@Override

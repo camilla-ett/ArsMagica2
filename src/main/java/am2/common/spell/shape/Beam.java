@@ -157,17 +157,18 @@ public class Beam extends SpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack){
-		int stages = SpellUtils.numStages(spellStack);
-		for (int i = SpellUtils.currentStage(spellStack); i < stages; ++i){
-			SpellShape shape = SpellUtils.getShapeForStage(spellStack, i);
-			if (!shape.equals(this)) continue;
-			
-			// return 1 when multiple beams
-			if (shape.getClass() == Beam.class) {
-				return 1.0f;
-			}
-		}
+	public float manaCostMultiplier(){
+		//FIXME
+//		int stages = SpellUtils.numStages(spellStack);
+//		for (int i = SpellUtils.currentStage(spellStack); i < stages; ++i){
+//			SpellShape shape = SpellUtils.getShapeForStage(spellStack, i);
+//			if (!shape.equals(this)) continue;
+//			
+//			// return 1 when multiple beams
+//			if (shape.getClass() == Beam.class) {
+//				return 1.0f;
+//			}
+//		}
 		return 0.2f;
 	}
 

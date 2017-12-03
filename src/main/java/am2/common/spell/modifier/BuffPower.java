@@ -7,7 +7,6 @@ import am2.api.spell.SpellModifiers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -37,8 +36,8 @@ public class BuffPower extends SpellModifier{
 	}
 
 	@Override
-	public float getManaCostMultiplier(ItemStack spellStack, int stage, int quantity){
-		return 1.25f * quantity;
+	public float getManaCostMultiplier(){
+		return 1.25f;
 	}
 
 	@Override

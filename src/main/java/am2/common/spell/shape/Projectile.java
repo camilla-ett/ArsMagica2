@@ -36,7 +36,7 @@ public class Projectile extends SpellShape {
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack) {
+	public float manaCostMultiplier() {
 		return 1.25F;
 	}
 

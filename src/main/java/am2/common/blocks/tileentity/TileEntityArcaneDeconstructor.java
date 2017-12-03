@@ -10,6 +10,10 @@ import am2.api.spell.SpellShape;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleHoldPosition;
 import am2.common.defs.ItemDefs;
+import am2.common.packet.AMDataReader;
+import am2.common.packet.AMDataWriter;
+import am2.common.packet.AMNetHandler;
+import am2.common.packet.AMTileEntityPacketIDs;
 import am2.common.power.PowerNodeRegistry;
 import am2.common.power.PowerTypes;
 import am2.common.spell.component.Summon;
@@ -40,9 +44,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements IInventory, ISidedInventory, IKeystoneLockable<TileEntityArcaneDeconstructor>{
+public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements IInventory, ITileEntityPacketSync, ISidedInventory, IKeystoneLockable<TileEntityArcaneDeconstructor>{
+	
+	private static final int SYNC_DECONSTRUCTION_TIME = 0x1;
+	private static final int SYNC_DECONSTRUCTION_RECIPE = 0x2;
+	private static final int SYNC_INVENTORY = 0x4;
 
 	private int particleCounter;
+	private int syncCode = -1;
 	private static final float DECONSTRUCTION_POWER_COST = 1.25f; //power cost per tick
 	private static final int DECONSTRUCTION_TIME = 200; //how long does it take to deconstruct something?
 	private int current_deconstruction_time = 0; //how long have we been deconstructing something?
@@ -89,12 +98,13 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 		}else{
 			if (!isActive()){
 				if (inventory[0] != null){
-					current_deconstruction_time = 1;
+					setDeconstructionTime(1);
 				}
 			}else{
 				if (inventory[0] == null){
-					current_deconstruction_time = 0;
+					setDeconstructionTime(0);
 					deconstructionRecipe = null;
+					this.syncCode |= SYNC_DECONSTRUCTION_RECIPE;
 					this.markDirty();
 					//worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
 				}else{
@@ -105,7 +115,8 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 								setInventorySlotContents(0, null);
 							}
 						}else{
-							if (current_deconstruction_time++ >= DECONSTRUCTION_TIME){
+							setDeconstructionTime(current_deconstruction_time + 1);
+							if (current_deconstruction_time >= DECONSTRUCTION_TIME){
 							        if(getDeconstructionRecipe() == true){
 									for (ItemStack stack : deconstructionRecipe){
 										transferOrEjectItem(stack);
@@ -113,7 +124,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 								}
 								deconstructionRecipe = null;
 								decrStackSize(0, 1);
-								current_deconstruction_time = 0;
+								setDeconstructionTime(0);
 							}
 							if (current_deconstruction_time % 10 == 0)
 								this.markDirty();
@@ -123,6 +134,8 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 					}
 				}
 			}
+			if (this.shouldSync())
+				AMNetHandler.INSTANCE.sendPacketToAllClientsNear(worldObj.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64F, AMTileEntityPacketIDs.ARCANE_DECONSTRUCTOR, this.createSyncPacket());
 		}
 	}
 
@@ -198,7 +211,11 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 				}
 			}
 
-			deconstructionRecipe = recipeItems.toArray(new ItemStack[recipeItems.size()]);
+			ItemStack[] arr = recipeItems.toArray(new ItemStack[recipeItems.size()]);
+			if (arr != deconstructionRecipe) {
+				this.syncCode |= SYNC_DECONSTRUCTION_RECIPE;
+				deconstructionRecipe = arr;
+			}
 			return true;
 		}else{
 			IRecipe recipe = RecipeUtils.getRecipeFor(checkStack);
@@ -217,7 +234,11 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 					}
 				}
 			}
-			deconstructionRecipe = recipeItems.toArray(new ItemStack[recipeItems.size()]);
+			ItemStack[] arr = recipeItems.toArray(new ItemStack[recipeItems.size()]);
+			if (arr != deconstructionRecipe) {
+				this.syncCode |= SYNC_DECONSTRUCTION_RECIPE;
+				deconstructionRecipe = arr;
+			}
 			return true;
 		}
 	}
@@ -267,7 +288,14 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 		item.setEntityItemStack(stack);
 		worldObj.spawnEntityInWorld(item);
 	}
-
+	
+	private void setDeconstructionTime(int time) {
+		if (this.current_deconstruction_time != time) {
+			this.current_deconstruction_time = time;
+			this.syncCode |= SYNC_DECONSTRUCTION_TIME;
+		}
+	}
+	
 	public boolean isActive(){
 		return current_deconstruction_time > 0;
 	}
@@ -297,6 +325,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 			if (inventory[i].stackSize == 0){
 				inventory[i] = null;
 			}
+			this.syncCode |= SYNC_INVENTORY;
 			return itemstack1;
 		}else{
 			return null;
@@ -308,6 +337,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 		if (inventory[i] != null){
 			ItemStack itemstack = inventory[i];
 			inventory[i] = null;
+			this.syncCode |= SYNC_INVENTORY;
 			return itemstack;
 		}else{
 			return null;
@@ -317,6 +347,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
+		this.syncCode |= SYNC_INVENTORY;
 		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
 			itemstack.stackSize = getInventoryStackLimit();
 		}
@@ -466,5 +497,75 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	public void clear() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public byte[] createSyncPacket() {
+		AMDataWriter writer = new AMDataWriter();
+		writer.add(syncCode);
+		if ((syncCode & SYNC_DECONSTRUCTION_TIME) == SYNC_DECONSTRUCTION_TIME)
+			writer.add(current_deconstruction_time);
+		if ((syncCode & SYNC_INVENTORY) == SYNC_INVENTORY) {
+			for (int i = 0; i < inventory.length; i++) {
+				ItemStack stack = inventory[i];
+				if (stack != null) {
+					writer.add(true);
+					writer.add(stack.writeToNBT(new NBTTagCompound()));
+				} else
+					writer.add(false);
+			}
+		}
+		if ((syncCode & SYNC_DECONSTRUCTION_RECIPE) == SYNC_DECONSTRUCTION_RECIPE) {
+			if (deconstructionRecipe != null) {
+				writer.add(true);
+				writer.add(deconstructionRecipe.length);
+				for (int i = 0; i < deconstructionRecipe.length; i++) {
+					ItemStack stack = deconstructionRecipe[i];
+					if (stack != null) {
+						writer.add(true);
+						writer.add(stack.writeToNBT(new NBTTagCompound()));
+					} else
+						writer.add(false);
+				}
+			} else
+				writer.add(false);
+		}
+		return writer.generate();
+	}
+
+	@Override
+	public boolean handleSyncPacket(byte[] packet) {
+		AMDataReader reader = new AMDataReader(packet, false);
+		int syncCode = reader.getInt();
+		if ((syncCode & SYNC_DECONSTRUCTION_TIME) == SYNC_DECONSTRUCTION_TIME)
+			this.current_deconstruction_time = reader.getInt();
+		if ((syncCode & SYNC_INVENTORY) == SYNC_INVENTORY) {
+			for (int i = 0; i < inventory.length; i++) {
+				if (reader.getBoolean()) {
+					inventory[i] = ItemStack.loadItemStackFromNBT(reader.getNBTTagCompound());
+				}
+			}
+		}
+		if ((syncCode & SYNC_DECONSTRUCTION_RECIPE) == SYNC_DECONSTRUCTION_RECIPE) {
+			if (reader.getBoolean()) {
+				deconstructionRecipe = new ItemStack[reader.getInt()];
+				for (int i = 0; i < deconstructionRecipe.length; i++) {
+					if (reader.getBoolean()) {
+						deconstructionRecipe[i] = ItemStack.loadItemStackFromNBT(reader.getNBTTagCompound());
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public boolean shouldSync() {
+		return syncCode != 0;
+	}
+
+	@Override
+	public void confirm() {
+		this.syncCode = 0;
 	}
 }

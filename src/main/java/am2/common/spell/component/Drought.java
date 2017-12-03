@@ -75,7 +75,7 @@ public class Drought extends SpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 60;
 	}
 

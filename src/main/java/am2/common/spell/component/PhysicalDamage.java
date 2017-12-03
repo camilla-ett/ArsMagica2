@@ -40,7 +40,7 @@ public class PhysicalDamage extends SpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 40;
 	}
 

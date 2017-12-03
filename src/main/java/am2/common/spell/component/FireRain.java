@@ -81,7 +81,7 @@ public class FireRain extends SpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 3000;
 	}
 

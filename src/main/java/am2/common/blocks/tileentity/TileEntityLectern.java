@@ -28,7 +28,9 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 	public int particleAge;
 	public int particleMaxAge = 150;
 	private boolean increasing = true;
+	
 	public TileEntityLectern(){
+		
 	}
 
 	public void resetParticleAge(){
@@ -60,8 +62,6 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 				}
 			}
 		}
-		
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 	}
 
 	private void updateBookRender() {
@@ -226,5 +226,4 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 	public boolean getOverpowered(){
 		return this.overPowered;
 	}
-
 }

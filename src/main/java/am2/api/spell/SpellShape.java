@@ -20,7 +20,7 @@ public abstract class SpellShape extends AbstractSpellPart{
 	 * @param spellStack the itemstack representing the spell (useful if you want to vary based on added modifiers as well, for example)
 	 * @return
 	 */
-	public abstract float manaCostMultiplier(ItemStack spellStack);
+	public abstract float manaCostMultiplier();
 
 	/**
 	 * Is the spell a terminus shape?  Return true if this component does not continue the spell chain when proccing.

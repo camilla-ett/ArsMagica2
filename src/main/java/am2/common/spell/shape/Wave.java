@@ -60,7 +60,7 @@ public class Wave extends SpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack){
+	public float manaCostMultiplier(){
 		return 3f;
 	}
 

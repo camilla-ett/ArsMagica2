@@ -104,7 +104,7 @@ public class Attract extends SpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 2.6f;
 	}
 

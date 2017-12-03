@@ -37,8 +37,8 @@ public class RuneProcs extends SpellModifier{
 	}
 
 	@Override
-	public float getManaCostMultiplier(ItemStack spellStack, int stage, int quantity){
-		return 1.65f * quantity;
+	public float getManaCostMultiplier(){
+		return 1.65f;
 	}
 
 	@Override

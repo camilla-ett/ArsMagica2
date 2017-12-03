@@ -78,7 +78,7 @@ public class Touch extends SpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack){
+	public float manaCostMultiplier(){
 		return 1;
 	}
 

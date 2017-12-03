@@ -6,7 +6,6 @@ import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -28,7 +27,7 @@ public class MissingModifier extends SpellModifier{
 	}
 
 	@Override
-	public float getManaCostMultiplier(ItemStack spellStack, int stage, int quantity){
+	public float getManaCostMultiplier(){
 		return 1;
 	}
 

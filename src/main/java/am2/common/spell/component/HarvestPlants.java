@@ -52,7 +52,7 @@ public class HarvestPlants extends SpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 60;
 	}
 

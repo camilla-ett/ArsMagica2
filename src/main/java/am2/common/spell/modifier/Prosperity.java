@@ -34,8 +34,8 @@ public class Prosperity extends SpellModifier{
 	}
 
 	@Override
-	public float getManaCostMultiplier(ItemStack spellStack, int stage, int quantity){
-		return 1.25f * quantity;
+	public float getManaCostMultiplier(){
+		return 1.25f;
 	}
 
 	@Override

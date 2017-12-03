@@ -52,7 +52,7 @@ public class Contingency_Hit extends SpellShape{
 	}
 
 	@Override
-	public float manaCostMultiplier(ItemStack spellStack){
+	public float manaCostMultiplier(){
 		return 10;
 	}
 

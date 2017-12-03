@@ -56,7 +56,7 @@ public class Reflect extends SpellComponent{
 	}
 
 	@Override
-	public float manaCost(EntityLivingBase caster){
+	public float manaCost(){
 		return 1440;
 	}
 

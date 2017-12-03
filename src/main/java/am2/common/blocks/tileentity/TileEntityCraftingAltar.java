@@ -112,7 +112,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 //	private static final int lectern_mutex = 4;
 
 	private String currentSpellName = "";
-private IBlockState mimicState;
+	private IBlockState mimicState;
 
 	public TileEntityCraftingAltar(){
 		super(500);

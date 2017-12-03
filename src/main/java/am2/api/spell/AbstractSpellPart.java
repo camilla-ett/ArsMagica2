@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 
 
-public abstract class AbstractSpellPart extends IForgeRegistryEntry.Impl<AbstractSpellPart> {
+public abstract class AbstractSpellPart extends IForgeRegistryEntry.Impl<AbstractSpellPart> implements Comparable<AbstractSpellPart> {
 	
 	/**
 	 * Supports :
@@ -25,5 +25,15 @@ public abstract class AbstractSpellPart extends IForgeRegistryEntry.Impl<Abstrac
 	 * @return
 	 */
 	public abstract EnumSet<SpellModifiers> getModifiers();
-
+	
+	@Override
+	public int compareTo(AbstractSpellPart o) {
+		if (this instanceof SpellShape && o instanceof SpellShape)
+			return 0;
+		if (this instanceof SpellShape)
+			return -1;
+		if (o instanceof SpellShape)
+			return 1;
+		return 0;
+	}
 }
