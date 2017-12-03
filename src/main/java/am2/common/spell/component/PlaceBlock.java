@@ -8,10 +8,9 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
-import am2.common.defs.ItemDefs;
 import am2.common.utils.InventoryUtilities;
-import am2.common.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -31,8 +30,7 @@ import net.minecraftforge.common.util.Constants;
 
 public class PlaceBlock extends SpellComponent{
 
-	private static final String KEY_BLOCKID = "PlaceBlockID";
-	private static final String KEY_META = "PlaceMeta";
+	private static final String KEY_STATE = "PlaceState";
 
 	@Override
 	public Object[] getRecipe(){
@@ -44,28 +42,25 @@ public class PlaceBlock extends SpellComponent{
 		};
 	}
 
-	@SuppressWarnings("deprecation")
-	private IBlockState getPlaceBlock(ItemStack stack){
-		if (stack.hasTagCompound() && stack.getTagCompound().hasKey(KEY_BLOCKID)){
-			return Block.getBlockById(stack.getTagCompound().getInteger(KEY_BLOCKID)).getStateFromMeta(stack.getTagCompound().getInteger(KEY_META));
+	private IBlockState getPlaceBlock(SpellData spell){
+		if (spell.getStoredData().hasKey(KEY_STATE)){
+			return Block.getStateById(spell.getStoredData().getInteger(KEY_STATE));
 		}
 		return null;
 	}
 
-	private void setPlaceBlock(ItemStack stack, IBlockState state){
-		if (!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-
-		stack.getTagCompound().setInteger(KEY_BLOCKID, Block.getIdFromBlock(state.getBlock()));
-		stack.getTagCompound().setInteger(KEY_META, state.getBlock().getMetaFromState(state));
-
+	private void setPlaceBlock(SpellData spell, IBlockState state){
+		spell.getStoredData().setInteger(KEY_STATE, Block.getStateId(state));
+		
+		if (!spell.getSource().hasTagCompound())
+			spell.getSource().setTagCompound(new NBTTagCompound());
 		//set lore entry so that the stack displays the name of the block to place
-		if (!stack.getTagCompound().hasKey("Lore"))
-			stack.getTagCompound().setTag("Lore", new NBTTagList());
+		if (!spell.getSource().getTagCompound().hasKey("Lore"))
+			spell.getSource().getTagCompound().setTag("Lore", new NBTTagList());
 
 		ItemStack blockStack = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
 
-		NBTTagList tagList = stack.getTagCompound().getTagList("Lore", Constants.NBT.TAG_COMPOUND);
+		NBTTagList tagList = spell.getSource().getTagCompound().getTagList("Lore", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < tagList.tagCount(); ++i){
 			String str = tagList.getStringTagAt(i);
 			if (str.startsWith(String.format(I18n.format("am2.tooltip.placeBlockSpell"), ""))){
@@ -74,7 +69,7 @@ public class PlaceBlock extends SpellComponent{
 		}
 		tagList.appendTag(new NBTTagString(String.format(I18n.format("am2.tooltip.placeBlockSpell"), blockStack.getDisplayName())));
 
-		stack.getTagCompound().setTag("Lore", tagList);
+		spell.getSource().getTagCompound().setTag("Lore", tagList);
 	}
 	
 	@Override
@@ -83,17 +78,13 @@ public class PlaceBlock extends SpellComponent{
 	}
 	
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (!(caster instanceof EntityPlayer))
 			return false;
 
 		EntityPlayer player = (EntityPlayer)caster;
-		ItemStack spellStack = player.getActiveItemStack();
-		if (spellStack == null || spellStack.getItem() != ItemDefs.spell || !SpellUtils.componentIsPresent(spellStack, PlaceBlock.class))
-			return false;
 
-		IBlockState bd = getPlaceBlock(spellStack);
+		IBlockState bd = getPlaceBlock(spell);
 
 		if (bd != null && !caster.isSneaking()){
 			if (world.isAirBlock(pos) || !world.getBlockState(pos).isSideSolid(world, pos, blockFace))
@@ -112,7 +103,7 @@ public class PlaceBlock extends SpellComponent{
 			}
 		}else if (caster.isSneaking()){
 			if (!world.isRemote && !world.isAirBlock(pos)){
-				setPlaceBlock(spellStack, world.getBlockState(pos));
+				setPlaceBlock(spell, world.getBlockState(pos));
 			}
 			return true;
 		}
@@ -120,7 +111,7 @@ public class PlaceBlock extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		return false;
 	}
 

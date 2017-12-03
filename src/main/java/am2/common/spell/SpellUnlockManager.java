@@ -2,21 +2,18 @@ package am2.common.spell;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.SpellRegistry;
 import am2.api.event.SpellCastEvent;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
-import am2.api.spell.SpellComponent;
-import am2.api.spell.SpellModifier;
-import am2.api.spell.SpellModifiers;
+import am2.api.spell.SpellData;
 import am2.common.defs.SkillDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.extensions.SkillData;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -109,27 +106,18 @@ public class SpellUnlockManager{
 			this.requiredComponents = components;
 		}
 
-		public boolean partIsInStage(ItemStack spell, AbstractSpellPart part, int stage){
-			boolean bool = false;
+		public boolean partIsInStage(SpellData spell, AbstractSpellPart part, int stage){
 			if (part == null)
 				return false;
-			for (SpellComponent comp : SpellUtils.getComponentsForStage(spell, -1))
-				if (part.getClass().isInstance(comp))
-					bool =  true;
-
-			if (part instanceof SpellComponent && !bool){
-				return false;
-			}else if (part instanceof SpellModifier){
-				for (SpellModifiers modifier : ((SpellModifier)part).getAspectsModified()){
-					if (!SpellUtils.modifierIsPresent(modifier, spell)){
-						return false;
-					}
-				}
-			}
-			return true;
+			for (List<AbstractSpellPart> parts : spell.getStages())
+				for (AbstractSpellPart p : parts)
+					if (part.getClass().isInstance(p))
+						return true;
+			
+			return false;
 		}
 
-		public boolean willSpellUnlock(ItemStack spell){
+		public boolean willSpellUnlock(SpellData spell){
 			boolean found = true;
 			for (AbstractSpellPart part : requiredComponents){
 				if (!partIsInStage(spell, part, 0)){

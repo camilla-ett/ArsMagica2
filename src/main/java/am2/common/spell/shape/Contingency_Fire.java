@@ -3,13 +3,13 @@ package am2.common.spell.shape;
 import java.util.EnumSet;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.spell.ContingencyType;
 import am2.common.spell.SpellCastResult;
 import am2.common.utils.AffinityShiftUtils;
@@ -34,8 +34,8 @@ public class Contingency_Fire extends SpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
-		EntityExtension.For(target != null ? target : caster).setContingency(ContingencyType.FIRE, stack);
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+		EntityExtension.For(target != null ? target : caster).setContingency(ContingencyType.FIRE, spell);
 		return SpellCastResult.SUCCESS;
 	}
 

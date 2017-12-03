@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleConverge;
@@ -29,7 +30,7 @@ import net.minecraft.world.World;
 public class Mark extends SpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		EntityExtension.For(caster).setMark(impactX, impactY, impactZ, caster.worldObj.provider.getDimension());
 		if (caster instanceof EntityPlayer && world.isRemote){
 			((EntityPlayer)caster).addChatMessage(new TextComponentString("Mark Set"));
@@ -38,7 +39,7 @@ public class Mark extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (!(target instanceof EntityLivingBase)){
 			return false;
 		}

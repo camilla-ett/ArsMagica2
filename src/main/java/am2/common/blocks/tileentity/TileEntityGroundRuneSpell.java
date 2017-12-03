@@ -1,12 +1,11 @@
 package am2.common.blocks.tileentity;
 
+import am2.api.spell.SpellData;
 import am2.common.entity.EntityDummyCaster;
 import am2.common.extensions.EntityExtension;
 import am2.common.utils.DummyEntityPlayer;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -14,7 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 
 public class TileEntityGroundRuneSpell extends TileEntity implements ITickable{
-	private ItemStack spellStack = null;
+	private SpellData spell = null;
 	private EntityPlayer caster = null;
 	private String placedByName = null;
 
@@ -25,12 +24,12 @@ public class TileEntityGroundRuneSpell extends TileEntity implements ITickable{
 		
 	}
 
-	public void setSpellStack(ItemStack spellStack){
-		this.spellStack = spellStack.copy();
+	public void setSpellStack(SpellData spell){
+		this.spell = spell.copy();
 	}
 	
-	public ItemStack getSpellStack() {
-		return spellStack;
+	public SpellData getSpell() {
+		return spell;
 	}
 
 	public void setNumTriggers(int triggers){
@@ -59,17 +58,17 @@ public class TileEntityGroundRuneSpell extends TileEntity implements ITickable{
 	}
 	
 	public boolean canApply(EntityLivingBase entity) {
-		if (spellStack == null) return false;
+		if (spell == null) return false;
 		prepForActivate();
 		if (entity.getName().equals(placedByName)) return false;
 		return true;
 	}
 
 	public boolean applySpellEffect(EntityLivingBase target){
-		if (spellStack == null) return false;
+		if (spell == null) return false;
 		if (!canApply(target)) return false;
 		prepForActivate();
-		SpellUtils.applyStackStage(spellStack, caster, target, target.posX, target.posY, target.posZ, null, worldObj, false, false, 0);
+		spell.execute(worldObj, caster, target, target.posX, target.posY, target.posZ, null);
 		return true;
 	}
 
@@ -81,8 +80,8 @@ public class TileEntityGroundRuneSpell extends TileEntity implements ITickable{
 	public NBTTagCompound writeToNBT(NBTTagCompound compound){
 		if (placedByName != null)
 			compound.setString("placedByName", placedByName);
-		if (spellStack != null)
-			compound.setTag("spellStack", spellStack.writeToNBT(new NBTTagCompound()));
+		if (spell != null)
+			compound.setTag("spellStack", spell.writeToNBT(new NBTTagCompound()));
 		compound.setInteger("numTrigger", numTriggers);
 		compound.setBoolean("permanent", isPermanent);
 		return compound;
@@ -93,7 +92,7 @@ public class TileEntityGroundRuneSpell extends TileEntity implements ITickable{
 		if (compound.hasKey("placedByName"))
 			placedByName = compound.getString("placedByName");
 		if (compound.hasKey("spellStack"))
-			spellStack = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("spellStack"));
+			spell = SpellData.readFromNBT(compound.getCompoundTag("spellStack"));
 		numTriggers = compound.getInteger("numTrigger");
 		isPermanent = compound.getBoolean("permanent");
 	}

@@ -12,6 +12,7 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleOrbitEntity;
@@ -38,7 +39,7 @@ import net.minecraft.world.World;
 public class Dispel extends SpellComponent{
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 
 		if (!(target instanceof EntityLivingBase)) return false;
 
@@ -162,7 +163,7 @@ public class Dispel extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace,
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace,
 			double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		// TODO Auto-generated method stub
 		return false;

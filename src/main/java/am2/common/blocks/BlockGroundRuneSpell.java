@@ -2,11 +2,11 @@ package am2.common.blocks;
 
 import java.util.List;
 
+import am2.api.spell.SpellData;
 import am2.common.blocks.tileentity.TileEntityGroundRuneSpell;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -75,7 +75,7 @@ public class BlockGroundRuneSpell extends BlockGroundRune{
 		return null;
 	}
 
-	public void setSpellStack(World world, BlockPos pos, ItemStack effect){
+	public void setSpellStack(World world, BlockPos pos, SpellData effect){
 		TileEntityGroundRuneSpell te = getTileEntity(world, pos);
 		if (te == null)
 			return;

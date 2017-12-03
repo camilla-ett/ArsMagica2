@@ -7,10 +7,11 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.common.extensions.EntityExtension;
-import am2.common.utils.SpellUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -36,26 +37,26 @@ public class Dig extends SpellComponent {
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		if (!(caster instanceof EntityPlayer))
 			return false;
 		if (world.isRemote)
 			return true;
-        if (SpellUtils.modifierIsPresent(SpellModifiers.SILKTOUCH_LEVEL, stack)) {
-			if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) <= 0) {
-				stack.addEnchantment(Enchantments.SILK_TOUCH, 1);
+        if (spell.isModifierPresent(SpellModifiers.SILKTOUCH_LEVEL)) {
+			if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, spell.getSource()) <= 0) {
+				spell.getSource().addEnchantment(Enchantments.SILK_TOUCH, 1);
 			}
-		}else if (SpellUtils.modifierIsPresent(SpellModifiers.FORTUNE_LEVEL, stack)){
+		}else if (spell.isModifierPresent(SpellModifiers.FORTUNE_LEVEL)){
 
-			if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack) <= 0){
-				stack.addEnchantment(Enchantments.FORTUNE, SpellUtils.countModifiers(SpellModifiers.FORTUNE_LEVEL, stack));
+			if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, spell.getSource()) <= 0){
+				spell.getSource().addEnchantment(Enchantments.FORTUNE, spell.getModifierCount(SpellModifiers.FORTUNE_LEVEL));
 			}
 		}
 
 		IBlockState state = world.getBlockState(blockPos);
 		float hardness = state.getBlockHardness(world, blockPos);
-		if (hardness != -1 && state.getBlock().getHarvestLevel(state) <= SpellUtils.getModifiedInt_Add(2, stack, caster, null, world, SpellModifiers.MINING_POWER)) {
-			state.getBlock().harvestBlock(world, (EntityPlayer)caster, blockPos, state, null, stack);
+		if (hardness != -1 && state.getBlock().getHarvestLevel(state) <= spell.getModifiedValue(2, SpellModifiers.MINING_POWER, Operation.ADD, world, caster, null)) {
+			state.getBlock().harvestBlock(world, (EntityPlayer)caster, blockPos, state, null, spell.getSource());
 			world.destroyBlock(blockPos, false);
 			EntityExtension.For(caster).deductMana(hardness * 1.28f);
 		}
@@ -68,7 +69,7 @@ public class Dig extends SpellComponent {
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world,
+	public boolean applyEffectEntity(SpellData spell, World world,
 			EntityLivingBase caster, Entity target) {
 		return false;
 	}

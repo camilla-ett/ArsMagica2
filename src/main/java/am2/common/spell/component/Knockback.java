@@ -8,14 +8,15 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
 import am2.client.particles.ParticleMoveOnHeading;
 import am2.common.defs.ItemDefs;
 import am2.common.packet.AMNetHandler;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,11 +31,10 @@ import net.minecraft.world.World;
 public class Knockback extends SpellComponent{
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 
 		if (target instanceof EntityLivingBase){
-			double speed = 1.5;
-			speed = SpellUtils.getModifiedDouble_Add(speed, stack, caster, target, world, SpellModifiers.VELOCITY_ADDED);
+			double speed = spell.getModifiedValue(1.5F, SpellModifiers.VELOCITY_ADDED, Operation.ADD, world, caster, target);
 			double vertSpeed = 0.325;
 
 			EntityLivingBase curEntity = (EntityLivingBase)target;
@@ -117,7 +117,7 @@ public class Knockback extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace,
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace,
 			double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		// TODO Auto-generated method stub
 		return false;

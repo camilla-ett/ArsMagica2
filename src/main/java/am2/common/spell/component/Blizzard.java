@@ -8,13 +8,14 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.EntitySpellEffect;
 import am2.common.items.ItemOre;
 import am2.common.utils.AffinityShiftUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -37,7 +38,7 @@ public class Blizzard extends SpellComponent{
 		};
 	}
 
-	private boolean spawnBlizzard(ItemStack stack, World world, EntityLivingBase caster, Entity target, double x, double y, double z){
+	private boolean spawnBlizzard(SpellData spell, World world, EntityLivingBase caster, Entity target, double x, double y, double z){
 
 		List<EntitySpellEffect> zones = world.getEntitiesWithinAABB(EntitySpellEffect.class, new AxisAlignedBB(x - 10, y - 10, z - 10, x + 10, y + 10, z + 10));
 
@@ -47,9 +48,9 @@ public class Blizzard extends SpellComponent{
 		}
 
 		if (!world.isRemote){
-			int radius = SpellUtils.getModifiedInt_Add(2, stack, caster, target, world, SpellModifiers.RADIUS);
-			double damage = SpellUtils.getModifiedDouble_Mul(1, stack, caster, target, world, SpellModifiers.DAMAGE);
-			int duration = SpellUtils.getModifiedInt_Mul(100, stack, caster, target, world, SpellModifiers.DURATION);
+			int radius = (int) spell.getModifiedValue(2, SpellModifiers.RADIUS, Operation.ADD, world, caster, target);
+			double damage = spell.getModifiedValue(1, SpellModifiers.DAMAGE, Operation.MULTIPLY, world, caster, target);
+			int duration = (int) spell.getModifiedValue(100, SpellModifiers.DURATION, Operation.MULTIPLY, world, caster, target);
 
 			EntitySpellEffect blizzard = new EntitySpellEffect(world);
 			blizzard.setPosition(x, y, z);
@@ -57,7 +58,7 @@ public class Blizzard extends SpellComponent{
 			blizzard.setRadius(radius);
 			blizzard.setTicksToExist(duration);
 			blizzard.setDamageBonus((float)damage);
-			blizzard.SetCasterAndStack(caster, stack);
+			blizzard.SetCasterAndStack(caster, spell);
 			world.spawnEntityInWorld(blizzard);
 		}
 		return true;
@@ -70,13 +71,13 @@ public class Blizzard extends SpellComponent{
 
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return spawnBlizzard(stack, world, caster, caster, impactX, impactY, impactZ);
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+		return spawnBlizzard(spell, world, caster, caster, impactX, impactY, impactZ);
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		return spawnBlizzard(stack, world, caster, target, target.posX, target.posY, target.posZ);
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
+		return spawnBlizzard(spell, world, caster, target, target.posX, target.posY, target.posZ);
 	}
 
 	@Override

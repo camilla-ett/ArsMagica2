@@ -7,7 +7,9 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
@@ -16,7 +18,6 @@ import am2.common.items.ItemCrystalPhylactery;
 import am2.common.items.ItemOre;
 import am2.common.power.PowerTypes;
 import am2.common.utils.EntityUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -39,8 +40,8 @@ import net.minecraft.world.World;
 public class Summon extends SpellComponent{
 	
 
-	public EntityLiving summonCreature(ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z){
-		Class<? extends Entity> clazz = getSummonType(stack);
+	public EntityLiving summonCreature(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z){
+		Class<? extends Entity> clazz = getSummonType(spell);
 		EntityLiving entity = null;
 		try{
 			entity = (EntityLiving)clazz.getConstructor(World.class).newInstance(world);
@@ -67,11 +68,11 @@ public class Summon extends SpellComponent{
 		}
 		EntityUtils.setOwner(entity, caster);
 
-		int duration = SpellUtils.getModifiedInt_Mul(4800, stack, caster, target, world, SpellModifiers.DURATION);
+		int duration = (int) spell.getModifiedValue(4800, SpellModifiers.DURATION, Operation.MULTIPLY, world, caster, target);
 
 		EntityUtils.setSummonDuration(entity, duration);
 
-		SpellUtils.applyStageToEntity(stack, caster, world, entity, false);
+		spell.applyComponentsToEntity(world, caster, entity);
 
 		return entity;
 	}
@@ -100,8 +101,8 @@ public class Summon extends SpellComponent{
 		}
 	}
 
-	public Class<? extends Entity> getSummonType(ItemStack stack){
-		String s = SpellUtils.getSpellMetadata(stack, "SummonType");
+	public Class<? extends Entity> getSummonType(SpellData spell){
+		String s = spell.getStoredData().getString("SummonType");
 		if (s == null || s == "")
 			s = "Skeleton"; //default!  default!  default!
 		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
@@ -120,8 +121,8 @@ public class Summon extends SpellComponent{
 		if (s == null)
 			s = "";
 
-		SpellUtils.setSpellMetadata(stack, "SpawnClassName", s);
-		SpellUtils.setSpellMetadata(stack, "SummonType", s);
+		stack.setString("SpawnClassName", s);
+		stack.setString("SummonType", s);
 	}
 
 	private Class<? extends Entity> checkForSpecialSpawns(NBTTagCompound tag, Class<? extends Entity> clazz){
@@ -138,10 +139,10 @@ public class Summon extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (!world.isRemote){
 			if (EntityExtension.For(caster).getCanHaveMoreSummons()){
-				if (summonCreature(stack, caster, caster, world, impactX, impactY, impactZ) == null){
+				if (summonCreature(spell, caster, caster, world, impactX, impactY, impactZ) == null){
 					return false;
 				}
 			}else{
@@ -155,14 +156,14 @@ public class Summon extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 
 		if (target instanceof EntityLivingBase && EntityUtils.isSummon((EntityLivingBase)target))
 			return false;
 
 		if (!world.isRemote){
 			if (EntityExtension.For(caster).getCanHaveMoreSummons()){
-				if (summonCreature(stack, caster, caster, world, target.posX, target.posY, target.posZ) == null){
+				if (summonCreature(spell, caster, caster, world, target.posX, target.posY, target.posZ) == null){
 					return false;
 				}
 			}else{

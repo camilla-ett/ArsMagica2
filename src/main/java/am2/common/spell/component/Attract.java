@@ -10,12 +10,12 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleApproachPoint;
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
-import am2.common.items.SpellBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,16 +37,16 @@ public class Attract extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
-		doTK_Extrapolated(stack, world, impactX, impactY, impactZ, caster);
+		doTK_Extrapolated(spell, world, impactX, impactY, impactZ, caster);
 		return true;
 	}
 
-	private boolean doTK_Extrapolated(ItemStack stack, World world, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	private boolean doTK_Extrapolated(SpellData spell, World world, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (caster instanceof EntityPlayer){
 			double range = EntityExtension.For(caster).getTKDistance();
-			RayTraceResult mop = ((SpellBase) ItemDefs.spell).getMovingObjectPosition(caster, world, range, false, false);
+			RayTraceResult mop = spell.raytrace(caster, world, range, false, false);
 			if (mop == null){
 				impactX = caster.posX + (Math.cos(Math.toRadians(caster.rotationYaw + 90)) * range);
 				impactZ = caster.posZ + (Math.sin(Math.toRadians(caster.rotationYaw + 90)) * range);
@@ -98,8 +98,8 @@ public class Attract extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		doTK_Extrapolated(stack, world, target.posX, target.posY, target.posZ, caster);
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
+		doTK_Extrapolated(spell, world, target.posX, target.posY, target.posZ, caster);
 		return true;
 	}
 

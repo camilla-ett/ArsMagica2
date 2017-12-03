@@ -11,6 +11,7 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleApproachPoint;
@@ -34,19 +35,19 @@ import net.minecraft.world.World;
 
 public class Telekinesis extends SpellComponent{
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return doTK_Extrapolated(stack, world, impactX, impactY, impactZ, caster);
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+		return doTK_Extrapolated(spell, world, impactX, impactY, impactZ, caster);
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		return doTK_Extrapolated(stack, world, target.posX, target.posY, target.posZ, caster);
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
+		return doTK_Extrapolated(spell, world, target.posX, target.posY, target.posZ, caster);
 	}
 
-	private boolean doTK_Extrapolated(ItemStack stack, World world, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	private boolean doTK_Extrapolated(SpellData spell, World world, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (caster instanceof EntityPlayer){
 			double range = ((EntityExtension)EntityExtension.For(caster)).getTKDistance();
-			RayTraceResult mop = ItemDefs.spell.getMovingObjectPosition(caster, world, range, false, false);
+			RayTraceResult mop = spell.raytrace(caster, world, range, false, false);
 			if (mop == null){
 				impactX = caster.posX + (Math.cos(Math.toRadians(caster.rotationYaw + 90)) * range);
 				impactZ = caster.posZ + (Math.sin(Math.toRadians(caster.rotationYaw + 90)) * range);

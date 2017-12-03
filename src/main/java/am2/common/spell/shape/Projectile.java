@@ -2,16 +2,15 @@ package am2.common.spell.shape;
 
 import java.util.EnumSet;
 
+import am2.api.spell.Operation;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.client.particles.AMParticleDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.EntitySpellProjectile;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.spell.SpellCastResult;
-import am2.common.utils.AffinityShiftUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -51,26 +50,25 @@ public class Projectile extends SpellShape {
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount) {
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount) {
 		if (!world.isRemote) {
-			double projectileSpeed = SpellUtils.getModifiedDouble_Add(stack, caster, target, world, SpellModifiers.SPEED);
-			float projectileGravity = (float) SpellUtils.getModifiedDouble_Mul(stack, caster, target, world, SpellModifiers.GRAVITY);
-			int projectileBounce = SpellUtils.getModifiedInt_Add(stack, caster, target, world, SpellModifiers.BOUNCE);
+			double projectileSpeed = spell.getModifiedValue(SpellModifiers.SPEED, Operation.ADD, world, caster, target); // SpellUtils.getModifiedDouble_Add(stack, caster, target, world, SpellModifiers.SPEED);
+			float projectileGravity = (float) spell.getModifiedValue(SpellModifiers.GRAVITY, Operation.MULTIPLY, world, caster, target); // SpellUtils.getModifiedDouble_Mul(stack, caster, target, world, SpellModifiers.GRAVITY);
+			int projectileBounce = (int) spell.getModifiedValue(SpellModifiers.BOUNCE, Operation.ADD, world, caster, target); // SpellUtils.getModifiedInt_Add(stack, caster, target, world, SpellModifiers.BOUNCE);
 			EntitySpellProjectile projectile = new EntitySpellProjectile(world);
 			projectile.setPosition(caster.posX, caster.getEyeHeight() + caster.posY, caster.posZ);
 			projectile.motionX = caster.getLookVec().xCoord * projectileSpeed;
 			projectile.motionY = caster.getLookVec().yCoord * projectileSpeed;
 			projectile.motionZ = caster.getLookVec().zCoord * projectileSpeed;
-			if (SpellUtils.modifierIsPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS, stack))
+			if (spell.isModifierPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS))
 				projectile.setTargetWater();
 			projectile.setGravity(projectileGravity);
 			projectile.setBounces(projectileBounce);
-			projectile.setNumPierces((SpellUtils.countModifiers(SpellModifiers.PIERCING, stack) * 2) * 2);
+			projectile.setNumPierces(spell.getModifierCount(SpellModifiers.PIERCING) * 4);
 			projectile.setShooter(caster);
-			projectile.setHoming(SpellUtils.modifierIsPresent(SpellModifiers.HOMING, stack));
-			projectile.setSpell(stack);
-			//if (AMParticleIcons.instance != null)
-			projectile.setIcon(AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(stack)));
+			projectile.setHoming(spell.isModifierPresent(SpellModifiers.HOMING));
+			projectile.setSpell(spell);
+			projectile.setIcon(AMParticleDefs.getParticleForAffinity(spell.getMainShift()));
 			world.spawnEntityInWorld(projectile);
 		}
 		return SpellCastResult.SUCCESS;

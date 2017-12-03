@@ -8,13 +8,14 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.EntitySpellEffect;
 import am2.common.items.ItemOre;
 import am2.common.utils.AffinityShiftUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -39,7 +40,7 @@ public class FireRain extends SpellComponent{
 		};
 	}
 
-	private boolean spawnFireRain(ItemStack stack, World world, EntityLivingBase caster, Entity target, double x, double y, double z){
+	private boolean spawnFireRain(SpellData spell, World world, EntityLivingBase caster, Entity target, double x, double y, double z){
 
 		List<EntitySpellEffect> zones = world.getEntitiesWithinAABB(EntitySpellEffect.class, new AxisAlignedBB(x - 10, y - 10, z - 10, x + 10, y + 10, z + 10));
 
@@ -49,9 +50,9 @@ public class FireRain extends SpellComponent{
 		}
 
 		if (!world.isRemote){
-			int radius = SpellUtils.getModifiedInt_Add(2, stack, caster, target, world, SpellModifiers.RADIUS) / 2 + 1;
-			double damage = SpellUtils.getModifiedDouble_Mul(1, stack, caster, target, world, SpellModifiers.DAMAGE);
-			int duration = SpellUtils.getModifiedInt_Mul(100, stack, caster, target, world, SpellModifiers.DURATION);
+			int radius = (int) spell.getModifiedValue(2, SpellModifiers.RADIUS, Operation.ADD, world, caster, target) / 2 + 1;
+			double damage = spell.getModifiedValue(1, SpellModifiers.DAMAGE, Operation.MULTIPLY, world, caster, target);
+			int duration = (int) spell.getModifiedValue(100, SpellModifiers.DURATION, Operation.MULTIPLY, world, caster, target);
 
 			EntitySpellEffect fire = new EntitySpellEffect(world);
 			fire.setPosition(x, y, z);
@@ -59,7 +60,7 @@ public class FireRain extends SpellComponent{
 			fire.setRadius(radius);
 			fire.setDamageBonus((float)damage);
 			fire.setTicksToExist(duration);
-			fire.SetCasterAndStack(caster, stack);
+			fire.SetCasterAndStack(caster, spell);
 			world.spawnEntityInWorld(fire);
 		}
 		return true;
@@ -71,13 +72,13 @@ public class FireRain extends SpellComponent{
 	}
 	
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return spawnFireRain(stack, world, caster, caster, impactX, impactY, impactZ);
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+		return spawnFireRain(spell, world, caster, caster, impactX, impactY, impactZ);
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		return spawnFireRain(stack, world, caster, target, target.posX, target.posY, target.posZ);
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
+		return spawnFireRain(spell, world, caster, target, target.posX, target.posY, target.posZ);
 	}
 
 	@Override

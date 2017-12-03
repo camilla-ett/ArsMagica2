@@ -13,7 +13,9 @@ import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.power.IPowerNode;
 import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.common.defs.BlockDefs;
@@ -41,7 +43,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class FireDamage extends SpellComponent implements IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		Block block = world.getBlockState(pos).getBlock();
 
 		if (block == BlockDefs.obelisk){
@@ -62,13 +64,12 @@ public class FireDamage extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (!(target instanceof EntityLivingBase)) return false;
-		float baseDamage = 6;
-		double damage = SpellUtils.getModifiedDouble_Add(baseDamage, stack, caster, target, world, SpellModifiers.DAMAGE);
+		double damage = spell.getModifiedValue(6, SpellModifiers.DAMAGE, Operation.ADD, world, caster, target);
 		if (isNetherMob(target))
 			return true;
-		return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeFireDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
+		return SpellUtils.attackTargetSpecial(spell, target, DamageSources.causeFireDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
 	}
 
 	private boolean isNetherMob(Entity target){

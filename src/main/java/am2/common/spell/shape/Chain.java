@@ -6,16 +6,13 @@ import java.util.List;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
-import am2.api.spell.SpellModifier;
+import am2.api.spell.Operation;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.spell.SpellCastResult;
-import am2.common.spell.modifier.Colour;
-import am2.common.utils.AffinityShiftUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragonPart;
@@ -30,11 +27,11 @@ import net.minecraft.world.World;
 public class Chain extends SpellShape{
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 
-		RayTraceResult mop = item.getMovingObjectPosition(caster, world, 8.0f, true, false);
-		double range = SpellUtils.getModifiedDouble_Mul(8, stack, caster, target, world, SpellModifiers.RANGE);
-		int num_targets = SpellUtils.getModifiedInt_Add(3, stack, caster, target, world, SpellModifiers.PROCS);
+		RayTraceResult mop = spell.raytrace(caster, world, 8.0f, true, false);
+		double range = spell.getModifiedValue(8, SpellModifiers.RANGE, Operation.MULTIPLY, world, caster, target);//SpellUtils.getModifiedDouble_Mul(8, stack, caster, target, world, SpellModifiers.RANGE);
+		int num_targets = (int) spell.getModifiedValue(3, SpellModifiers.PROCS, Operation.ADD, world, caster, target);//SpellUtils.getModifiedInt_Add(3, stack, caster, target, world, SpellModifiers.PROCS);
 
 		ArrayList<EntityLivingBase> targets = new ArrayList<EntityLivingBase>();
 
@@ -74,14 +71,14 @@ public class Chain extends SpellShape{
 		for (EntityLivingBase e : targets){
 			if (e == caster)
 				continue;
-			result = SpellUtils.applyStageToEntity(stack, caster, world, e, giveXP);
-			SpellUtils.applyStackStage(stack, caster, e, e.posX, e.posY, e.posZ, null, world, true, giveXP, 0);
+			result = spell.applyComponentsToEntity(world, caster, target);//.applyStageToEntity(stack, caster, world, e, giveXP);
+			spell.execute(world, caster, target, x, y, z, side);//SpellUtils.applyStackStage(stack, caster, e, e.posX, e.posY, e.posZ, null, world, true, giveXP, 0);
 
 			if (world.isRemote){
 				if (prevEntity == null)
-					spawnChainParticles(world, x, y, z, e.posX, e.posY + e.getEyeHeight(), e.posZ, stack);
+					spawnChainParticles(world, x, y, z, e.posX, e.posY + e.getEyeHeight(), e.posZ, spell);
 				else
-					spawnChainParticles(world, prevEntity.posX, prevEntity.posY + e.getEyeHeight(), prevEntity.posZ, e.posX, e.posY + e.getEyeHeight(), e.posZ, stack);
+					spawnChainParticles(world, prevEntity.posX, prevEntity.posY + e.getEyeHeight(), prevEntity.posZ, e.posX, e.posY + e.getEyeHeight(), e.posZ, spell);
 			}
 			prevEntity = e;
 
@@ -102,10 +99,10 @@ public class Chain extends SpellShape{
 	}
 
 
-	private void spawnChainParticles(World world, double startX, double startY, double startZ, double endX, double endY, double endZ, ItemStack spellStack){
-		int color = getPFXColor(spellStack);
+	private void spawnChainParticles(World world, double startX, double startY, double startZ, double endX, double endY, double endZ, SpellData spell){
+		int color = spell.getColor(world, null, null);
 
-		Affinity aff = AffinityShiftUtils.getMainShiftForStack(spellStack);
+		Affinity aff = spell.getMainShift();
 
 		if (aff.equals(Affinity.LIGHTNING)){
 			ArsMagica2.proxy.particleManager.BoltFromPointToPoint(world, startX, startY, startZ, endX, endY, endZ, 1, color);
@@ -114,19 +111,6 @@ public class Chain extends SpellShape{
 				color = aff.getColor();
 			ArsMagica2.proxy.particleManager.BeamFromPointToPoint(world, startX, startY, startZ, endX, endY, endZ, color);
 		}
-	}
-
-	private int getPFXColor(ItemStack stack){
-		int color = -1;
-		if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, stack)){
-			ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(stack, -1);
-			for (SpellModifier mod : mods){
-				if (mod instanceof Colour){
-					color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, stack.getTagCompound());
-				}
-			}
-		}
-		return color;
 	}
 
 	@Override

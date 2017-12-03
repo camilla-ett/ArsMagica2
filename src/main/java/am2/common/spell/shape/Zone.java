@@ -2,15 +2,15 @@ package am2.common.spell.shape;
 
 import java.util.EnumSet;
 
+import am2.api.spell.Operation;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.EntitySpellEffect;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.spell.SpellCastResult;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -21,16 +21,16 @@ import net.minecraft.world.World;
 public class Zone extends SpellShape{
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		if (world.isRemote) return SpellCastResult.SUCCESS;
-		int radius = SpellUtils.getModifiedInt_Add(2, stack, caster, target, world, SpellModifiers.RADIUS);
-		double gravity = SpellUtils.getModifiedDouble_Add(0, stack, caster, target, world, SpellModifiers.GRAVITY);
-		int duration = SpellUtils.getModifiedInt_Mul(100, stack, caster, target, world, SpellModifiers.DURATION);
+		int radius = (int)spell.getModifiedValue(2, SpellModifiers.RADIUS, Operation.ADD, world, caster, target); // SpellUtils.getModifiedInt_Add(2, stack, caster, target, world, SpellModifiers.RADIUS);
+		double gravity = spell.getModifiedValue(0, SpellModifiers.GRAVITY, Operation.ADD, world, caster, target); // SpellUtils.getModifiedDouble_Add(0, stack, caster, target, world, SpellModifiers.GRAVITY);
+		int duration =  (int)spell.getModifiedValue(100, SpellModifiers.DURATION, Operation.ADD, world, caster, target); // SpellUtils.getModifiedInt_Mul(100, stack, caster, target, world, SpellModifiers.DURATION);
 		EntitySpellEffect zone = new EntitySpellEffect(world);
 		zone.setRadius(radius);
 		zone.setTicksToExist(duration);
 		zone.setGravity(gravity);
-		zone.SetCasterAndStack(caster, stack);
+		zone.SetCasterAndStack(caster, spell);
 		zone.setPosition(x, y, z);
 		world.spawnEntityInWorld(zone);
 		return SpellCastResult.SUCCESS;

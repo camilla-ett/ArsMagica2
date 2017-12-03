@@ -12,6 +12,7 @@ import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleArcToPoint;
@@ -38,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class Transplace extends SpellComponent implements IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		Block block = world.getBlockState(blockPos).getBlock();
 		if (!world.isRemote && caster instanceof EntityPlayer && block == BlockDefs.inertSpawner){
 			if (RitualShapeHelper.instance.matchesRitual(this, world, blockPos)){
@@ -56,7 +57,7 @@ public class Transplace extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (!world.isRemote && target != null && !target.isDead){
 			double tPosX = target.posX;
 			double tPosY = target.posY;

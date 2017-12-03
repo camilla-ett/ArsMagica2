@@ -1,11 +1,8 @@
 package am2.client.packet;
 
-import java.util.ArrayList;
-
 import am2.ArsMagica2;
 import am2.api.power.IPowerNode;
-import am2.api.spell.SpellModifier;
-import am2.api.spell.SpellModifiers;
+import am2.api.spell.SpellData;
 import am2.client.gui.AMGuiHelper;
 import am2.client.handlers.ClientTickHandler;
 import am2.client.particles.AMParticle;
@@ -29,15 +26,12 @@ import am2.common.packet.AMPacketIDs;
 import am2.common.packet.AMPacketProcessorServer;
 import am2.common.power.PowerNodeEntry;
 import am2.common.power.PowerNodeRegistry;
-import am2.common.spell.modifier.Colour;
 import am2.common.utils.MathUtilities;
-import am2.common.utils.SpellUtils;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
@@ -290,20 +284,13 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		double y = rdr.getDouble();
 		double z = rdr.getDouble();
 
-		ItemStack spellStack = null;
+		SpellData spellStack = null;
 		if (rdr.getBoolean())
-			spellStack = rdr.getItemStack();
+			spellStack = SpellData.readFromNBT(rdr.getNBTTagCompound());
 		
 		int color = -1;
 		if (spellStack != null){
-			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
-				ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
-				for (SpellModifier mod : mods){
-					if (mod instanceof Colour){
-						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
-					}
-				}
-			}
+			color = spellStack.getColor(Minecraft.getMinecraft().theWorld, null, null);
 		}
 
 		for (int i = 0; i < 360; i += ArsMagica2.config.FullGFX() ? 5 : ArsMagica2.config.LowGFX() ? 10 : 20){

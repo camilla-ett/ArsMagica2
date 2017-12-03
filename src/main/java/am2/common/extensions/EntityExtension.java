@@ -10,6 +10,7 @@ import am2.api.ArsMagicaAPI;
 import am2.api.event.PlayerMagicLevelChangeEvent;
 import am2.api.extensions.IEntityExtension;
 import am2.api.math.AMVector2;
+import am2.api.spell.SpellData;
 import am2.client.particles.AMLineArc;
 import am2.common.armor.ArmorHelper;
 import am2.common.armor.ArsMagicaArmorMaterial;
@@ -30,6 +31,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -86,7 +88,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	private int syncCode = 0;
 	
 	private ContingencyType contingencyType = ContingencyType.NULL;
-	private Optional<ItemStack> contingencyStack = Optional.absent();
+	private Optional<SpellData> contingencyStack = Optional.absent();
 	private double markX;
 	private double markY;
 	private double markZ;
@@ -110,7 +112,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	private boolean disableGravity;
 	private float manaShield;
 	
-	public ArrayList<ItemStack> runningStacks = new ArrayList<>();
+	public ArrayList<SpellData> runningStacks = new ArrayList<>();
 	
 	
 	private void addSyncCode(int code) {
@@ -125,7 +127,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	@Override
-	public void setContingency (ContingencyType type, ItemStack stack) {
+	public void setContingency (ContingencyType type, SpellData stack) {
 		if (this.contingencyType != type || this.contingencyStack.orNull() != stack) {
 			addSyncCode(SYNC_CONTINGENCY);
 			this.contingencyType = type;
@@ -139,7 +141,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	@Override
-	public ItemStack getContingencyStack() {
+	public SpellData getContingencyStack() {
 		return contingencyStack.orNull();
 	}
 	
@@ -901,7 +903,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			boolean present = contingencyStack.isPresent();
 			writer.add(present);
 			if (present)
-				writer.add(contingencyStack.orNull());
+				writer.add(contingencyStack.orNull().writeToNBT(new NBTTagCompound()));
 		}
 		if ((syncCode & SYNC_MARK) == SYNC_MARK) writer.add(markX).add(markY).add(markZ).add(markDimension);
 		if ((syncCode & SYNC_MANA) == SYNC_MANA) writer.add(currentMana);
@@ -931,7 +933,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			String name = reader.getString();
 			this.contingencyType = ContingencyType.fromName(name); 
 			if (reader.getBoolean())
-				this.contingencyStack = Optional.fromNullable(reader.getItemStack());
+				this.contingencyStack = Optional.fromNullable(SpellData.readFromNBT(reader.getNBTTagCompound()));
 			else
 				this.contingencyStack = Optional.absent();
 		}

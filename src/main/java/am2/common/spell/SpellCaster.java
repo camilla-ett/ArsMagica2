@@ -18,7 +18,7 @@ import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellShape;
 import am2.common.extensions.EntityExtension;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
@@ -54,15 +54,15 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 	}
 
 	@Override
-	public float getManaCost(World world, EntityPlayer player) {
+	public float getManaCost(World world, EntityLivingBase caster) {
 		float manaCost = this.getBaseManaCost(currentShapeGroup);
-		IEntityExtension ext = EntityExtension.For(player);
+		IEntityExtension ext = EntityExtension.For(caster);
 		manaCost *= (1 + (ext.getCurrentBurnout() / ext.getMaxBurnout()));
 		return manaCost;
 	}
 
 	@Override
-	public boolean cast(World world, EntityPlayer player) {
+	public boolean cast(World world, EntityLivingBase caster) {
 		//TODO
 		return false;
 	}

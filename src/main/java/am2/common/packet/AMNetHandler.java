@@ -1,6 +1,7 @@
 package am2.common.packet;
 
 import am2.api.power.IPowerNode;
+import am2.api.spell.SpellData;
 import am2.common.LogHelper;
 import am2.common.blocks.tileentity.TileEntityArmorImbuer;
 import am2.common.blocks.tileentity.TileEntityCalefactor;
@@ -11,7 +12,6 @@ import am2.common.power.PowerNodeRegistry;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
@@ -145,10 +145,10 @@ public class AMNetHandler{
 		}
 	}
 
-	public void sendStarImpactToClients(double x, double y, double z, World world, ItemStack spellStack){
+	public void sendStarImpactToClients(double x, double y, double z, World world, SpellData spellData){
 		AMDataWriter writer = new AMDataWriter().add(x).add(y).add(z);
-		if (spellStack != null)
-			writer.add(true).add(spellStack);
+		if (spellData != null)
+			writer.add(true).add(spellData.writeToNBT(new NBTTagCompound()));
 		else
 			writer.add(false);
 		sendPacketToAllClientsNear(world.provider.getDimension(), x, y, z, 64, AMPacketIDs.STAR_FALL, writer.generate());

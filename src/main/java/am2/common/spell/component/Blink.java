@@ -9,7 +9,9 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
@@ -20,7 +22,6 @@ import am2.common.defs.PotionEffectsDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.utils.DimensionUtilities;
 import am2.common.utils.KeystoneUtilities;
-import am2.common.utils.SpellUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -39,14 +40,14 @@ import net.minecraft.world.World;
 public class Blink extends SpellComponent{
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (!(target instanceof EntityLivingBase)) return false;
 
 		if (world.isRemote){
 			EntityExtension.For((EntityLivingBase)target).astralBarrierBlocked = false;
 		}
 
-		double distance = GetTeleportDistance(stack, caster, target);
+		double distance = GetTeleportDistance(spell, caster, target);
 
 		double motionX = -MathHelper.sin((target.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((target.rotationPitch / 180F) * 3.141593F) * distance;
 		double motionZ = MathHelper.cos((target.rotationYaw / 180F) * 3.141593F) * MathHelper.cos((target.rotationPitch / 180F) * 3.141593F) * distance;
@@ -308,8 +309,8 @@ public class Blink extends SpellComponent{
 		return false;
 	}
 
-	protected double GetTeleportDistance(ItemStack stack, EntityLivingBase caster, Entity target){
-		return SpellUtils.getModifiedInt_Add(12, stack, caster, target, caster.getEntityWorld(), SpellModifiers.RANGE);
+	protected double GetTeleportDistance(SpellData spell, EntityLivingBase caster, Entity target){
+		return spell.getModifiedValue(12, SpellModifiers.RANGE, Operation.ADD, caster.getEntityWorld(), caster, target);
 	}
 	
 	@Override
@@ -337,7 +338,7 @@ public class Blink extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world,
+	public boolean applyEffectBlock(SpellData spell, World world,
 			BlockPos blockPos, EnumFacing blockFace, double impactX,
 			double impactY, double impactZ, EntityLivingBase caster) {
 		// TODO Auto-generated method stub

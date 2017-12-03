@@ -9,7 +9,9 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.common.defs.ItemDefs;
@@ -30,18 +32,17 @@ import net.minecraft.world.World;
 public class Drown extends SpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (!(target instanceof EntityLivingBase) || target instanceof EntityIronGolem) return false;
 		if (((EntityLivingBase)target).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD)
 			return false;
-		float baseDamage = 12;
-		double damage = SpellUtils.getModifiedDouble_Add(baseDamage, stack, caster, target, world, SpellModifiers.DAMAGE);
-		return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeDrownDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
+		double damage = spell.getModifiedValue(12, SpellModifiers.DAMAGE, Operation.ADD, world, caster, target);
+		return SpellUtils.attackTargetSpecial(spell, target, DamageSources.causeDrownDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
 	}
 
 	@Override

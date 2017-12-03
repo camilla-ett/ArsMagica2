@@ -2,13 +2,13 @@ package am2.api.extensions;
 
 import java.util.concurrent.Callable;
 
+import am2.api.spell.SpellData;
 import am2.common.extensions.EntityExtension;
 import am2.common.spell.ContingencyType;
 import am2.common.utils.NBTUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -19,11 +19,11 @@ public interface IEntityExtension {
 
 	public boolean hasEnoughtMana(float f);
 		
-	public void setContingency (ContingencyType type, ItemStack stack);
+	public void setContingency (ContingencyType type, SpellData stack);
 	
 	public ContingencyType getContingencyType();
 	
-	public ItemStack getContingencyStack();
+	public SpellData getContingencyStack();
 	
 	public double getMarkX();
 	
@@ -136,7 +136,7 @@ public interface IEntityExtension {
 			NBTTagCompound contingencyTag = NBTUtils.addTag(am2tag, "Contingency");
 			if (instance.getContingencyType() != ContingencyType.NULL) {
 				contingencyTag.setString("Type", instance.getContingencyType().name().toLowerCase());
-				contingencyTag.setTag("Stack", instance.getContingencyStack().writeToNBT(new NBTTagCompound()));
+				contingencyTag.setTag("Spell", instance.getContingencyStack().writeToNBT(new NBTTagCompound()));
 			} else {
 				contingencyTag.setString("Type", "null");			
 			}
@@ -169,7 +169,7 @@ public interface IEntityExtension {
 			
 			NBTTagCompound contingencyTag = NBTUtils.addTag(am2tag, "Contingency");
 			if (!contingencyTag.hasKey("Type") || !contingencyTag.getString("Type").equals("null")) {
-				instance.setContingency(ContingencyType.fromName(contingencyTag.getString("Type")), ItemStack.loadItemStackFromNBT(contingencyTag.getCompoundTag("Stack")));
+				instance.setContingency(ContingencyType.fromName(contingencyTag.getString("Type")), SpellData.readFromNBT(contingencyTag.getCompoundTag("Spell")));
 			} else {
 				instance.setContingency(ContingencyType.NULL, null);
 			}

@@ -2,15 +2,15 @@ package am2.common.spell.shape;
 
 import java.util.EnumSet;
 
+import am2.api.spell.Operation;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.EntitySpellEffect;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.spell.SpellCastResult;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,18 +29,18 @@ public class Wave extends SpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		if (world.isRemote) return SpellCastResult.SUCCESS;
-		double radius = SpellUtils.getModifiedDouble_Add(1, stack, caster, target, world, SpellModifiers.RADIUS);
-		int duration = SpellUtils.getModifiedInt_Mul(20, stack, caster, target, world, SpellModifiers.DURATION);
-		double speed = SpellUtils.getModifiedDouble_Add(1f, stack, caster, target, world, SpellModifiers.SPEED) * 0.5f;
-		int gravityModifiers = SpellUtils.countModifiers(SpellModifiers.GRAVITY, stack);
-		boolean hasPiercing = SpellUtils.modifierIsPresent(SpellModifiers.PIERCING, stack);
+		double radius = spell.getModifiedValue(1, SpellModifiers.RADIUS, Operation.ADD, world, caster, target);
+		double speed = spell.getModifiedValue(1, SpellModifiers.SPEED, Operation.ADD, world, caster, target) * 0.5;
+		int duration = (int) spell.getModifiedValue(20, SpellModifiers.DURATION, Operation.MULTIPLY, world, caster, target);
+		int gravityModifiers = spell.getModifierCount(SpellModifiers.GRAVITY);
+		boolean hasPiercing = spell.isModifierPresent(SpellModifiers.PIERCING);
 
 		EntitySpellEffect wave = new EntitySpellEffect(world);
 		wave.setRadius((float)radius);
 		wave.setTicksToExist(duration);
-		wave.SetCasterAndStack(caster, stack);
+		wave.SetCasterAndStack(caster, spell);
 		wave.setPosition(x, y + 1, z);
 		wave.setWave(caster.rotationYaw, (float)speed);
 		wave.noClip = hasPiercing;

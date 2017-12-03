@@ -76,7 +76,7 @@ public class PotionEffectsDefs {
 	public static Potion WATERY_GRAVE;
 	public static Potion MANA_BOOST;
 	
-	public static final int default_buff_duration = 600;
+	public static final int DEFAULT_BUFF_DURATION = 600;
 	
 	public static void init () {
 		AGILITY = createPotion(new ResourceLocation("arsmagica2:agility"), false, 0xade000, 0, 0, BuffEffectAgility.class);

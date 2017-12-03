@@ -1,8 +1,5 @@
 package am2.common.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import am2.api.ArsMagicaAPI;
@@ -60,30 +57,6 @@ public class AffinityShiftUtils {
 			}
 		}
 		aff.addDiminishingReturns(governingShape.isChanneled());
-	}
-	
-	public static Affinity getMainShiftForStack(ItemStack stack) {
-		Affinity aff = Affinity.NONE;
-		float maxDepth = 0F;
-		HashMap<Affinity, Float> customDepthMap = new HashMap<>();
-		ArrayList<SpellComponent> components = SpellUtils.getComponentsForStage(stack, -1);
-		for (SpellComponent component : components) {
-			for (Affinity aff1 : component.getAffinity()) {
-				if (customDepthMap.get(aff1) != null) {
-					customDepthMap.put(aff1, customDepthMap.get(aff1) + component.getAffinityShift(aff1));
-				} else {
-					customDepthMap.put(aff1, component.getAffinityShift(aff1));
-				}
-			}
-		}
-		
-		for (Entry<Affinity, Float> entry : customDepthMap.entrySet()) {
-			if (entry.getValue() > maxDepth) {
-				maxDepth = entry.getValue();
-				aff = entry.getKey();
-			}
-		}
-		return aff;
 	}
 	
 	public static ItemStack getEssenceForAffinity (Affinity affinity) {

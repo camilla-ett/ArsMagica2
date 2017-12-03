@@ -2,15 +2,14 @@ package am2.common.spell.shape;
 
 import java.util.EnumSet;
 
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemBindingCatalyst;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.spell.SpellCastResult;
 import am2.common.utils.InventoryUtilities;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -23,7 +22,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class Binding extends SpellShape{
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		if (!(caster instanceof EntityPlayer)){
 			return SpellCastResult.EFFECT_FAILED;
 		}
@@ -33,7 +32,7 @@ public class Binding extends SpellShape{
 		if (heldStack == null || heldStack.getItem() != ItemDefs.spell){
 			return SpellCastResult.EFFECT_FAILED;
 		}
-		int bindingType = getBindingType(SpellUtils.merge(heldStack.copy()));
+		int bindingType = getBindingType(spell);
 		switch (bindingType){
 		case ItemBindingCatalyst.META_AXE:
 			heldStack = InventoryUtilities.replaceItem(heldStack, ItemDefs.BoundAxe);
@@ -108,10 +107,10 @@ public class Binding extends SpellShape{
 //		SpellUtils.instance.setSpellMetadata(craftStack, "binding_type", "" + addedBindingCatalyst.getItemDamage());
 //	}
 
-	public int getBindingType(ItemStack spellStack){
+	public int getBindingType(SpellData spell){
 		int type = 0;
 		try{
-			type = Integer.parseInt(SpellUtils.getSpellMetadata(spellStack, "binding_type"));
+			type = spell.getStoredData().getInteger("BindingType");
 		}catch (Throwable t){
 
 		}
@@ -124,7 +123,7 @@ public class Binding extends SpellShape{
 			if (obj instanceof ItemStack) {
 				ItemStack is = (ItemStack)obj;
 				if (is.getItem().equals(ItemDefs.bindingCatalyst))
-					tag.setString("binding_type", "" + is.getItemDamage());
+					tag.setString("BindingType", "" + is.getItemDamage());
 			}
 		}
 	}

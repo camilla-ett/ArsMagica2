@@ -9,7 +9,9 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleApproachEntity;
@@ -38,11 +40,11 @@ public class ManaBlast extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target) {
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target) {
 		float consumed = EntityExtension.For(caster).getCurrentMana();
 		EntityExtension.For(caster).deductMana(consumed);
-		double damage = SpellUtils.getModifiedDouble_Mul((consumed / 50F), stack, caster, target, world, SpellModifiers.DAMAGE);
-		SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeMagicDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
+		double damage = spell.getModifiedValue((consumed / 50F), SpellModifiers.DAMAGE, Operation.MULTIPLY, world, caster, target);
+		SpellUtils.attackTargetSpecial(spell, target, DamageSources.causeMagicDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
 		return true;
 	}
 	
@@ -96,7 +98,7 @@ public class ManaBlast extends SpellComponent{
 	}
 	
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace,
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace,
 			double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		// TODO Auto-generated method stub
 		return false;

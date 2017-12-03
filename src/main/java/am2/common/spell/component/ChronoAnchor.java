@@ -8,7 +8,9 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
@@ -16,7 +18,6 @@ import am2.client.particles.ParticleOrbitEntity;
 import am2.common.buffs.BuffEffectTemporalAnchor;
 import am2.common.defs.ItemDefs;
 import am2.common.defs.PotionEffectsDefs;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
@@ -30,14 +31,14 @@ import net.minecraft.world.World;
 public class ChronoAnchor extends SpellComponent{
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityLivingBase){
-			int duration = SpellUtils.getModifiedInt_Mul(PotionEffectsDefs.default_buff_duration, stack, caster, target, world, SpellModifiers.DURATION);
+			int duration = (int) spell.getModifiedValue(PotionEffectsDefs.DEFAULT_BUFF_DURATION, SpellModifiers.DURATION, Operation.MULTIPLY, world, caster, target);
 			//duration = SpellUtils.modifyDurationBasedOnArmor(caster, duration);
 			if (!world.isRemote) {
 				if (((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.TEMPORAL_ANCHOR))
 					((EntityLivingBase)target).removePotionEffect(PotionEffectsDefs.TEMPORAL_ANCHOR);;
-				((EntityLivingBase) target).addPotionEffect(new BuffEffectTemporalAnchor(duration, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
+				((EntityLivingBase) target).addPotionEffect(new BuffEffectTemporalAnchor(duration, spell.getModifierCount(SpellModifiers.BUFF_POWER)));
 				return true;
 			}
 		}
@@ -99,7 +100,7 @@ public class ChronoAnchor extends SpellComponent{
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world,
+	public boolean applyEffectBlock(SpellData spell, World world,
 			BlockPos blockPos, EnumFacing blockFace, double impactX,
 			double impactY, double impactZ, EntityLivingBase caster) {
 		// TODO Auto-generated method stub

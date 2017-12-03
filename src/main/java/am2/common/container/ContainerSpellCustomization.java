@@ -4,7 +4,6 @@ import am2.common.container.slot.SlotSpellCustomization;
 import am2.common.packet.AMDataWriter;
 import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMPacketIDs;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -40,7 +39,7 @@ public class ContainerSpellCustomization extends Container{
 
 	@Override
 	public void onContainerClosed(EntityPlayer par1EntityPlayer){
-		SpellUtils.changeEnchantmentsForShapeGroup(inventoryPlayer.getCurrentItem());
+		//SpellUtils.changeEnchantmentsForShapeGroup(inventoryPlayer.getCurrentItem());
 		super.onContainerClosed(par1EntityPlayer);
 	}
 

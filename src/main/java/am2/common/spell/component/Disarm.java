@@ -9,7 +9,9 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
@@ -18,7 +20,6 @@ import am2.common.defs.ItemDefs;
 import am2.common.enchantments.AMEnchantments;
 import am2.common.entity.EntityDarkMage;
 import am2.common.entity.EntityLightMage;
-import am2.common.utils.SpellUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -32,6 +33,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -44,9 +46,9 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class Disarm extends SpellComponent{	
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		Random rnd = new Random();
-		double damage = SpellUtils.getModifiedInt_Mul(1, stack, caster, target, world, SpellModifiers.DAMAGE);
+		double damage = spell.getModifiedValue(1, SpellModifiers.DAMAGE, Operation.MULTIPLY, world, caster, target);
 
 		if (target instanceof EntityLightMage)
 			return false;
@@ -60,7 +62,7 @@ public class Disarm extends SpellComponent{
 				item.setPosition(target.posX, target.posY, target.posZ);
 				item.setPickupDelay(15);
 				world.spawnEntityInWorld(item);
-				((EntityDarkMage)target).setItemStackToSlot(EntityMob.getSlotForItemStack(stack), null);
+				((EntityDarkMage)target).setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
 				((EntityDarkMage)target).disarm();
 
 			return true;
@@ -113,7 +115,7 @@ public class Disarm extends SpellComponent{
 				item.setDefaultPickupDelay();
 				world.spawnEntityInWorld(item);
 			}
-			((EntityMob)target).setItemStackToSlot(EntityMob.getSlotForItemStack(stack), null);;
+			((EntityMob)target).setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);;
 
 			((EntityMob)target).setAttackTarget(caster);
 
@@ -197,7 +199,7 @@ public class Disarm extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace,
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace,
 			double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		// TODO Auto-generated method stub
 		return false;

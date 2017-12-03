@@ -8,11 +8,12 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.common.defs.ItemDefs;
-import am2.common.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.entity.Entity;
@@ -29,7 +30,7 @@ import net.minecraft.world.World;
 public class Ignition extends SpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
 		switch (blockFace){
 		case EAST:
@@ -67,8 +68,8 @@ public class Ignition extends SpellComponent{
 
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		int burnTime = SpellUtils.getModifiedInt_Mul(3, stack, caster, target, world, SpellModifiers.DURATION);
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
+		int burnTime = (int) spell.getModifiedValue(3, SpellModifiers.DURATION, Operation.MULTIPLY, world, caster, target);
 		//burnTime = SpellUtils.modifyDurationBasedOnArmor(caster, burnTime);
 		if (target.isBurning()){
 			return false;

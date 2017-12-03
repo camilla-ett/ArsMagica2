@@ -2,15 +2,14 @@ package am2.common.spell.shape;
 
 import java.util.EnumSet;
 
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.power.PowerTypes;
 import am2.common.spell.SpellCastResult;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,13 +19,13 @@ import net.minecraft.world.World;
 public class Self extends SpellShape{
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
-		SpellCastResult result = SpellUtils.applyStageToEntity(stack, caster, world, caster, giveXP);
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+		SpellCastResult result = spell.applyComponentsToEntity(world, caster, caster);
 		if (result != SpellCastResult.SUCCESS){
 			return result;
 		}
 
-		return SpellUtils.applyStackStage(stack, caster, target, x, y, z, null, world, true, giveXP, 0);
+		return spell.execute(world,  caster, target, x, y, z, null);
 	}
 
 	@Override

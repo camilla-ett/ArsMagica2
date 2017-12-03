@@ -16,7 +16,7 @@ public abstract class SpellComponent extends AbstractSpellPart{
 	/**
 	 * Apply the effect to a single block
 	 *
-	 * @param stack     The item stack that contains the effect data
+	 * @param spell     The effect data
 	 * @param world     The world the effect is in
 	 * @param blockPos  The coordinates of the block
 	 * @param blockFace The face of the block that was targeted
@@ -26,18 +26,18 @@ public abstract class SpellComponent extends AbstractSpellPart{
 	 * @param caster    The caster of the spell
 	 * @return True if the effect was successfully applied to the block
 	 */
-	public abstract boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster);
+	public abstract boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster);
 
 	/**
 	 * Apply the effect to a single entity
 	 *
-	 * @param stack  The stack representing the spell
+	 * @param spell  The spell
 	 * @param world  The world the spell was cast in
 	 * @param caster The caster of the spell
 	 * @param target The current target of the spell
 	 * @return True if the effect was applied successfully to the entity
 	 */
-	public abstract boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target);
+	public abstract boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target);
 
 	/**
 	 * Gets the mana cost of the spell

@@ -10,14 +10,13 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleOrbitPoint;
 import am2.common.blocks.BlockArsMagicaBlock.EnumBlockType;
 import am2.common.defs.BlockDefs;
-import am2.common.items.ItemSpellBook;
 import am2.common.utils.DummyEntityPlayer;
-import am2.common.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -53,7 +52,7 @@ public class Appropriation extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityPlayer)
 			return false;
 
@@ -67,7 +66,7 @@ public class Appropriation extends SpellComponent{
 		if (!(caster instanceof EntityPlayer))
 			return false;
 
-		ItemStack originalSpellStack = getOriginalSpellStack((EntityPlayer)caster);
+		ItemStack originalSpellStack = spell.getSource();
 		if (originalSpellStack == null)
 			return false;
 
@@ -86,45 +85,11 @@ public class Appropriation extends SpellComponent{
 
 				originalSpellStack.getTagCompound().setTag(storageKey, data);
 
-				setOriginalSpellStackData((EntityPlayer)caster, originalSpellStack);
-
 				target.setDead();
 			}
 		}
 
 		return true;
-	}
-
-	private void setOriginalSpellStackData(EntityPlayer caster, ItemStack modifiedStack){
-		ItemStack originalSpellStack = caster.getHeldItemMainhand();
-		if (originalSpellStack == null)
-			return;
-		if (originalSpellStack.getItem() instanceof ItemSpellBook){
-			((ItemSpellBook)originalSpellStack.getItem()).replaceAciveItemStack(originalSpellStack, modifiedStack);
-		}else{
-			caster.inventory.setInventorySlotContents(caster.inventory.currentItem, modifiedStack);
-		}
-	}
-
-	private ItemStack getOriginalSpellStack(EntityPlayer caster){
-		ItemStack originalSpellStack = caster.getHeldItemMainhand();
-		if (originalSpellStack == null)
-			return null;
-		else if (originalSpellStack.getItem() instanceof ItemSpellBook){
-			originalSpellStack = ((ItemSpellBook)originalSpellStack.getItem()).GetActiveItemStack(originalSpellStack); //it's a spell book - get the active scroll
-			//sanity check needed here because from cast to apply the spell could have changed - just ensure appropriation is a part of this spell somewhere so that any stored item can be retrieved
-			boolean hasAppropriation = false;
-			for (int i = 0; i < SpellUtils.numStages(originalSpellStack); ++i){
-				if (SpellUtils.componentIsPresent(originalSpellStack, Appropriation.class)){
-					hasAppropriation = true;
-					break;
-				}
-			}
-			if (!hasAppropriation)
-				return null;
-		}
-
-		return originalSpellStack;
 	}
 
 	private void restore(EntityPlayer player, World world, ItemStack stack, BlockPos pos, double hitX, double hitY, double hitZ){
@@ -171,8 +136,6 @@ public class Appropriation extends SpellComponent{
 			}
 
 			stack.getTagCompound().removeTag(storageKey);
-
-			setOriginalSpellStackData(player, stack);
 		}
 	}
 
@@ -216,13 +179,11 @@ public class Appropriation extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world,
-			BlockPos blockPos, EnumFacing blockFace, double impactX,
-			double impactY, double impactZ, EntityLivingBase caster) {
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		if (!(caster instanceof EntityPlayer))
 			return false;
 
-		ItemStack originalSpellStack = getOriginalSpellStack((EntityPlayer)caster);
+		ItemStack originalSpellStack = spell.getSource();
 		if (originalSpellStack == null){
 			return false;
 		}
@@ -255,8 +216,8 @@ public class Appropriation extends SpellComponent{
 
 					// save current spell
 					NBTTagCompound nbt = null;
-					if (stack.getTagCompound() != null){
-						nbt = stack.getTagCompound().copy();
+					if (spell.getStoredData() != null){
+						nbt = spell.getStoredData().copy();
 					}
 
 
@@ -267,8 +228,8 @@ public class Appropriation extends SpellComponent{
 
 					// save new spell data
 					NBTTagCompound newNBT = null;
-					if (stack.getTagCompound() != null){
-						newNBT = (NBTTagCompound)stack.getTagCompound().copy();
+					if (spell.getStoredData() != null){
+						newNBT = spell.getStoredData().copy();
 					}
 
 					net.minecraftforge.event.world.BlockEvent.PlaceEvent placeEvent = null;
@@ -278,7 +239,7 @@ public class Appropriation extends SpellComponent{
 
 					// restore original item data for event
 					if (nbt != null){
-						stack.setTagCompound(nbt);
+						spell.setStoredData(nbt);
 					}
 					if (blockSnapshots.size() > 1){
 						placeEvent = ForgeEventFactory.onPlayerMultiBlockPlace(casterPlayer, blockSnapshots, blockFace, EnumHand.MAIN_HAND);
@@ -297,7 +258,7 @@ public class Appropriation extends SpellComponent{
 					} else {
 						// Change the stack to its new content
 						if (nbt != null){
-							stack.setTagCompound(newNBT);
+							spell.setStoredData(newNBT);
 						}
 
 						for (net.minecraftforge.common.util.BlockSnapshot blocksnapshot : blockSnapshots){
@@ -352,8 +313,6 @@ public class Appropriation extends SpellComponent{
 				}
 
 				originalSpellStack.getTagCompound().setTag(storageKey, data);
-
-				setOriginalSpellStackData((EntityPlayer)caster, originalSpellStack);
 
 				world.setBlockToAir(blockPos);
 			}

@@ -11,12 +11,12 @@ import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.EntityRiftStorage;
 import am2.common.utils.AffinityShiftUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -34,7 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class Rift extends SpellComponent implements IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
 		if (world.getBlockState(blockPos).getBlock().equals(Blocks.MOB_SPAWNER)){
 			
@@ -59,7 +59,7 @@ public class Rift extends SpellComponent implements IRitualInteraction{
 		if (world.isRemote)
 			return true;
 		EntityRiftStorage storage = new EntityRiftStorage(world);
-		int storageLevel = Math.min(1 + SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack), 3);
+		int storageLevel = Math.min(1 + spell.getModifierCount(SpellModifiers.BUFF_POWER), 3);
 		storage.setStorageLevel(storageLevel);
 		switch (blockFace) {
 		case UP:
@@ -91,7 +91,7 @@ public class Rift extends SpellComponent implements IRitualInteraction{
 	}
 	
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		return false;
 	}
 

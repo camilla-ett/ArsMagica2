@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.common.defs.ItemDefs;
@@ -27,7 +28,7 @@ import net.minecraft.world.World;
 public class Plow extends SpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		Block block = world.getBlockState(pos).getBlock();
 		//Block blockAbove = world.getBlockState(pos.up()).getBlock();
 		if ((block == Blocks.DIRT || block == Blocks.GRASS)){
@@ -50,7 +51,7 @@ public class Plow extends SpellComponent{
 	}
 	
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		return false;
 	}
 

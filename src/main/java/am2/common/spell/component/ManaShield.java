@@ -7,11 +7,12 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -32,10 +33,10 @@ public class ManaShield extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target) {
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target) {
 		float consumed = EntityExtension.For(caster).getCurrentMana();
 		EntityExtension.For(caster).deductMana(consumed);
-		EntityExtension.For((EntityLivingBase) target).addMagicShielding((consumed / 250) * SpellUtils.getModifiedInt_Add(1, stack, caster, target, world, SpellModifiers.BUFF_POWER));
+		EntityExtension.For((EntityLivingBase) target).addMagicShielding((float) ((consumed / 250F) * spell.getModifiedValue(1, SpellModifiers.BUFF_POWER, Operation.ADD, world, caster, target)));
 		return true;
 	}
 	
@@ -43,7 +44,6 @@ public class ManaShield extends SpellComponent{
 	public EnumSet<SpellModifiers> getModifiers() {
 		return EnumSet.of(SpellModifiers.BUFF_POWER);
 	}
-
 	
 	@Override
 	public float manaCost(){
@@ -75,8 +75,7 @@ public class ManaShield extends SpellComponent{
 	}
 	
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace,
-			double impactX, double impactY, double impactZ, EntityLivingBase caster) {
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -1,25 +1,24 @@
 package am2.common.spell.shape;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
-import am2.api.spell.SpellModifier;
+import am2.api.spell.Operation;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
-import am2.client.particles.*;
+import am2.client.particles.AMBeam;
+import am2.client.particles.AMParticle;
+import am2.client.particles.AMParticleDefs;
+import am2.client.particles.ParticleMoveOnHeading;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.power.PowerTypes;
 import am2.common.spell.SpellCastResult;
-import am2.common.spell.modifier.Colour;
-import am2.common.utils.AffinityShiftUtils;
 import am2.common.utils.MathUtilities;
-import am2.common.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -39,13 +38,13 @@ public class Beam extends SpellShape{
 		beams = new HashMap<>();
 	}
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		boolean shouldApplyEffectBlock = useCount % 5 == 0;
 		boolean shouldApplyEffectEntity = useCount % 10 == 0;
 
-		double range = SpellUtils.getModifiedDouble_Add(stack, caster, target, world, SpellModifiers.RANGE);
-		boolean targetWater = SpellUtils.modifierIsPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS, stack);
-		RayTraceResult mop = item.getMovingObjectPosition(caster, world, range, true, targetWater);
+		double range = spell.getModifiedValue(SpellModifiers.RANGE, Operation.ADD, world, caster, target);//.getModifiedDouble_Add(stack, caster, target, world, SpellModifiers.RANGE);
+		boolean targetWater = spell.isModifierPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS);
+		RayTraceResult mop = spell.raytrace(caster, world, range, true, targetWater);
 
 		SpellCastResult result = null;
 		Vec3d beamHitVec = null;
@@ -59,7 +58,7 @@ public class Beam extends SpellShape{
 				Entity e = mop.entityHit;
 				if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
 					e = (EntityLivingBase)((EntityDragonPart)e).entityDragonObj;
-				result = SpellUtils.applyStageToEntity(stack, caster, world, e, giveXP);
+				result = spell.applyComponentsToEntity(world, caster, e);
 				if (result != SpellCastResult.SUCCESS){
 					return result;
 				}
@@ -69,7 +68,7 @@ public class Beam extends SpellShape{
 			spellVec = beamHitVec;
 		}else{
 			if (shouldApplyEffectBlock && !world.isRemote){
-				result = SpellUtils.applyStageToGround(stack, caster, world, mop.getBlockPos(), mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, giveXP);
+				result = spell.applyComponentsToGround(world, caster, mop.getBlockPos(), mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 				if (result != SpellCastResult.SUCCESS){
 					return result;
 				}
@@ -83,17 +82,9 @@ public class Beam extends SpellShape{
 			double startX = caster.posX;
 			double startY = caster.posY + caster.getEyeHeight() - 0.2f;
 			double startZ = caster.posZ;
-			Affinity affinity = AffinityShiftUtils.getMainShiftForStack(stack);
+			Affinity affinity = spell.getMainShift();
 
-			int color = -1;
-			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, stack)){
-				ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(stack, -1);
-				for (SpellModifier mod : mods){
-					if (mod instanceof Colour){
-						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, stack.getTagCompound());
-					}
-				}
-			}
+			int color = spell.getColor(world, caster, target);
 
 			if (beam != null){
 				if (!beam.isAlive() || caster.getDistanceSq(beam.getPosX(), beam.getPosY(), beam.getPosZ()) > 4){
@@ -127,8 +118,7 @@ public class Beam extends SpellShape{
 		}
 
 		if (result != null && spellVec != null && (mop.typeOfHit == RayTraceResult.Type.ENTITY ? shouldApplyEffectEntity : shouldApplyEffectBlock)){
-			//ItemStack newItemStack = SpellUtils.instance.popStackStage(stack);
-			return SpellUtils.applyStackStage(stack, caster, target, spellVec.xCoord, spellVec.yCoord, spellVec.zCoord, mop != null ? mop.sideHit : null, world, true, giveXP, 0);
+			return spell.execute(world, caster, target, spellVec.xCoord, spellVec.yCoord, spellVec.zCoord, mop != null ? mop.sideHit : null);
 		}else{
 			return SpellCastResult.SUCCESS_REDUCE_MANA;
 		}

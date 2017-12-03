@@ -13,6 +13,7 @@ import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
@@ -33,7 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BanishRain extends SpellComponent implements IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		boolean hasMatch = RitualShapeHelper.instance.matchesRitual(this, world, pos);
 		if (hasMatch){
 			RitualShapeHelper.instance.consumeReagents(this, world, pos);
@@ -48,7 +49,7 @@ public class BanishRain extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		boolean hasMatch = RitualShapeHelper.instance.matchesRitual(this, world, caster.getPosition());
 		if (hasMatch){
 			RitualShapeHelper.instance.consumeReagents(this, world, target.getPosition());

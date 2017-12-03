@@ -6,8 +6,6 @@ import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemOre;
-import am2.common.utils.NBTUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
@@ -32,7 +30,7 @@ public class Colour extends SpellModifier{
 			if (obj instanceof ItemStack) {
 				ItemStack is = (ItemStack) obj;
 				if (is.getItem().equals(Items.DYE)) {
-					NBTUtils.addTag(tag, SpellUtils.SPELL_DATA).setInteger("Color", is.getMetadata());
+					tag.setInteger("Color", is.getMetadata());
 				}
 			}
 		}
@@ -45,7 +43,7 @@ public class Colour extends SpellModifier{
 	@Override
 	public float getModifier(SpellModifiers type, EntityLivingBase caster, Entity target, World world, NBTTagCompound nbt) {
 		if (type == SpellModifiers.COLOR) {
-			return NBTUtils.addTag(nbt, SpellUtils.SPELL_DATA).getInteger("Color");
+			return nbt.getInteger("Color");
 		}
 		return 0;
 	}

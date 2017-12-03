@@ -9,7 +9,9 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
@@ -35,23 +37,23 @@ import net.minecraft.world.World;
 public class Heal extends SpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityLivingBase){
 			if (((EntityLivingBase)target).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD){
-				int healing = SpellUtils.getModifiedInt_Mul(10, stack, caster, target, world, SpellModifiers.HEALING);
+				double healing = spell.getModifiedValue(10, SpellModifiers.HEALING, Operation.MULTIPLY, world, caster, target);
 				target.setFire(2);
-				return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeHolyDamage(caster), (float) (healing * (0.5f + 2 * AffinityData.For(caster).getAffinityDepth(Affinity.LIFE))));
+				return SpellUtils.attackTargetSpecial(spell, target, DamageSources.causeHolyDamage(caster), (float) (healing * (0.5f + 2 * AffinityData.For(caster).getAffinityDepth(Affinity.LIFE))));
 			}else{
-				int healing = SpellUtils.getModifiedInt_Mul(2, stack, caster, target, world, SpellModifiers.HEALING);
+				double healing = spell.getModifiedValue(2, SpellModifiers.HEALING, Operation.MULTIPLY, world, caster, target);
 				if (!(caster instanceof AM2Boss))
 					healing *= 1F + AffinityData.For(caster).getAffinityDepth(Affinity.LIFE);
 				if (EntityExtension.For((EntityLivingBase)target).getHealCooldown() == 0){
-					((EntityLivingBase)target).heal(healing);
+					((EntityLivingBase)target).heal((float) healing);
 					EntityExtension.For((EntityLivingBase)target).setHealCooldown(60);
 					return true;
 				}

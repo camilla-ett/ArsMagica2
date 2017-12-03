@@ -2,13 +2,12 @@ package am2.common.spell.shape;
 
 import java.util.EnumSet;
 
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.spell.SpellCastResult;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragonPart;
@@ -22,18 +21,18 @@ import net.minecraft.world.World;
 public class Touch extends SpellShape{
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		if (target != null){
 			Entity e = target;
 			if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
 				e = (EntityLivingBase)((EntityDragonPart)e).entityDragonObj;
 
-			SpellCastResult result = SpellUtils.applyStageToEntity(stack, caster, world, e, giveXP);
+			SpellCastResult result = spell.applyComponentsToEntity(world, caster, e);
 			return result;
 		}
 		
-		boolean targetWater = SpellUtils.modifierIsPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS, stack);
-		RayTraceResult mop = item.getMovingObjectPosition(caster, world, 2.5f, true, targetWater);
+		boolean targetWater = spell.isModifierPresent(SpellModifiers.TARGET_NONSOLID_BLOCKS);
+		RayTraceResult mop = spell.raytrace(caster, world, 2.5f, true, targetWater);
 		if (mop == null){
 			return SpellCastResult.EFFECT_FAILED;
 		}else{
@@ -41,17 +40,17 @@ public class Touch extends SpellShape{
 				Entity e = mop.entityHit;
 				if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
 					e = (EntityLivingBase)((EntityDragonPart)e).entityDragonObj;
-				SpellCastResult result = SpellUtils.applyStageToEntity(stack, caster, world, (target == null) ? e : target, giveXP);
+				SpellCastResult result = spell.applyComponentsToEntity(world, caster, e);
 				if (result != SpellCastResult.SUCCESS){
 					return result;
 				}
-				return SpellUtils.applyStackStage(stack, caster, target, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, null, world, true, giveXP, 0);
+				return spell.execute(world, caster, target, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, null);
 			}else{
-				SpellCastResult result = SpellUtils.applyStageToGround(stack, caster, world, mop.getBlockPos(), mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, giveXP);
+				SpellCastResult result = spell.applyComponentsToGround(world, caster, mop.getBlockPos(), mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 				if (result != SpellCastResult.SUCCESS){
 					return result;
 				}
-				return SpellUtils.applyStackStage(stack, caster, target, mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ(), mop.sideHit, world, true, giveXP, 0);
+				return spell.execute(world, caster, target, mop.getBlockPos().getX(), mop.getBlockPos().getY(), mop.getBlockPos().getZ(), mop.sideHit);
 			}
 		}
 	}

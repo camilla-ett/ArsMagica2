@@ -8,14 +8,15 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleHoldPosition;
 import am2.common.buffs.BuffEffectSpellReflect;
 import am2.common.defs.ItemDefs;
 import am2.common.defs.PotionEffectsDefs;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -29,22 +30,22 @@ import net.minecraft.world.World;
 public class Reflect extends SpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityLivingBase){
 
 			if (((EntityLivingBase)target).isPotionActive(PotionEffectsDefs.MAGIC_SHIELD)){
 				return true;
 			}
 
-			int duration = SpellUtils.getModifiedInt_Mul(PotionEffectsDefs.default_buff_duration, stack, caster, target, world, SpellModifiers.DURATION);
+			int duration = (int) spell.getModifiedValue(PotionEffectsDefs.DEFAULT_BUFF_DURATION, SpellModifiers.DURATION, Operation.MULTIPLY, world, caster, target);
 			//duration = SpellUtils.instance.modifyDurationBasedOnArmor(caster, duration);
 			if (!world.isRemote)
-				((EntityLivingBase)target).addPotionEffect(new BuffEffectSpellReflect(duration, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
+				((EntityLivingBase)target).addPotionEffect(new BuffEffectSpellReflect(duration, spell.getModifierCount(SpellModifiers.BUFF_POWER)));
 			return true;
 		}
 		return false;

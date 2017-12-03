@@ -8,14 +8,15 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.EntityThrownRock;
 import am2.common.items.ItemOre;
 import am2.common.utils.AffinityShiftUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
@@ -39,11 +40,11 @@ public class FallingStar extends SpellComponent{
 		};
 	}
 
-	private boolean spawnStar(ItemStack spellStack, EntityLivingBase caster, Entity target, World world, double x, double y, double z){
+	private boolean spawnStar(SpellData spell, EntityLivingBase caster, Entity target, World world, double x, double y, double z){
 
 		List<EntityThrownRock> rocks = world.getEntitiesWithinAABB(EntityThrownRock.class, new AxisAlignedBB(x - 10, y - 10, z - 10, x + 10, y + 10, z + 10));
 
-		int damageMultitplier = SpellUtils.getModifiedInt_Mul(15, spellStack, caster, target, world, SpellModifiers.DAMAGE);
+		float damageMultitplier = (float) spell.getModifiedValue(15, SpellModifiers.DAMAGE, Operation.MULTIPLY, world, caster, target);
 		for (EntityThrownRock rock : rocks){
 			if (rock.getIsShootingStar())
 				return false;
@@ -54,7 +55,7 @@ public class FallingStar extends SpellComponent{
 			star.setPosition(x, world.getActualHeight(), z);
 			star.setShootingStar(2 * damageMultitplier);
 			star.setThrowingEntity(caster);
-			star.setSpellStack(spellStack.copy());
+			star.setSpell(spell.copy());
 			world.spawnEntityInWorld(star);
 		}
 		return true;
@@ -67,13 +68,13 @@ public class FallingStar extends SpellComponent{
 
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
-		return spawnStar(stack, caster, caster, world, impactX, impactY + 50, impactZ);
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+		return spawnStar(spell, caster, caster, world, impactX, impactY + 50, impactZ);
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		return spawnStar(stack, caster, target, world, target.posX, target.posY + 50, target.posZ);
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
+		return spawnStar(spell, caster, target, world, target.posX, target.posY + 50, target.posZ);
 	}
 
 	@Override

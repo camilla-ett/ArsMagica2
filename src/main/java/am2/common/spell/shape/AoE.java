@@ -1,24 +1,25 @@
 package am2.common.spell.shape;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
-import am2.api.spell.SpellModifier;
+import am2.api.spell.Operation;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
-import am2.client.particles.*;
+import am2.client.particles.AMParticle;
+import am2.client.particles.AMParticleDefs;
+import am2.client.particles.ParticleFadeOut;
+import am2.client.particles.ParticleLeaveParticleTrail;
+import am2.client.particles.ParticleMoveOnHeading;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.EntitySpellProjectile;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.power.PowerTypes;
 import am2.common.spell.SpellCastResult;
-import am2.common.spell.modifier.Colour;
 import am2.common.utils.AffinityShiftUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragonPart;
@@ -33,8 +34,8 @@ import net.minecraft.world.World;
 public class AoE extends SpellShape{
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
-		double radius = SpellUtils.getModifiedDouble_Add(1, stack, caster, target, world, SpellModifiers.RADIUS);
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+		double radius = spell.getModifiedValue(2, SpellModifiers.RADIUS, Operation.ADD, world, caster, target); // SpellUtils.getModifiedDouble_Add(1, stack, caster, target, world, SpellModifiers.RADIUS);
 		List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius));
 
 		boolean appliedToAtLeastOneEntity = false;
@@ -43,7 +44,7 @@ public class AoE extends SpellShape{
 			if (e == caster || e instanceof EntitySpellProjectile) continue;
 			if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
 				e = (EntityLivingBase)((EntityDragonPart)e).entityDragonObj;
-			if (SpellUtils.applyStageToEntity(stack, caster, world, e, giveXP) == SpellCastResult.SUCCESS)
+			if (spell.applyComponentsToEntity(world, caster, e) == SpellCastResult.SUCCESS)
 				appliedToAtLeastOneEntity = true;
 		}
 		
@@ -54,30 +55,30 @@ public class AoE extends SpellShape{
 			case UP:
 			case DOWN:
 				if (world.isRemote)
-					spawnAoEParticles(stack, caster, world, x + 0.5f, y + ((side.equals(EnumFacing.DOWN)) ? 0.5f : (target != null ? target.getEyeHeight() : -2.0f)), z + 0.5f, (int)radius);
-				int gravityMagnitude = SpellUtils.countModifiers(SpellModifiers.GRAVITY, stack);
-				return applyStageHorizontal(stack, caster, world, pos, side, (int)Math.floor(radius), gravityMagnitude, giveXP);
+					spawnAoEParticles(spell, caster, world, x + 0.5f, y + ((side.equals(EnumFacing.DOWN)) ? 0.5f : (target != null ? target.getEyeHeight() : -2.0f)), z + 0.5f, (int)radius);
+				int gravityMagnitude = spell.getModifierCount(SpellModifiers.GRAVITY);
+				return applyStageHorizontal(spell, caster, world, pos, side, (int)Math.floor(radius), gravityMagnitude, giveXP);
 			case NORTH:
 			case SOUTH:
 				if (world.isRemote)
-					spawnAoEParticles(stack, caster, world, x + 0.5f, y - 1, z + 0.5f, (int)radius);
-				return applyStageVerticalZ(stack, caster, world, pos, side, (int)Math.floor(radius), giveXP);
+					spawnAoEParticles(spell, caster, world, x + 0.5f, y - 1, z + 0.5f, (int)radius);
+				return applyStageVerticalZ(spell, caster, world, pos, side, (int)Math.floor(radius), giveXP);
 			case EAST:
 			case WEST:
 				if (world.isRemote)
-					spawnAoEParticles(stack, caster, world, x + 0.5f, y - 1, z + 0.5f, (int)radius);
-				return applyStageVerticalX(stack, caster, world, pos, side, (int)Math.floor(radius), giveXP);
+					spawnAoEParticles(spell, caster, world, x + 0.5f, y - 1, z + 0.5f, (int)radius);
+				return applyStageVerticalX(spell, caster, world, pos, side, (int)Math.floor(radius), giveXP);
 			}
 		} else {
 			if (world.isRemote)
-				spawnAoEParticles(stack, caster, world, x, y - 1, z, (int)radius);
-			int gravityMagnitude = SpellUtils.countModifiers(SpellModifiers.GRAVITY, stack);
-			return applyStageHorizontal(stack, caster, world, pos, null, (int)Math.floor(radius), gravityMagnitude, giveXP);
+				spawnAoEParticles(spell, caster, world, x, y - 1, z, (int)radius);
+			int gravityMagnitude = spell.getModifierCount(SpellModifiers.GRAVITY);
+			return applyStageHorizontal(spell, caster, world, pos, null, (int)Math.floor(radius), gravityMagnitude, giveXP);
 		}
 
 		if (appliedToAtLeastOneEntity){
 			if (world.isRemote)
-				spawnAoEParticles(stack, caster, world, x, y + 1, z, (int)radius);
+				spawnAoEParticles(spell, caster, world, x, y + 1, z, (int)radius);
 			return SpellCastResult.SUCCESS;
 		}
 
@@ -90,19 +91,11 @@ public class AoE extends SpellShape{
 	}
 
 
-	private void spawnAoEParticles(ItemStack stack, EntityLivingBase caster, World world, double x, double y, double z, int radius){
-		String pfxName = AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(stack));
+	private void spawnAoEParticles(SpellData stack, EntityLivingBase caster, World world, double x, double y, double z, int radius){
+		String pfxName = AMParticleDefs.getParticleForAffinity(stack.getMainShift());
 		float speed = 0.08f * radius;
 
-		int color = 0xFFFFFF;
-		if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, stack)){
-			ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(stack, -1);
-			for (SpellModifier mod : mods){
-				if (mod instanceof Colour){
-					color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, stack.getTagCompound());
-				}
-			}
-		}
+		int color = stack.getColor(world, caster, null) & 0xFFFFFF;
 
 		for (int i = 0; i < 360; i += ArsMagica2.config.FullGFX() ? 20 : ArsMagica2.config.LowGFX() ? 40 : 60){
 			AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, pfxName, x, y + 1.5f, z);
@@ -121,7 +114,7 @@ public class AoE extends SpellShape{
 		}
 	}
 
-	private SpellCastResult applyStageHorizontal(ItemStack stack, EntityLivingBase caster, World world, BlockPos pos, EnumFacing face, int radius, int gravityMagnitude, boolean giveXP){
+	private SpellCastResult applyStageHorizontal(SpellData stack, EntityLivingBase caster, World world, BlockPos pos, EnumFacing face, int radius, int gravityMagnitude, boolean giveXP){
 
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -radius; j <= radius; ++j){
@@ -134,7 +127,7 @@ public class AoE extends SpellShape{
 					}
 				}
 				if (world.isAirBlock(lookPos)) continue;
-				SpellCastResult result = SpellUtils.applyStageToGround(stack, caster, world, lookPos, face == null ? EnumFacing.UP : face, lookPos.getX(), lookPos.getY(), lookPos.getZ(), giveXP);
+				SpellCastResult result = stack.applyComponentsToGround(world, caster, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ());
 				if (result != SpellCastResult.SUCCESS)
 					return result;
 			}
@@ -142,12 +135,12 @@ public class AoE extends SpellShape{
 		return SpellCastResult.SUCCESS;
 	}
 
-	private SpellCastResult applyStageVerticalX(ItemStack stack, EntityLivingBase caster, World world, BlockPos pos, EnumFacing face, int radius, boolean giveXP){
+	private SpellCastResult applyStageVerticalX(SpellData stack, EntityLivingBase caster, World world, BlockPos pos, EnumFacing face, int radius, boolean giveXP){
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -radius; j <= radius; ++j){
 				BlockPos lookPos = pos.add(0, j, i);
 				if (world.isAirBlock(lookPos)) continue;
-				SpellCastResult result = SpellUtils.applyStageToGround(stack, caster, world, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ(), giveXP);
+				SpellCastResult result = stack.applyComponentsToGround(world, caster, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ());
 				if (result != SpellCastResult.SUCCESS)
 					return result;
 			}
@@ -155,12 +148,12 @@ public class AoE extends SpellShape{
 		return SpellCastResult.SUCCESS;
 	}
 
-	private SpellCastResult applyStageVerticalZ(ItemStack stack, EntityLivingBase caster, World world, BlockPos pos, EnumFacing face, int radius, boolean giveXP){
+	private SpellCastResult applyStageVerticalZ(SpellData stack, EntityLivingBase caster, World world, BlockPos pos, EnumFacing face, int radius, boolean giveXP){
 		for (int i = -radius; i <= radius; ++i){
 			for (int j = -radius; j <= radius; ++j){
 				BlockPos lookPos = pos.add(i, j, 0);
 				if (world.isAirBlock(lookPos)) continue;
-				SpellCastResult result = SpellUtils.applyStageToGround(stack, caster, world, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ(), giveXP);
+				SpellCastResult result = stack.applyComponentsToGround(world, caster, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ());
 				if (result != SpellCastResult.SUCCESS)
 					return result;
 			}

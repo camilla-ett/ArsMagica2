@@ -8,13 +8,14 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.common.defs.ItemDefs;
 import am2.common.packet.AMNetHandler;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,8 +29,8 @@ import net.minecraft.world.World;
 
 public class Fling extends SpellComponent{
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		double velocity = SpellUtils.getModifiedDouble_Add(1.05f, stack, caster, target, world, SpellModifiers.VELOCITY_ADDED);
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
+		double velocity = spell.getModifiedValue(1.05F, SpellModifiers.VELOCITY_ADDED, Operation.ADD, world, caster, target);
 		if (target instanceof EntityPlayer){
 			AMNetHandler.INSTANCE.sendVelocityAddPacket(world, (EntityPlayer)target, 0.0f, velocity, 0.0f);
 		}
@@ -93,7 +94,7 @@ public class Fling extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace,
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace,
 			double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		// TODO Auto-generated method stub
 		return false;

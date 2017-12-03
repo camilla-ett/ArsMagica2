@@ -7,11 +7,12 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.common.defs.ItemDefs;
 import am2.common.utils.DummyEntityPlayer;
-import am2.common.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -38,12 +39,11 @@ public class WizardsAutumn extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace,
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace,
 			double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
 		if (!world.isRemote){
-			int radius = 2;
-			radius = SpellUtils.getModifiedInt_Mul(radius, stack, caster, null, world, SpellModifiers.RADIUS);
+			int radius = (int) spell.getModifiedValue(2, SpellModifiers.RADIUS, Operation.MULTIPLY, world, caster, null);
 			for (int i = -radius; i <= radius; ++i){
 				for (int j = -radius; j <= radius; ++j){
 					for (int k = -radius; k <= radius; ++k){
@@ -53,7 +53,7 @@ public class WizardsAutumn extends SpellComponent{
 						if (block != null && block.isLeaves(state, world, pos)){
 							if (block.removedByPlayer(state, world, pos, DummyEntityPlayer.fromEntityLiving(caster), true)){
 								block.onBlockDestroyedByPlayer(world, pos, state);
-								block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), pos, state, null, stack);
+								block.harvestBlock(world, DummyEntityPlayer.fromEntityLiving(caster), pos, state, null, spell.getSource());
 								//TODO : play sound
 							}
 						}
@@ -65,8 +65,8 @@ public class WizardsAutumn extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		return applyEffectBlock(stack, world, target.getPosition(), null, target.posX, target.posY, target.posZ, caster);
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
+		return applyEffectBlock(spell, world, target.getPosition(), null, target.posX, target.posY, target.posZ, caster);
 	}
 
 	@Override

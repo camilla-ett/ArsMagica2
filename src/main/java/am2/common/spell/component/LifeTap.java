@@ -12,7 +12,9 @@ import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.extensions.IEntityExtension;
 import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleApproachEntity;
@@ -20,7 +22,6 @@ import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.utils.AffinityShiftUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -38,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class LifeTap extends SpellComponent implements IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
 		if (world.getBlockState(pos).getBlock().equals(Blocks.MOB_SPAWNER)){
 			boolean hasMatch = RitualShapeHelper.instance.matchesRitual(this, world, pos);
@@ -63,10 +64,10 @@ public class LifeTap extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (!(target instanceof EntityLivingBase)) return false;
 		if (!world.isRemote){
-			double damage = SpellUtils.getModifiedDouble_Mul(2, stack, caster, target, world, SpellModifiers.DAMAGE);
+			double damage = spell.getModifiedValue(2, SpellModifiers.DAMAGE, Operation.MULTIPLY, world, caster, target);
 			IEntityExtension casterProperties = EntityExtension.For(caster);
 			float manaRefunded = (float)(((damage * 0.01)) * casterProperties.getMaxMana());
 

@@ -9,7 +9,9 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.common.buffs.BuffEffectFrostSlowed;
@@ -29,17 +31,16 @@ import net.minecraft.world.World;
 public class FrostDamage extends SpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (!(target instanceof EntityLivingBase)) return false;
-		float baseDamage = 10;
-		double damage = SpellUtils.getModifiedDouble_Add(baseDamage, stack, caster, target, world, SpellModifiers.DAMAGE);
-		((EntityLivingBase)target).addPotionEffect(new BuffEffectFrostSlowed(200, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
-		return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeFrostDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
+		double damage = spell.getModifiedValue(10, SpellModifiers.DAMAGE, Operation.ADD, world, caster, target);
+		((EntityLivingBase)target).addPotionEffect(new BuffEffectFrostSlowed(200, spell.getModifierCount(SpellModifiers.BUFF_POWER)));
+		return SpellUtils.attackTargetSpecial(spell, target, DamageSources.causeFrostDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
 	}
 
 	@Override

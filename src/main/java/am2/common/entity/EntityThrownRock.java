@@ -1,14 +1,12 @@
 package am2.common.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Optional;
 
 import am2.ArsMagica2;
 import am2.api.DamageSources;
-import am2.api.spell.SpellModifier;
-import am2.api.spell.SpellModifiers;
+import am2.api.spell.SpellData;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleChangeSize;
 import am2.client.particles.ParticleColorShift;
@@ -16,9 +14,7 @@ import am2.client.particles.ParticleHoldPosition;
 import am2.common.blocks.BlockArsMagicaOre;
 import am2.common.blocks.BlockArsMagicaOre.EnumOreType;
 import am2.common.defs.BlockDefs;
-import am2.common.defs.ItemDefs;
 import am2.common.packet.AMNetHandler;
-import am2.common.spell.modifier.Colour;
 import am2.common.utils.MathUtilities;
 import am2.common.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
@@ -26,7 +22,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -48,7 +43,7 @@ public class EntityThrownRock extends EntityLiving{
 
 	private static final DataParameter<Boolean> IS_MOONSTONE_METEOR = EntityDataManager.createKey(EntityThrownRock.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> IS_SHOOTING_STAR = EntityDataManager.createKey(EntityThrownRock.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Optional<ItemStack>> SPELL_STACK = EntityDataManager.createKey(EntityThrownRock.class, DataSerializers.OPTIONAL_ITEM_STACK);
+	private static final DataParameter<Optional<SpellData>> SPELL_STACK = EntityDataManager.createKey(EntityThrownRock.class, SpellData.OPTIONAL_SPELL_DATA);
 
 	public EntityThrownRock(World par1World){
 		super(par1World);
@@ -124,15 +119,15 @@ public class EntityThrownRock extends EntityLiving{
 		super.entityInit();
 		this.dataManager.register(IS_MOONSTONE_METEOR, false);
 		this.dataManager.register(IS_SHOOTING_STAR, false);
-		this.dataManager.register(SPELL_STACK, Optional.fromNullable(new ItemStack(ItemDefs.spell)));
+		this.dataManager.register(SPELL_STACK, Optional.absent());
 	}
 
-	private ItemStack getSpellStack(){
+	private SpellData getSpell(){
 		return this.dataManager.get(SPELL_STACK).get();
 	}
 
-	public void setSpellStack(ItemStack spellStack){
-		this.dataManager.set(SPELL_STACK, Optional.fromNullable(spellStack));
+	public void setSpell(SpellData spell){
+		this.dataManager.set(SPELL_STACK, Optional.fromNullable(spell));
 	}
 
 	@Override
@@ -190,17 +185,7 @@ public class EntityThrownRock extends EntityLiving{
 				}
 			}else if (getIsShootingStar()){
 
-				int color = -1;
-				if (getSpellStack() != null){
-					if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, getSpellStack())){
-						ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(getSpellStack(), -1);
-						for (SpellModifier mod : mods){
-							if (mod instanceof Colour){
-								color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, getSpellStack().getTagCompound());
-							}
-						}
-					}
-				}
+				int color = getSpell().getColor(worldObj, throwingEntity, null);
 
 				for (float i = 0; i < Math.abs(motionY); i += 0.1f){
 					AMParticle star = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "ember", posX + motionX * i, posY + motionY * i, posZ + motionZ * i);
@@ -287,7 +272,7 @@ public class EntityThrownRock extends EntityLiving{
 		
 		
 		if (getIsShootingStar()){
-			AMNetHandler.INSTANCE.sendStarImpactToClients(posX, posY + ((movingobjectposition.typeOfHit == RayTraceResult.Type.ENTITY) ? -movingobjectposition.entityHit.getEyeHeight() : 1.5f), posZ, worldObj, this.getSpellStack());
+			AMNetHandler.INSTANCE.sendStarImpactToClients(posX, posY + ((movingobjectposition.typeOfHit == RayTraceResult.Type.ENTITY) ? -movingobjectposition.entityHit.getEyeHeight() : 1.5f), posZ, worldObj, this.getSpell());
 			List<EntityLivingBase> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().expand(12, 5, 12));
 			this.posY++;
 			for (EntityLivingBase e : ents){

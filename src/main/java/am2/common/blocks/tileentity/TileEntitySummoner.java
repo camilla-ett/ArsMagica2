@@ -1,8 +1,13 @@
 package am2.common.blocks.tileentity;
 
+import java.util.UUID;
+
+import com.google.common.collect.Lists;
+
 import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.spell.SpellData;
 import am2.common.items.ItemFocusCharge;
 import am2.common.items.ItemFocusMana;
 import am2.common.power.PowerNodeRegistry;
@@ -109,6 +114,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 		if (dummyCaster == null){
 			dummyCaster = new DummyEntityPlayer(worldObj);
 		}
+		//FIXME
 		EntityLiving summon = ((Summon)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2:summon"))).summonCreature(inventory[SUMMON_SLOT], dummyCaster, dummyCaster, worldObj, pos.getX(), pos.getY() + 1, pos.getZ());
 		if (summon != null){
 			if (summon instanceof EntityCreature)

@@ -1,6 +1,5 @@
 package am2.common.spell.component;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Random;
 import java.util.Set;
@@ -15,8 +14,9 @@ import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.power.IPowerNode;
 import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
-import am2.api.spell.SpellModifier;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.common.blocks.BlockMageLight;
@@ -26,8 +26,6 @@ import am2.common.defs.ItemDefs;
 import am2.common.defs.PotionEffectsDefs;
 import am2.common.items.ItemOre;
 import am2.common.power.PowerNodeRegistry;
-import am2.common.spell.modifier.Colour;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -43,7 +41,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class Light extends SpellComponent implements IRitualInteraction{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (world.getBlockState(pos).getBlock().equals(BlockDefs.obelisk)){
 			if (RitualShapeHelper.instance.matchesRitual(this, world, pos)){
 				if (!world.isRemote){
@@ -68,7 +66,7 @@ public class Light extends SpellComponent implements IRitualInteraction{
 			return false;
 
 		if (!world.isRemote){
-			world.setBlockState(pos, BlockDefs.blockMageLight.getDefaultState().withProperty(BlockMageLight.COLOR, EnumDyeColor.byMetadata(getColor(stack))));
+			world.setBlockState(pos, BlockDefs.blockMageLight.getDefaultState().withProperty(BlockMageLight.COLOR, EnumDyeColor.byMetadata(getColor(spell))));
 		}
 
 		return true;
@@ -79,27 +77,21 @@ public class Light extends SpellComponent implements IRitualInteraction{
 		return EnumSet.of(SpellModifiers.COLOR);
 	}
 	
-	private int getColor(ItemStack spell) {
+	private int getColor(SpellData spell) {
 		int dye_color_num = 15;
-		if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spell) ){
-			ArrayList<SpellModifier> modifiers = SpellUtils.getModifiersForStage(spell, -1);
-			for ( SpellModifier mod: modifiers) {
-				if( mod instanceof Colour) {
-					// not so good
-					dye_color_num = spell.getTagCompound().getCompoundTag("AM2").getCompoundTag(SpellUtils.SPELL_DATA).getCompoundTag(SpellUtils.SPELL_DATA).getInteger("Color");
-				}
-			}
-		};
+		if (spell.isModifierPresent(SpellModifiers.COLOR)) {
+			dye_color_num = spell.getStoredData().getInteger("Color");
+		}
 		return 15 - dye_color_num;
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityLivingBase){
-			int duration = SpellUtils.getModifiedInt_Mul(PotionEffectsDefs.default_buff_duration, stack, caster, target, world, SpellModifiers.DURATION);
+			int duration = (int) spell.getModifiedValue(PotionEffectsDefs.DEFAULT_BUFF_DURATION, SpellModifiers.DURATION, Operation.MULTIPLY, world, caster, target);
 			//duration = SpellUtils.modifyDurationBasedOnArmor(caster, duration);
 			if (!world.isRemote)
-				((EntityLivingBase)target).addPotionEffect(new BuffEffectIllumination(duration, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
+				((EntityLivingBase)target).addPotionEffect(new BuffEffectIllumination(duration, spell.getModifierCount(SpellModifiers.BUFF_POWER)));
 			return true;
 		}
 		return false;

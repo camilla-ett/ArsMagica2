@@ -1,19 +1,19 @@
 package am2.common.entity;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
-import am2.common.defs.ItemDefs;
-import am2.common.utils.AffinityShiftUtils;
 import am2.common.utils.NBTUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -28,7 +28,7 @@ public class EntitySpellProjectile extends Entity {
 	
 	private static final DataParameter<Integer> DW_BOUNCE_COUNTER = EntityDataManager.createKey(EntitySpellProjectile.class, DataSerializers.VARINT);
 	private static final DataParameter<Float> DW_GRAVITY = EntityDataManager.createKey(EntitySpellProjectile.class, DataSerializers.FLOAT);
-	private static final DataParameter<Optional<ItemStack>> DW_EFFECT = EntityDataManager.createKey(EntitySpellProjectile.class, DataSerializers.OPTIONAL_ITEM_STACK);
+	private static final DataParameter<Optional<SpellData>> DW_EFFECT = EntityDataManager.createKey(EntitySpellProjectile.class, SpellData.OPTIONAL_SPELL_DATA);
 	private static final DataParameter<String> DW_ICON_NAME = EntityDataManager.createKey(EntitySpellProjectile.class, DataSerializers.STRING);
 	private static final DataParameter<Integer> DW_PIERCE_COUNT = EntityDataManager.createKey(EntitySpellProjectile.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> DW_COLOR = EntityDataManager.createKey(EntitySpellProjectile.class, DataSerializers.VARINT);
@@ -57,7 +57,7 @@ public class EntitySpellProjectile extends Entity {
 	protected void entityInit() {
 		this.getDataManager().register(DW_BOUNCE_COUNTER, 0);
 		this.getDataManager().register(DW_GRAVITY, 0.f);
-		this.getDataManager().register(DW_EFFECT, Optional.<ItemStack>absent());
+		this.getDataManager().register(DW_EFFECT, Optional.<SpellData>absent());
 		this.getDataManager().register(DW_ICON_NAME, "arcane");
 		this.getDataManager().register(DW_PIERCE_COUNT, 0);
 		this.getDataManager().register(DW_COLOR, 0xFFFFFF);
@@ -81,7 +81,7 @@ public class EntitySpellProjectile extends Entity {
 
 	public int getPierces () { return this.getDataManager().get(DW_PIERCE_COUNT) - currentPierces; }
 	
-	public ItemStack getSpell () {
+	public SpellData getSpell () {
 		return this.getDataManager().get(DW_EFFECT).orNull();
 	}
 	
@@ -92,7 +92,7 @@ public class EntitySpellProjectile extends Entity {
 			motionZ = -motionZ;			
 		}
 		else {
-			double projectileSpeed = SpellUtils.getModifiedDouble_Mul(1, getSpell(), getShooter(), null, worldObj, SpellModifiers.VELOCITY_ADDED);
+			double projectileSpeed = getSpell().getModifiedValue(SpellModifiers.VELOCITY_ADDED, Operation.MULTIPLY, worldObj, getShooter(), null);
 			double newMotionX = motionX / projectileSpeed;
 			double newMotionY = motionY / projectileSpeed;
 			double newMotionZ = motionZ / projectileSpeed;
@@ -124,9 +124,9 @@ public class EntitySpellProjectile extends Entity {
 					if (getBounces() > 0) {
 						bounce(mop.sideHit);
 					} else {
-						SpellUtils.applyStageToGround(getSpell(), getShooter(), worldObj, mop.getBlockPos(), mop.sideHit, posX, posY, posZ, true);
-						SpellUtils.applyStackStage(getSpell(), getShooter(), null, mop.hitVec.xCoord + motionX, mop.hitVec.yCoord + motionY, mop.hitVec.zCoord + motionZ, mop.sideHit, worldObj, false, true, 0);
-						if (this.getPierces() == 1 || !SpellUtils.modifierIsPresent(SpellModifiers.PIERCING, this.getSpell()))
+						getSpell().applyComponentsToGround(worldObj, getShooter(), mop.getBlockPos(), mop.sideHit, posX, posY, posZ);
+						getSpell().execute(worldObj, getShooter(), null, posX, posY, posZ, mop.sideHit);
+						if (this.getPierces() == 1 || !getSpell().isModifierPresent(SpellModifiers.PIERCING))
 							this.setDead();
 						else
 							this.currentPierces++;
@@ -143,15 +143,15 @@ public class EntitySpellProjectile extends Entity {
 							effSize--;
 							continue;
 						}
-						SpellUtils.applyStageToEntity(getSpell(), getShooter(), worldObj, entity, true);
-						SpellUtils.applyStackStage(getSpell(), getShooter(), (EntityLivingBase) entity, entity.posX, entity.posY, entity.posZ, null, worldObj, false, true, 0);
+						getSpell().applyComponentsToEntity(worldObj, getShooter(), entity);
+						getSpell().execute(worldObj, getShooter(), (EntityLivingBase) entity, entity.posX, entity.posY, entity.posZ, null);
 						break;
 					} else {
 						effSize--;
 					}
 				}
 				if (effSize != 0) {
-					if (this.getPierces() == 1 || !SpellUtils.modifierIsPresent(SpellModifiers.PIERCING, this.getSpell()))
+					if (this.getPierces() == 1 || !getSpell().isModifierPresent(SpellModifiers.PIERCING))
 						this.setDead();
 					else
 						this.currentPierces++;
@@ -178,7 +178,7 @@ public class EntitySpellProjectile extends Entity {
 		NBTTagCompound am2Tag = NBTUtils.getAM2Tag(tagCompund);
 		dataManager.set(DW_BOUNCE_COUNTER, am2Tag.getInteger("BounceCount"));
 		dataManager.set(DW_GRAVITY, am2Tag.getFloat("Gravity"));
-		dataManager.set(DW_EFFECT, Optional.of(ItemStack.loadItemStackFromNBT(am2Tag.getCompoundTag("Effect"))));
+		dataManager.set(DW_EFFECT, Optional.of(SpellData.readFromNBT(am2Tag.getCompoundTag("Effect"))));
 		dataManager.set(DW_ICON_NAME, am2Tag.getString("IconName"));
 		dataManager.set(DW_PIERCE_COUNT, am2Tag.getInteger("PierceCount"));
 		dataManager.set(DW_COLOR, am2Tag.getInteger("Color"));
@@ -194,7 +194,7 @@ public class EntitySpellProjectile extends Entity {
 		am2Tag.setInteger("BounceCount", dataManager.get(DW_BOUNCE_COUNTER));
 		am2Tag.setFloat("Gravity", dataManager.get(DW_GRAVITY));
 		NBTTagCompound tmp = new NBTTagCompound();
-		dataManager.get(DW_EFFECT).or(new ItemStack(ItemDefs.spell)).writeToNBT(tmp);
+		dataManager.get(DW_EFFECT).or(new SpellData(Lists.newArrayList(), UUID.randomUUID(), new NBTTagCompound())).writeToNBT(tmp);
 		am2Tag.setTag("Effect", tmp);
 		am2Tag.setString("IconName", dataManager.get(DW_ICON_NAME));
 		am2Tag.setInteger("PierceCount", dataManager.get(DW_PIERCE_COUNT));
@@ -235,9 +235,9 @@ public class EntitySpellProjectile extends Entity {
 		this.getDataManager().set(DW_GRAVITY, projectileGravity);
 	}
 	
-	public void setSpell (ItemStack stack) {
-		this.getDataManager().set(DW_EFFECT, Optional.fromNullable(stack));
-		Affinity mainAff = AffinityShiftUtils.getMainShiftForStack(stack);
+	public void setSpell (SpellData spell) {
+		this.getDataManager().set(DW_EFFECT, Optional.fromNullable(spell));
+		Affinity mainAff = spell.getMainShift();
 		if (mainAff.equals(Affinity.ENDER)) this.getDataManager().set(DW_COLOR, 0x550055);
 		else if (mainAff.equals(Affinity.ICE)) this.getDataManager().set(DW_COLOR, 0x2299FF);
 		else if (mainAff.equals(Affinity.LIFE)) this.getDataManager().set(DW_COLOR, 0x22FF44);

@@ -18,8 +18,8 @@ public class TileRuneRenderer extends TileEntitySpecialRenderer<TileEntityGround
 
 	@Override
 	public void renderTileEntityAt(TileEntityGroundRuneSpell te, double x, double y, double z, float partialTicks, int destroyStage) {
-		if (te.getSpellStack() != null) {
-			Affinity mainAff = AffinityShiftUtils.getMainShiftForStack(te.getSpellStack());
+		if (te.getSpell() != null) {
+			Affinity mainAff = AffinityShiftUtils.getMainShiftForStack(te.getSpell());
 			TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(new ResourceLocation(mainAff.getRegistryName().getResourceDomain(), "blocks/runes/rune_" + mainAff.getRegistryName().getResourcePath()).toString());
 			Tessellator tesselator = Tessellator.getInstance();
 			GlStateManager.pushMatrix();

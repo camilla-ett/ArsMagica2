@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleHoldPosition;
@@ -37,14 +38,14 @@ import net.minecraft.world.World;
 public class Forge extends SpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		if (!CanApplyFurnaceToBlockAtCoords(caster, world, pos)) return false;
 		ApplyFurnaceToBlockAtCoords(caster, world, pos);
 		return true;
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityVillager && ArsMagica2.config.forgeSmeltsVillagers()){
 			if (!world.isRemote && !EntityUtils.isSummon((EntityLivingBase)target))
 				target.dropItem(Items.EMERALD, 1);

@@ -3,18 +3,15 @@ package am2.common.spell.shape;
 import java.util.EnumSet;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.SpellData;
+import am2.api.spell.SpellManager;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.spell.SpellCastResult;
-import am2.common.spell.component.Attract;
-import am2.common.spell.component.Repel;
-import am2.common.spell.component.Telekinesis;
 import am2.common.utils.AffinityShiftUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,10 +21,10 @@ import net.minecraft.world.World;
 public class Channel extends SpellShape{
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
-		boolean shouldApplyEffect = useCount % 10 == 0 || SpellUtils.componentIsPresent(stack, Telekinesis.class) || SpellUtils.componentIsPresent(stack, Attract.class) || SpellUtils.componentIsPresent(stack, Repel.class);
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+		boolean shouldApplyEffect = useCount % 10 == 0 || SpellManager.areChannelComponentsPresent(spell);
 		if (shouldApplyEffect){
-			SpellCastResult result = SpellUtils.applyStageToEntity(stack, caster, world, caster, giveXP);
+			SpellCastResult result = spell.applyComponentsToEntity(world, caster, caster);
 			if (result != SpellCastResult.SUCCESS){
 				return result;
 			}

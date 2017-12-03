@@ -12,6 +12,7 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
@@ -44,7 +45,7 @@ public class Grow extends SpellComponent{
 	private final static ArrayList<BlockAMFlower> growableAMflowers = new ArrayList<BlockAMFlower>(Arrays.asList(BlockDefs.cerublossom, BlockDefs.desertNova, BlockDefs.wakebloom, BlockDefs.aum, BlockDefs.tarmaRoot));
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 
 		IBlockState block = world.getBlockState(pos);
 
@@ -137,7 +138,7 @@ public class Grow extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		return false;
 	}
 

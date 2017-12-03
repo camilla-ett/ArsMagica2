@@ -2,15 +2,15 @@ package am2.common.spell.shape;
 
 import java.util.EnumSet;
 
+import am2.api.spell.Operation;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.EntitySpellEffect;
 import am2.common.items.ItemOre;
-import am2.common.items.ItemSpellBase;
 import am2.common.spell.SpellCastResult;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -33,17 +33,17 @@ public class Wall extends SpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
 		if (world.isRemote) return SpellCastResult.SUCCESS;
-		int radius = SpellUtils.getModifiedInt_Mul(3, stack, caster, target, world, SpellModifiers.RADIUS);
-		double gravity = SpellUtils.getModifiedDouble_Add(0, stack, caster, target, world, SpellModifiers.GRAVITY);
-		int duration = SpellUtils.getModifiedInt_Mul(100, stack, caster, target, world, SpellModifiers.DURATION);
+		int radius = (int) spell.getModifiedValue(3, SpellModifiers.RADIUS, Operation.MULTIPLY, world, caster, target);
+		double gravity = spell.getModifiedValue(1, SpellModifiers.GRAVITY, Operation.ADD, world, caster, target);
+		int duration = (int) spell.getModifiedValue(100, SpellModifiers.DURATION, Operation.MULTIPLY, world, caster, target);
 
 		EntitySpellEffect wall = new EntitySpellEffect(world);
 		wall.setRadius(radius);
 		wall.setTicksToExist(duration);
 		wall.setGravity(gravity);
-		wall.SetCasterAndStack(caster, stack);
+		wall.SetCasterAndStack(caster, spell);
 		wall.setPosition(x, y, z);
 		wall.setWall(caster.rotationYaw);
 		world.spawnEntityInWorld(wall);

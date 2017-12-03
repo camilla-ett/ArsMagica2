@@ -8,12 +8,12 @@ import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.common.buffs.BuffEffectSilence;
 import am2.common.defs.ItemDefs;
 import am2.common.defs.PotionEffectsDefs;
 import am2.common.items.ItemOre;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -36,15 +36,15 @@ public class Silence extends SpellComponent{
 	}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityLivingBase && target.isNonBoss()){
 			if (!world.isRemote)
-				((EntityLivingBase)target).addPotionEffect(new BuffEffectSilence(PotionEffectsDefs.default_buff_duration, SpellUtils.countModifiers(SpellModifiers.BUFF_POWER, stack)));
+				((EntityLivingBase)target).addPotionEffect(new BuffEffectSilence(PotionEffectsDefs.DEFAULT_BUFF_DURATION, spell.getModifierCount(SpellModifiers.BUFF_POWER)));
 			return true;
 		}
 		return false;

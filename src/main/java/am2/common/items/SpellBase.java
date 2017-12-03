@@ -3,11 +3,13 @@ package am2.common.items;
 import java.util.List;
 
 import am2.ArsMagica2;
+import am2.api.extensions.ISpellCaster;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.IDDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.extensions.SkillData;
+import am2.common.spell.SpellCaster;
 import am2.common.utils.EntityUtils;
 import am2.common.utils.SpellUtils;
 import net.minecraft.block.state.IBlockState;
@@ -66,10 +68,9 @@ public class SpellBase extends ItemSpellBase{
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4){
 		if (!stack.hasTagCompound()) return;
 		
-		float manaCost = SpellUtils.getManaCost(stack, player);
-		manaCost *= 1F + (float)((float)EntityExtension.For(player).getCurrentBurnout() / (float)EntityExtension.For(player).getMaxBurnout());
+		ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
 
-		list.add("Mana Cost : " + manaCost);
+		list.add("Mana Cost : " + caster.getManaCost(player.getEntityWorld(), player));
 	}
 
 	@Override
@@ -151,7 +152,6 @@ public class SpellBase extends ItemSpellBase{
 		}
 
 		return entityPos != null ? entityPos : mop;
-
 	}
 	
 	@Override

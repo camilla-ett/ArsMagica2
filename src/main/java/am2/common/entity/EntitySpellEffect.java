@@ -7,13 +7,14 @@ import com.google.common.base.Optional;
 
 import am2.ArsMagica2;
 import am2.api.DamageSources;
-import am2.api.spell.SpellModifier;
-import am2.api.spell.SpellModifiers;
-import am2.client.particles.*;
+import am2.api.spell.SpellData;
+import am2.client.particles.AMParticle;
+import am2.client.particles.AMParticleDefs;
+import am2.client.particles.ParticleFleePoint;
+import am2.client.particles.ParticleFloatUpward;
+import am2.client.particles.ParticleOrbitPoint;
 import am2.common.buffs.BuffEffectFrostSlowed;
-import am2.common.spell.modifier.Colour;
 import am2.common.utils.AMLineSegment;
-import am2.common.utils.AffinityShiftUtils;
 import am2.common.utils.DummyEntityPlayer;
 import am2.common.utils.MathUtilities;
 import am2.common.utils.SpellUtils;
@@ -22,8 +23,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -45,12 +44,12 @@ public class EntitySpellEffect extends Entity{
 
 	private int ticksToExist = 100;
 
-	private ItemStack spellStack;
+	private SpellData spellStack;
 	private EntityPlayer dummycaster;
 	private int casterEntityID;
 	private float moveSpeed;    //used by waves only
 
-	private static final DataParameter<Optional<ItemStack>> WATCHER_STACK = EntityDataManager.createKey(EntitySpellEffect.class, DataSerializers.OPTIONAL_ITEM_STACK);
+	private static final DataParameter<Optional<SpellData>> WATCHER_STACK = EntityDataManager.createKey(EntitySpellEffect.class, SpellData.OPTIONAL_SPELL_DATA);
 	private static final DataParameter<Float> WATCHER_RADIUS = EntityDataManager.createKey(EntitySpellEffect.class, DataSerializers.FLOAT);
 	private static final DataParameter<Float> WATCHER_GRAVITY = EntityDataManager.createKey(EntitySpellEffect.class, DataSerializers.FLOAT);
 	private static final DataParameter<Integer> WATCHER_TYPE = EntityDataManager.createKey(EntitySpellEffect.class, DataSerializers.VARINT); //0 == zone, 1 == rain of fire, 2 == blizzard, 3 == wall, 4 == wave
@@ -72,7 +71,7 @@ public class EntitySpellEffect extends Entity{
 		this.setSize(0.25f, 0.25f);
 	}
 
-	public void SetCasterAndStack(EntityLivingBase caster, ItemStack spellScroll){
+	public void SetCasterAndStack(EntityLivingBase caster, SpellData spellScroll){
 		this.spellStack = spellScroll;
 		this.dummycaster = DummyEntityPlayer.fromEntityLiving(caster);
 		casterEntityID = caster.getEntityId();
@@ -120,7 +119,7 @@ public class EntitySpellEffect extends Entity{
 	@Override
 	protected void entityInit(){
 		this.dataManager.register(WATCHER_RADIUS, 3f);
-		this.dataManager.register(WATCHER_STACK, Optional.of(new ItemStack(Items.GOLDEN_APPLE)));
+		this.dataManager.register(WATCHER_STACK, Optional.absent());
 		this.dataManager.register(WATCHER_GRAVITY, 0F);
 		this.dataManager.register(WATCHER_TYPE, 0);
 		this.dataManager.register(WATCHER_ROF_IGNITE, false);
@@ -180,22 +179,14 @@ public class EntitySpellEffect extends Entity{
 				}
 				spellStack = spellStack.copy();
 
-				int color = 0xFFFFFF;
-				if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
-					ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
-					for (SpellModifier mod : mods){
-						if (mod instanceof Colour){
-							color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
-						}
-					}
-				}
+				int color = spellStack.getColor(worldObj, null, null) & 0xFFFFFF;
 
 				if ((ArsMagica2.config.FullGFX() && this.ticksExisted % 2 == 0) || this.ticksExisted % 8 == 0){
 					for (int i = 0; i < 4; ++i){
 						_rotation = (rotation + (90 * i)) % 360;
 						double x = this.posX - Math.cos(3.141 / 180 * (_rotation)) * dist;
 						double z = this.posZ - Math.sin(3.141 / 180 * (_rotation)) * dist;
-						AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(spellStack)), x, posY, z);
+						AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleDefs.getParticleForAffinity(spellStack.getMainShift()), x, posY, z);
 						if (effect != null){
 							effect.setIgnoreMaxAge(false);
 							effect.setMaxAge(20);
@@ -230,21 +221,19 @@ public class EntitySpellEffect extends Entity{
 			for (Entity e : possibleTargets){
 				if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
 					e = (EntityLivingBase)((EntityDragonPart)e).entityDragonObj;
-
 				if (e instanceof EntityLivingBase)
-					//SpellUtils.applyStageToEntity(spellStack, dummycaster, worldObj, e, false);
-					SpellUtils.applyStackStage(spellStack.copy(), dummycaster, (EntityLivingBase) e, e.posX, e.posY - 1, e.posZ, null, worldObj, false, false, this.ticksExisted);
+					spellStack.copy().execute(worldObj, dummycaster, (EntityLivingBase) e, e.posX, e.posY - 1, e.posZ, null);
 			}
 			if (this.dataManager.get(WATCHER_GRAVITY) < 0 && !firstApply)
-				SpellUtils.applyStackStage(spellStack.copy(), dummycaster, null, posX, posY - 1, posZ, null, worldObj, false, false, this.ticksExisted);
+				spellStack.copy().execute(worldObj, dummycaster, null, posX, posY - 1, posZ, null);
 			else
-				SpellUtils.applyStackStage(spellStack.copy(), dummycaster, null, posX, posY, posZ, null, worldObj, false, false, this.ticksExisted);
+				spellStack.copy().execute(worldObj, dummycaster, null, posX, posY, posZ, null);
 			firstApply = false;
 			for (float i = -radius; i <= radius; i++) {
 				for (int j = -3; j <= 3; j++) {
 					Vec3d[] blocks = getAllBlockLocationsBetween(new Vec3d(posX + i, posY + j, posZ - radius), new Vec3d(posX + i, posY + j, posZ + radius));
 					for (Vec3d vec : blocks) {
-						SpellUtils.applyStageToGround(spellStack.copy(), dummycaster, worldObj, new BlockPos(vec), EnumFacing.UP, vec.xCoord + 0.5, vec.yCoord + 0.5, vec.zCoord + 0.5, false);
+						spellStack.pop().applyComponentsToGround(worldObj, dummycaster, new BlockPos(vec), EnumFacing.UP, vec.xCoord + 0.5, vec.yCoord + 0.5, vec.zCoord + 0.5);
 					}
 				}
 			}
@@ -263,15 +252,7 @@ public class EntitySpellEffect extends Entity{
 			}
 			spellStack = spellStack.copy();
 
-			int color = 0xFFFFFF;
-			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
-				ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
-				for (SpellModifier mod : mods){
-					if (mod instanceof Colour){
-						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
-					}
-				}
-			}
+			int color = spellStack.getColor(worldObj, null, null) & 0xFFFFFF;
 
 			for (int i = 0; i < 10; ++i){
 				double x = this.posX - radius + (rand.nextDouble() * radius * 2);
@@ -330,15 +311,7 @@ public class EntitySpellEffect extends Entity{
 			}
 			spellStack = spellStack.copy();
 
-			int color = 0xFFFFFF;
-			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
-				ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
-				for (SpellModifier mod : mods){
-					if (mod instanceof Colour){
-						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
-					}
-				}
-			}
+			int color = spellStack.getColor(worldObj, null, null) & 0xFFFFFF;
 
 			for (int i = 0; i < 20; ++i){
 				double x = this.posX - radius + (rand.nextDouble() * radius * 2);
@@ -414,15 +387,7 @@ public class EntitySpellEffect extends Entity{
 
 			double dist = getRadius();
 
-			int color = 0xFFFFFF;
-			if (SpellUtils.modifierIsPresent(SpellModifiers.COLOR, spellStack)){
-				ArrayList<SpellModifier> mods = SpellUtils.getModifiersForStage(spellStack, -1);
-				for (SpellModifier mod : mods){
-					if (mod instanceof Colour){
-						color = (int)mod.getModifier(SpellModifiers.COLOR, null, null, null, spellStack.getTagCompound());
-					}
-				}
-			}
+			int color = spellStack.getColor(worldObj, null, null) & 0xFFFFFF;
 
 			double px = Math.cos(3.141 / 180 * (rotationYaw + 90)) * 0.1f;
 			double pz = Math.sin(3.141 / 180 * (rotationYaw + 90)) * 0.1f;
@@ -432,7 +397,7 @@ public class EntitySpellEffect extends Entity{
 				double x = this.posX - Math.cos(3.141 / 180 * (rotationYaw)) * i;
 				double z = this.posZ - Math.sin(3.141 / 180 * (rotationYaw)) * i;
 
-				AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(spellStack)), x, posY, z);
+				AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleDefs.getParticleForAffinity(spellStack.getMainShift()), x, posY, z);
 				if (effect != null){
 					effect.setIgnoreMaxAge(false);
 					effect.setMaxAge(20);
@@ -451,7 +416,7 @@ public class EntitySpellEffect extends Entity{
 				x = this.posX - Math.cos(Math.toRadians(rotationYaw)) * -i;
 				z = this.posZ - Math.sin(Math.toRadians(rotationYaw)) * -i;
 
-				effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleDefs.getParticleForAffinity(AffinityShiftUtils.getMainShiftForStack(spellStack)), x, posY, z);
+				effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, AMParticleDefs.getParticleForAffinity(spellStack.getMainShift()), x, posY, z);
 				if (effect != null){
 					effect.setIgnoreMaxAge(false);
 					effect.addRandomOffset(1, 1, 1);
@@ -511,7 +476,7 @@ public class EntitySpellEffect extends Entity{
 						//commented out in favor of line below so as to apply subsequent shapes as well
 						//uncomment and comment out below line to revert to direct target only, but mark wave/wall as terminus
 						//SpellUtils.applyStageToEntity(spellStack, dummycaster, worldObj, e, false);
-						SpellUtils.applyStackStage(spellStack.copy(), dummycaster, (EntityLivingBase)e, this.posX, this.posY, this.posZ, null, worldObj, false, false, 0);
+						spellStack.copy().execute(worldObj, dummycaster, (EntityLivingBase) e, this.posX, this.posY, this.posZ, null);
 					}
 				}
 			}
@@ -541,7 +506,7 @@ public class EntitySpellEffect extends Entity{
 	
 			Vec3d[] vecs = getAllBlockLocationsBetween(a, b);
 			for (Vec3d vec : vecs){
-				SpellUtils.applyStageToGround(SpellUtils.popStackStage(spellStack.copy()), dummycaster, worldObj, new BlockPos(vec), EnumFacing.UP, vec.xCoord + 0.5, vec.yCoord + 0.5, vec.zCoord + 0.5, false);
+				spellStack.copy().pop().applyComponentsToGround(worldObj, dummycaster, new BlockPos(vec), EnumFacing.UP, vec.xCoord + 0.5, vec.yCoord + 0.5, vec.zCoord + 0.5);
 			}
 		}
 
@@ -621,7 +586,7 @@ public class EntitySpellEffect extends Entity{
 		return (double) dataManager.get(WATCHER_RADIUS);
 	}
 	
-	public ItemStack getEffectStack() {
+	public SpellData getEffectStack() {
 		return dataManager.get(WATCHER_STACK).orNull();
 	}
 	

@@ -9,7 +9,9 @@ import com.google.common.collect.Sets;
 import am2.ArsMagica2;
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.common.defs.ItemDefs;
@@ -30,15 +32,14 @@ import net.minecraft.world.World;
 public class MagicDamage extends SpellComponent{
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos pos, EnumFacing blockFace, double impactX, double impactY, double impactZ, EntityLivingBase caster){
 		return false;
 	}
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (!(target instanceof EntityLivingBase)) return false;
-		float baseDamage = 6;
-		double damage = SpellUtils.getModifiedDouble_Add(baseDamage, stack, caster, target, world, SpellModifiers.DAMAGE);
+		double damage = spell.getModifiedValue(6, SpellModifiers.DAMAGE, Operation.ADD, world, caster, target);
 		float mod = 0.0f;
 		if (target instanceof EntityPlayer){
 			for (ItemStack item : ((EntityPlayer)target).inventory.armorInventory){
@@ -49,7 +50,7 @@ public class MagicDamage extends SpellComponent{
 			}
 		}
 		damage = damage - (damage * mod);
-		return SpellUtils.attackTargetSpecial(stack, target, DamageSources.causeMagicDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
+		return SpellUtils.attackTargetSpecial(spell, target, DamageSources.causeMagicDamage(caster), SpellUtils.modifyDamage(caster, (float)damage));
 	}
 
 	@Override

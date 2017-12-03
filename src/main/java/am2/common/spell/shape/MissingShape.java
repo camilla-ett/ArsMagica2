@@ -2,12 +2,11 @@ package am2.common.spell.shape;
 
 import java.util.EnumSet;
 
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
-import am2.common.items.ItemSpellBase;
 import am2.common.spell.SpellCastResult;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -45,11 +44,9 @@ public class MissingShape extends SpellShape {
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(ItemSpellBase item, ItemStack stack,
-			EntityLivingBase caster, EntityLivingBase target, World world,
-			double x, double y, double z, EnumFacing side, boolean giveXP, int useCount) {
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount) {
 		// TODO Auto-generated method stub
-		return null;
+		return SpellCastResult.MALFORMED_SPELL_STACK;
 	}
 	
 	@Override

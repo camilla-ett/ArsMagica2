@@ -7,10 +7,11 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.common.defs.ItemDefs;
-import am2.common.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,15 +31,14 @@ import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 public class RandomTeleport extends SpellComponent{
 
 	@Override
-	public boolean applyEffectEntity(ItemStack stack, World world, EntityLivingBase caster, Entity target){
-		Vec3d rLoc = getRandomTeleportLocation(world, stack, caster, target);
+	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
+		Vec3d rLoc = getRandomTeleportLocation(world, spell, caster, target);
 		return teleportTo(rLoc.xCoord, rLoc.yCoord, rLoc.zCoord, target);
 	}
 
-	private Vec3d getRandomTeleportLocation(World world, ItemStack stack, EntityLivingBase caster, Entity target){
+	private Vec3d getRandomTeleportLocation(World world, SpellData spell, EntityLivingBase caster, Entity target){
 		Vec3d origin = new Vec3d(target.posX, target.posY, target.posZ);
-		float maxDist = 9;
-		maxDist = (float)SpellUtils.getModifiedDouble_Mul(maxDist, stack, caster, target, world, SpellModifiers.RANGE);
+		float maxDist = (float)spell.getModifiedValue(9, SpellModifiers.RANGE, Operation.MULTIPLY, world, caster, target);
 		origin = origin.add(new Vec3d((world.rand.nextDouble() - 0.5) * maxDist, (world.rand.nextDouble() - 0.5) * maxDist, (world.rand.nextDouble() - 0.5) * maxDist));
 		return origin;
 	}
@@ -136,7 +136,7 @@ public class RandomTeleport extends SpellComponent{
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {}
 
 	@Override
-	public boolean applyEffectBlock(ItemStack stack, World world, BlockPos blockPos, EnumFacing blockFace,
+	public boolean applyEffectBlock(SpellData spell, World world, BlockPos blockPos, EnumFacing blockFace,
 			double impactX, double impactY, double impactZ, EntityLivingBase caster) {
 		return false;
 	}
