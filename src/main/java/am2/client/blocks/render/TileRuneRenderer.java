@@ -2,7 +2,6 @@ package am2.client.blocks.render;
 
 import am2.api.affinity.Affinity;
 import am2.common.blocks.tileentity.TileEntityGroundRuneSpell;
-import am2.common.utils.AffinityShiftUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -19,7 +18,7 @@ public class TileRuneRenderer extends TileEntitySpecialRenderer<TileEntityGround
 	@Override
 	public void renderTileEntityAt(TileEntityGroundRuneSpell te, double x, double y, double z, float partialTicks, int destroyStage) {
 		if (te.getSpell() != null) {
-			Affinity mainAff = AffinityShiftUtils.getMainShiftForStack(te.getSpell());
+			Affinity mainAff = te.getSpell().getMainShift();
 			TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(new ResourceLocation(mainAff.getRegistryName().getResourceDomain(), "blocks/runes/rune_" + mainAff.getRegistryName().getResourcePath()).toString());
 			Tessellator tesselator = Tessellator.getInstance();
 			GlStateManager.pushMatrix();

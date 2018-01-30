@@ -1,7 +1,7 @@
 package am2.client.gui;
 
-import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
@@ -11,8 +11,10 @@ import am2.api.SpellRegistry;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
+import am2.api.extensions.ISpellCaster;
 import am2.api.math.AMVector2;
 import am2.api.spell.AbstractSpellPart;
+import am2.api.spell.SpellData;
 import am2.client.commands.ConfigureAMUICommand;
 import am2.client.texture.SpellIconManager;
 import am2.common.armor.ArmorHelper;
@@ -23,6 +25,7 @@ import am2.common.extensions.EntityExtension;
 import am2.common.items.ItemSpellBook;
 import am2.common.power.PowerTypes;
 import am2.common.spell.ContingencyType;
+import am2.common.spell.SpellCaster;
 import am2.common.utils.AffinityShiftUtils;
 import am2.common.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
@@ -219,16 +222,19 @@ public class AMIngameGUI extends Gui {
 			if (curItem != null && (curItem.getItem() == ItemDefs.spell
 					|| curItem.getItem() == ItemDefs.spellBook || curItem.getItem() == ItemDefs.arcaneSpellbook)){
 				ItemStack spellStack = curItem.getItem() == ItemDefs.spell ? curItem : ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
+				ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
 				if (spellStack != null){
-					ArrayList<AbstractSpellPart> parts = SpellUtils.getPartsForGroup(spellStack, 0);//SpellUtils.getShapeGroupParts(spellStack);
+					List<List<AbstractSpellPart>> parts = caster.getShapeGroups().get(caster.getCurrentShapeGroup());//SpellUtils.getShapeGroupParts(spellStack);
 					int sx = mana_hud.iX - 2 * parts.size() / 2;
 					int sy = mana_hud.iY - 2 * parts.size() / 2;
-					for (AbstractSpellPart p : parts){
-						TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(SpellRegistry.getSkillFromPart(p).getID());
-						if (icon != null){
-							DrawIconAtXY(icon, "items", sx, sy, false);
-							sx += 3;
-							sy += 3;
+					for (List<AbstractSpellPart> p : parts){
+						for (AbstractSpellPart part : p) {
+							TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(SpellRegistry.getSkillFromPart(part).getID());
+							if (icon != null){
+								DrawIconAtXY(icon, "items", sx, sy, false);
+								sx += 3;
+								sy += 3;
+							}
 						}
 					}
 				}
@@ -271,9 +277,12 @@ public class AMIngameGUI extends Gui {
 					|| curItem.getItem() == ItemDefs.spellBook || curItem.getItem() == ItemDefs.arcaneSpellbook)){
 				ItemStack spellStack = curItem.getItem() == ItemDefs.spell ? curItem : ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
 				if (spellStack != null) {
-					float manaCost = SpellUtils.getManaCost(spellStack, Minecraft.getMinecraft().thePlayer) * (1F + (float)((float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentBurnout() / (float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout()));
-					spellcost = (EntityExtension.For(Minecraft.getMinecraft().thePlayer).hasEnoughtMana(manaCost) ? ChatFormatting.AQUA.toString() : ChatFormatting.DARK_RED.toString()) + " (" + (int)(manaCost) + ")";
-					spellcost += ChatFormatting.RESET.toString();
+					ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
+					if (caster != null) {
+						float manaCost = caster.getManaCost(Minecraft.getMinecraft().theWorld, Minecraft.getMinecraft().thePlayer) * (1F + (float)((float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getCurrentBurnout() / (float)EntityExtension.For(Minecraft.getMinecraft().thePlayer).getMaxBurnout()));
+						spellcost = (EntityExtension.For(Minecraft.getMinecraft().thePlayer).hasEnoughtMana(manaCost) ? ChatFormatting.AQUA.toString() : ChatFormatting.DARK_RED.toString()) + " (" + (int)(manaCost) + ")";
+						spellcost += ChatFormatting.RESET.toString();
+					}
 				}
 			}
 

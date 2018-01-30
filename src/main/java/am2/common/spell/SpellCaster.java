@@ -9,17 +9,21 @@ import java.util.UUID;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IEntityExtension;
 import am2.api.extensions.ISpellCaster;
 import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.SpellComponent;
+import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellShape;
 import am2.common.extensions.EntityExtension;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -60,21 +64,51 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 		manaCost *= (1 + (ext.getCurrentBurnout() / ext.getMaxBurnout()));
 		return manaCost;
 	}
+	
+	@Override
+	public SpellData createSpellData(ItemStack source) {
+		List<List<AbstractSpellPart>> stages = new ArrayList<>();
+		List<List<AbstractSpellPart>> shapeGroup = this.getShapeGroups().get(this.getCurrentShapeGroup());
+		List<AbstractSpellPart> stage = null;
+		for (List<AbstractSpellPart> parts : shapeGroup) {
+			for (AbstractSpellPart part : parts) {
+				if (part instanceof SpellShape) {
+					if (stage != null && !stage.isEmpty()) {
+						stages.add(stage);
+					}
+					stage = new ArrayList<>();
+				}
+				stage.add(part);
+			}
+		}
+		for (List<AbstractSpellPart> parts : spellCommon) {
+			for (AbstractSpellPart part : parts) {
+				if (part instanceof SpellShape) {
+					if (stage != null && !stage.isEmpty()) {
+						stages.add(stage);
+					}
+					stage = new ArrayList<>();
+				}
+				stage.add(part);
+			}
+		}
+		return new SpellData(source, stages, uuid, new NBTTagCompound());
+	}
 
 	@Override
-	public boolean cast(World world, EntityLivingBase caster) {
-		//TODO
-		return false;
+	public boolean cast(ItemStack source, World world, EntityLivingBase caster) {
+		SpellData data = this.createSpellData(source);
+		return data.execute(world, caster) == SpellCastResult.SUCCESS;
 	}
 
 	@Override
 	public List<List<AbstractSpellPart>> getSpellCommon() {
-		return ImmutableList.copyOf(spellCommon);
+		return spellCommon == null || spellCommon.isEmpty() ? ImmutableList.of(Lists.newArrayList()) : ImmutableList.copyOf(spellCommon);
 	}
 
 	@Override
 	public List<List<List<AbstractSpellPart>>> getShapeGroups() {
-		return ImmutableList.copyOf(shapeGroups);
+		return shapeGroups == null || shapeGroups.isEmpty() ? ImmutableList.of(Lists.newArrayList()) : ImmutableList.copyOf(shapeGroups);
 	}
 
 	@Override

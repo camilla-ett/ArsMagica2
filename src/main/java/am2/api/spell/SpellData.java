@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
@@ -41,21 +42,20 @@ import net.minecraftforge.common.util.Constants;
 public class SpellData {
 	
     public static final DataSerializer<Optional<SpellData>> OPTIONAL_SPELL_DATA = new DataSerializer<Optional<SpellData>>()
-    {
-        public void write(PacketBuffer buf, Optional<SpellData> value)
-        {
-            buf.writeNBTTagCompoundToBuffer(value.isPresent() ? value.orNull().writeToNBT(new NBTTagCompound()) : null);
-        }
-        public Optional<SpellData> read(PacketBuffer buf) throws java.io.IOException
-        {
-        	NBTTagCompound tag = buf.readNBTTagCompoundFromBuffer();
-            return Optional.fromNullable(tag != null ? readFromNBT(tag) : null);
-        }
-        public DataParameter<Optional<SpellData>> createKey(int id)
-        {
-            return new DataParameter<>(id, this);
-        }
-    };
+	{
+		public void write(PacketBuffer buf, Optional<SpellData> value) {
+			buf.writeNBTTagCompoundToBuffer(value.isPresent() ? value.orNull().writeToNBT(new NBTTagCompound()) : null);
+		}
+
+		public Optional<SpellData> read(PacketBuffer buf) throws java.io.IOException {
+			NBTTagCompound tag = buf.readNBTTagCompoundFromBuffer();
+			return Optional.fromNullable(tag != null ? readFromNBT(tag) : null);
+		}
+
+		public DataParameter<Optional<SpellData>> createKey(int id) {
+			return new DataParameter<>(id, this);
+		}
+	};
     
     static {
     	DataSerializers.registerSerializer(OPTIONAL_SPELL_DATA);
@@ -345,7 +345,7 @@ public class SpellData {
 	 * Copies this SpellData instance.
 	 */
 	public SpellData copy() {
-		SpellData data = new SpellData(source, stages, new UUID(uuid.getMostSignificantBits(), uuid.getLeastSignificantBits()), storedData);
+		SpellData data = new SpellData(source.copy(), Lists.newArrayList(stages), new UUID(uuid.getMostSignificantBits(), uuid.getLeastSignificantBits()), storedData);
 		data.exec = exec;
 		return data;
 	}

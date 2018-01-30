@@ -12,7 +12,9 @@ import javax.annotation.Nullable;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.spell.AbstractSpellPart;
+import am2.api.spell.SpellData;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -30,7 +32,8 @@ import net.minecraftforge.common.util.Constants;
  */
 public interface ISpellCaster {
 	float getManaCost(@Nullable World world, EntityLivingBase caster);
-	boolean cast(World world, EntityLivingBase caster);
+	SpellData createSpellData(ItemStack source);
+	boolean cast(ItemStack source, World world, EntityLivingBase caster);
 	
 	//Getters
 	List<List<AbstractSpellPart>> getSpellCommon();
@@ -199,4 +202,6 @@ public interface ISpellCaster {
 			instance.setAffinityShift(affMap);
 		}
 	}
+
+
 }

@@ -3,8 +3,10 @@ package am2.common.blocks.tileentity;
 import java.util.ArrayList;
 
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.extensions.ISpellCaster;
 import am2.api.spell.SpellComponent;
 import am2.common.defs.BlockDefs;
+import am2.common.spell.SpellCaster;
 import am2.common.utils.SpellUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -235,7 +237,7 @@ public class TileEntitySpellSealedDoor extends TileEntity implements ITickable, 
 		//if we're here, we have a spell to analyze!
 		key.clear();
 		int stages = SpellUtils.numStages(spell);
-
+		ISpellCaster caster = spell.getCapability(SpellCaster.INSTANCE, null);
 		for (int i = 0; i < stages; ++i){
 			ArrayList<SpellComponent> components = SpellUtils.getComponentsForStage(spell, i);
 			for (SpellComponent comp : components){
