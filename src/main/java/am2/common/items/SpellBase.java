@@ -2,16 +2,16 @@ package am2.common.items;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import am2.ArsMagica2;
 import am2.api.extensions.ISpellCaster;
+import am2.api.spell.Operation;
 import am2.api.spell.SpellModifiers;
-import am2.api.spell.SpellShape;
 import am2.common.defs.IDDefs;
-import am2.common.extensions.EntityExtension;
 import am2.common.extensions.SkillData;
 import am2.common.spell.SpellCaster;
 import am2.common.utils.EntityUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.creativetab.CreativeTabs;
@@ -23,7 +23,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -33,8 +32,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
 
 public class SpellBase extends ItemSpellBase{
 	public SpellBase(){
@@ -96,24 +93,20 @@ public class SpellBase extends ItemSpellBase{
 	}
 	
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World world,
-			EntityLivingBase player, int timeLeft) {
-		SpellShape shape = SpellUtils.getShapeForStage(stack, 0);
-		if (!stack.hasTagCompound()) return;
-		if (shape != null){
-			if (!shape.isChanneled())
-				SpellUtils.applyStackStage(stack, player, null, player.posX, player.posY, player.posZ, EnumFacing.UP, world, true, true, 0);
-			if (world.isRemote && shape.isChanneled()){
-				//SoundHelper.instance.stopSound(shape.getSoundForAffinity(SpellUtils.instance.mainAffinityFor(stack), stack, null));
-			}
+	public void onPlayerStoppedUsing(ItemStack stack, World world,EntityLivingBase player, int timeLeft) {
+		if (stack.hasCapability(SpellCaster.INSTANCE, null) && player != null) {
+			ISpellCaster spell = stack.getCapability(SpellCaster.INSTANCE, null);
+			spell.cast(stack, world, player);
 		}
 	}
 	
 	@Override
 	public void onUsingTick(ItemStack stack, EntityLivingBase caster, int count) {
-		SpellShape shape = SpellUtils.getShapeForStage(stack, 0);
-		if (shape.isChanneled())
-			SpellUtils.applyStackStage(stack, caster, null, caster.posX, caster.posY, caster.posZ, EnumFacing.UP, caster.worldObj, true, true, count - 1);
+		if (stack.hasCapability(SpellCaster.INSTANCE, null) && caster != null) {
+			ISpellCaster spell = stack.getCapability(SpellCaster.INSTANCE, null);
+			if (spell.createSpellData(stack).isChanneled())
+				spell.cast(stack, caster.worldObj, caster);
+		}
 		super.onUsingTick(stack, caster, count);
 	}
 	
@@ -182,6 +175,10 @@ public class SpellBase extends ItemSpellBase{
 
 	@Override
 	public int getHarvestLevel(ItemStack stack, String toolClass, @Nullable EntityPlayer player, @Nullable IBlockState blockState) {
-	    return SpellUtils.getModifiedInt_Add(2, stack, (EntityLivingBase)player, (EntityLivingBase)player, player.getEntityWorld(), SpellModifiers.MINING_POWER);
+		if (stack.hasCapability(SpellCaster.INSTANCE, null) && player != null) {
+			ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
+			return (int) caster.createSpellData(stack).getModifiedValue(2, SpellModifiers.MINING_POWER, Operation.ADD, player.worldObj, player, null);
+		}
+	    return -1;
 	}
 }

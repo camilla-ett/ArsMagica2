@@ -28,12 +28,14 @@ import static am2.common.defs.IDDefs.GUI_SUMMONER;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import am2.ArsMagica2;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.extensions.ISpellCaster;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
-import am2.api.spell.SpellComponent;
+import am2.api.spell.AbstractSpellPart;
 import am2.client.blocks.render.TileArcaneReconstructorRenderer;
 import am2.client.blocks.render.TileAstralBarrierRenderer;
 import am2.client.blocks.render.TileBlackAuremRenderer;
@@ -136,10 +138,10 @@ import am2.common.items.ItemSpellBook;
 import am2.common.packet.AMNetHandler;
 import am2.common.power.PowerNodeEntry;
 import am2.common.power.PowerTypes;
+import am2.common.spell.SpellCaster;
 import am2.common.spell.component.Telekinesis;
 import am2.common.utils.InventoryUtilities;
 import am2.common.utils.RenderUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -345,10 +347,13 @@ public class ClientProxy extends CommonProxy {
 			if (activeStack != null)
 				stack = activeStack;
 		}
-		if (stack.getItem() instanceof ItemSpellBase && stack.hasTagCompound() && Minecraft.getMinecraft().thePlayer.isHandActive()){
-			for (SpellComponent component : SpellUtils.getComponentsForStage(stack, -1)){
-				if (component instanceof Telekinesis){
-					return true;
+		if (stack.getItem() instanceof ItemSpellBase && stack.hasCapability(SpellCaster.INSTANCE, null) && Minecraft.getMinecraft().thePlayer.isHandActive()){
+			ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
+			for (List<AbstractSpellPart> components : caster.getSpellCommon()){
+				for (AbstractSpellPart component : components) {
+					if (component instanceof Telekinesis){
+						return true;
+					}
 				}
 			}
 		}

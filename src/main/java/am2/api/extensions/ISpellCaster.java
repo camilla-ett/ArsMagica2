@@ -43,7 +43,8 @@ public interface ISpellCaster {
 	float getBaseManaCost(int shapeGroup);
 	UUID getSpellUUID();
 	int getCurrentShapeGroup();
-	
+	NBTTagCompound getStoredData(int shapeGroup);
+	NBTTagCompound getCommonStoredData();
 	//Setters
 	void setSpellCommon(@Nullable List<List<AbstractSpellPart>> data);
 	void setShapeGroups(@Nullable List<List<List<AbstractSpellPart>>> data);
@@ -51,6 +52,8 @@ public interface ISpellCaster {
 	void setBaseManaCost(int shapeGroup, float manaCost);
 	void setUUID(@Nullable UUID uuid);
 	void setCurentShapeGroup(int shapeGroup);
+	void setStoredData(int shapeGroup, NBTTagCompound tag);
+	void setCommonStoredData(NBTTagCompound tag);
 	
 	//Gatherers
 	void gatherBaseManaCosts();

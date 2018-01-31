@@ -1,10 +1,11 @@
 package am2.common.bosses.ai;
 
+import am2.api.extensions.ISpellCaster;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.EntityEnderGuardian;
 import am2.common.bosses.IArsMagicaBoss;
+import am2.common.spell.SpellCaster;
 import am2.common.utils.NPCSpells;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.SoundCategory;
 import thehippomaster.AnimationAPI.AIAnimation;
@@ -56,8 +57,12 @@ public class EntityAIEndertorrent extends AIAnimation{
 		if (guardian.getAttackTarget() != null){
 			guardian.getLookHelper().setLookPositionWithEntity(guardian.getAttackTarget(), 30, 30);
 			if (guardian.getTicksInCurrentAction() > 15){
-				if ((guardian.getTicksInCurrentAction() - 15) % 10 == 0)
-					SpellUtils.applyStackStage(NPCSpells.instance.enderGuardian_enderTorrent, guardian, null, guardian.posX, guardian.posY, guardian.posZ, null, guardian.worldObj, false, false, guardian.getTicksInCurrentAction());
+				if ((guardian.getTicksInCurrentAction() - 15) % 10 == 0) {
+					ISpellCaster spell = NPCSpells.instance.enderGuardian_enderTorrent.getCapability(SpellCaster.INSTANCE, null);
+					if (spell != null) {
+						spell.cast(NPCSpells.instance.enderGuardian_enderTorrent, guardian.worldObj, guardian);
+					}
+				}
 				guardian.faceEntity(guardian.getAttackTarget(), 15, 180);
 			}else if (guardian.getTicksInCurrentAction() == 15){
 				guardian.worldObj.playSound(guardian.posX, guardian.posY, guardian.posZ, ((IArsMagicaBoss)guardian).getAttackSound(), SoundCategory.HOSTILE, 1.0f, (float)(0.5 + guardian.getRNG().nextDouble() * 0.5f), false);

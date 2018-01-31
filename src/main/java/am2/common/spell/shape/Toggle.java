@@ -62,7 +62,7 @@ public class Toggle extends SpellShape {
 				for (int i = 0; i < inv.getSizeInventory(); i++) {
 					ItemStack is = inv.getStackInSlot(i);
 					//FIXME
-					if (is != null && is.getItem() instanceof SpellBase && is.getTagCompound() != null && is.getTagCompound().getString("ToggleShapeID").equals(current)) {
+					if (is != null && is.getItem() instanceof SpellBase && is.getTagCompound() != null && is.getTagCompound().getString("ToggleShapeID").equals(current.toString())) {
 						is.getTagCompound().setBoolean("HasEffect", false);
 					}
 				}
@@ -74,7 +74,7 @@ public class Toggle extends SpellShape {
 				for (int i = 0; i < inv.getSizeInventory(); i++) {
 					ItemStack is = inv.getStackInSlot(i);
 					//FIXME
-					if (is != null && is.getItem() instanceof SpellBase && is.getTagCompound() != null && is.getTagCompound().getString("ToggleShapeID").equals(current)) {
+					if (is != null && is.getItem() instanceof SpellBase && is.getTagCompound() != null && is.getTagCompound().getString("ToggleShapeID").equals(current.toString())) {
 						is.getTagCompound().setBoolean("HasEffect", true);
 					}
 				}

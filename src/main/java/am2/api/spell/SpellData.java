@@ -345,7 +345,7 @@ public class SpellData {
 	 * Copies this SpellData instance.
 	 */
 	public SpellData copy() {
-		SpellData data = new SpellData(source.copy(), Lists.newArrayList(stages), new UUID(uuid.getMostSignificantBits(), uuid.getLeastSignificantBits()), storedData);
+		SpellData data = new SpellData(source, Lists.newArrayList(stages), new UUID(uuid.getMostSignificantBits(), uuid.getLeastSignificantBits()), storedData);
 		data.exec = exec;
 		return data;
 	}
@@ -356,5 +356,15 @@ public class SpellData {
 	
 	public void setStoredData(NBTTagCompound storedData) {
 		this.storedData = storedData;
+	}
+	
+	public boolean isChanneled() {
+		if (this.stages.isEmpty())
+			return false;
+		for (AbstractSpellPart part : this.stages.get(0)) {
+			if (part instanceof SpellShape)
+				return ((SpellShape) part).isChanneled();
+		}
+		return false;
 	}
 }

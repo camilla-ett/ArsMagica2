@@ -1,9 +1,10 @@
 package am2.common.bosses.ai;
 
+import am2.api.extensions.ISpellCaster;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.IArsMagicaBoss;
+import am2.common.spell.SpellCaster;
 import am2.common.utils.NPCSpells;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.SoundCategory;
@@ -49,7 +50,10 @@ public class EntityAIDispel extends EntityAIBase{
 		if (boltTicks == 16){
 			if (!host.worldObj.isRemote)
 				host.worldObj.playSound(host.posX, host.posY, host.posZ, ((IArsMagicaBoss)host).getAttackSound(), SoundCategory.HOSTILE, 1.0f, 1.0f, false);
-			SpellUtils.applyStackStage(NPCSpells.instance.dispel, host, host, host.posX, host.posY, host.posZ, null, host.worldObj, false, false, 0);
+			ISpellCaster spell = NPCSpells.instance.dispel.getCapability(SpellCaster.INSTANCE, null);
+			if (spell != null) {
+				spell.cast(NPCSpells.instance.dispel, host.worldObj, host);
+			}
 		}
 		if (boltTicks >= 23){
 			resetTask();

@@ -1,7 +1,8 @@
 package am2.common.entity.ai;
 
+import am2.api.extensions.ISpellCaster;
+import am2.common.spell.SpellCaster;
 import am2.common.utils.NPCSpells;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -121,6 +122,9 @@ public class EntityAIFireballAttack extends EntityAIBase{
 	 * Performs a ranged attack according to the AI's rangedAttackID.
 	 */
 	private void doRangedAttack(){
-		SpellUtils.applyStackStage(NPCSpells.instance.fireBolt, entityHost, null, entityHost.posX, entityHost.posY, entityHost.posZ, null, worldObj, false, false, 0);
+		ISpellCaster caster = NPCSpells.instance.fireBolt.getCapability(SpellCaster.INSTANCE, null);
+		if (caster != null) {
+			caster.cast(NPCSpells.instance.fireBolt, worldObj, entityHost);
+		}
 	}
 }

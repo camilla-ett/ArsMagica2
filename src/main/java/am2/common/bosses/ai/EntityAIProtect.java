@@ -1,9 +1,10 @@
 package am2.common.bosses.ai;
 
+import am2.api.extensions.ISpellCaster;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.EntityEnderGuardian;
+import am2.common.spell.SpellCaster;
 import am2.common.utils.NPCSpells;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import thehippomaster.AnimationAPI.AIAnimation;
 import thehippomaster.AnimationAPI.IAnimatedEntity;
@@ -48,7 +49,10 @@ public class EntityAIProtect extends AIAnimation{
 		cooldownTicks = 20;
 		EntityLivingBase ent = getEntity();
 		ent.extinguish();
-		SpellUtils.applyStackStage(NPCSpells.instance.dispel, getEntity(), null, ent.posX, ent.posY, ent.posZ, null, ent.worldObj, false, false, 0);
+		ISpellCaster spell = NPCSpells.instance.dispel.getCapability(SpellCaster.INSTANCE, null);
+		if (spell != null) {
+			spell.cast(NPCSpells.instance.dispel, ent.worldObj, ent);
+		}
 		super.resetTask();
 	}
 

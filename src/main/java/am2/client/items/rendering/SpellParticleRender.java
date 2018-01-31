@@ -10,10 +10,11 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Lists;
 
 import am2.api.affinity.Affinity;
+import am2.api.extensions.ISpellCaster;
 import am2.client.particles.AMParticleIcons;
 import am2.common.items.ItemSpellBase;
 import am2.common.items.ItemSpellBook;
-import am2.common.utils.AffinityShiftUtils;
+import am2.common.spell.SpellCaster;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -115,10 +116,11 @@ public class SpellParticleRender extends ItemOverrideList{
 			scrollStack = ((ItemSpellBook)item.getItem()).getActiveScrollInventory(item)[((ItemSpellBook)item.getItem()).GetActiveSlot(item)];
 		}
 
-
 		if (scrollStack == null) return;
-
-		Affinity affinity = AffinityShiftUtils.getMainShiftForStack(scrollStack);
+		ISpellCaster caster = scrollStack.getCapability(SpellCaster.INSTANCE, null);
+		if (caster == null) return;
+		
+		Affinity affinity = caster.createSpellData(scrollStack).getMainShift();
 
 		renderEffect(affinity, true, entity);
 	}

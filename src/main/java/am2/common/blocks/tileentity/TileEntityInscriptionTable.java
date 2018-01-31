@@ -5,6 +5,7 @@ import am2.api.ArsMagicaAPI;
 import am2.api.SpellRegistry;
 import am2.api.affinity.Affinity;
 import am2.api.event.SpellRecipeItemsEvent;
+import am2.api.extensions.ISpellCaster;
 import am2.api.skill.Skill;
 import am2.api.spell.*;
 import am2.client.particles.AMParticle;
@@ -21,6 +22,7 @@ import am2.common.packet.AMDataWriter;
 import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMPacketIDs;
 import am2.common.power.PowerTypes;
+import am2.common.spell.SpellCaster;
 import am2.common.spell.SpellValidator;
 import am2.common.utils.KeyValuePair;
 import am2.common.utils.NBTUtils;
@@ -53,6 +55,8 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.*;
+
+import com.google.common.collect.Lists;
 
 public class TileEntityInscriptionTable extends TileEntity implements IInventory, ITickable, ITileEntityAMBase {
 
@@ -640,7 +644,19 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			for (ArrayList<AbstractSpellPart> arr : shapeGroups){
 				shapeGroupSetup.add(new KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>(arr, new NBTTagCompound()));
 			}
-			ItemStack stack = SpellUtils.createSpellStack(shapeGroupSetup, curRecipeSetup);
+			ItemStack stack = new ItemStack(ItemDefs.spell);
+			ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
+			if (caster != null) {
+				caster.setSpellCommon(SpellUtils.transformParts(curRecipeSetup.key));
+				caster.setCommonStoredData(curRecipeSetup.value);
+				List<List<List<AbstractSpellPart>>> shapeGroups = Lists.newArrayList();
+				for (int i = 0; i < shapeGroupSetup.size(); i++) {
+					KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> entry = shapeGroupSetup.get(i);
+					shapeGroups.add(SpellUtils.transformParts(entry.key));
+					caster.setStoredData(i, entry.value);
+				}
+				caster.setShapeGroups(shapeGroups);
+			}
 
 			stack.getTagCompound().setString("suggestedName", currentSpellName);
 
@@ -946,31 +962,24 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			group.clear();
 		}
 		currentSpellName = "";
-
-		this.currentSpellName = stack.getDisplayName();
-		int numStages = SpellUtils.numStages(stack);
-
-		for (int i = 0; i < numStages; ++i){
-			SpellShape shape = SpellUtils.getShapeForStage(stack, i);
-			this.currentRecipe.add(shape);
-			ArrayList<SpellComponent> components = SpellUtils.getComponentsForStage(stack, i);
-			for (SpellComponent component : components)
-				this.currentRecipe.add(component);
-			ArrayList<SpellModifier> modifiers = SpellUtils.getModifiersForStage(stack, i);
-			for (SpellModifier modifier : modifiers)
-				this.currentRecipe.add(modifier);
-		}
-
-		int numShapeGroups = SpellUtils.numShapeGroups(stack);
-		for (int i = 0; i < numShapeGroups; ++i){
-			ArrayList<AbstractSpellPart> parts = SpellUtils.getShapeGroupParts(stack, i);
-			for (AbstractSpellPart partID : parts){
-				if (partID != null && partID instanceof AbstractSpellPart)
-					this.shapeGroups.get(i).add(partID);
+		ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
+		if (caster != null) {
+			this.currentSpellName = stack.getDisplayName();
+			for (int i = 0; i < caster.getShapeGroupCount(); i++) {
+				List<List<AbstractSpellPart>> shapeGroup = caster.getShapeGroups().get(i);
+				for (List<AbstractSpellPart> stage : shapeGroup) {
+					for (AbstractSpellPart part : stage) {
+						shapeGroups.get(i).add(part);
+					}
+				}
 			}
+			for (List<AbstractSpellPart> stage : caster.getSpellCommon()) {
+				for (AbstractSpellPart part : stage) {
+					this.currentRecipe.add(part);
+				}
+			}
+			currentSpellIsReadOnly = true;
 		}
-
-		currentSpellIsReadOnly = true;
 	}
 
 	public boolean currentSpellDefIsReadOnly(){

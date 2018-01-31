@@ -3,13 +3,14 @@ package am2.common.defs;
 import org.lwjgl.input.Keyboard;
 
 import am2.ArsMagica2;
+import am2.api.extensions.ISpellCaster;
 import am2.client.gui.AuraCustomizationMenu;
 import am2.common.extensions.AffinityData;
 import am2.common.items.ItemSpellBook;
 import am2.common.packet.AMDataWriter;
 import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMPacketIDs;
-import am2.common.utils.SpellUtils;
+import am2.common.spell.SpellCaster;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,14 +56,20 @@ public class BindingsDefs {
 				return;
 			}
 			int shapeGroup;
-			if (curItem.getItem() == ItemDefs.spell){
-				shapeGroup = SpellUtils.cycleShapeGroup(curItem);
-			}else{
+			if (curItem.getItem() == ItemDefs.spell && curItem.hasCapability(SpellCaster.INSTANCE, null)) {
+				ISpellCaster caster = curItem.getCapability(SpellCaster.INSTANCE, null);
+				shapeGroup = caster.getCurrentShapeGroup() + 1;
+				if (shapeGroup >= caster.getShapeGroupCount())
+					shapeGroup = 0;
+			} else {
 				ItemStack spellStack = ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
-				if (spellStack == null){
+				if (spellStack == null || !spellStack.hasCapability(SpellCaster.INSTANCE, null)){
 					return;
 				}
-				shapeGroup = SpellUtils.cycleShapeGroup(spellStack);
+				ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
+				shapeGroup = caster.getCurrentShapeGroup() + 1;
+				if (shapeGroup >= caster.getShapeGroupCount())
+					shapeGroup = 0;
 				((ItemSpellBook)curItem.getItem()).replaceAciveItemStack(curItem, spellStack);
 			}
 

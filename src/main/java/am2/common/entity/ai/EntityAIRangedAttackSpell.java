@@ -1,6 +1,7 @@
 package am2.common.entity.ai;
 
-import am2.common.utils.SpellUtils;
+import am2.api.extensions.ISpellCaster;
+import am2.common.spell.SpellCaster;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -132,7 +133,10 @@ public class EntityAIRangedAttackSpell extends EntityAIBase{
 		if (entityHost.getAttackTarget() == null)
 			return;
 		entityHost.faceEntity(entityHost.getAttackTarget(), 180, 180);
-		SpellUtils.applyStackStage(spellStack, entityHost, entityHost.getAttackTarget(), entityHost.posX, entityHost.posY, entityHost.posZ, null, entityHost.worldObj, true, false, 0);
+		ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
+		if (caster != null) {
+			caster.cast(spellStack, worldObj, entityHost);
+		}
 		entityHost.swingArm(EnumHand.MAIN_HAND);
 	}
 }

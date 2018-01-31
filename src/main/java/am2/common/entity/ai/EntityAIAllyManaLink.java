@@ -1,28 +1,23 @@
 package am2.common.entity.ai;
 
-import java.util.ArrayList;
-
-import com.google.common.collect.Lists;
-
-import am2.api.ArsMagicaAPI;
+import am2.api.extensions.ISpellCaster;
 import am2.common.defs.SkillDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.extensions.SkillData;
+import am2.common.spell.SpellCaster;
 import am2.common.utils.EntityUtils;
-import am2.common.utils.SpellUtils;
+import am2.common.utils.NPCSpells;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 
-public class EntityAIAllyManaLink extends EntityAIBase{
+public class EntityAIAllyManaLink extends EntityAIBase {
 
 	private EntityCreature host;
-	private static final ItemStack spellStack = SpellUtils.createSpellStack(new ArrayList<>(), Lists.newArrayList(ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation("arsmagica2", "touch")), ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation("arsmagica2", "mana_link"))), new NBTTagCompound());
-
+	private static final ItemStack spellStack = NPCSpells.instance.manaLink.copy();
+	
 	public EntityAIAllyManaLink(EntityCreature host){
 		this.host = host;
 	}
@@ -53,8 +48,12 @@ public class EntityAIAllyManaLink extends EntityAIBase{
 			return;
 		if (host.getDistanceToEntity(owner) < 1)
 			host.getNavigator().tryMoveToXYZ(host.posX, host.posY, host.posZ, 0.5f);
-		else
-			SpellUtils.applyStackStage(spellStack, host, owner, owner.posX, owner.posY, owner.posZ, null, host.worldObj, false, false, 0);
+		else {
+			ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
+			if (caster != null) {
+				caster.cast(spellStack, host.worldObj, host);
+			}
+		}
 	}
 
 }

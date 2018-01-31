@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 
 import am2.api.IBoundItem;
 import am2.common.defs.ItemDefs;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -50,13 +49,10 @@ public class ItemBoundBow extends ItemBow implements IBoundItem {
 		return false;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
 		if (!stack.hasTagCompound())
 			return;
-		ItemStack copiedStack = SpellUtils.merge(stack.copy());
-		copiedStack.getTagCompound().getCompoundTag("AM2").setInteger("CurrentGroup", SpellUtils.currentStage(stack) + 1);
-		copiedStack.setItem(ItemDefs.spell);
+		ItemStack copiedStack = stack.copy();
 		if (entityLiving instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
 			int i = this.getMaxItemUseDuration(stack) - timeLeft;

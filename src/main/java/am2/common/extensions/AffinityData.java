@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.common.collect.Maps;
+
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
@@ -190,7 +192,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		double max2 = 0;
 		Affinity maxAff1 = Affinity.NONE;
 		Affinity maxAff2 = Affinity.NONE;
-		for (Entry<Affinity, Double> entry : getAffinities().entrySet()) {
+		for (Entry<Affinity, Double> entry : Maps.newHashMap(getAffinities()).entrySet()) {
 			if (entry.getValue() > max1) {
 				max2 = max1;
 				maxAff2 = maxAff1;

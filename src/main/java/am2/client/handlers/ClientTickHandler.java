@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import am2.ArsMagica2;
+import am2.api.extensions.ISpellCaster;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
-import am2.api.spell.SpellComponent;
+import am2.api.spell.AbstractSpellPart;
 import am2.client.gui.AMGuiHelper;
 import am2.client.particles.AMLineArc;
 import am2.common.LogHelper;
@@ -24,10 +26,10 @@ import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMPacketIDs;
 import am2.common.power.PowerNodeEntry;
 import am2.common.power.PowerTypes;
+import am2.common.spell.SpellCaster;
 import am2.common.spell.component.Telekinesis;
 import am2.common.trackers.EntityItemWatcher;
 import am2.common.utils.DimensionUtilities;
-import am2.common.utils.SpellUtils;
 import am2.common.world.MeteorSpawnHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -254,10 +256,13 @@ public class ClientTickHandler{
 			if (activeStack != null)
 				stack = activeStack;
 		}
-		if (stack.getItem() instanceof ItemSpellBase && stack.hasTagCompound() && this.usingItem){
-			for (SpellComponent component : SpellUtils.getComponentsForStage(stack, -1)){
-				if (component instanceof Telekinesis){
-					return true;
+		if (stack.getItem() instanceof ItemSpellBase && stack.hasCapability(SpellCaster.INSTANCE, null) && this.usingItem){
+			ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
+			for (List<AbstractSpellPart> components : caster.getSpellCommon()) {
+				for (AbstractSpellPart component : components) {
+					if (component instanceof Telekinesis){
+						return true;
+					}
 				}
 			}
 		}

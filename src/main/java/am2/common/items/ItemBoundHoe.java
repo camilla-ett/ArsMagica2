@@ -1,8 +1,9 @@
 package am2.common.items;
 
 import am2.api.IBoundItem;
+import am2.api.extensions.ISpellCaster;
 import am2.common.defs.ItemDefs;
-import am2.common.utils.SpellUtils;
+import am2.common.spell.SpellCaster;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemHoe;
@@ -20,15 +21,14 @@ public class ItemBoundHoe extends ItemHoe implements IBoundItem {
 		this.setCreativeTab(null);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
 		if (!stack.hasTagCompound())
 			return stack;
-		ItemStack copiedStack = SpellUtils.merge(stack.copy());
-		copiedStack.getTagCompound().getCompoundTag("AM2").setInteger("CurrentGroup", SpellUtils.currentStage(stack) + 1);
-		copiedStack.setItem(ItemDefs.spell);
-		SpellUtils.applyStackStage(copiedStack, entityLiving, null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, null, worldIn, true, true, 0);
+		ItemStack copiedStack = stack.copy();
+		ISpellCaster caster = stack.copy().getCapability(SpellCaster.INSTANCE, null);
+		if (caster != null)
+			caster.createSpellData(copiedStack).execute(worldIn, entityLiving, null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, null);
 		return stack;
 	}
 

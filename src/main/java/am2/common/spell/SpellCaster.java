@@ -40,6 +40,8 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 	private ArrayList<List<List<AbstractSpellPart>>> shapeGroups = new ArrayList<>();
 	private ArrayList<List<AbstractSpellPart>> spellCommon = new ArrayList<>();
 	private ArrayList<Float> shapeGroupCosts = new ArrayList<>();
+	private ArrayList<NBTTagCompound> shapeGroupStoredData = new ArrayList<>();
+	private NBTTagCompound storedData = new NBTTagCompound();
 	private HashMap<Affinity, Float> affinityShift = new HashMap<>();
 	private UUID uuid = new UUID(0, 0);
 	private int currentShapeGroup = 0;
@@ -92,6 +94,9 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 				stage.add(part);
 			}
 		}
+		stages.add(stage);
+		NBTTagCompound storedData = this.storedData.copy();
+		storedData.merge(this.getStoredData(getCurrentShapeGroup()).copy());
 		return new SpellData(source, stages, uuid, new NBTTagCompound());
 	}
 
@@ -320,6 +325,30 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 	@Override
 	public void deserializeNBT(NBTBase nbt) {
 		INSTANCE.readNBT(this, null, nbt);
+	}
+
+	@Override
+	public NBTTagCompound getStoredData(int shapeGroup) {
+		if (this.shapeGroupStoredData.isEmpty() || shapeGroup < 0 || shapeGroup >= this.shapeGroupStoredData.size())
+			return new NBTTagCompound();
+		NBTTagCompound tag = this.shapeGroupStoredData.get(MathHelper.clamp_int(shapeGroup, 0, this.shapeGroupStoredData.size() - 1));
+		return tag != null ? tag : new NBTTagCompound();
+	}
+
+	@Override
+	public NBTTagCompound getCommonStoredData() {
+		return this.storedData == null ? new NBTTagCompound() : storedData;
+	}
+
+	@Override
+	public void setStoredData(int shapeGroup, NBTTagCompound tag) {
+		this.shapeGroupStoredData.ensureCapacity(shapeGroup + 1);
+		this.shapeGroupStoredData.set(shapeGroup, tag);
+	}
+
+	@Override
+	public void setCommonStoredData(NBTTagCompound tag) {
+		this.storedData = tag;
 	}
 
 }

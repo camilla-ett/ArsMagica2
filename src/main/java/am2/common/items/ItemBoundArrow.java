@@ -2,7 +2,9 @@ package am2.common.items;
 
 import java.util.List;
 
+import am2.api.extensions.ISpellCaster;
 import am2.common.entity.EntityBoundArrow;
+import am2.common.spell.SpellCaster;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -26,7 +28,10 @@ public class ItemBoundArrow extends ItemArrow {
 	@Override
 	public EntityArrow createArrow(World worldIn, ItemStack stack, EntityLivingBase shooter) {
 		EntityBoundArrow arrow = new EntityBoundArrow(worldIn, shooter);
-		arrow.setSpellStack(stack);
+
+		ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
+		if (caster != null)
+			arrow.setSpellStack(caster.createSpellData(stack.copy()));
 		return arrow;
 	}
 	

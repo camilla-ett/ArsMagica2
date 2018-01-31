@@ -19,7 +19,7 @@ import am2.common.extensions.SkillData;
 import am2.common.items.ItemSpellBook;
 import am2.common.lore.ArcaneCompendium;
 import am2.common.power.PowerNodeRegistry;
-import am2.common.utils.SpellUtils;
+import am2.common.spell.SpellCaster;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -372,13 +372,14 @@ public class AMPacketProcessorServer{
 		@SuppressWarnings("unused") int index = rdr.getInt();
 
 		ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
-		if (stack != null){
-			if (stack.getItem() == ItemDefs.spell){
-				SpellUtils.setShapeGroup(stack, newShapeGroupOrdinal);
-			}else if (stack.getItem() == ItemDefs.spellBook || stack.getItem() == ItemDefs.arcaneSpellbook){
-				ItemStack spellStack = ((ItemSpellBook)stack.getItem()).GetActiveItemStack(stack);
-				SpellUtils.setShapeGroup(spellStack, newShapeGroupOrdinal);
-				((ItemSpellBook)stack.getItem()).replaceAciveItemStack(stack, spellStack);
+		if (stack != null) {
+			if (stack.getItem() == ItemDefs.spell && stack.hasCapability(SpellCaster.INSTANCE, null)) {
+				stack.getCapability(SpellCaster.INSTANCE, null).setCurentShapeGroup(newShapeGroupOrdinal);
+			} else if (stack.getItem() == ItemDefs.spellBook || stack.getItem() == ItemDefs.arcaneSpellbook) {
+				ItemStack spellStack = ((ItemSpellBook) stack.getItem()).GetActiveItemStack(stack);
+				if (spellStack.hasCapability(SpellCaster.INSTANCE, null))
+					spellStack.getCapability(SpellCaster.INSTANCE, null).setCurentShapeGroup(newShapeGroupOrdinal);
+				((ItemSpellBook) stack.getItem()).replaceAciveItemStack(stack, spellStack);
 			}
 		}
 	}

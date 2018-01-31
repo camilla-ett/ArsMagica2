@@ -8,6 +8,7 @@ import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.spell.SpellData;
+import am2.common.defs.ItemDefs;
 import am2.common.items.ItemFocusCharge;
 import am2.common.items.ItemFocusMana;
 import am2.common.power.PowerNodeRegistry;
@@ -115,7 +116,9 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 			dummyCaster = new DummyEntityPlayer(worldObj);
 		}
 		//FIXME
-		EntityLiving summon = ((Summon)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2:summon"))).summonCreature(inventory[SUMMON_SLOT], dummyCaster, dummyCaster, worldObj, pos.getX(), pos.getY() + 1, pos.getZ());
+		SpellData data = new SpellData(new ItemStack(ItemDefs.spell), Lists.newArrayList(), UUID.randomUUID(), new NBTTagCompound());
+		data.getStoredData().setString("SummonType", inventory[SUMMON_SLOT].getTagCompound().getString("SpawnClassName"));
+		EntityLiving summon = ((Summon)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2:summon"))).summonCreature(data, dummyCaster, dummyCaster, worldObj, pos.getX(), pos.getY() + 1, pos.getZ());
 		if (summon != null){
 			if (summon instanceof EntityCreature)
 				EntityUtils.setGuardSpawnLocation((EntityCreature)summon, pos.getX(), pos.getY(), pos.getZ());

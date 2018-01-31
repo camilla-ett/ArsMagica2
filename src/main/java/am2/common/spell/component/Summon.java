@@ -7,6 +7,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import am2.api.affinity.Affinity;
+import am2.api.extensions.ISpellCaster;
 import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellData;
@@ -108,6 +109,15 @@ public class Summon extends SpellComponent{
 		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
 		return clazz;
 	}
+	
+	public Class<? extends Entity> getSummonType(ISpellCaster spell){
+		String s = spell.getCommonStoredData().getString("SummonType");
+		if (s == null || s == "")
+			s = "Skeleton"; //default!  default!  default!
+		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
+		return clazz;
+	}
+
 
 	public void setSummonType(NBTTagCompound stack, String s){
 		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);

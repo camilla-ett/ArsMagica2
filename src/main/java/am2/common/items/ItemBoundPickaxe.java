@@ -1,8 +1,9 @@
 package am2.common.items;
 
 import am2.api.IBoundItem;
+import am2.api.extensions.ISpellCaster;
 import am2.common.defs.ItemDefs;
-import am2.common.utils.SpellUtils;
+import am2.common.spell.SpellCaster;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,15 +23,14 @@ public class ItemBoundPickaxe extends ItemPickaxe implements IBoundItem {
 		this.setCreativeTab(null);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
 		if (!stack.hasTagCompound())
 			return true;
-		ItemStack copiedStack = SpellUtils.merge(stack.copy());
-		copiedStack.getTagCompound().getCompoundTag("AM2").setInteger("CurrentGroup", SpellUtils.currentStage(stack) + 1);
-		copiedStack.setItem(ItemDefs.spell);
-		SpellUtils.applyStackStage(copiedStack, entityLiving, null, pos.getX(), pos.getY(), pos.getZ(), null, worldIn, true, true, 0);
+		ItemStack copiedStack = stack.copy();
+		ISpellCaster caster = stack.copy().getCapability(SpellCaster.INSTANCE, null);
+		if (caster != null)
+			caster.createSpellData(copiedStack).execute(worldIn, entityLiving, null, pos.getX(), pos.getY(), pos.getZ(), null);
 		return true;
 	}
 

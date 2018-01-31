@@ -1,12 +1,15 @@
 package am2.common.blocks.tileentity;	
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.extensions.ISpellCaster;
 import am2.api.spell.AbstractSpellPart;
-import am2.api.spell.SpellComponent;
-import am2.api.spell.SpellModifier;
-import am2.api.spell.SpellShape;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleHoldPosition;
 import am2.common.defs.ItemDefs;
@@ -16,13 +19,11 @@ import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMTileEntityPacketIDs;
 import am2.common.power.PowerNodeRegistry;
 import am2.common.power.PowerTypes;
+import am2.common.spell.SpellCaster;
 import am2.common.spell.component.Summon;
 import am2.common.spell.shape.Binding;
 import am2.common.utils.InventoryUtilities;
 import am2.common.utils.RecipeUtils;
-import am2.common.utils.SpellUtils;
-
-import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,9 +41,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements IInventory, ITileEntityPacketSync, ISidedInventory, IKeystoneLockable<TileEntityArcaneDeconstructor>{
 	
@@ -144,67 +142,42 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 		ArrayList<ItemStack> recipeItems = new ArrayList<ItemStack>();
 		if (checkStack == null)
 			return false;
-		if (checkStack.getItem()== ItemDefs.spell){
-			int numStages = SpellUtils.numStages(checkStack);
-
-			for (int i = 0; i < numStages; ++i){
-				SpellShape shape = SpellUtils.getShapeForStage(checkStack, i);
-				Object[] componentParts = shape.getRecipe();
-				if (componentParts != null){
-					for (Object o : componentParts){
-						ItemStack stack = objectToItemStack(o);
-						if (stack != null){
-							if (stack.getItem() == ItemDefs.bindingCatalyst){
-								stack.setItemDamage(((Binding)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "binding"))).getBindingType(checkStack));
-							}
-							recipeItems.add(stack.copy());
-						}
-					}
-				}
-				ArrayList<SpellComponent> components = SpellUtils.getComponentsForStage(checkStack, i);
-				for (SpellComponent component : components){
-					componentParts = component.getRecipe();
-					if (componentParts != null){
-						for (Object o : componentParts){
-							ItemStack stack = objectToItemStack(o);
-							if (stack != null){
-								if (stack.getItem() == ItemDefs.crystalPhylactery){
-									ItemDefs.crystalPhylactery.setSpawnClass(stack,((Summon)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "summon"))).getSummonType(checkStack));
-									ItemDefs.crystalPhylactery.addFill(stack, 100);
-								}
-								recipeItems.add(stack.copy());
-							}
-						}
-					}
-				}
-				ArrayList<SpellModifier> modifiers = SpellUtils.getModifiersForStage(checkStack, i);
-				for (SpellModifier modifier : modifiers){
-					componentParts = modifier.getRecipe();
-					if (componentParts != null){
-						for (Object o : componentParts){
-							ItemStack stack = objectToItemStack(o);
-							if (stack != null)
-								recipeItems.add(stack.copy());
-						}
-					}
-				}
-			}
-
-			int numShapeGroups = SpellUtils.numShapeGroups(checkStack);
-			for (int i = 0; i < numShapeGroups; ++i){
-				ArrayList<AbstractSpellPart> parts = SpellUtils.getShapeGroupParts(checkStack, i);
-				for (AbstractSpellPart entry : parts){
-					Object[] componentParts = null;
-					if (entry != null)
-						componentParts = ((AbstractSpellPart)entry).getRecipe();
+		if (checkStack.getItem() == ItemDefs.spell && checkStack.hasCapability(SpellCaster.INSTANCE, null)){
+			ISpellCaster spell = checkStack.getCapability(SpellCaster.INSTANCE, null);
+			for (List<AbstractSpellPart> stage : spell.getSpellCommon()) {
+				for (AbstractSpellPart part : stage) {
+					Object[] componentParts = part.getRecipe();
 					if (componentParts != null){
 						for (Object o : componentParts){
 							ItemStack stack = objectToItemStack(o);
 							if (stack != null){
 								if (stack.getItem() == ItemDefs.bindingCatalyst){
-									stack.setItemDamage(((Binding)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "binding"))).getBindingType(checkStack));
+									stack.setItemDamage(((Binding)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "binding"))).getBindingType(spell));
+								} else if (stack.getItem() == ItemDefs.crystalPhylactery){
+									ItemDefs.crystalPhylactery.setSpawnClass(stack,((Summon)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "summon"))).getSummonType(spell));
+									ItemDefs.crystalPhylactery.addFill(stack, 100);
 								}
+
 								recipeItems.add(stack.copy());
+							}
+						}
+					}					
+				}
+			}
+
+			for (List<List<AbstractSpellPart>> shapeGroup : spell.getShapeGroups()){
+				for (List<AbstractSpellPart> stage : shapeGroup) {
+					for (AbstractSpellPart part : stage) {
+						Object[] componentParts = part.getRecipe();
+						if (componentParts != null){
+							for (Object o : componentParts){
+								ItemStack stack = objectToItemStack(o);
+								if (stack != null){
+									if (stack.getItem() == ItemDefs.bindingCatalyst){
+										stack.setItemDamage(((Binding)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "binding"))).getBindingType(spell));
+									}
+									recipeItems.add(stack.copy());
+								}
 							}
 						}
 					}

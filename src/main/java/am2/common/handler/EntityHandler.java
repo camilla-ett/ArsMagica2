@@ -14,7 +14,9 @@ import am2.api.affinity.Affinity;
 import am2.api.event.PlayerMagicLevelChangeEvent;
 import am2.api.extensions.IAffinityData;
 import am2.api.extensions.IEntityExtension;
+import am2.api.extensions.ISpellCaster;
 import am2.api.skill.SkillPoint;
+import am2.api.spell.SpellData;
 import am2.common.armor.ArmorHelper;
 import am2.common.armor.infusions.GenericImbuement;
 import am2.common.defs.ItemDefs;
@@ -32,10 +34,10 @@ import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMPacketIDs;
 import am2.common.spell.ContingencyType;
 import am2.common.spell.SpellCastResult;
+import am2.common.spell.SpellCaster;
 import am2.common.trackers.EntityItemWatcher;
 import am2.common.utils.CloakUtils;
 import am2.common.utils.EntityUtils;
-import am2.common.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
@@ -183,12 +185,12 @@ public class EntityHandler {
 		EntityExtension ext = EntityExtension.For(event.getEntityLiving());
 		EntityLivingBase ent = event.getEntityLiving();
 		if (event.getEntity().ticksExisted % 20 == 0){
-			ArrayList<ItemStack> rs = ext.runningStacks;
+			ArrayList<SpellData> rs = ext.runningStacks;
 			int foundID = -1;
 			for (int i = 0; i < rs.size(); i++) {
-				ItemStack is = rs.get(i);
-				if (is != null && is.getTagCompound() != null) {
-					SpellCastResult result = SpellUtils.applyStackStage(is.copy(), ent, ent, ent.posX, ent.posY, ent.posZ, null, ent.worldObj, true, true, 0);
+				SpellData is = rs.get(i);
+				if (is != null) {
+					SpellCastResult result = is.execute(ent.worldObj, ent, ent, ent.posX, ent.posY, ent.posZ, null);
 					if (result != SpellCastResult.SUCCESS && result != SpellCastResult.SUCCESS_REDUCE_MANA) {
 						foundID = i;
 						break;
@@ -196,14 +198,14 @@ public class EntityHandler {
 				}
 			}
 			if (foundID != -1) {
-				ItemStack is = ext.runningStacks.get(foundID);
+				SpellData is = ext.runningStacks.get(foundID);
 				ext.runningStacks.remove(foundID);
 				if (ent instanceof EntityPlayer) {
 					InventoryPlayer inv = ((EntityPlayer)ent).inventory;
 					for (int i = 0; i < inv.getSizeInventory(); i++) {
 						ItemStack is2 = inv.getStackInSlot(i);
-						if (is2 != null && is2.getItem() instanceof SpellBase && is2.getTagCompound() != null && is.getTagCompound().getString("ToggleShapeID").equals(is2.getTagCompound().getString("ToggleShapeID"))) {
-							is.getTagCompound().setBoolean("HasEffect", true);
+						if (is2 != null && is2.getItem() instanceof SpellBase && is2.getTagCompound() != null && is.getSource().getTagCompound().getString("ToggleShapeID").equals(is2.getTagCompound().getString("ToggleShapeID"))) {
+							is.getSource().getTagCompound().setBoolean("HasEffect", true);
 						}
 					}
 				}
@@ -252,12 +254,12 @@ public class EntityHandler {
 		//Contingency
 		ContingencyType type = ext.getContingencyType();
 		if (event.getEntityLiving().isBurning() && type == ContingencyType.FIRE) {
-			SpellUtils.applyStackStage(ext.getContingencyStack(), event.getEntityLiving(), null, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, null, event.getEntityLiving().worldObj, false, true, 0);
+			ext.getContingencyStack().execute(event.getEntityLiving().worldObj, event.getEntityLiving(), null, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, null);
 			if (ext.getContingencyType() == ContingencyType.FIRE)
 				ext.setContingency(ContingencyType.NULL, null);		
 		}
 		else if (event.getEntityLiving().getHealth() * 4 < event.getEntityLiving().getMaxHealth() && type == ContingencyType.HEALTH) {
-			SpellUtils.applyStackStage(ext.getContingencyStack(), event.getEntityLiving(), null, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, null, event.getEntityLiving().worldObj, false, true, 0);			
+			ext.getContingencyStack().execute(event.getEntityLiving().worldObj, event.getEntityLiving(), null, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, null);
 			if (ext.getContingencyType() == ContingencyType.HEALTH) {
 				ext.setContingency(ContingencyType.NULL, null);
 			}
@@ -370,31 +372,29 @@ public class EntityHandler {
 		if (e.getSource() != null && e.getSource().getEntity() instanceof EntityLivingBase)
 			target = e.getSource().getEntity() != null ? (EntityLivingBase)e.getSource().getEntity() : null;
 		if (type == ContingencyType.DEATH) {
-			SpellUtils.applyStackStage(ext.getContingencyStack(), e.getEntityLiving(), target, e.getEntity().posX, e.getEntity().posY, e.getEntity().posZ, null, e.getEntityLiving().worldObj, false, true, 0);
+			ext.getContingencyStack().execute(e.getEntityLiving().worldObj, e.getEntityLiving(), (target != null ? target : (EntityLivingBase) e.getEntity()), (target != null ? target : e.getEntity()).posX, (target != null ? target : e.getEntity()).posY, (target != null ? target : e.getEntity()).posZ, null);
 			if (ext.getContingencyType() == ContingencyType.DEATH)
 				ext.setContingency(ContingencyType.NULL, null);		
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public void attackEntity(LivingAttackEvent e) {
 		if (e.getEntityLiving() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) e.getEntityLiving();
 			ItemStack stack = player.getActiveItemStack();
 			if (e.getAmount() > 0.0F && stack != null && stack.getItem() == ItemDefs.BoundShield && EntityUtils.canBlockDamageSource(player, e.getSource())) {
+				ISpellCaster spell = stack.getCapability(SpellCaster.INSTANCE, null);
 				if (EntityExtension.For(player).hasEnoughtMana(e.getAmount() * 10)) {
 					stack.getItem().onDroppedByPlayer(stack, player);
 					EntityExtension.For(player).deductMana(e.getAmount() * 10);
-				} else if (EntityExtension.For(player).hasEnoughtMana(SpellUtils.getManaCost(stack, e.getEntity()))) {
+				} else if (EntityExtension.For(player).hasEnoughtMana(spell.getManaCost(player.worldObj, player))) {
 					EntityLivingBase target = e.getSource().getEntity() instanceof EntityLivingBase ? (EntityLivingBase)e.getSource().getEntity() : null;
 					double posX = target != null ? target.posX : player.posX;
 					double posY = target != null ? target.posY : player.posY;
 					double posZ = target != null ? target.posZ : player.posZ;
-					ItemStack copiedStack = SpellUtils.merge(stack.copy());
-					copiedStack.getTagCompound().getCompoundTag("AM2").setInteger("CurrentGroup", SpellUtils.currentStage(stack) + 1);
-					copiedStack.setItem(ItemDefs.spell);
-					SpellUtils.applyStackStage(copiedStack, player, target, posX, posY, posZ, null, player.worldObj, true, true, 0);
+					ItemStack copiedStack = stack.copy();
+					spell.createSpellData(copiedStack).execute(player.worldObj, player, target, posX, posY, posZ, null);
 				} else {
 					stack.getItem().onDroppedByPlayer(stack, player);
 				}

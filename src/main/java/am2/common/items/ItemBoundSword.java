@@ -1,8 +1,9 @@
 package am2.common.items;
 
 import am2.api.IBoundItem;
+import am2.api.extensions.ISpellCaster;
 import am2.common.defs.ItemDefs;
-import am2.common.utils.SpellUtils;
+import am2.common.spell.SpellCaster;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,16 +20,15 @@ public class ItemBoundSword extends ItemSword implements IBoundItem {
 		this.setCreativeTab(null);
 	}
 
-	@SuppressWarnings("deprecation")
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
 		if (!stack.hasTagCompound())
 			return true;
-		ItemStack copiedStack = SpellUtils.merge(stack.copy());
-		copiedStack.getTagCompound().getCompoundTag("AM2").setInteger("CurrentGroup", SpellUtils.currentStage(stack) + 1);
-		copiedStack.setItem(ItemDefs.spell);
 		int hurtResist = target.hurtResistantTime;
 		target.hurtResistantTime = 0;
-		SpellUtils.applyStackStage(copiedStack, attacker, target, target.posX, target.posY, target.posZ, null, attacker.worldObj, true, true, 0);
+		ItemStack copiedStack = stack.copy();
+		ISpellCaster caster = stack.copy().getCapability(SpellCaster.INSTANCE, null);
+		if (caster != null)
+			caster.createSpellData(copiedStack).execute(attacker.worldObj, attacker, target, target.posX, target.posY, target.posZ, null);
 		target.hurtResistantTime = hurtResist;
 		return true;
 	}

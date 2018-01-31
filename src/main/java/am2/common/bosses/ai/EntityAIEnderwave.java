@@ -1,11 +1,12 @@
 package am2.common.bosses.ai;
 
+import am2.api.extensions.ISpellCaster;
 import am2.api.math.AMVector3;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.EntityEnderGuardian;
 import am2.common.bosses.IArsMagicaBoss;
+import am2.common.spell.SpellCaster;
 import am2.common.utils.NPCSpells;
-import am2.common.utils.SpellUtils;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.SoundCategory;
 import thehippomaster.AnimationAPI.AIAnimation;
@@ -59,7 +60,10 @@ public class EntityAIEnderwave extends AIAnimation{
 			if (guardian.getTicksInCurrentAction() == 7){
 				guardian.faceEntity(guardian.getAttackTarget(), 180, 180);
 				guardian.worldObj.playSound(guardian.posX, guardian.posY, guardian.posZ, ((IArsMagicaBoss)guardian).getAttackSound(), SoundCategory.HOSTILE, 1.0f, (float)(0.5 + guardian.getRNG().nextDouble() * 0.5f), false);
-				SpellUtils.applyStackStage(NPCSpells.instance.enderGuardian_enderWave, guardian, guardian, guardian.posX, guardian.posY + 0.5f, guardian.posZ, null, guardian.worldObj, false, false, 0);
+				ISpellCaster spell = NPCSpells.instance.enderGuardian_enderWave.getCapability(SpellCaster.INSTANCE, null);
+				if (spell != null) {
+					spell.cast(NPCSpells.instance.enderGuardian_enderWave, guardian.worldObj, guardian);
+				}
 			}else{
 				guardian.faceEntity(guardian.getAttackTarget(), 180, 180);
 			}

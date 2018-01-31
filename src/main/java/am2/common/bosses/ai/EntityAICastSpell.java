@@ -1,8 +1,9 @@
 package am2.common.bosses.ai;
 
+import am2.api.extensions.ISpellCaster;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.IArsMagicaBoss;
-import am2.common.utils.SpellUtils;
+import am2.common.spell.SpellCaster;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.item.ItemStack;
@@ -94,7 +95,10 @@ public class EntityAICastSpell<T extends EntityLiving & IArsMagicaBoss> extends 
 				if (!host.worldObj.isRemote)
 					host.worldObj.playSound(host.posX, host.posY, host.posZ, ((IArsMagicaBoss)host).getAttackSound(), SoundCategory.HOSTILE, 1.0f, 1.0f, false);
 				host.faceEntity(host.getAttackTarget(), 180, 180);
-				SpellUtils.applyStackStage(stack, host, host.getAttackTarget(), host.posX, host.posY, host.posZ, null, host.worldObj, false, false, 0);
+				ISpellCaster spell = stack.getCapability(SpellCaster.INSTANCE, null);
+				if (spell != null) {
+					spell.cast(stack, host.worldObj, host);
+				}
 			}
 		}
 		if (castTicks >= duration){

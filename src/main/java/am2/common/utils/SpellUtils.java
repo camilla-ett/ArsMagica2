@@ -1,6 +1,9 @@
 package am2.common.utils;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
 import am2.api.SpellRegistry;
@@ -201,6 +204,22 @@ public class SpellUtils {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public static List<List<AbstractSpellPart>> transformParts(List<AbstractSpellPart> parts) {
+		List<List<AbstractSpellPart>> stages = Lists.newArrayList();
+		List<AbstractSpellPart> stage = null;
+		for (AbstractSpellPart part : parts) {
+			if (part instanceof SpellShape) {
+				if (stage != null && !stage.isEmpty()) {
+					stages.add(stage);
+				}
+				stage = new ArrayList<>();
+			}
+			stage.add(part);
+		}
+		stages.add(stage);
+		return stages;
 	}
 
 //	public static boolean casterHasAllReagents(EntityLivingBase caster, ItemStack spellStack){

@@ -14,6 +14,7 @@ import am2.api.SpellRegistry;
 import am2.api.blocks.MultiblockGroup;
 import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
+import am2.api.extensions.ISpellCaster;
 import am2.api.power.IPowerNode;
 import am2.api.spell.AbstractSpellPart;
 import am2.client.particles.AMParticle;
@@ -28,6 +29,7 @@ import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMPacketIDs;
 import am2.common.power.PowerNodeRegistry;
 import am2.common.power.PowerTypes;
+import am2.common.spell.SpellCaster;
 import am2.common.spell.component.Summon;
 import am2.common.spell.shape.Binding;
 import am2.common.utils.KeyValuePair;
@@ -809,7 +811,19 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 					setCrafting(false);
 					EntityItem craftedItem = new EntityItem(worldObj);
 					craftedItem.setPosition(pos.getX() + 0.5, pos.getY() - 1.5, pos.getZ() + 0.5);
-					ItemStack craftStack = SpellUtils.createSpellStack(shapeGroups, spellDef, savedData);
+					ItemStack craftStack = new ItemStack(ItemDefs.spell);// SpellUtils.createSpellStack(shapeGroups, spellDef, savedData);
+					ISpellCaster caster = craftStack.getCapability(SpellCaster.INSTANCE, null);
+					if (caster != null) {
+						caster.setSpellCommon(SpellUtils.transformParts(spellDef));
+						caster.setCommonStoredData(savedData);
+						List<List<List<AbstractSpellPart>>> shapeGroups = Lists.newArrayList();
+						for (int i = 0; i < this.shapeGroups.size(); i++) {
+							KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> entry = this.shapeGroups.get(i);
+							shapeGroups.add(SpellUtils.transformParts(entry.key));
+							caster.setStoredData(i, entry.value);
+						}
+						caster.setShapeGroups(shapeGroups);
+					}
 					if (!craftStack.hasTagCompound())
 						craftStack.setTagCompound(new NBTTagCompound());
 					AddSpecialMetadata(craftStack);

@@ -2,6 +2,7 @@ package am2.common.spell.shape;
 
 import java.util.EnumSet;
 
+import am2.api.extensions.ISpellCaster;
 import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
@@ -107,11 +108,21 @@ public class Binding extends SpellShape{
 //		SpellUtils.instance.setSpellMetadata(craftStack, "binding_type", "" + addedBindingCatalyst.getItemDamage());
 //	}
 
-	public int getBindingType(SpellData spell){
+	public int getBindingType(SpellData spell) {
 		int type = 0;
-		try{
+		try {
 			type = spell.getStoredData().getInteger("BindingType");
-		}catch (Throwable t){
+		} catch (Throwable t) {
+
+		}
+		return type;
+	}
+	
+	public int getBindingType(ISpellCaster spell) {
+		int type = 0;
+		try {
+			type = spell.getCommonStoredData().getInteger("BindingType");
+		} catch (Throwable t) {
 
 		}
 		return type;
