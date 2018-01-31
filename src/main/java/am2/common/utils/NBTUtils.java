@@ -1,5 +1,10 @@
 package am2.common.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
@@ -36,6 +41,14 @@ public class NBTUtils {
 		nbt.setInteger("X", pos.getX());
 		nbt.setInteger("Y", pos.getY());
 		nbt.setInteger("Z", pos.getZ());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends List<?>> void ensureSize(ArrayList<T> list, int size) {
+	    list.ensureCapacity(size);
+	    while (list.size() < size) {
+	        list.add((T) Lists.newArrayList());
+	    }
 	}
 	
 	public static Vec3d readVecFromNBT(NBTTagCompound nbt) {

@@ -645,6 +645,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				shapeGroupSetup.add(new KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>(arr, new NBTTagCompound()));
 			}
 			ItemStack stack = new ItemStack(ItemDefs.spell);
+			if (!stack.hasTagCompound())
+				stack.setTagCompound(new NBTTagCompound());
 			ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
 			if (caster != null) {
 				caster.setSpellCommon(SpellUtils.transformParts(curRecipeSetup.key));

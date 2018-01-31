@@ -13,6 +13,7 @@ import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.SpellData;
+import am2.common.utils.NBTUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -77,6 +78,7 @@ public interface ISpellCaster {
 		private static final String KEY_AFFINITY_TYPE = "Type";
 		private static final String KEY_AFFINITY_DEPTH = "Depth";
 		private static final String KEY_CURRENT_SHAPE_GROUP = "CurrentShapeGroup";
+		private static final String KEY_STORED_DATA = "StoredData";
 		
 		
 		@Override
@@ -110,6 +112,7 @@ public interface ISpellCaster {
 				for (int i = 0; i < shapeGroups.size(); i++) {
 					NBTTagCompound groupTag = new NBTTagCompound();
 					groupTag.setInteger(KEY_ID, i);
+					groupTag.setTag(KEY_STORED_DATA, instance.getStoredData(i));
 					groupTag.setFloat(KEY_BASE_MANA_COST, instance.getBaseManaCost(i));
 					NBTTagList stagesTag = new NBTTagList();
 					List<List<AbstractSpellPart>> stages = shapeGroups.get(i);
@@ -142,6 +145,7 @@ public interface ISpellCaster {
 				}
 			}
 			compound.setTag(KEY_AFFINITY, affinityShift);
+			compound.setTag(KEY_STORED_DATA, instance.getCommonStoredData());
 			return compound;
 		}
 
@@ -163,7 +167,7 @@ public interface ISpellCaster {
 						pts.add(part);
 					}
 				}
-				commonStages.ensureCapacity(id + 1);
+				NBTUtils.ensureSize(commonStages, id + 1);
 				commonStages.set(id, pts);
 			}
 			instance.setSpellCommon(commonStages);
@@ -173,6 +177,7 @@ public interface ISpellCaster {
 				NBTTagCompound group = shapeGroupsTag.getCompoundTagAt(i);
 				int gid = group.getInteger(KEY_ID);
 				instance.setBaseManaCost(gid, group.getFloat(KEY_BASE_MANA_COST));
+				instance.setStoredData(gid, group.getCompoundTag(KEY_STORED_DATA));
 				NBTTagList stagesLs = group.getTagList(KEY_GROUP, Constants.NBT.TAG_COMPOUND);
 				ArrayList<List<AbstractSpellPart>> stages = new ArrayList<>(stagesLs.tagCount());
 				for (int j = 0; j < stagesLs.tagCount(); j++) {
@@ -186,10 +191,10 @@ public interface ISpellCaster {
 							pts.add(part);
 						}
 					}
-					stages.ensureCapacity(gid + 1);
+					NBTUtils.ensureSize(stages, id + 1);
 					stages.set(id, pts);
 				}
-				shapeGroups.ensureCapacity(gid + 1);
+				NBTUtils.ensureSize(commonStages, gid + 1);
 				shapeGroups.set(gid, stages);
 			}
 			instance.setShapeGroups(shapeGroups);
@@ -203,6 +208,7 @@ public interface ISpellCaster {
 					affMap.put(aff, depth);
 			}
 			instance.setAffinityShift(affMap);
+			instance.setCommonStoredData(compound.getCompoundTag(KEY_STORED_DATA));
 		}
 	}
 

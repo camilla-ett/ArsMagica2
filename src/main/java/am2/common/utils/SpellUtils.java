@@ -208,7 +208,7 @@ public class SpellUtils {
 	
 	public static List<List<AbstractSpellPart>> transformParts(List<AbstractSpellPart> parts) {
 		List<List<AbstractSpellPart>> stages = Lists.newArrayList();
-		List<AbstractSpellPart> stage = null;
+		List<AbstractSpellPart> stage = Lists.newArrayList();
 		for (AbstractSpellPart part : parts) {
 			if (part instanceof SpellShape) {
 				if (stage != null && !stage.isEmpty()) {

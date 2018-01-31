@@ -39,6 +39,7 @@ import am2.api.extensions.IArcaneCompendium;
 import am2.api.extensions.IEntityExtension;
 import am2.api.extensions.IRiftStorage;
 import am2.api.extensions.ISkillData;
+import am2.api.extensions.ISpellCaster;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.api.spell.AbstractSpellPart;
@@ -386,6 +387,7 @@ public class CommonProxy implements IGuiHandler{
 		CapabilityManager.INSTANCE.register(ISkillData.class, new ISkillData.Storage(), new ISkillData.Factory());
 		CapabilityManager.INSTANCE.register(IRiftStorage.class, new IRiftStorage.Storage(), new IRiftStorage.Factory());
 		CapabilityManager.INSTANCE.register(IArcaneCompendium.class, new IArcaneCompendium.Storage(), new IArcaneCompendium.Factory());
+		CapabilityManager.INSTANCE.register(ISpellCaster.class, new ISpellCaster.Storage(), () -> null);
 	}
 	
 	public void init() {

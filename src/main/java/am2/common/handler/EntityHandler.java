@@ -111,6 +111,13 @@ public class EntityHandler {
 	}
 	
 	@SubscribeEvent
+	public void attachItemStack(AttachCapabilitiesEvent.Item event) {
+		if (event.getObject() == ItemDefs.spell) {
+			event.addCapability(SpellCaster.ID, new SpellCaster());
+		}
+	}
+	
+	@SubscribeEvent
 	public void onEntityConstructed(EntityConstructing event) {
 		if (event.getEntity() instanceof EntityLivingBase) {
 			EntityLivingBase living = (EntityLivingBase)event.getEntity();

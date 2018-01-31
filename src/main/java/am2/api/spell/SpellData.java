@@ -19,6 +19,7 @@ import am2.common.spell.SpellCastResult;
 import am2.common.spell.shape.MissingShape;
 import am2.common.utils.AffinityShiftUtils;
 import am2.common.utils.EntityUtils;
+import am2.common.utils.NBTUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -69,7 +70,11 @@ public class SpellData {
 	
 	public SpellData(ItemStack source, List<List<AbstractSpellPart>> stages, UUID uuid, NBTTagCompound storedData) {
 		this.source = source;
-		this.stages = stages;
+		this.stages = Lists.newArrayList();
+		for (List<AbstractSpellPart> stage : stages) {
+			if (stage != null && !stage.isEmpty())
+				this.stages.add(stage);
+		}
 		this.exec = 0;
 		this.uuid = uuid;
 		this.storedData = storedData.copy();
@@ -328,7 +333,7 @@ public class SpellData {
 					pts.add(part);
 				}
 			}
-			stages.ensureCapacity(id + 1);
+			NBTUtils.ensureSize(stages, id + 1);
 			stages.set(id, pts);
 		}
 		NBTTagCompound storedData = tag.getCompoundTag("StoredData");

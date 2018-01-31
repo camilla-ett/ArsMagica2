@@ -12,7 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class SpellComponent extends AbstractSpellPart{
+public abstract class SpellComponent extends AbstractSpellPart {
 	/**
 	 * Apply the effect to a single block
 	 *
