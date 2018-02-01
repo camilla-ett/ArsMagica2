@@ -158,6 +158,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	@Override
 	public void addDiminishingReturns(boolean isChanneled){
 		diminishingReturns -= isChanneled ? 0.1f : 0.3f;
+		System.out.println(diminishingReturns);
 		syncCode |= SYNC_DIMINISHING_RETURNS;
 		if (diminishingReturns < 0) 
 			diminishingReturns = 0F;

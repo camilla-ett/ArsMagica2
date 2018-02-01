@@ -82,24 +82,24 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 		List<AbstractSpellPart> stage = Lists.newArrayList();
 		for (List<AbstractSpellPart> parts : shapeGroup) {
 			for (AbstractSpellPart part : parts) {
+				stage.add(part);
 				if (part instanceof SpellShape) {
 					if (stage != null && !stage.isEmpty()) {
 						stages.add(stage);
 					}
 					stage = new ArrayList<>();
 				}
-				stage.add(part);
 			}
 		}
 		for (List<AbstractSpellPart> parts : spellCommon) {
 			for (AbstractSpellPart part : parts) {
+				stage.add(part);
 				if (part instanceof SpellShape) {
 					if (stage != null && !stage.isEmpty()) {
 						stages.add(stage);
 					}
 					stage = new ArrayList<>();
 				}
-				stage.add(part);
 			}
 		}
 		stages.add(stage);
@@ -111,7 +111,8 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 	@Override
 	public boolean cast(ItemStack source, World world, EntityLivingBase caster) {
 		SpellData data = this.createSpellData(source);
-		return data.execute(world, caster) == SpellCastResult.SUCCESS;
+		SpellCastResult result = data.execute(world, caster);
+		return result == SpellCastResult.SUCCESS;
 	}
 
 	@Override

@@ -132,6 +132,7 @@ public interface ISpellCaster {
 						}
 					}
 					groupTag.setTag(KEY_GROUP, stagesTag);
+					shapeGroupsTag.appendTag(groupTag);
 				}
 			}
 			compound.setTag(KEY_SHAPE_GROUPS, shapeGroupsTag);
@@ -194,7 +195,7 @@ public interface ISpellCaster {
 					NBTUtils.ensureSize(stages, id + 1);
 					stages.set(id, pts);
 				}
-				NBTUtils.ensureSize(commonStages, gid + 1);
+				NBTUtils.ensureSize(shapeGroups, gid + 1);
 				shapeGroups.set(gid, stages);
 			}
 			instance.setShapeGroups(shapeGroups);

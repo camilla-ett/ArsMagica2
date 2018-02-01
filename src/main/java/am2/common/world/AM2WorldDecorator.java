@@ -142,7 +142,9 @@ public class AM2WorldDecorator implements IWorldGenerator{
 		}
 	}
 
-	private void generateFlowers(AM2FlowerGen flowers, World world, Random random, int chunkX, int chunkZ){
+	private void generateFlowers(AM2FlowerGen flowers, World world, Random random, int chunkX, int chunkZ) {
+		if (random.nextDouble() > 0.75)
+			return;
 		int x = (chunkX << 4) + random.nextInt(16) + 8;
 		int y = random.nextInt(128);
 		int z = (chunkZ << 4) + random.nextInt(16) + 8;

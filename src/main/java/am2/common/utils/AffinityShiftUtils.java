@@ -34,7 +34,7 @@ public class AffinityShiftUtils {
 				shift /= 4;
 				xp /= 4;
 			}
-
+			
 			if (caster instanceof EntityPlayer){
 				if (SkillData.For((EntityPlayer)caster).hasSkill(SkillDefs.AFFINITY_GAINS.getID())){
 					shift *= 1.1f;

@@ -159,7 +159,7 @@ public class SpellData {
 		boolean isPlayer = caster instanceof EntityPlayer;
 		boolean flag = false;
 		SpellShape shape = null;
-		for (AbstractSpellPart part : parts) {
+		for (AbstractSpellPart part : this.stages.get(exec > 0 ? exec - 1 : exec)) {
 			if (part instanceof SpellShape) {
 				if (shape != null)
 					return SpellCastResult.MALFORMED_SPELL_STACK;
@@ -193,7 +193,7 @@ public class SpellData {
 		boolean isPlayer = caster instanceof EntityPlayer;
 		boolean flag = false;
 		SpellShape shape = null;
-		for (AbstractSpellPart part : parts) {
+		for (AbstractSpellPart part : this.stages.get(exec > 0 ? exec - 1 : exec)) {
 			if (part instanceof SpellShape) {
 				if (shape != null)
 					return SpellCastResult.MALFORMED_SPELL_STACK;
