@@ -110,9 +110,15 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 
 	@Override
 	public boolean cast(ItemStack source, World world, EntityLivingBase caster) {
+		IEntityExtension ext = EntityExtension.For(caster);
 		SpellData data = this.createSpellData(source);
-		SpellCastResult result = data.execute(world, caster);
-		return result == SpellCastResult.SUCCESS;
+		float manaCost = this.getManaCost(world, caster);
+		if (ext.hasEnoughtMana(manaCost)) {
+			SpellCastResult result = data.execute(world, caster);
+			ext.deductMana(manaCost);
+			return result == SpellCastResult.SUCCESS;
+		}
+		return false;
 	}
 
 	@Override

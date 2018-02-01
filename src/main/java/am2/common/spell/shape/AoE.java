@@ -44,7 +44,7 @@ public class AoE extends SpellShape{
 			if (e == caster || e instanceof EntitySpellProjectile) continue;
 			if (e instanceof EntityDragonPart && ((EntityDragonPart)e).entityDragonObj instanceof EntityLivingBase)
 				e = (EntityLivingBase)((EntityDragonPart)e).entityDragonObj;
-			if (spell.applyComponentsToEntity(world, caster, e) == SpellCastResult.SUCCESS)
+			if (spell.copy().applyComponentsToEntity(world, caster, e) == SpellCastResult.SUCCESS)
 				appliedToAtLeastOneEntity = true;
 		}
 		
@@ -127,7 +127,7 @@ public class AoE extends SpellShape{
 					}
 				}
 				if (world.isAirBlock(lookPos)) continue;
-				SpellCastResult result = stack.applyComponentsToGround(world, caster, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ());
+				SpellCastResult result = stack.copy().applyComponentsToGround(world, caster, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ());
 				if (result != SpellCastResult.SUCCESS)
 					return result;
 			}
@@ -140,7 +140,7 @@ public class AoE extends SpellShape{
 			for (int j = -radius; j <= radius; ++j){
 				BlockPos lookPos = pos.add(0, j, i);
 				if (world.isAirBlock(lookPos)) continue;
-				SpellCastResult result = stack.applyComponentsToGround(world, caster, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ());
+				SpellCastResult result = stack.copy().applyComponentsToGround(world, caster, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ());
 				if (result != SpellCastResult.SUCCESS)
 					return result;
 			}
@@ -153,7 +153,7 @@ public class AoE extends SpellShape{
 			for (int j = -radius; j <= radius; ++j){
 				BlockPos lookPos = pos.add(i, j, 0);
 				if (world.isAirBlock(lookPos)) continue;
-				SpellCastResult result = stack.applyComponentsToGround(world, caster, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ());
+				SpellCastResult result = stack.copy().applyComponentsToGround(world, caster, lookPos, face, lookPos.getX(), lookPos.getY(), lookPos.getZ());
 				if (result != SpellCastResult.SUCCESS)
 					return result;
 			}

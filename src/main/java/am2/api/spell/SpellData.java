@@ -158,6 +158,7 @@ public class SpellData {
 		parts.sort((t, o) -> t.compareTo(o));
 		boolean isPlayer = caster instanceof EntityPlayer;
 		boolean flag = false;
+		boolean success = false;
 		SpellShape shape = null;
 		for (AbstractSpellPart part : Lists.newArrayList(this.stages.get(exec > 0 ? exec - 1 : exec))) {
 			if (part instanceof SpellShape) {
@@ -169,20 +170,21 @@ public class SpellData {
 		for (AbstractSpellPart part : parts) {
 			if (part instanceof SpellComponent) {
 				SpellComponent component = (SpellComponent) part;
+				flag = true;
 				if (component.applyEffectEntity(this, world, caster, target)) {
 					if (isPlayer && !world.isRemote) {
 						if (component.getAffinity() != null) {
 							AffinityShiftUtils.doAffinityShift(caster, component, shape);
 						}
 					}
-					flag = true;
+					success = true;
 					if (world.isRemote){
 						component.spawnParticles(world, target.posX, target.posY + target.getEyeHeight(), target.posZ, caster, target, world.rand, getColor(world, caster, target));
 					}
 				}
 			}
 		}
-		return flag ? SpellCastResult.SUCCESS : SpellCastResult.EFFECT_FAILED;
+		return !flag ? SpellCastResult.SUCCESS : success ? SpellCastResult.SUCCESS : SpellCastResult.EFFECT_FAILED;
 	}
 	
 	public SpellCastResult applyComponentsToGround(World world, EntityLivingBase caster, BlockPos pos, EnumFacing facing, double x, double y, double z) {
@@ -192,6 +194,7 @@ public class SpellData {
 		parts.sort((t, o) -> t.compareTo(o));
 		boolean isPlayer = caster instanceof EntityPlayer;
 		boolean flag = false;
+		boolean success = false;
 		SpellShape shape = null;
 		for (AbstractSpellPart part : Lists.newArrayList(this.stages.get(exec > 0 ? exec - 1 : exec))) {
 			if (part instanceof SpellShape) {
@@ -203,20 +206,21 @@ public class SpellData {
 		for (AbstractSpellPart part : parts) {
 			if (part instanceof SpellComponent) {
 				SpellComponent component = (SpellComponent) part;
+				flag = true;
 				if (component.applyEffectBlock(this, world, pos, facing, x, y, z, caster)) {
 					if (isPlayer && !world.isRemote) {
 						if (component.getAffinity() != null) {
 							AffinityShiftUtils.doAffinityShift(caster, component, shape);
 						}
 					}
-					flag = true;
+					success = true;
 					if (world.isRemote){
 						component.spawnParticles(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, caster, null, world.rand, getColor(world, caster, null));
 					}
 				}
 			}
 		}
-		return flag ? SpellCastResult.SUCCESS : SpellCastResult.EFFECT_FAILED;
+		return !flag ? SpellCastResult.SUCCESS : success ? SpellCastResult.SUCCESS : SpellCastResult.EFFECT_FAILED;
 	}
 	
 	public RayTraceResult raytrace(EntityLivingBase caster, World world, double range, boolean includeEntities, boolean targetWater){

@@ -187,7 +187,7 @@ public interface ISpellCaster {
 					NBTTagList parts = tmp.getTagList(KEY_PARTS, Constants.NBT.TAG_STRING);
 					ArrayList<AbstractSpellPart> pts = new ArrayList<>();
 					for (int k = 0; k < parts.tagCount(); k++) {
-						AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(j)));
+						AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(k)));
 						if (part != null) {
 							pts.add(part);
 						}

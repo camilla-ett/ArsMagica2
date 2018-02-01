@@ -120,7 +120,7 @@ public class Beam extends SpellShape{
 		if (result != null && spellVec != null && (mop.typeOfHit == RayTraceResult.Type.ENTITY ? shouldApplyEffectEntity : shouldApplyEffectBlock)){
 			return spell.execute(world, caster, target, spellVec.xCoord, spellVec.yCoord, spellVec.zCoord, mop != null ? mop.sideHit : null);
 		}else{
-			return SpellCastResult.SUCCESS_REDUCE_MANA;
+			return SpellCastResult.SUCCESS;
 		}
 	}
 	
