@@ -246,10 +246,14 @@ public class SpellUtils {
 	}
 	
 	public static void updateSpell(ItemStack in) {
-		if (!in.hasTagCompound() || in.getTagCompound().getBoolean("Updated") || !in.hasCapability(SpellCaster.INSTANCE, null))
+		if (in != null && !in.hasTagCompound() || in.getTagCompound().getBoolean("Updated") || !in.hasCapability(SpellCaster.INSTANCE, null))
 			return;
 		ISpellCaster caster = in.getCapability(SpellCaster.INSTANCE, null);
 		NBTTagCompound tag = in.getTagCompound();
+		if (!tag.hasKey("AM2")) {
+			tag.setBoolean("Updated", true);
+			return;
+		}
 		NBTTagCompound am2 = NBTUtils.getAM2Tag(tag);
 		NBTTagCompound commonData = am2.getCompoundTag(SPELL_DATA);
 		NBTTagList shapeGroupList = am2.getTagList("ShapeGroups", Constants.NBT.TAG_COMPOUND);

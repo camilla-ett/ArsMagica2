@@ -14,7 +14,6 @@ import am2.api.spell.SpellComponent;
 import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
-import am2.client.particles.ParticleApproachEntity;
 import am2.client.particles.ParticleFadeOut;
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
