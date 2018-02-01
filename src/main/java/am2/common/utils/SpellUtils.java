@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.SpellRegistry;
+import am2.api.extensions.ISpellCaster;
 import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.Operation;
 import am2.api.spell.SpellComponent;
@@ -22,6 +23,7 @@ import am2.common.defs.PotionEffectsDefs;
 import am2.common.entity.EntityDarkMage;
 import am2.common.entity.EntityLightMage;
 import am2.common.extensions.EntityExtension;
+import am2.common.spell.SpellCaster;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragon;
@@ -38,6 +40,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class SpellUtils {
@@ -240,6 +243,49 @@ public class SpellUtils {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public static void updateSpell(ItemStack in) {
+		if (!in.hasTagCompound() || in.getTagCompound().getBoolean("Updated") || !in.hasCapability(SpellCaster.INSTANCE, null))
+			return;
+		ISpellCaster caster = in.getCapability(SpellCaster.INSTANCE, null);
+		NBTTagCompound tag = in.getTagCompound();
+		NBTTagCompound am2 = NBTUtils.getAM2Tag(tag);
+		NBTTagCompound commonData = am2.getCompoundTag(SPELL_DATA);
+		NBTTagList shapeGroupList = am2.getTagList("ShapeGroups", Constants.NBT.TAG_COMPOUND);
+		List<List<List<AbstractSpellPart>>> shapeGroups = Lists.newArrayList();
+		for (int i = 0; i < shapeGroupList.tagCount(); i++) {
+			NBTTagCompound group = shapeGroupList.getCompoundTagAt(i);
+			NBTTagCompound groupData = group.getCompoundTag(SPELL_DATA);
+			int stageCount = group.getInteger("StageNum");
+			List<AbstractSpellPart> parts = Lists.newArrayList();
+			for (int j = 0; j < stageCount; j++) {
+				NBTTagList list = group.getTagList(STAGE + j, Constants.NBT.TAG_COMPOUND);
+				for (int k = 0; k < list.tagCount(); k++) {
+					NBTTagCompound nbt = list.getCompoundTagAt(k);
+					AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(nbt.getString(ID)));
+					if (part != null)
+						parts.add(part);
+				}
+			}
+			caster.setStoredData(i, groupData);
+			shapeGroups.add(transformParts(parts));
+		}
+		int count = am2.getInteger("StageNum");
+		List<AbstractSpellPart> parts = Lists.newArrayList();
+		for (int i = 0; i < count; i++) {
+			NBTTagList list = am2.getTagList(STAGE + i, Constants.NBT.TAG_COMPOUND);
+			for (int j = 0; j < list.tagCount(); j++) {
+				NBTTagCompound tmp = list.getCompoundTagAt(j);
+				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(tmp.getString(ID)));
+				if (part != null)
+					parts.add(part);				
+			}
+		}
+		caster.setCommonStoredData(commonData);
+		caster.setSpellCommon(transformParts(parts));
+		caster.setShapeGroups(shapeGroups);
+		tag.setBoolean("Updated", true);
 	}
 
 //	public static boolean casterHasAllReagents(EntityLivingBase caster, ItemStack spellStack){

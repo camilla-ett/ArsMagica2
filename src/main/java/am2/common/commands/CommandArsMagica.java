@@ -9,6 +9,7 @@ import am2.common.extensions.AffinityData;
 import am2.common.extensions.EntityExtension;
 import am2.common.extensions.SkillData;
 import am2.common.lore.ArcaneCompendium;
+import am2.common.utils.SpellUtils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -16,6 +17,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
@@ -50,6 +52,16 @@ public class CommandArsMagica extends CommandBase {
 			SkillData.For(getCommandSenderAsPlayer(sender)).forceUpdate();
 			ArcaneCompendium.For(getCommandSenderAsPlayer(sender)).forceUpdate();
 			notifyCommandListener(sender, this, "commands.am2.sync.successful", new Object[] {});
+		} else if (args[0].equalsIgnoreCase("updatespells")) {
+			EntityPlayer player = getCommandSenderAsPlayer(sender);
+			try {
+				for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+					ItemStack stack = player.inventory.getStackInSlot(i);
+					SpellUtils.updateSpell(stack);
+				}
+			} catch (Throwable t) {
+				throw new CommandException("Error updating item.");
+			}
 		}
 	}
 	
@@ -74,7 +86,7 @@ public class CommandArsMagica extends CommandBase {
 	
 	@Override
 	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
-		if (args.length == 1) return getListOfStringsMatchingLastWord(args, Lists.newArrayList("magiclevel", "forcesync"));
+		if (args.length == 1) return getListOfStringsMatchingLastWord(args, Lists.newArrayList("magiclevel", "forcesync", "updatespells"));
 		else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("magiclevel")) return Collections.emptyList();
 		} else if (args.length == 3) {

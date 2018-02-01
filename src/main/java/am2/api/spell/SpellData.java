@@ -184,7 +184,7 @@ public class SpellData {
 				}
 			}
 		}
-		return !flag ? SpellCastResult.SUCCESS : success ? SpellCastResult.SUCCESS : SpellCastResult.EFFECT_FAILED;
+		return flag ? success ? SpellCastResult.SUCCESS : SpellCastResult.EFFECT_FAILED : SpellCastResult.SUCCESS;
 	}
 	
 	public SpellCastResult applyComponentsToGround(World world, EntityLivingBase caster, BlockPos pos, EnumFacing facing, double x, double y, double z) {
@@ -220,7 +220,7 @@ public class SpellData {
 				}
 			}
 		}
-		return !flag ? SpellCastResult.SUCCESS : success ? SpellCastResult.SUCCESS : SpellCastResult.EFFECT_FAILED;
+		return flag ? success ? SpellCastResult.SUCCESS : SpellCastResult.EFFECT_FAILED : SpellCastResult.SUCCESS;
 	}
 	
 	public RayTraceResult raytrace(EntityLivingBase caster, World world, double range, boolean includeEntities, boolean targetWater){

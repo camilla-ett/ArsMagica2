@@ -217,11 +217,10 @@ public class AMIngameGUI extends Gui {
 				GlStateManager.color(1f, 0.0f, 0.0f);
 			ItemStack curItem = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
 			//TODO Spell Groups
-			if (curItem != null && (curItem.getItem() == ItemDefs.spell
-					|| curItem.getItem() == ItemDefs.spellBook || curItem.getItem() == ItemDefs.arcaneSpellbook)){
+			if (curItem != null && (curItem.getItem() == ItemDefs.spell || curItem.getItem() == ItemDefs.spellBook || curItem.getItem() == ItemDefs.arcaneSpellbook)){
 				ItemStack spellStack = curItem.getItem() == ItemDefs.spell ? curItem : ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
-				ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
-				if (caster != null){
+				if (spellStack != null && spellStack.hasCapability(SpellCaster.INSTANCE, null)) {
+					ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
 					List<List<AbstractSpellPart>> parts = caster.getShapeGroups().get(caster.getCurrentShapeGroup());//SpellUtils.getShapeGroupParts(spellStack);
 					int sx = mana_hud.iX - 2 * parts.size() / 2;
 					int sy = mana_hud.iY - 2 * parts.size() / 2;
