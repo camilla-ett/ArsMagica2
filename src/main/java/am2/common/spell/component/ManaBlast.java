@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class ManaBlast extends SpellComponent{
@@ -71,15 +72,18 @@ public class ManaBlast extends SpellComponent{
 
 	@Override
 	public void spawnParticles(World world, double x, double y, double z, EntityLivingBase caster, Entity target, Random rand, int colorModifier){
-		double snapAngle = (2 * Math.PI) / (ArsMagica2.config.getGFXLevel() + 1)* 5;
-		for (int j = 0; j < 4; j++) {
+		double snapAngle = (2 * Math.PI) / (ArsMagica2.config.getGFXLevel() + 1) * 5;
+		int count = 10;
+		float inverted = 0.2F;
+		for (int j = 0; j < count; j++) {
+			float angle = MathHelper.cos((float) (j * inverted * Math.PI));
 			for (int i = 0; i < (ArsMagica2.config.getGFXLevel() + 1) * 5; i++) {
-				double posX = x + (Math.cos(snapAngle * i) * (j * 0.5));
-				double posZ = z + (Math.sin(snapAngle * i) * (j * 0.5));
-				AMParticle particle = (AMParticle) ArsMagica2.proxy.particleManager.spawn(world, "sparkle2", posX, target.posY + target.height / 2 + j * 0.5, posZ);
+				double posX = x + target.width / 2 + (MathHelper.cos((float) (snapAngle * i)) * angle);
+				double posZ = z + target.width / 2 + (MathHelper.sin((float) (snapAngle * i)) * angle);
+				AMParticle particle = (AMParticle) ArsMagica2.proxy.particleManager.spawn(world, "sparkle2", posX, target.posY + target.height / 2 + angle, posZ);
 				if (particle != null) {
 					particle.setIgnoreMaxAge(true);
-					particle.AddParticleController(new ParticleApproachEntity(particle, target, 0.15f, 0.1, 1, false));
+					//particle.AddParticleController(new ParticleApproachEntity(particle, target, 0.15f, 0.1, 1, false));
 					particle.AddParticleController(new ParticleFadeOut(particle, 2, false).setFadeSpeed(0.1f));
 					particle.setRGBColorF(0.6f, 0f, 0.9f);
 				}

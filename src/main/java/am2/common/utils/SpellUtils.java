@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
+import am2.api.ArsMagicaAPI;
 import am2.api.SpellRegistry;
 import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.Operation;
@@ -35,6 +36,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -178,6 +180,40 @@ public class SpellUtils {
 		group.setInteger("StageNum", stage);
 		return group;
 	}
+
+	
+	public static List<List<AbstractSpellPart>> transformParts(List<AbstractSpellPart> parts) {
+		List<List<AbstractSpellPart>> stages = Lists.newArrayList();
+		List<AbstractSpellPart> stage = Lists.newArrayList();
+		for (AbstractSpellPart part : parts) {
+			stage.add(part);
+			if (part instanceof SpellShape) {
+				if (stage != null && !stage.isEmpty()) {
+					stages.add(stage);
+				}
+				stage = new ArrayList<>();
+			}
+		}
+		stages.add(stage);
+		return stages;
+	}
+	//BACKWARD COMPAT
+	public static ArrayList<AbstractSpellPart> getPartsForSpell (ItemStack stack) {
+		try {
+			ArrayList<AbstractSpellPart> mods = new ArrayList<AbstractSpellPart>();
+			for (int j = 0; j <= NBTUtils.getAM2Tag(stack.getTagCompound()).getInteger("StageNum"); j++) { 
+				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + j);
+				for (int i = 0; i < stageTag.tagCount(); i++) {
+					NBTTagCompound tag = stageTag.getCompoundTagAt(i);
+					mods.add(ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(tag.getString(ID))));
+				}
+			}
+			return mods;
+		} catch (Exception e) {
+			return Lists.newArrayList();
+		}
+	}
+	
 	
 	public static KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> decode(NBTTagCompound toDecode) {
 		if (toDecode == null)
@@ -204,22 +240,6 @@ public class SpellUtils {
 		} catch (Exception e) {
 			return null;
 		}
-	}
-	
-	public static List<List<AbstractSpellPart>> transformParts(List<AbstractSpellPart> parts) {
-		List<List<AbstractSpellPart>> stages = Lists.newArrayList();
-		List<AbstractSpellPart> stage = Lists.newArrayList();
-		for (AbstractSpellPart part : parts) {
-			if (part instanceof SpellShape) {
-				if (stage != null && !stage.isEmpty()) {
-					stages.add(stage);
-				}
-				stage = new ArrayList<>();
-			}
-			stage.add(part);
-		}
-		stages.add(stage);
-		return stages;
 	}
 
 //	public static boolean casterHasAllReagents(EntityLivingBase caster, ItemStack spellStack){

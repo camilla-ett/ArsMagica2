@@ -116,7 +116,7 @@ public class AM2WorldDecorator implements IWorldGenerator{
 		for (Type type : biomeTypes){
 			if (type == Type.BEACH || type == Type.SWAMP || type == Type.JUNGLE || type == Type.PLAINS || type == Type.WATER){
 				typeValid = true;
-			}else if (type == Type.SNOWY){
+			} else if (type == Type.SNOWY) {
 				typeValid = false;
 				break;
 			}

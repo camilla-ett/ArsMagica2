@@ -154,12 +154,12 @@ public class SpellData {
 	public SpellCastResult applyComponentsToEntity(World world, EntityLivingBase caster, Entity target) {
 		if (exec < 0 || exec >= stages.size())
 			return SpellCastResult.EFFECT_FAILED;
-		List<AbstractSpellPart> parts = this.stages.get(exec);
+		List<AbstractSpellPart> parts = Lists.newArrayList(this.stages.get(exec));
 		parts.sort((t, o) -> t.compareTo(o));
 		boolean isPlayer = caster instanceof EntityPlayer;
 		boolean flag = false;
 		SpellShape shape = null;
-		for (AbstractSpellPart part : this.stages.get(exec > 0 ? exec - 1 : exec)) {
+		for (AbstractSpellPart part : Lists.newArrayList(this.stages.get(exec > 0 ? exec - 1 : exec))) {
 			if (part instanceof SpellShape) {
 				if (shape != null)
 					return SpellCastResult.MALFORMED_SPELL_STACK;
@@ -188,12 +188,12 @@ public class SpellData {
 	public SpellCastResult applyComponentsToGround(World world, EntityLivingBase caster, BlockPos pos, EnumFacing facing, double x, double y, double z) {
 		if (exec < 0 || exec >= stages.size())
 			return SpellCastResult.EFFECT_FAILED;
-		List<AbstractSpellPart> parts = this.stages.get(exec);
+		List<AbstractSpellPart> parts = Lists.newArrayList(this.stages.get(exec));
 		parts.sort((t, o) -> t.compareTo(o));
 		boolean isPlayer = caster instanceof EntityPlayer;
 		boolean flag = false;
 		SpellShape shape = null;
-		for (AbstractSpellPart part : this.stages.get(exec > 0 ? exec - 1 : exec)) {
+		for (AbstractSpellPart part : Lists.newArrayList(this.stages.get(exec > 0 ? exec - 1 : exec))) {
 			if (part instanceof SpellShape) {
 				if (shape != null)
 					return SpellCastResult.MALFORMED_SPELL_STACK;
