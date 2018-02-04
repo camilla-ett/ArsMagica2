@@ -67,7 +67,7 @@ public class PowerNodePathfinder extends AStar<BlockPos>{
 	}
 
 	private boolean verifyCandidate(IPowerNode<?> powerNode){
-		if (new BlockPos(((TileEntity)powerNode).getPos()).equals(end)){
+		if (((TileEntity)powerNode).getPos().equals(end)){
 			for (PowerTypes type : powerNode.getValidPowerTypes())
 				if (type == powerType)
 					return true;

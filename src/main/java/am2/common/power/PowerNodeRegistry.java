@@ -318,6 +318,7 @@ public class PowerNodeRegistry{
 			if (nodesInChunk != null){
 				//Add only vectors that are less than or equal to POWER_SEARCH_RADIUS_SQ away
 				for (BlockPos vector : nodesInChunk.keySet()){
+					System.out.println(vector);
 					if (location.distanceSq(vector) <= POWER_SEARCH_RADIUS_SQ && !vector.equals(location)){
 						nodesToSearch.put(vector, nodesInChunk.get(vector));
 					}

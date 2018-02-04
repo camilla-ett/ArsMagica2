@@ -2,7 +2,6 @@ package am2.common.blocks;
 
 import am2.common.blocks.tileentity.TileEntityCraftingAltar;
 import am2.common.defs.CreativeTabsDefs;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
@@ -16,7 +15,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class BlockCraftingAltar extends BlockContainer {
+public class BlockCraftingAltar extends BlockAMPowered {
 
 	public BlockCraftingAltar() {
 		super(Material.ROCK);

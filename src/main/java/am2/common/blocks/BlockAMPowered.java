@@ -72,7 +72,7 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 	
 	@Override
 	public BlockRenderLayer getBlockLayer() {
-		if (defaultRender) return BlockRenderLayer.CUTOUT;
+		//if (defaultRender) return BlockRenderLayer.CUTOUT;
 		return BlockRenderLayer.CUTOUT;
 	}
 	
