@@ -107,8 +107,7 @@ public class ContainerSpellBook extends Container{
 						Slot scrollSlot = (Slot)inventorySlots.get(n);
 						if (scrollSlot.getHasStack()) continue;
 
-						ItemStack newStack = new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage());
-						newStack.setTagCompound(itemstack1.getTagCompound());
+						ItemStack newStack = itemstack1.copy();
 
 						scrollSlot.putStack(newStack);
 						scrollSlot.onSlotChanged();
@@ -130,8 +129,7 @@ public class ContainerSpellBook extends Container{
 						Slot scrollSlot = (Slot)inventorySlots.get(n);
 						if (scrollSlot.getHasStack()) continue;
 
-						ItemStack newStack = new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage());
-						newStack.setTagCompound(itemstack1.getTagCompound());
+						ItemStack newStack = itemstack1.copy();
 
 						scrollSlot.putStack(newStack);
 						scrollSlot.onSlotChanged();

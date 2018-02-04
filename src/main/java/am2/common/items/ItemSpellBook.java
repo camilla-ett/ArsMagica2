@@ -139,17 +139,13 @@ public class ItemSpellBook extends ItemArsMagica{
 		NBTTagList list = new NBTTagList();
 		for (int i = 0; i < values.length; ++i){
 			ItemStack stack = values[i];
-			NBTTagCompound spell = new NBTTagCompound();
-			if (stack != null){
-				spell.setInteger("meta", stack.getItemDamage());
-				spell.setInteger("index", i);
-				if (stack.getTagCompound() != null){
-					spell.setTag("data", stack.getTagCompound());
-				}
-				list.appendTag(spell);
+			NBTTagCompound tag = new NBTTagCompound();
+			if (stack != null) {
+				tag.setShort("Slot", (short)i);
+				stack.writeToNBT(tag);
+				list.appendTag(tag);
 			}
 		}
-
 		itemStack.getTagCompound().setTag("spell_book_inventory", list);
 
 		ItemStack active = GetActiveItemStack(itemStack);
@@ -213,34 +209,13 @@ public class ItemSpellBook extends ItemArsMagica{
 			return new ItemStack[InventorySpellBook.inventorySize];
 		}
 		ItemStack[] items = new ItemStack[InventorySpellBook.inventorySize];
-		/*for (int i = 0; i < items.length; ++i){
-			if (!itemStack.stackTagCompound.hasKey("spellbookitem" + i) || itemStack.stackTagCompound.getInteger("spellbookitem" + i) == -1){
-				items[i] = null;
-				continue;
-			}
-			int id = itemStack.stackTagCompound.getInteger("spellbookitem" + i);
-			int meta = 0;
-			NBTTagCompound compound = null;
-
-			if (itemStack.stackTagCompound.hasKey("spellbookmeta" + i))
-				meta = itemStack.stackTagCompound.getInteger("spellbookmeta" + i);
-			if (itemStack.stackTagCompound.hasKey("spellbooktag" + i))
-				compound = itemStack.stackTagCompound.getCompoundTag("spellbooktag" + i);
-			items[i] = new ItemStack(Item.itemsList[id], 1, meta);
-			if (compound != null){
-				items[i].stackTagCompound = compound;
-			}
-		}*/
-
 		NBTTagList list = itemStack.getTagCompound().getTagList("spell_book_inventory", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < list.tagCount(); ++i){
-			NBTTagCompound spell = (NBTTagCompound)list.getCompoundTagAt(i);
-			int meta = spell.getInteger("meta");
-			NBTTagCompound tag = spell.getCompoundTag("data");
-			int index = spell.getInteger("index");
-			items[index] = new ItemStack(ItemDefs.spell, 1, meta);
-			items[index].setTagCompound(tag);
-
+			NBTTagCompound spell = list.getCompoundTagAt(i);
+			short slot = spell.getShort("Slot");
+			ItemStack is = ItemStack.loadItemStackFromNBT(spell);
+			if (is != null)
+				items[slot] = is;
 		}
 		return items;
 	}

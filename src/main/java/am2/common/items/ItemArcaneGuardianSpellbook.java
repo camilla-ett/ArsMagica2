@@ -10,7 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.resources.I18n;
 
-public class ItemArcaneGuardianSpellbook extends ItemSpellBook{
+public class ItemArcaneGuardianSpellbook extends ItemSpellBook {
 
 	public ItemArcaneGuardianSpellbook(){
 		super();
