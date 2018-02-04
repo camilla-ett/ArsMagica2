@@ -1,5 +1,6 @@
 package am2.api.spell;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,9 +49,14 @@ public class SpellData {
 			buf.writeNBTTagCompoundToBuffer(value.isPresent() ? value.orNull().writeToNBT(new NBTTagCompound()) : null);
 		}
 
-		public Optional<SpellData> read(PacketBuffer buf) throws java.io.IOException {
-			NBTTagCompound tag = buf.readNBTTagCompoundFromBuffer();
-			return Optional.fromNullable(tag != null ? readFromNBT(tag) : null);
+		public Optional<SpellData> read(PacketBuffer buf) throws IOException {
+			try {
+				NBTTagCompound tag = buf.readNBTTagCompoundFromBuffer();
+				return Optional.fromNullable(tag != null ? readFromNBT(tag) : null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return Optional.absent();
 		}
 
 		public DataParameter<Optional<SpellData>> createKey(int id) {
