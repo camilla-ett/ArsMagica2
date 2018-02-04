@@ -1,6 +1,9 @@
 package am2.common.power;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.util.text.TextFormatting;
 
@@ -65,6 +68,15 @@ public class PowerTypes {
 	
 	public float getOutputMultiplier() {
 		return outputMultiplier;
+	}
+	
+	public static List<PowerTypes> getTypes(int integer) {
+		ImmutableList.Builder<PowerTypes> builder = ImmutableList.builder();
+		for (PowerTypes type : all()) {
+			if ((type.ID & integer) == type.ID)
+				builder.add(type);
+		}
+		return builder.build();
 	}
 
 	public static PowerTypes getByID(int integer) {

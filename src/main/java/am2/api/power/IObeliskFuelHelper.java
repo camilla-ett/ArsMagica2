@@ -1,15 +1,16 @@
 package am2.api.power;
 
+import java.util.function.Function;
+
 import net.minecraft.item.ItemStack;
 
 public interface IObeliskFuelHelper{
 	/**
-	 * Registers a new fuel type for the obelisk to burn
-	 *
-	 * @param stack    The stack to use as a comparator (stackSize is ignored, just use 1)
-	 * @param burnTime How long the obelisk should burn for when given one of these items
+	 * Register a fuel type adapter for the obelisk.
+	 * 
+	 * @param func : A function that takes an {@link ItemStack} and gives an integer with the burn value. Values of 0 or less are ignored.
 	 */
-	public void registerFuelType(ItemStack stack, int burnTime);
+	public void registerFuelType(Function<ItemStack, Integer> func);
 
 	/**
 	 * Retrieves the burn time for the specified stack.  Returns 0 if it is not a valid fuel.

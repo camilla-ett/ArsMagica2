@@ -274,7 +274,7 @@ public class EntityHandler {
 	}
 	
 	private void sendUpdate(EntityLivingBase ent, byte id, byte[] data) {
-		AMNetHandler.INSTANCE.sendPacketToAllClientsNear(ent.dimension, ent.posX, ent.posY, ent.posZ, 64, id, new AMDataWriter().add(ent.getEntityId()).add(data).generate());		
+		AMNetHandler.INSTANCE.sendPacketToAllClientsNear(ent.dimension, ent.posX, ent.posY, ent.posZ, 64, id, new AMDataWriter().add(ent.getEntityId()).add(data).generate());
 	}
 	
 	@SubscribeEvent

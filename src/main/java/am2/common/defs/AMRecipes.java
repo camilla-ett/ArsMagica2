@@ -7,9 +7,9 @@ import am2.api.affinity.Affinity;
 import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.common.LogHelper;
 import am2.common.ObeliskFuelHelper;
-import am2.common.blocks.BlockCrystalMarker;
 import am2.common.blocks.BlockArsMagicaBlock.EnumBlockType;
 import am2.common.blocks.BlockArsMagicaOre.EnumOreType;
+import am2.common.blocks.BlockCrystalMarker;
 import am2.common.items.ItemBindingCatalyst;
 import am2.common.items.ItemCore;
 import am2.common.items.ItemKeystoneDoor;
@@ -26,6 +26,8 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.PotionUtils;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -46,8 +48,18 @@ public class AMRecipes {
 			'S', "stone"
 		}));
 		
-		ObeliskFuelHelper.instance.registerFuelType(new ItemStack(ItemDefs.itemOre, 0, ItemOre.META_VINTEUM), 200);
-		ObeliskFuelHelper.instance.registerFuelType(UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, BlockDefs.liquid_essence), 2000);
+		ObeliskFuelHelper.instance.registerFuelType(s -> {
+			if (s.getItem() == ItemDefs.itemOre && s.getItemDamage() == ItemOre.META_VINTEUM)
+				return 200;
+			return 0;
+		});
+		ObeliskFuelHelper.instance.registerFuelType(s -> {
+			UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, BlockDefs.liquid_essence);
+			FluidStack stack = FluidUtil.getFluidContained(s);
+			if (stack == null || stack.getFluid() != BlockDefs.liquid_essence)
+				return 0;
+			return stack.amount * 2;
+		});
 		
 		for (AbstractFlickerFunctionality func : ArsMagicaAPI.getFlickerFocusRegistry().getValues()) {
 			if (func != null) {

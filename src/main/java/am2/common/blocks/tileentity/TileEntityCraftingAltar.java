@@ -104,7 +104,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	private int currentConsumedPower = 0;
 	private int ticksExisted = 0;
-	private PowerTypes currentMainPowerTypes = PowerTypes.NONE;
+	private ArrayList<PowerTypes> currentMainPowerTypes = Lists.newArrayList();
 	
 	private static final byte CRAFTING_CHANGED = 1;
 	private static final byte COMPONENT_ADDED = 2;
@@ -150,55 +150,6 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	}
 	
 	private void setupMultiblock(){
-		
-//		capsPower.put(Blocks.GLASS.getDefaultState(), 1);
-//		capsPower.put(Blocks.COAL_BLOCK.getDefaultState(), 2);
-//		capsPower.put(Blocks.REDSTONE_BLOCK.getDefaultState(), 3);
-//		capsPower.put(Blocks.IRON_BLOCK.getDefaultState(), 4);
-//		capsPower.put(Blocks.LAPIS_BLOCK.getDefaultState(), 5);
-//		capsPower.put(Blocks.GOLD_BLOCK.getDefaultState(), 6);
-//		capsPower.put(Blocks.DIAMOND_BLOCK.getDefaultState(), 7);
-//		capsPower.put(Blocks.EMERALD_BLOCK.getDefaultState(), 8);
-//		capsPower.put(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE), 9);
-//		capsPower.put(BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE), 10);
-		
-//		structurePower.put(Blocks.PLANKS.getDefaultState(), 1);
-//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), 1);
-//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), 1);
-//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), 1);
-//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), 1);
-//		structurePower.put(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), 1);
-//		structurePower.put(Blocks.NETHER_BRICK.getDefaultState(), 3);
-//		structurePower.put(Blocks.QUARTZ_BLOCK.getDefaultState(), 3);
-//		structurePower.put(Blocks.STONEBRICK.getDefaultState(), 1);
-//		structurePower.put(Blocks.SANDSTONE.getDefaultState(), 1);
-//		structurePower.put(Blocks.PURPUR_BLOCK.getDefaultState(), 4);
-//		structurePower.put(Blocks.BRICK_BLOCK.getDefaultState(), 2);
-//		structurePower.put(Blocks.RED_SANDSTONE.getDefaultState(), 2);
-
-		
-//		HashMap<Integer, IBlockState> glass = new HashMap<>();
-//		HashMap<Integer, IBlockState> coal = new HashMap<>();
-//		HashMap<Integer, IBlockState> redstone = new HashMap<>();
-//		HashMap<Integer, IBlockState> iron = new HashMap<>();
-//		HashMap<Integer, IBlockState> lapis = new HashMap<>();
-//		HashMap<Integer, IBlockState> gold = new HashMap<>();
-//		HashMap<Integer, IBlockState> diamond = new HashMap<>();
-//		HashMap<Integer, IBlockState> emerald = new HashMap<>();
-//		HashMap<Integer, IBlockState> moonstone = new HashMap<>();
-//		HashMap<Integer, IBlockState> sunstone = new HashMap<>();
-//		glass.put(0, Blocks.GLASS.getDefaultState());
-//		coal.put(0, Blocks.COAL_BLOCK.getDefaultState());
-//		redstone.put(0, Blocks.REDSTONE_BLOCK.getDefaultState());
-//		iron.put(0, Blocks.IRON_BLOCK.getDefaultState());
-//		lapis.put(0, Blocks.LAPIS_BLOCK.getDefaultState());
-//		gold.put(0, Blocks.GOLD_BLOCK.getDefaultState());
-//		diamond.put(0, Blocks.DIAMOND_BLOCK.getDefaultState());
-//		emerald.put(0, Blocks.EMERALD_BLOCK.getDefaultState());
-//		moonstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.MOONSTONE));
-//		sunstone.put(0, BlockDefs.blocks.getDefaultState().withProperty(BlockArsMagicaBlock.BLOCK_TYPE, BlockArsMagicaBlock.EnumBlockType.SUNSTONE));
-		
-		
 		ArrayList<HashMap<Integer, IBlockState>> structureMaterials = new ArrayList<>();
 		for (Entry<KeyValuePair<IBlockState, IBlockState>, Integer> entry : CraftingAltarMaterials.getMainMap().entrySet()) {
 			structureMaterials.add(createStateMap(entry.getKey().key, entry.getKey().value));
@@ -619,15 +570,16 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				int flags = stack.getItemDamage();
 				setPowerRequests();
 				pickPowerType(stack);
-				if (this.currentMainPowerTypes != PowerTypes.NONE && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.currentMainPowerTypes, 100)){
-					currentConsumedPower += PowerNodeRegistry.For(worldObj).consumePower(this, this.currentMainPowerTypes, Math.min(100, stack.stackSize - currentConsumedPower));
+				for (PowerTypes type : this.currentMainPowerTypes) {
+					if (PowerNodeRegistry.For(this.worldObj).checkPower(this, type, Math.max(0, Math.min(100, stack.stackSize - currentConsumedPower)))) {
+						currentConsumedPower += PowerNodeRegistry.For(worldObj).consumePower(this, type, Math.min(100, stack.stackSize - currentConsumedPower));
+					}
 				}
 				if (currentConsumedPower >= stack.stackSize){
-					PowerNodeRegistry.For(this.worldObj).setPower(this, this.currentMainPowerTypes, 0);
+					System.out.println(currentConsumedPower + " vs " + stack.stackSize);
+					//PowerNodeRegistry.For(this.worldObj).setPower(this, this.currentMainPowerTypes, 0);
 					if (!worldObj.isRemote)
 						addItemToRecipe(new ItemStack(ItemDefs.etherium, stack.stackSize, flags));
-					currentConsumedPower = 0;
-					currentMainPowerTypes = PowerTypes.NONE;
 					setNoPowerRequests();
 					flipSwitch();
 				}
@@ -642,23 +594,16 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	@Override
 	protected void setNoPowerRequests(){
 		currentConsumedPower = 0;
-		currentMainPowerTypes = PowerTypes.NONE;
+		currentMainPowerTypes.clear();
 
 		super.setNoPowerRequests();
 	}
 
 	private void pickPowerType(ItemStack stack){
-		if (this.currentMainPowerTypes != PowerTypes.NONE)
+		if (!this.currentMainPowerTypes.isEmpty())
 			return;
-		PowerTypes highestValid = PowerTypes.NONE;
-		float amt = 0;
-		for (PowerTypes type : PowerTypes.all()){
-			float tmpAmt = PowerNodeRegistry.For(worldObj).getPower(this, type);
-			if (tmpAmt > amt)
-				highestValid = type;
-		}
-
-		this.currentMainPowerTypes = highestValid;
+		List<PowerTypes> valids = PowerTypes.getTypes(stack.getItemDamage());
+		this.currentMainPowerTypes.addAll(valids);
 	}
 
 	private void updateCurrentRecipe(EntityItem item){
