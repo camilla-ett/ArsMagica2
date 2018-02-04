@@ -49,7 +49,7 @@ public class SpellData {
 			buf.writeNBTTagCompoundToBuffer(value.isPresent() ? value.orNull().writeToNBT(new NBTTagCompound()) : null);
 		}
 
-		public Optional<SpellData> read(PacketBuffer buf) throws IOException {
+		public Optional<SpellData> read(PacketBuffer buf) {
 			try {
 				NBTTagCompound tag = buf.readNBTTagCompoundFromBuffer();
 				return Optional.fromNullable(tag != null ? readFromNBT(tag) : null);
