@@ -33,12 +33,14 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.potion.Potion;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -212,8 +214,6 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				if (entity instanceof EntityPlayer){
 					EntityPlayer player = (EntityPlayer)entity;
 					if (player.isPotionActive(PotionEffectsDefs.HASTE) && player.isPotionActive(Potion.getPotionFromResourceLocation("speed")) && player.isSprinting()){
-						//if (worldObj.isRemote)
-						//player.addStat(ArsMagica2.achievements.EightyEightMilesPerHour, 1);
 						this.key = 0;
 						if (!worldObj.isRemote){
 							EntityLightningBolt elb = new EntityLightningBolt(worldObj, pos.getX(), pos.getY(), pos.getZ(), false);
@@ -272,11 +272,10 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 		AMVector3 newLocation = ArsMagica2.proxy.blocks.getNextKeystonePortalLocation(this.worldObj, pos, false, this.key);
 		AMVector3 myLocation = new AMVector3(pos);
-
 		double distance = myLocation.distanceTo(newLocation);
-		float essenceCost = (float)(Math.pow(distance, 2) * 0.00175f);
+		float essenceCost = (float)(distance * distance * 0.00175f);
 
-		int meta = getBlockMetadata();
+		EnumFacing facing = worldObj.getBlockState(newLocation.toBlockPos()).getValue(BlockKeystoneReceptacle.FACING);
 
 		if (ArsMagica2.config.getHazardousGateways()){
 			//uh-oh!  Not enough power!  The teleporter will still send you though, but I wonder where...
@@ -293,38 +292,44 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				double newX = myLocation.x + (Math.cos(angleH) * distanceWeCanGo);
 				double newZ = myLocation.z + (Math.sin(angleH) * distanceWeCanGo);
 				double newY = myLocation.y;
-
-				while (worldObj.isAirBlock(new BlockPos(newX, newY, newZ))){
+				
+				while (!worldObj.isAirBlock(new BlockPos(newX, newY, newZ))){
 					newY++;
 				}
 
 				newLocation = new AMVector3(newX, newY, newZ);
 			}
 		}else{
-			this.worldObj.playSound(newLocation.x, newLocation.y, newLocation.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
-			return;
+			//this.worldObj.playSound(newLocation.x, newLocation.y, newLocation.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
+			//return;
 		}
 
 
 		float newRotation = 0;
-		switch (meta){
-		case 0:
+		switch (facing){
+		case EAST:
 			newRotation = 270;
 			break;
-		case 1:
+		case NORTH:
 			newRotation = 180;
 			break;
-		case 2:
+		case WEST:
 			newRotation = 90;
 			break;
-		case 3:
+		case SOUTH:
 			newRotation = 0;
 			break;
+		default:
+			break;
 		}
-		entity.setPositionAndRotation(newLocation.x + 0.5, newLocation.y - entity.height, newLocation.z + 0.5, newRotation, entity.rotationPitch);
+		//entity.setPositionAndRotation(newLocation.x + 0.5, newLocation.y - entity.height, newLocation.z + 0.5, newRotation, entity.rotationPitch);
+		if (entity instanceof EntityPlayer)
+			((EntityPlayer) entity).addStat(StatList.getObjectUseStats(Item.getItemFromBlock(blockType)));
 
 		PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), essenceCost);
-
+		
+		entity.rotationYaw = newRotation;
+		entity.setPositionAndUpdate(newLocation.x + 0.5F, newLocation.y - entity.height, newLocation.z + 0.5);
 		this.worldObj.playSound(myLocation.x, myLocation.y, myLocation.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
 		this.worldObj.playSound(newLocation.x, newLocation.y, newLocation.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
 	}
@@ -501,7 +506,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	@Override
 	public int getChargeRate(){
-		return 5;
+		return 200; //A whole lot of nope.
 	}
 
 	@Override
