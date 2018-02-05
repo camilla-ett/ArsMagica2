@@ -1,0 +1,18 @@
+language: java
+sudo: false
+jdk: oraclejdk8
+before_install:
+- chmod +x gradlew
+script:
+- "./gradlew check"
+deploy:
+  provider: releases
+  api_key:
+    secure: NZCYTEeQ0KGMKpa+BMu6PggzNNvo6/RQLvoiIRp6vdubL83Cota5mt9IBJ7KE6e9HsAxMRf2gGV5yTCEW91/YA6V2vXRsf3PYHzdxsKVjgnmmBlGXW9KLm9zidx4kbF+DVF2h5nxNu0rMRYWis8SJgjkMnmgQIlUHrBUz9SOikcw4cY+vqz7ZJx28gzZhVk/bsoYroCho5wWBWgcczizZ3WXRM2CO9zko7C2jVOv/B+oanzgpU6039zdKJLbOZyelzuyIyEOivWNyWFn8foHpu8samgP1X/ChKkK6kF3jH+RqHdtbvMgF4U6xUt838vAdzT8OR3qKJ+oxQg1xr3e6bp16Oc1J6uOBVjZ1eoJ/ZxngXdaDHYmqlH4iZRGDzQ8MYsbBCicmDnxuhp60WkNOSGlTk4ZU6vulbfLRyImbcRyZXuFG7+q7JSmDe+UuTc76fGeXGLcPN3Ycu9Kfq0XkhBAVQ+b50xox0j4hY+7zO0dZ1PJSJ9OHDowL5t9wAzE83s2J6IDusR9TpVR+JoCT9lPzjZHPE/AzpQ2BC6NvDL3oK8kXywI0SjlYEdGlSrrLO71rzARopPFthDBDEr/+pjN3xeoCmreplbv+qcTQ5hlqj+IuKHZORbX1qChgc+VQzcUpVLhucAXtiTWO9mMUhdCnBCo4wbuTUjU/UJ4vE4=
+  file: "${HOME}/build/libs/*.jar"
+  file_glob: "true"
+  skip_cleanup: true 
+  on:
+    repo: EdwinMindcraft/ArsMagica2
+    branch: 1.10.2
+    tags: true

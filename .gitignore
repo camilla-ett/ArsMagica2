@@ -45,6 +45,5 @@ LICENSE-fml.txt
 MinecraftForge-Credits.txt
 MinecraftForge-License.txt
 *.launch
-.travis.yml
 build_travis.sh
 build.bat
