@@ -1,12 +1,12 @@
 language: java
 sudo: false
 jdk: oraclejdk8
-env:
-- TRAVIS_TAG=v1.5.0-$TRAVIS_BUILD_NUMBER
 before_install:
 - chmod +x gradlew
+install: 
+- "./gradlew setupCIWorkspace"
 script:
-- "./gradlew check"
+- "./gradlew build"
 deploy:
   provider: releases
   api_key:
