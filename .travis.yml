@@ -1,6 +1,8 @@
 language: java
 sudo: false
 jdk: oraclejdk8
+env:
+- TRAVIS_TAG=v1.5.0-$TRAVIS_BUILD_ID
 before_install:
 - chmod +x gradlew
 script:
