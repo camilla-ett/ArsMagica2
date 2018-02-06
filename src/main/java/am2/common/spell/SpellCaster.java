@@ -105,7 +105,7 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 		stages.add(stage);
 		NBTTagCompound storedData = this.storedData.copy();
 		storedData.merge(this.getStoredData(getCurrentShapeGroup()).copy());
-		return new SpellData(source, stages, uuid, new NBTTagCompound());
+		return new SpellData(source, stages, uuid, storedData);
 	}
 
 	@Override
@@ -380,7 +380,9 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 
 	@Override
 	public NBTTagCompound getCommonStoredData() {
-		return this.storedData == null ? new NBTTagCompound() : storedData;
+		if (this.storedData == null)
+			this.storedData = new NBTTagCompound();
+		return storedData;
 	}
 
 	@Override

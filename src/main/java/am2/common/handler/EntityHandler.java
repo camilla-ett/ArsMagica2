@@ -271,6 +271,8 @@ public class EntityHandler {
 				ext.setContingency(ContingencyType.NULL, null);
 			}
 		}
+		if (EntityUtils.isSummonExpired(event.getEntityLiving()))
+			event.getEntityLiving().setDead();
 	}
 	
 	private void sendUpdate(EntityLivingBase ent, byte id, byte[] data) {

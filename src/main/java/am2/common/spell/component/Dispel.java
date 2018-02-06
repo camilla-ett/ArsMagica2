@@ -73,19 +73,21 @@ public class Dispel extends SpellComponent{
 
 		if (!world.isRemote)
 			removePotionEffects((EntityLivingBase)target, effectsToRemove);
-		//TODO:
-		/*if (ExtendedProperties.For((EntityLivingBase)target).getNumSummons() > 0){
+		
+		if (EntityExtension.For((EntityLivingBase)target).getCurrentSummons() > 0){
 			if (!world.isRemote){
-				Iterator it = world.loadedEntityList.iterator();
+				Iterator<Entity> it = world.loadedEntityList.iterator();
+				int i = EntityExtension.For((EntityLivingBase)target).getCurrentSummons();
 				while (it.hasNext()){
 					Entity ent = (Entity)it.next();
-					if (ent instanceof EntitySummonedCreature && ((EntitySummonedCreature)ent).GetOwningEntity() == target){
-						ent.attackEntityFrom(DamageSource.outOfWorld, 5000);
-						break;
+					if (ent instanceof EntityLivingBase && EntityUtils.isSummon((EntityLivingBase) ent) && EntityUtils.getOwner((EntityLivingBase) ent) == target.getEntityId()){
+						ent.setDead();
+						if (--i <= 0)
+							break;
 					}
 				}
 			}
-		}*/
+		}
 		return true;
 	}
 	

@@ -199,6 +199,17 @@ public class EntityUtils {
 		entity.getEntityData().setInteger(summonDurationKey, duration);
 	}
 	
+	public static boolean isSummonExpired(EntityLivingBase entity) {
+		if (entity.getEntityData() == null || !isSummon(entity))
+			return false;
+		int duration = entity.getEntityData().getInteger(summonDurationKey);
+		if (duration <= 0)
+			return false;
+		if (entity.ticksExisted > duration)
+			return true;
+		return false;
+	}
+	
 	public static int getOwner(EntityLivingBase entityliving){
 		if (!isSummon(entityliving)) return -1;
 		Integer ownerID = entityliving.getEntityData().getInteger(summonOwnerKey);

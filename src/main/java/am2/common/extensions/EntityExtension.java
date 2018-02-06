@@ -25,6 +25,7 @@ import am2.common.packet.AMDataWriter;
 import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMPacketIDs;
 import am2.common.spell.ContingencyType;
+import am2.common.utils.EntityUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -458,10 +459,11 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	}
 	
 	private void verifySummons(){
+		this.setCurrentSummons(summon_ent_ids.size());
 		for (int i = 0; i < summon_ent_ids.size(); ++i){
 			int id = summon_ent_ids.get(i);
 			Entity e = entity.worldObj.getEntityByID(id);
-			if (e == null || !(e instanceof EntityLivingBase)){
+			if (e == null || !(e instanceof EntityLivingBase) || EntityUtils.getOwner((EntityLivingBase) e) != entity.getEntityId()){
 				summon_ent_ids.remove(i);
 				i--;
 				removeSummon();
