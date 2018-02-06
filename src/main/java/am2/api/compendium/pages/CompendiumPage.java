@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import am2.api.ArsMagicaAPI;
-import am2.api.blocks.MultiblockStructureDefinition;
+import am2.api.blocks.IMultiblock;
 import am2.api.compendium.wrapper.StackMapWrapper;
 import am2.api.rituals.IRitualInteraction;
 import am2.api.skill.Skill;
@@ -43,7 +43,7 @@ public abstract class CompendiumPage<E> {
 		registerPageType(PageText.class, String.class);
 		registerPageType(PageSpellComponent.class, AbstractSpellPart.class);
 		registerPageType(PageStackMap.class, StackMapWrapper.class);
-		registerPageType(PageMultiblock.class, MultiblockStructureDefinition.class);
+		registerPageType(PageMultiblock.class, IMultiblock.class);
 		registerPageType(PageRitual.class, IRitualInteraction.Wrapper.class);
 		registerPageType(PageSkill.class, Skill.class);
 		registerPageType(PageEntity.class, Entity.class);

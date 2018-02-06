@@ -1,7 +1,5 @@
 package am2.common.blocks.tileentity;
 
-import am2.api.IMultiblockStructureController;
-import am2.api.blocks.MultiblockStructureDefinition;
 import am2.common.armor.ArmorHelper;
 import am2.common.power.PowerTypes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,22 +13,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.Constants;
 
-// public class TileEntityArmorImbuer extends TileEntityAMPower implements IInventory, IKeystoneLockable, IMultiblockStructureController{
-public class TileEntityArmorImbuer extends TileEntityAMPower implements IInventory, IMultiblockStructureController{
+public class TileEntityArmorImbuer extends TileEntityAMPower implements IInventory {
 
 	private ItemStack[] inventory;
-	private MultiblockStructureDefinition def;
 	private boolean creativeModeAllowed;
 
 	public TileEntityArmorImbuer(){
 		super(5);
 		inventory = new ItemStack[getSizeInventory()];
-		setupMultiblock();
-	}
-
-	private void setupMultiblock(){
-		def = new MultiblockStructureDefinition("armorInfuser");
-
 	}
 
 	@Override
@@ -196,11 +186,6 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 	@Override
 	public boolean hasCustomName(){
 		return false;
-	}
-
-	@Override
-	public MultiblockStructureDefinition getDefinition(){
-		return def;
 	}
 
 	public void imbueCurrentArmor(ResourceLocation string){

@@ -59,12 +59,9 @@ public class SpellParticleRender extends ItemOverrideList{
 	
 	@Override
 	public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
-		if (world == null || entity == null)
+		if (world == null || entity == null || !Minecraft.getMinecraft().inGameHasFocus || !renderItem(stack, entity))
 			return super.handleItemState(originalModel, stack, world, entity);
-		if (!Minecraft.getMinecraft().inGameHasFocus)
-			return super.handleItemState(originalModel, stack, world, entity);
-		renderItem(stack, entity);
-		return new BakedBlank();//model != null ? model : super.handleItemState(originalModel, stack, world, entity);
+		return new BakedBlank();
 	}
 	
 	private class BakedBlank implements IBakedModel {
@@ -105,9 +102,10 @@ public class SpellParticleRender extends ItemOverrideList{
 		}
 	}
 	
-	public void renderItem(ItemStack item, EntityLivingBase entity){
+	public boolean renderItem(ItemStack item, EntityLivingBase entity){
 
-		if (mc.thePlayer.isPotionActive(Potion.getPotionFromResourceLocation("invisibility"))) return;
+		if (mc.thePlayer.isPotionActive(Potion.getPotionFromResourceLocation("invisibility")))
+			return true;
 
 		ItemStack scrollStack = null;
 		if (item.getItem() instanceof ItemSpellBase){
@@ -116,13 +114,16 @@ public class SpellParticleRender extends ItemOverrideList{
 			scrollStack = ((ItemSpellBook)item.getItem()).getActiveScrollInventory(item)[((ItemSpellBook)item.getItem()).GetActiveSlot(item)];
 		}
 
-		if (scrollStack == null) return;
+		if (scrollStack == null)
+			return false;
 		ISpellCaster caster = scrollStack.getCapability(SpellCaster.INSTANCE, null);
-		if (caster == null) return;
+		if (caster == null) 
+			return false;
 		
 		Affinity affinity = caster.createSpellData(scrollStack).getMainShift();
 
 		renderEffect(affinity, true, entity);
+		return true;
 	}
 
 	public void renderEffect(Affinity affinity, boolean includeArm, EntityLivingBase entity){
@@ -247,79 +248,6 @@ public class SpellParticleRender extends ItemOverrideList{
 		}
 
 		GlStateManager.enableCull();
-
-		// GL11.glMatrixMode(GL11.GL_MODELVIEW);
-		// float par1 = 0.5f;
-		//
-		// float f1 = 1.0F;
-		// EntityPlayerSP entityclientplayermp = this.mc.thePlayer;
-		// if (entityclientplayermp == null) return;
-		// float f2 = entityclientplayermp.prevRotationPitch +
-		// (entityclientplayermp.rotationPitch -
-		// entityclientplayermp.prevRotationPitch) * par1;
-		// GL11.glPushMatrix();
-		// GL11.glRotatef(f2, 1.0F, 0.0F, 0.0F);
-		// GL11.glRotatef(entityclientplayermp.prevRotationYaw +
-		// (entityclientplayermp.rotationYaw -
-		// entityclientplayermp.prevRotationYaw) * par1, 0.0F, 1.0F, 0.0F);
-		// RenderHelper.enableStandardItemLighting();
-		// GL11.glPopMatrix();
-		// EntityPlayerSP entityplayersp = entityclientplayermp;
-		// float f3 = entityplayersp.prevRenderArmPitch +
-		// (entityplayersp.renderArmPitch - entityplayersp.prevRenderArmPitch) *
-		// par1;
-		// float f4 = entityplayersp.prevRenderArmYaw +
-		// (entityplayersp.renderArmYaw - entityplayersp.prevRenderArmYaw) *
-		// par1;
-		// GL11.glRotatef((entityclientplayermp.rotationPitch - f3) * 0.1F,
-		// 1.0F, 0.0F, 0.0F);
-		// GL11.glRotatef((entityclientplayermp.rotationYaw - f4) * 0.1F, 0.0F,
-		// 1.0F, 0.0F);
-		// int i = mc.theWorld.isBlockLoaded(entityclientplayermp.getPosition())
-		// ? mc.theWorld.getCombinedLight(entityclientplayermp.getPosition(), 0)
-		// : 0;
-		// int j = i % 65536;
-		// int k = i / 65536;
-		// OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, j
-		// / 1.0F, k / 1.0F);
-		// GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		// float f6;
-		// float f7;
-		// float f8;
-		//
-		// GL11.glPushMatrix();
-		// float f12 = 0.8F;
-		// f7 = entityclientplayermp.getSwingProgress(par1);
-		// f8 = MathHelper.sin(f7 * (float)Math.PI);
-		// f6 = MathHelper.sin(MathHelper.sqrt_float(f7) * (float)Math.PI);
-		// GL11.glTranslatef(-f6 * 0.3F,
-		// MathHelper.sin(MathHelper.sqrt_float(f7) * (float)Math.PI * 2.0F) *
-		// 0.4F, -f8 * 0.4F);
-		// GL11.glTranslatef(0.8F * f12, -0.75F * f12 - (1.0F - f1) * 0.6F,
-		// -0.9F * f12);
-		// GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-		// GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		// f7 = entityclientplayermp.getSwingProgress(par1);
-		// f8 = MathHelper.sin(f7 * f7 * (float)Math.PI);
-		// f6 = MathHelper.sin(MathHelper.sqrt_float(f7) * (float)Math.PI);
-		// GL11.glRotatef(f6 * 70.0F, 0.0F, 1.0F, 0.0F);
-		// GL11.glRotatef(-f8 * 20.0F, 0.0F, 0.0F, 1.0F);
-		// this.mc.getTextureManager().bindTexture(rLoc);//entityclientplayermp.getLocationSkin());
-		// GL11.glTranslatef(-1.0F, 3.6F, 3.5F);
-		// GL11.glRotatef(120.0F, 0.0F, 0.0F, 1.0F);
-		// GL11.glRotatef(200.0F, 1.0F, 0.0F, 0.0F);
-		// GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-		// GL11.glScalef(1.0F, 1.0F, 1.0F);
-		// GL11.glTranslatef(5.6F, 0.0F, 0.0F);
-		//
-		// float f = 1.0F;
-		// GL11.glColor3f(f, f, f);
-		//// this.modelBipedMain.onGround = 0.0F;
-		// this.modelBipedMain.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-		// 0.0625F, player);
-		// this.modelBipedMain.bipedRightArm.render(0.0625F);
-		// GL11.glPopMatrix();
-
 	}
 
 }

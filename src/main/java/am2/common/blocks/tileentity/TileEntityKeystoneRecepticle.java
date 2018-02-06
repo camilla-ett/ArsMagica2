@@ -9,10 +9,11 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
-import am2.api.IMultiblockStructureController;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.blocks.IMultiblock;
+import am2.api.blocks.IMultiblockController;
+import am2.api.blocks.Multiblock;
 import am2.api.blocks.MultiblockGroup;
-import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
 import am2.api.math.AMVector3;
 import am2.common.AMChunkLoader;
@@ -49,14 +50,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.Constants;
 
-public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements IInventory, IMultiblockStructureController, IKeystoneLockable<TileEntityKeystoneRecepticle>{
+public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements IInventory, IMultiblockController, IKeystoneLockable<TileEntityKeystoneRecepticle>{
 
 	private boolean isActive;
 	private long key;
 	private int surroundingCheckTicks = 20;
 
-	private final MultiblockStructureDefinition primary = new MultiblockStructureDefinition("gateways_alt");
-	private final MultiblockStructureDefinition secondary = new MultiblockStructureDefinition("gateways");
+	private final IMultiblock primary = new Multiblock("gateways_alt");
+	private final IMultiblock secondary = new Multiblock("gateways");
 
 	public static int keystoneSlot = 0;
 
@@ -242,6 +243,11 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		if (!checkStructure()){
 			deactivate();
 		}
+	}
+	
+	@Override
+	public boolean isStructureValid() {
+		return this.checkStructure();
 	}
 
 	private boolean checkStructure(){
@@ -493,9 +499,9 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		return false;
 	}
-
+	
 	@Override
-	public MultiblockStructureDefinition getDefinition(){
+	public IMultiblock getMultiblockStructure() {
 		return secondary;
 	}
 

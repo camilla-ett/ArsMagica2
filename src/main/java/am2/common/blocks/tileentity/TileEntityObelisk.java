@@ -1,8 +1,15 @@
 package am2.common.blocks.tileentity;
 
-import am2.api.IMultiblockStructureController;
+import java.util.HashMap;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
+import am2.api.blocks.IMultiblock;
+import am2.api.blocks.IMultiblockController;
+import am2.api.blocks.IMultiblockGroup;
+import am2.api.blocks.Multiblock;
 import am2.api.blocks.MultiblockGroup;
-import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
 import am2.common.ObeliskFuelHelper;
 import am2.common.buffs.BuffEffectManaRegen;
@@ -14,8 +21,6 @@ import am2.common.packet.AMNetHandler;
 import am2.common.power.PowerNodeRegistry;
 import am2.common.power.PowerTypes;
 import am2.common.utils.InventoryUtilities;
-
-import com.google.common.collect.Lists;
 import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,10 +39,7 @@ import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.HashMap;
-import java.util.List;
-
-public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockStructureController, IInventory, ITileEntityAMBase {
+public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockController, IInventory, ITileEntityAMBase {
 	protected static int pillarBlockID = 98; //stone brick
 	protected static int pillarBlockMeta = 3; //arcane texture
 	protected int surroundingCheckTicks;
@@ -53,14 +55,14 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 
 	private static final byte PK_BURNTIME_CHANGE = 1;
 
-	protected MultiblockStructureDefinition structure;
+	protected IMultiblock structure;
 	protected MultiblockGroup wizardChalkCircle;
 	protected MultiblockGroup pillars;
 	protected HashMap<IBlockState, Float> caps;
 	protected TypedMultiblockGroup capsGroup;
 
 	// obelisk rituals
-	protected MultiblockStructureDefinition[] rituals;
+	protected IMultiblock[] rituals;
 	protected MultiblockGroup ritual1Chalk;
 	protected MultiblockGroup ritual1Candles;
 	protected MultiblockGroup ritual2Chalk;
@@ -78,14 +80,14 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	}
 
 	protected void checkNearbyBlockState(){
-		List<MultiblockGroup> groups = structure.getMatchingGroups(worldObj, pos);
+		List<IMultiblockGroup> groups = structure.getMatchingGroups(worldObj, pos);
 
 		float capsLevel = 1;
 		boolean pillarsFound = false;
 		boolean wizChalkFound = false;
 		boolean capsFound = false;
 
-		for (MultiblockGroup group : groups){
+		for (IMultiblockGroup group : groups){
 			if (group == pillars)
 				pillarsFound = true;
 			else if (group == wizardChalkCircle)
@@ -120,7 +122,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 		setNoPowerRequests();
 		surroundingCheckTicks = 0;
 
-		structure = new MultiblockStructureDefinition("obelisk_structure");
+		structure = new Multiblock("obelisk_structure");
 		pillars = new MultiblockGroup("pillars", Lists.newArrayList(Blocks.STONEBRICK.getDefaultState()), false);
 		caps = new HashMap<>();
 		capsGroup = new TypedMultiblockGroup("caps", Lists.newArrayList(createMap(Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED))), false);
@@ -153,8 +155,8 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 		structure.addGroup(obelisk);
 
 		// Obelisk ritual - Light
-		rituals = new MultiblockStructureDefinition[2];
-		rituals[0] = new MultiblockStructureDefinition("obelisk_light");
+		rituals = new Multiblock[2];
+		rituals[0] = new Multiblock("obelisk_light");
 
 		ritual1Candles = new MultiblockGroup("candles", Lists.newArrayList(BlockDefs.wardingCandle.getDefaultState()), false);
 
@@ -165,7 +167,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 		//rituals[0].addGroup(obelisk);
 		rituals[0].addGroup(ritual1Candles);
 		// Obelisk ritual - Dark
-		rituals[1] = new MultiblockStructureDefinition("obelisk_dark");
+		rituals[1] = new Multiblock("obelisk_dark");
 	}
 
 	public boolean isActive(){
@@ -180,7 +182,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 		return burnTimeRemaining * par1 / maxBurnTime;
 	}
 
-	protected MultiblockGroup addWizChalkGroupToStructure(MultiblockStructureDefinition def){
+	protected MultiblockGroup addWizChalkGroupToStructure(IMultiblock def){
 		MultiblockGroup group = new MultiblockGroup("wizardChalkCircle", Lists.newArrayList(BlockDefs.wizardChalk.getDefaultState()), true);
 
 		for (int i = -1; i <= 1; ++i){
@@ -293,13 +295,13 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	public AxisAlignedBB getRenderBoundingBox(){
 		return new AxisAlignedBB(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 2, pos.getY() + 0.3, pos.getZ() + 2);
 	}
-
+	
 	@Override
-	public MultiblockStructureDefinition getDefinition(){
+	public IMultiblock getMultiblockStructure() {
 		return structure;
 	}
 
-	public MultiblockStructureDefinition getRitual(int index){
+	public IMultiblock getRitual(int index){
 		return rituals[index];
 	}
 
@@ -428,6 +430,11 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockS
 	@Override
 	public int getInventoryStackLimit(){
 		return 64;
+	}
+	
+	@Override
+	public boolean isStructureValid() {
+		return false;
 	}
 
 	@Override

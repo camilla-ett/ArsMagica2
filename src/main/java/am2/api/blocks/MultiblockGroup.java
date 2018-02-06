@@ -2,13 +2,13 @@ package am2.api.blocks;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.ImmutableList;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import com.google.common.collect.ImmutableList;
-
-public class MultiblockGroup {
+public class MultiblockGroup implements IMultiblockGroup{
 	
 	protected ArrayList<BlockPos> positions;
 	protected ArrayList<IBlockState> states;
@@ -22,14 +22,17 @@ public class MultiblockGroup {
 		this.name = name;
 	}
 	
+	@Override
 	public void addBlock(BlockPos position) {
 		positions.add(position);
 	}
 	
+	@Override
 	public void addState (IBlockState state) {
 		states.add(state);
 	}
 	
+	@Override
 	public boolean matches (World world, BlockPos startCheckPos) {
 		boolean flag = true;
 		for (BlockPos pos : positions) {
@@ -46,6 +49,7 @@ public class MultiblockGroup {
 				boolean subFlag = false;
 				for (IBlockState state : states) {
 					subFlag = world.getBlockState(startCheckPos.add(pos)).equals(state);
+					//System.out.println(this.name + " " + pos + " " + subFlag);
 					if (subFlag)
 						break;
 				}
@@ -60,22 +64,7 @@ public class MultiblockGroup {
 		return flag;
 	}
 	
-//	public boolean matches (World world, BlockPos startCheckPos) {
-//		boolean flag = false;
-//		for (int i = getMinX(); i < getMaxX() && !flag; i++) {
-//			for (int j = getMinY(); j < getMaxY() && !flag; j++) {
-//				for (int k = getMinZ(); k < getMaxZ() && !flag; k++) {
-//					BlockPos toAdd = new BlockPos(i, j, k);
-//					for (int l = 0; l < 4 && !flag; l++) {
-//						MultiblockGroup group = rotate(l);
-//						flag = group.matches_internal(world, startCheckPos.add(toAdd));
-//					}
-//				}
-//			}
-//		}
-//		return flag;
-//	}
-	
+	@Override
 	public int getMinX () {
 		int min = Integer.MAX_VALUE;
 		for (BlockPos pos : positions) {
@@ -85,6 +74,7 @@ public class MultiblockGroup {
 		return min;
 	}
 	
+	@Override
 	public int getMinY () {
 		int min = Integer.MAX_VALUE;
 		for (BlockPos pos : positions) {
@@ -94,6 +84,7 @@ public class MultiblockGroup {
 		return min;
 	}
 	
+	@Override
 	public int getMinZ () {
 		int min = Integer.MAX_VALUE;
 		for (BlockPos pos : positions) {
@@ -103,29 +94,32 @@ public class MultiblockGroup {
 		return min;
 	}
 	
+	@Override
 	public int getMaxX () {
 		int max = Integer.MIN_VALUE;
 		for (BlockPos pos : positions) {
-			if (pos.getX() > max)
-				max = pos.getX();
+			if (pos.getX() + 1 > max)
+				max = pos.getX() + 1;
 		}
 		return max;
 	}
 	
+	@Override
 	public int getMaxY () {
 		int max = Integer.MIN_VALUE;
 		for (BlockPos pos : positions) {
-			if (pos.getY() > max)
-				max = pos.getY();
+			if (pos.getY() + 1 > max)
+				max = pos.getY() + 1;
 		}
 		return max;
 	}
 	
+	@Override
 	public int getMaxZ () {
 		int max = Integer.MIN_VALUE;
 		for (BlockPos pos : positions) {
-			if (pos.getZ() > max)
-				max = pos.getZ();
+			if (pos.getZ() + 1 > max)
+				max = pos.getZ() + 1;
 		}
 		return max;
 	}
@@ -160,11 +154,18 @@ public class MultiblockGroup {
 		return group;
 	}
 	
+	@Override
 	public ImmutableList<BlockPos> getPositions() {
 		return ImmutableList.copyOf(positions);
 	}
 	
+	@Override
 	public ImmutableList<IBlockState> getStates() {
 		return ImmutableList.copyOf(states);
+	}
+
+	@Override
+	public ArrayList<IBlockState> getState(BlockPos pos) {
+		return states;
 	}
 }

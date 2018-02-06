@@ -3,38 +3,42 @@ package am2.api.blocks;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import am2.client.gui.AMGuiHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class MultiblockStructureDefinition {
+public class Multiblock implements IMultiblock{
 	
-	public ArrayList<List<MultiblockGroup>> groups;
-	String id;
+	public ArrayList<List<IMultiblockGroup>> groups;
+	protected ResourceLocation id;
 	
-	public MultiblockStructureDefinition(String id) {
+	public Multiblock(ResourceLocation id) {
 		groups = new ArrayList<>();
 		this.id = id;
 	}
 	
-	public void addGroup (MultiblockGroup group, MultiblockGroup... rest) {
+	public Multiblock(String id) {
+		this(new ResourceLocation(id));
+	}
+	
+	@Override
+	public void addGroup (IMultiblockGroup group, IMultiblockGroup... rest) {
 		groups.add(Lists.asList(group, rest));
 	}
 	
+	@Override
 	public boolean matches (World world, BlockPos startCheckPos) {
 		boolean subFlag = true;
-		for (List<MultiblockGroup> subGroup : groups) {
+		for (List<IMultiblockGroup> subGroup : groups) {
 			boolean groupCheck = false;
 			boolean hasCheck = false;
-			for (MultiblockGroup group : subGroup) {
+			for (IMultiblockGroup group : subGroup) {
 				hasCheck = true;
 				groupCheck |= group.matches(world, startCheckPos);
-				//System.out.println(group.name + " " +groupCheck);
 			}
 			if (hasCheck)
 				subFlag &= groupCheck;
@@ -42,10 +46,11 @@ public class MultiblockStructureDefinition {
 		return subFlag;
 	}
 	
-	public List<MultiblockGroup> getMatchingGroups (World world, BlockPos startCheckPos) {
-		List<MultiblockGroup> list = new ArrayList<>();
-		for (List<MultiblockGroup> subGroup : groups) {
-			for (MultiblockGroup group : subGroup) {
+	@Override
+	public List<IMultiblockGroup> getMatchingGroups (World world, BlockPos startCheckPos) {
+		List<IMultiblockGroup> list = new ArrayList<>();
+		for (List<IMultiblockGroup> subGroup : groups) {
+			for (IMultiblockGroup group : subGroup) {
 				if (group.matches(world, startCheckPos)) {
 					list.add(group);
 				}
@@ -63,10 +68,11 @@ public class MultiblockStructureDefinition {
 		return stateMap;
 	}
 	
+	@Override
 	public int getMinX () {
 		int min = Integer.MAX_VALUE;
-		for (List<MultiblockGroup> group : groups) {
-			for (MultiblockGroup gr : group) {
+		for (List<IMultiblockGroup> group : groups) {
+			for (IMultiblockGroup gr : group) {
 				if (gr.getMinX() < min)
 					min = gr.getMinX();
 			}
@@ -74,10 +80,11 @@ public class MultiblockStructureDefinition {
 		return min;
 	}
 	
+	@Override
 	public int getMinY () {
 		int min = Integer.MAX_VALUE;
-		for (List<MultiblockGroup> group : groups) {
-			for (MultiblockGroup gr : group) {
+		for (List<IMultiblockGroup> group : groups) {
+			for (IMultiblockGroup gr : group) {
 				if (gr.getMinY() < min)
 					min = gr.getMinY();
 			}
@@ -85,10 +92,11 @@ public class MultiblockStructureDefinition {
 		return min;
 	}
 	
+	@Override
 	public int getMinZ () {
 		int min = Integer.MAX_VALUE;
-		for (List<MultiblockGroup> group : groups) {
-			for (MultiblockGroup gr : group) {
+		for (List<IMultiblockGroup> group : groups) {
+			for (IMultiblockGroup gr : group) {
 				if (gr.getMinZ() < min)
 					min = gr.getMinZ();
 			}
@@ -96,10 +104,11 @@ public class MultiblockStructureDefinition {
 		return min;
 	}
 	
+	@Override
 	public int getMaxX () {
 		int max = Integer.MIN_VALUE;
-		for (List<MultiblockGroup> group : groups) {
-			for (MultiblockGroup gr : group) {
+		for (List<IMultiblockGroup> group : groups) {
+			for (IMultiblockGroup gr : group) {
 				if (gr.getMaxX() > max)
 					max = gr.getMaxX();
 			}
@@ -107,10 +116,11 @@ public class MultiblockStructureDefinition {
 		return max;
 	}
 	
+	@Override
 	public int getMaxY () {
 		int max = Integer.MIN_VALUE;
-		for (List<MultiblockGroup> group : groups) {
-			for (MultiblockGroup gr : group) {
+		for (List<IMultiblockGroup> group : groups) {
+			for (IMultiblockGroup gr : group) {
 				if (gr.getMaxY() > max)
 					max = gr.getMaxY();
 			}
@@ -118,40 +128,40 @@ public class MultiblockStructureDefinition {
 		return max;
 	}
 	
+	@Override
 	public int getMaxZ () {
 		int max = Integer.MIN_VALUE;
-		for (List<MultiblockGroup> group : groups) {
-			for (MultiblockGroup gr : group) {
+		for (List<IMultiblockGroup> group : groups) {
+			for (IMultiblockGroup gr : group) {
 				if (gr.getMaxZ() > max)
 					max = gr.getMaxZ();
 			}
 		}
 		return max;
 	}
-
+	
+	@Override
 	public int getWidth() {
 		return getMaxX() - getMinX();
 	}
 	
+	@Override
 	public int getLength() {
 		return getMaxZ() - getMinZ();
 	}
 	
+	@Override
 	public int getHeight() {
 		return getMaxY() - getMinY();
 	}
-	
-	public String getId() {
-		return id;
+
+	@Override
+	public ArrayList<List<IMultiblockGroup>> getMultiblockGroups() {
+		return groups;
 	}
 
-	public ArrayList<MultiblockGroup> getGroups() {
-		ArrayList<MultiblockGroup> list = new ArrayList<>();
-		for (List<MultiblockGroup> groups : this.groups) {
-			int num = new Random(AMGuiHelper.instance.getSlowTicker() * 4500L).nextInt(groups.size());
-			MultiblockGroup group = groups.get(num);
-			list.add(group);
-		}
-		return list;
+	@Override
+	public ResourceLocation getID() {
+		return id;
 	}
 }

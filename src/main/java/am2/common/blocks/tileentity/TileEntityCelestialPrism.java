@@ -6,9 +6,10 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
-import am2.api.IMultiblockStructureController;
+import am2.api.blocks.IMultiblock;
+import am2.api.blocks.IMultiblockGroup;
+import am2.api.blocks.Multiblock;
 import am2.api.blocks.MultiblockGroup;
-import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
 import am2.common.blocks.BlockArsMagicaBlock;
 import am2.common.blocks.BlockArsMagicaBlock.EnumBlockType;
@@ -23,7 +24,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
-public class TileEntityCelestialPrism extends TileEntityObelisk implements IMultiblockStructureController{
+public class TileEntityCelestialPrism extends TileEntityObelisk {
 
 	private int particleCounter = 0;
 
@@ -36,7 +37,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 
 		powerBase = 1.0f;
 
-		structure = new MultiblockStructureDefinition("celestialprism_structure");
+		structure = new Multiblock("celestialprism_structure");
 		
 		capsGroup = new TypedMultiblockGroup("caps", Lists.newArrayList(
 				createMap(Blocks.GLASS.getDefaultState()),
@@ -82,14 +83,14 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 
 	@Override
 	protected void checkNearbyBlockState(){
-		List<MultiblockGroup> groups = structure.getMatchingGroups(worldObj, pos);
+		List<IMultiblockGroup> groups = structure.getMatchingGroups(worldObj, pos);
 
 		float capsLevel = 1;
 		boolean pillarsFound = false;
 		boolean wizChalkFound = false;
 		boolean capsFound = false;
 
-		for (MultiblockGroup group : groups){
+		for (IMultiblockGroup group : groups){
 			if (group == pillars)
 				pillarsFound = true;
 			else if (group == wizardChalkCircle)
@@ -160,9 +161,9 @@ public class TileEntityCelestialPrism extends TileEntityObelisk implements IMult
 		}
 		super.callSuperUpdate();
 	}
-
+	
 	@Override
-	public MultiblockStructureDefinition getDefinition(){
+	public IMultiblock getMultiblockStructure() {
 		return structure;
 	}
 

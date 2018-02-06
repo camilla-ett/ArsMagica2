@@ -107,7 +107,7 @@ def parseConfig(File config) {
 }
 
 jar {
-	archiveName = "${baseName}-${config.mcversion}-${version}.jar"
+	archiveName = "${baseName}-${version}.jar"
 }
 
 defaultTasks 'clean', 'build', 'incrementBuildNumber'

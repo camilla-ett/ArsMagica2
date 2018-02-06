@@ -44,7 +44,7 @@ public class TileCraftingAltarRenderer extends TileEntitySpecialRenderer<TileEnt
 		GL11.glTranslated(x, y, z);
 		RenderHelper.disableStandardItemLighting();
 		Minecraft.getMinecraft().mcProfiler.startSection("block-render");
-		if (te.structureValid() && te.getMimicState() != null) {
+		if (te.isStructureValid() && te.getMimicState() != null) {
 			Minecraft.getMinecraft().mcProfiler.startSection("pre-check");
 			GlStateManager.pushMatrix();
 			t.getBuffer().begin(7, DefaultVertexFormats.BLOCK);

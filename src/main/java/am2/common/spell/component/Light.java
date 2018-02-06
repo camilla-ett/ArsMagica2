@@ -9,8 +9,10 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.blocks.IMultiblock;
+import am2.api.blocks.IMultiblockGroup;
+import am2.api.blocks.Multiblock;
 import am2.api.blocks.MultiblockGroup;
-import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.power.IPowerNode;
 import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
@@ -147,10 +149,10 @@ public class Light extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public MultiblockStructureDefinition getRitualShape(){
-		MultiblockStructureDefinition newDef = new MultiblockStructureDefinition("celestialPurification");
-		newDef.groups = Lists.newArrayList(RitualShapeHelper.instance.purification.groups);
-		MultiblockGroup obelisk = new MultiblockGroup("obelisk", Lists.newArrayList(BlockDefs.obelisk.getDefaultState()), true);
+	public IMultiblock getRitualShape(){
+		Multiblock newDef = new Multiblock("celestialPurification");
+		newDef.groups = Lists.newArrayList(RitualShapeHelper.instance.purification.getMultiblockGroups());
+		IMultiblockGroup obelisk = new MultiblockGroup("obelisk", Lists.newArrayList(BlockDefs.obelisk.getDefaultState()), true);
 		obelisk.addBlock(new BlockPos (0, 0, 0));
 		newDef.addGroup(obelisk);
 		return newDef;

@@ -6,9 +6,10 @@ import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
 import am2.api.DamageSources;
-import am2.api.IMultiblockStructureController;
+import am2.api.blocks.IMultiblock;
+import am2.api.blocks.IMultiblockController;
+import am2.api.blocks.Multiblock;
 import am2.api.blocks.MultiblockGroup;
-import am2.api.blocks.MultiblockStructureDefinition;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.common.blocks.BlockArsMagicaBlock;
@@ -24,9 +25,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
-public class TileEntityManaDrain extends TileEntityAMPower implements IMultiblockStructureController {
+public class TileEntityManaDrain extends TileEntityAMPower implements IMultiblockController {
 	
-	private MultiblockStructureDefinition multiblock = new MultiblockStructureDefinition("mana_drain");
+	private IMultiblock multiblock = new Multiblock("mana_drain");
 	
 	public TileEntityManaDrain() {
 		super(10000);
@@ -83,7 +84,7 @@ public class TileEntityManaDrain extends TileEntityAMPower implements IMultibloc
 	@Override
 	public void update() {
 		super.update();
-		if (!isMultiblockComplete()) return;
+		if (!isStructureValid()) return;
 		if (PowerNodeRegistry.For(worldObj).getPower(this, PowerTypes.NEUTRAL) == capacity) return;
 		List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos.add(-1, 1, -1), pos.add(2, 4, 2)));
 		boolean isWorking = false;
@@ -127,10 +128,6 @@ public class TileEntityManaDrain extends TileEntityAMPower implements IMultibloc
 		}
 	}
 	
-	private boolean isMultiblockComplete() {
-		return multiblock.matches(worldObj, pos);
-	}
-	
 	@Override
 	public boolean canProvidePower(PowerTypes type) {
 		return worldObj.isBlockIndirectlyGettingPowered(pos) == 0 && type == PowerTypes.NEUTRAL;
@@ -140,9 +137,14 @@ public class TileEntityManaDrain extends TileEntityAMPower implements IMultibloc
 	public List<PowerTypes> getValidPowerTypes() {
 		return Lists.newArrayList(PowerTypes.NEUTRAL);
 	}
-
+	
 	@Override
-	public MultiblockStructureDefinition getDefinition() {
+	public IMultiblock getMultiblockStructure() {
 		return multiblock;
+	}
+	
+	@Override
+	public boolean isStructureValid() {
+		return multiblock.matches(worldObj, pos);
 	}
 }

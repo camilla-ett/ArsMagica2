@@ -8,8 +8,10 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import am2.api.blocks.IMultiblock;
+import am2.api.blocks.IMultiblockGroup;
+import am2.api.blocks.Multiblock;
 import am2.api.blocks.MultiblockGroup;
-import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
 import am2.common.LogHelper;
 import am2.common.defs.BlockDefs;
@@ -26,10 +28,10 @@ public class RitualShapeHelper {
 	
 	public static final RitualShapeHelper instance = new RitualShapeHelper();
 	
-	public MultiblockStructureDefinition corruption = new MultiblockStructureDefinition("corruption");
-	public MultiblockStructureDefinition purification = new MultiblockStructureDefinition("purification");
-	public MultiblockStructureDefinition hourglass = new MultiblockStructureDefinition("hourglass");
-	public MultiblockStructureDefinition ringedCross = new MultiblockStructureDefinition("ringedCross");
+	public IMultiblock corruption = new Multiblock("corruption");
+	public IMultiblock purification = new Multiblock("purification");
+	public IMultiblock hourglass = new Multiblock("hourglass");
+	public IMultiblock ringedCross = new Multiblock("ringedCross");
 	
 	public boolean matchesRitual(IRitualInteraction ritual, World world, BlockPos pos) {
 		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius(), ritual.getRitualReagentSearchRadius()));
@@ -85,7 +87,7 @@ public class RitualShapeHelper {
 	}
 	
 	public void consumeShape(IRitualInteraction ritual, World world, BlockPos pos) {
-		for (MultiblockGroup group : ritual.getRitualShape().getMatchingGroups(world, pos)) {
+		for (IMultiblockGroup group : ritual.getRitualShape().getMatchingGroups(world, pos)) {
 			for (BlockPos blockPos : group.getPositions()) {
 				IBlockState state = world.getBlockState(pos.add(blockPos));
 				world.setBlockToAir(pos.add(blockPos));

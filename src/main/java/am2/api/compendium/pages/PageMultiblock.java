@@ -1,47 +1,31 @@
 package am2.api.compendium.pages;
 
-import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
-
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
 
-import org.lwjgl.opengl.GL11;
-
-import am2.api.blocks.MultiblockGroup;
-import am2.api.blocks.MultiblockStructureDefinition;
-import am2.api.blocks.TypedMultiblockGroup;
+import am2.api.blocks.IMultiblock;
+import am2.api.compendium.AdvancedBlockRenderer;
+import am2.api.compendium.BlockRenderWorld;
 import am2.client.gui.AMGuiHelper;
-import am2.client.gui.GuiBlockAccess;
 import am2.client.gui.controls.GuiButtonCompendiumNext;
 import am2.client.gui.controls.GuiButtonVariableDims;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 
-public class PageMultiblock extends CompendiumPage<MultiblockStructureDefinition> {
+public class PageMultiblock extends CompendiumPage<IMultiblock> {
 
 	private int curLayer = -1;
 	private int maxLayers = 0;
-	private GuiBlockAccess blockAccess = new GuiBlockAccess();
 	private GuiButtonCompendiumNext prevLayer;
 	private GuiButtonCompendiumNext nextLayer;
 	private GuiButtonVariableDims pauseCycling;
 	private ItemStack stackTip = null;
-	private static final ResourceLocation red = new ResourceLocation("arsmagica2", "textures/blocks/red.png");
+	//private static final ResourceLocation red = new ResourceLocation("arsmagica2", "textures/blocks/red.png");
 
-	public PageMultiblock(MultiblockStructureDefinition element) {
+	public PageMultiblock(IMultiblock element) {
 		super(element);
 		maxLayers = element.getHeight();
 	}
@@ -74,13 +58,13 @@ public class PageMultiblock extends CompendiumPage<MultiblockStructureDefinition
 	public void actionPerformed(GuiButton button) throws IOException {
 		if (button == nextLayer) {
 			curLayer++;
-			if (curLayer > maxLayers){
+			if (curLayer >= maxLayers - 1){
 				curLayer = -1;
 			}
 		} else if (button == prevLayer) {
 			curLayer--;
 			if (curLayer < -1){
-				curLayer = maxLayers;
+				curLayer = maxLayers - 2;
 			}
 		} else if (button == pauseCycling) {
 			AMGuiHelper.instance.runCompendiumTicker = !AMGuiHelper.instance.runCompendiumTicker;
@@ -107,138 +91,67 @@ public class PageMultiblock extends CompendiumPage<MultiblockStructureDefinition
 		if (blox != null){
 			renderBlock(Block.blocksList[blox.get(0).getID()], blox.get(0).getMeta(), cx, cy);
 		}*/
-		BlockPos pickedBlock = getPickedBlock(cx, cy, mouseX, mouseY);
-		if (curLayer == -1){
-			for (int i = element.getMinY(); i <= element.getMaxY(); ++i){
-				int y = (i - element.getMinY());
-				GlStateManager.translate(0.0f, 0.0f, 20f * y);
-				drawMultiblockLayer(cx, cy, i, pickedBlock, mouseX, mouseY);
-			}
-		}else{
-			int i = element.getMinY() + curLayer;
-			GlStateManager.translate(0.0f, 0.0f, 20f * curLayer);
-			drawMultiblockLayer(cx, cy, i, pickedBlock, mouseX, mouseY);
-		}
+//		BlockPos pickedBlock = getPickedBlock(cx, cy, mouseX, mouseY);
+		AdvancedBlockRenderer abr = new AdvancedBlockRenderer(new BlockRenderWorld());
+		GlStateManager.pushMatrix();
+		float scale = (float) Math.min(Math.sqrt((float)(150 * 150) / (float)(element.getLength() * element.getLength() + element.getWidth() * element.getWidth())), 20D);
+		float yMove = (float) (Math.sqrt(scale * scale) / 2F);
+		GlStateManager.translate(posX, posY, 0);
+		GlStateManager.translate(60 - scale, 92 - scale - (yMove * 0.5 * element.getHeight()) + (yMove * element.getMaxY()), 0);
+		GlStateManager.translate(0, 0, 300);
+		GlStateManager.scale(scale, scale, scale);
+		GlStateManager.translate(1.0F, 0.5F, 1.0F);
+		GlStateManager.scale(1.0F, 1.0F, -1.0F);
+		GlStateManager.rotate(210.0F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
+		GlStateManager.enableBlend();
+		GlStateManager.color(1.0F, 1.0F, 1.0F);
+		GlStateManager.disableAlpha();
+		GlStateManager.enableAlpha();
+		abr.renderMultiblock(this.element, curLayer, true);
+		GlStateManager.popMatrix();
 		if (stackTip != null)
 			renderItemToolTip(stackTip, mouseX, mouseY);
 		GlStateManager.popAttrib();
 		GlStateManager.popMatrix();
 	}
 	
-	private BlockPos getPickedBlock(int cx, int cy, int mousex, int mousey){
-		BlockPos block = null;
-
-		float step_x = 14f;
-		float step_y = -16.0f;
-		float step_z = 7f;
-
-		cy -= step_y * element.getMinY() / 2;
-		cy -= step_y * element.getMaxY() / 2;
-
-		int start = curLayer == -1 ? element.getMinY() : element.getMinY() + curLayer;
-		int end = curLayer == -1 ? element.getMaxY() : element.getMinY() + curLayer;
-
-		for (int i = start; i <= end; ++i){
-			TreeMap<BlockPos, List<IBlockState>> layerBlocksSorted = getMultiblockLayer(i);
-
-			float px = cx - (step_x * (element.getWidth() / 2));
-			float py = cy - (step_z * (element.getLength() / 2));
-						
-			for (BlockPos bc : layerBlocksSorted.keySet()){
-				float x = px + ((bc.getX() - bc.getZ()) * step_x);
-				float y = py + ((bc.getZ() + bc.getX()) * step_z) + (step_y * i);
-
-				x += 20;
-				y -= 10;
-
-				if (mousex > x && mousex < x + 32){
-					if (mousey > y && mousey < y + 32){
-						block = bc;
-					}
-				}
-			}
-		}
-		return block;
-	}
-	
-	private void drawMultiblockLayer(int cx, int cy, int layer, BlockPos pickedBlock, int mousex, int mousey){
-		TreeMap<BlockPos, List<IBlockState>> layerBlocksSorted = getMultiblockLayer(layer);
-		float step_x = 14f;
-		float step_y = -16.0f;
-		float step_z = 7f;
-		cy -= step_y * element.getMinX() / 2;
-		cy -= step_y * element.getMaxY() / 2;
-
-		float px = cx - (step_x * (element.getWidth() / 2));
-		float py = cy - (step_z * (element.getLength() / 2));
-
-		for (BlockPos bc : layerBlocksSorted.keySet()){
-			//if (bc.getX() == 0 && bc.getY() == 0 && bc.getZ() == 0) continue;
-			IBlockState bd = layerBlocksSorted.get(bc).get(AMGuiHelper.instance.getSlowTicker() % layerBlocksSorted.get(bc).size());
-			float x = px + ((bc.getX() - bc.getZ()) * step_x);
-			float y = py + ((bc.getZ() + bc.getX()) * step_z) + (step_y * layer);
-			GL11.glPushMatrix();
-			GL11.glTranslatef(0, 0, 15 * bc.getX());
-			boolean picked = pickedBlock != null && bc.equals(pickedBlock);
-			renderBlock(bd, x, y, bc.getX(), bc.getY(), bc.getZ(), picked);
-			GL11.glPopMatrix();
-
-			if (picked){
-				ItemStack stack = new ItemStack(bd.getBlock(), 1, bd.getBlock().getMetaFromState(bd));
-				if (stack.getItem() != null){
-					stackTip  = stack;
-				}
-			}
-		}
-	}
-	
-	private TreeMap<BlockPos, List<IBlockState>> getMultiblockLayer(int layer){
-		TreeMap<BlockPos, List<IBlockState>> layerBlocksSorted = new TreeMap<>();
-
-		for (MultiblockGroup mutex : element.getGroups()){
-			HashMap<BlockPos, List<IBlockState>> layerBlocks = element.getStructureLayer(mutex, layer);
-			for (BlockPos bc : layerBlocks.keySet()){
-				if (mutex instanceof TypedMultiblockGroup) {
-					TypedMultiblockGroup newGroup = (TypedMultiblockGroup) mutex;
-					layerBlocksSorted.put(bc, newGroup.getState(bc));
-				} else {
-					layerBlocksSorted.put(bc, layerBlocks.get(bc));
-				}
-			}
-		}
-
-		return layerBlocksSorted;
-	}
-	
-	private void renderBlock(IBlockState state, float x, float y, int offsetX, int offsetY, int offsetZ, boolean picked){
-
-		RenderHelper.disableStandardItemLighting();
-
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(x + 15, y + 3, 12.0F * offsetZ);
-		GlStateManager.translate(0, 0, 40);
-		GlStateManager.scale(20.0F, 20.0F, 20.0F);
-		GlStateManager.translate(1.0F, 0.5F, 1.0F);
-		GlStateManager.scale(1.0F, 1.0F, -1.0F);
-		GlStateManager.rotate(210.0F, 1.0F, 0.0F, 0.0F);
-		GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
-		this.blockAccess.setFakeBlockAndMeta(state);
-		if (picked)
-			mc.renderEngine.bindTexture(red);
-		else
-			mc.renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
-		GlStateManager.enableLighting();
-		if (state.getBlock() instanceof ITileEntityProvider)
-			TileEntityRendererDispatcher.instance.renderTileEntityAt(((ITileEntityProvider)state.getBlock()).createNewTileEntity(Minecraft.getMinecraft().theWorld, state.getBlock().getMetaFromState(state)), 0, 0, 0, 0, 0);
-		GlStateManager.disableLighting();
-		Tessellator.getInstance().getBuffer().begin(7, DefaultVertexFormats.BLOCK);
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(state, new BlockPos(0, 0, 0), blockAccess , Tessellator.getInstance().getBuffer());
-		Tessellator.getInstance().draw();
-		RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableBlend();
-		GlStateManager.popMatrix();
-	}
+//	private BlockPos getPickedBlock(int cx, int cy, int mousex, int mousey){
+//		BlockPos block = null;
+//
+//		float step_x = 14f;
+//		float step_y = -16.0f;
+//		float step_z = 7f;
+//
+//		cy -= step_y * element.getMinY() / 2;
+//		cy -= step_y * element.getMaxY() / 2;
+//
+//		int start = curLayer == -1 ? element.getMinY() : element.getMinY() + curLayer;
+//		int end = curLayer == -1 ? element.getMaxY() : element.getMinY() + curLayer;
+//
+//		for (int i = start; i <= end; ++i){
+//			TreeMap<BlockPos, List<IBlockState>> layerBlocksSorted = getMultiblockLayer(i);
+//
+//			float px = cx - (step_x * (element.getWidth() / 2));
+//			float py = cy - (step_z * (element.getLength() / 2));
+//						
+//			for (BlockPos bc : layerBlocksSorted.keySet()){
+//				float x = px + ((bc.getX() - bc.getZ()) * step_x);
+//				float y = py + ((bc.getZ() + bc.getX()) * step_z) + (step_y * i);
+//
+//				x += 20;
+//				y -= 10;
+//
+//				if (mousex > x && mousex < x + 32){
+//					if (mousey > y && mousey < y + 32){
+//						block = bc;
+//					}
+//				}
+//			}
+//		}
+//		return block;
+//	}
 }

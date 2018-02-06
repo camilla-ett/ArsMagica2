@@ -331,7 +331,7 @@ public class LoreDefs {
 				.addObject(new ItemStack(BlockDefs.obelisk))
 				.addObject("compendium.obelisk.page2")
 				.addObject("compendium.obelisk.page3")
-				.addObject(new TileEntityObelisk().getDefinition())
+				.addObject(new TileEntityObelisk().getMultiblockStructure())
 				.addObject("compendium.obelisk.page4")
 				.addObject(new TileEntityObelisk().getRitual(0))
 				.addObject("compendium.obelisk.page5")
@@ -340,7 +340,7 @@ public class LoreDefs {
 		BLOCK.addEntry(new CompendiumEntry(null, "mana_drain_block")
 				.addObject("compendium.mana_drain_block.page1")
 				.addObject(new ItemStack(BlockDefs.manaDrain))
-				.addObject(new TileEntityManaDrain().getDefinition()));
+				.addObject(new TileEntityManaDrain().getMultiblockStructure()));
 		createItemEntry(BLOCK, "essence_refiner", new ItemStack (BlockDefs.essenceRefiner), 2);
 		createItemEntry(BLOCK, "essence_conduit", new ItemStack (BlockDefs.essenceConduit), 1);
 		createItemEntry(BLOCK, "seer_stone", new ItemStack (BlockDefs.seerStone), 1);
@@ -567,11 +567,11 @@ public class LoreDefs {
 				.addObject("compendium.crafting_altar_structure.page2")
 				.addObject(new StackMapWrapper(CraftingAltarMaterials.getCapsMap(), "am2.gui.catalysts", false))
 				.addObject(new StackMapWrapper(CraftingAltarMaterials.getSimpleMainMap(), "am2.gui.structuremat", false))
-				.addObject(new TileEntityCraftingAltar().getDefinition()));
+				.addObject(new TileEntityCraftingAltar().getMultiblockStructure()));
 		STRUCTURE.addEntry(new CompendiumEntry(null, "gateway")
 				.addObject("compendium.gateway.page1")
 				.addObject("compendium.gateway.page2")
-				.addObject(new TileEntityKeystoneRecepticle().getDefinition()));
+				.addObject(new TileEntityKeystoneRecepticle().getMultiblockStructure()));
 	}
 	
 	private static void initBosses() {

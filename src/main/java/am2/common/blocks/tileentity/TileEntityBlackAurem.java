@@ -9,9 +9,9 @@ import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
 import am2.api.DamageSources;
-import am2.api.IMultiblockStructureController;
+import am2.api.blocks.IMultiblock;
+import am2.api.blocks.Multiblock;
 import am2.api.blocks.MultiblockGroup;
-import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
 import am2.api.math.AMVector3;
 import am2.client.particles.AMLineArc;
@@ -20,7 +20,14 @@ import am2.common.buffs.BuffEffectAstralDistortion;
 import am2.common.buffs.BuffEffectManaRegen;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.PotionEffectsDefs;
-import am2.common.entity.*;
+import am2.common.entity.EntityAirSled;
+import am2.common.entity.EntityBroom;
+import am2.common.entity.EntityDarkling;
+import am2.common.entity.EntityFlicker;
+import am2.common.entity.EntityShadowHelper;
+import am2.common.entity.EntityThrownRock;
+import am2.common.entity.EntityThrownSickle;
+import am2.common.entity.EntityWinterGuardianArm;
 import am2.common.power.PowerNodeRegistry;
 import am2.common.power.PowerTypes;
 import am2.common.utils.EntityUtils;
@@ -33,7 +40,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 
-public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblockStructureController{
+public class TileEntityBlackAurem extends TileEntityObelisk {
 
 	private final HashMap<EntityLivingBase, AMLineArc> arcs;
 	private final ArrayList<EntityLivingBase> cachedEntities;
@@ -47,7 +54,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 
 		cachedEntities = new ArrayList<EntityLivingBase>();
 
-		structure = new MultiblockStructureDefinition("blackaurem_structure");
+		structure = new Multiblock("blackaurem_structure");
 
 		pillars = new MultiblockGroup("pillars", Lists.newArrayList(Blocks.NETHER_BRICK.getDefaultState()), false);
 
@@ -222,7 +229,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk implements IMultiblo
 	}
 
 	@Override
-	public MultiblockStructureDefinition getDefinition(){
+	public IMultiblock getMultiblockStructure() {
 		return structure;
 	}
 

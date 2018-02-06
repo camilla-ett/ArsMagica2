@@ -54,7 +54,7 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 
 	@Override
 	public boolean accepts(ResourceLocation modelLocation) {
-		return modelLocation.toString().contains("spells/icons");
+		return modelLocation.toString().contains("spells/icons") || modelLocation.toString().contains("/spell_book");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -83,8 +83,8 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 	@SubscribeEvent
 	public void preStitch(TextureStitchEvent.Pre e) {
 		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			e.getMap().registerSprite(new ResourceLocation("arsmagica2", "items/particles/" + aff.getName().toLowerCase() + "_hand"));
-			sprites.put(aff, e.getMap().getTextureExtry(new ResourceLocation("arsmagica2", "items/particles/" + aff.getName().toLowerCase() + "_hand").toString()));
+			e.getMap().registerSprite(new ResourceLocation(aff.getRegistryName().getResourceDomain(), "blocks/runes/rune_" + aff.getRegistryName().getResourcePath()));
+			sprites.put(aff, e.getMap().registerSprite(new ResourceLocation("arsmagica2", "items/particles/" + aff.getName().toLowerCase() + "_hand")));
 		}
 		registerParticle(e.getMap(), "arcane");
 		registerParticle(e.getMap(), "beam");
@@ -118,14 +118,10 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/essenceCrystal"));
 		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/Arcane_Reconstructor"));
 		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/everstone"));
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			e.getMap().registerSprite(new ResourceLocation(aff.getRegistryName().getResourceDomain(), "blocks/runes/rune_" + aff.getRegistryName().getResourcePath()));
-		}
 	}
 	
 	private void registerParticle(TextureMap map, String name) {
-		map.registerSprite(new ResourceLocation("arsmagica2", "items/particles/" + name));
-		particles.put(name, map.getTextureExtry(new ResourceLocation("arsmagica2", "items/particles/" + name).toString()));
+		particles.put(name, map.registerSprite(new ResourceLocation("arsmagica2", "items/particles/" + name)));
 	}
 	
 	private static final String iconsPath = "/assets/arsmagica2/textures/items/spells/icons/";

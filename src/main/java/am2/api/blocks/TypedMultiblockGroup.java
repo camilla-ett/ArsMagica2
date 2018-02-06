@@ -40,6 +40,7 @@ public class TypedMultiblockGroup extends MultiblockGroup{
 		return groups.get(pos);
 	}
 	
+	@Override
 	public ArrayList<IBlockState> getState(BlockPos pos) {
 		ArrayList<IBlockState> state = new ArrayList<>();
 		for (HashMap<Integer, IBlockState> map : states) {

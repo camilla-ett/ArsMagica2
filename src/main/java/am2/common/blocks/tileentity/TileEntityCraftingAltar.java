@@ -9,10 +9,12 @@ import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
 import am2.api.CraftingAltarMaterials;
-import am2.api.IMultiblockStructureController;
 import am2.api.SpellRegistry;
+import am2.api.blocks.IMultiblock;
+import am2.api.blocks.IMultiblockController;
+import am2.api.blocks.IMultiblockGroup;
+import am2.api.blocks.Multiblock;
 import am2.api.blocks.MultiblockGroup;
-import am2.api.blocks.MultiblockStructureDefinition;
 import am2.api.blocks.TypedMultiblockGroup;
 import am2.api.extensions.ISpellCaster;
 import am2.api.power.IPowerNode;
@@ -55,10 +57,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityCraftingAltar extends TileEntityAMPower implements IMultiblockStructureController, ITileEntityAMBase {
+public class TileEntityCraftingAltar extends TileEntityAMPower implements IMultiblockController, ITileEntityAMBase {
 
-	private MultiblockStructureDefinition primary = new MultiblockStructureDefinition("craftingAltar_alt");
-	private MultiblockStructureDefinition secondary = new MultiblockStructureDefinition("craftingAltar");
+	private IMultiblock primary = new Multiblock("craftingAltar_alt");
+	private IMultiblock secondary = new Multiblock("craftingAltar");
 	
 	private TypedMultiblockGroup out;
 	private TypedMultiblockGroup out_alt;
@@ -166,6 +168,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		
 		catalysts = new TypedMultiblockGroup("catalysts", capsMaterials, false);
 		out = new TypedMultiblockGroup("out", structureMaterials, false);
+		MultiblockGroup altar = new MultiblockGroup("altar", Lists.newArrayList(BlockDefs.craftingAltar.getDefaultState()), true);
 		
 		catalysts.addBlock(new BlockPos(-1, 0, -2), 0);
 		catalysts.addBlock(new BlockPos(1, 0, -2), 0);
@@ -278,6 +281,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		primary.addGroup(out);
 		primary.addGroup(catalysts);
 		primary.addGroup(podium1, podium2, podium3, podium4);
+		primary.addGroup(altar);
 		
 		catalysts_alt = new TypedMultiblockGroup("catalysts_alt", capsMaterials, false);
 		
@@ -392,15 +396,16 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		secondary.addGroup(out_alt);
 		secondary.addGroup(catalysts_alt);
 		secondary.addGroup(podium1_alt, podium2_alt, podium3_alt, podium4_alt);
+		secondary.addGroup(altar);
 		
 		MultiblockGroup center = new MultiblockGroup("center", Lists.newArrayList(BlockDefs.craftingAltar.getDefaultState()), true);
 		center.addBlock(new BlockPos(0, 0, 0));
 		primary.addGroup(center);
 		secondary.addGroup(center);
 	}
-
+	
 	@Override
-	public MultiblockStructureDefinition getDefinition(){
+	public IMultiblock getMultiblockStructure() {
 		return secondary;
 	}
 
@@ -440,8 +445,9 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 		return count <= this.maxEffects;
 	}
-
-	public boolean structureValid(){
+	
+	@Override
+	public boolean isStructureValid() {
 		return this.structureValid;
 	}
 
@@ -688,7 +694,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		if (checkCounter++ > 50)
 			checkCounter = 0;
 		if (primary.matches(worldObj, pos)) {
-			for (MultiblockGroup matching : primary.getMatchingGroups(worldObj, pos)) {
+			for (IMultiblockGroup matching : primary.getMatchingGroups(worldObj, pos)) {
 				for (IBlockState state : matching.getStates()) {
 					if (state.getBlock().equals(Blocks.LEVER))
 						this.switchLocation = matching.getPositions().get(0);
@@ -705,7 +711,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				}
 			}
 		} else if (secondary.matches(worldObj, pos)) {
-			for (MultiblockGroup matching : secondary.getMatchingGroups(worldObj, pos)) {
+			for (IMultiblockGroup matching : secondary.getMatchingGroups(worldObj, pos)) {
 				for (IBlockState state : matching.getStates()) {
 					if (state.getBlock().equals(Blocks.LEVER))
 						this.switchLocation = matching.getPositions().get(0);

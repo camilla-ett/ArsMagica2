@@ -8,7 +8,7 @@ import com.google.common.collect.Sets;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
-import am2.api.blocks.MultiblockStructureDefinition;
+import am2.api.blocks.IMultiblock;
 import am2.api.rituals.IRitualInteraction;
 import am2.api.rituals.RitualShapeHelper;
 import am2.api.spell.Operation;
@@ -138,7 +138,7 @@ public class Charm extends SpellComponent implements IRitualInteraction{
 	}
 
 	@Override
-	public MultiblockStructureDefinition getRitualShape(){
+	public IMultiblock getRitualShape(){
 		return RitualShapeHelper.instance.hourglass;
 	}
 
