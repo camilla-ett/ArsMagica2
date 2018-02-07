@@ -379,7 +379,7 @@ public class AMPacketProcessorServer{
 				ItemStack spellStack = ((ItemSpellBook) stack.getItem()).GetActiveItemStack(stack);
 				if (spellStack.hasCapability(SpellCaster.INSTANCE, null))
 					spellStack.getCapability(SpellCaster.INSTANCE, null).setCurentShapeGroup(newShapeGroupOrdinal);
-				((ItemSpellBook) stack.getItem()).replaceAciveItemStack(stack, spellStack);
+				((ItemSpellBook) stack.getItem()).replaceActiveItemStack(stack, spellStack);
 			}
 		}
 	}
