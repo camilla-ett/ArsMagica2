@@ -70,7 +70,7 @@ public class BindingsDefs {
 				shapeGroup = caster.getCurrentShapeGroup() + 1;
 				if (shapeGroup >= caster.getShapeGroupCount())
 					shapeGroup = 0;
-				((ItemSpellBook)curItem.getItem()).replaceAciveItemStack(curItem, spellStack);
+				((ItemSpellBook)curItem.getItem()).replaceActiveItemStack(curItem, spellStack);
 			}
 
 			AMNetHandler.INSTANCE.sendShapeGroupChangePacket(shapeGroup, clientPlayer.getEntityId());
