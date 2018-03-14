@@ -20,6 +20,7 @@ public class ItemBoundSword extends ItemSword implements IBoundItem {
 		this.setCreativeTab(null);
 	}
 
+	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
 		if (!stack.hasTagCompound())
 			return true;
@@ -33,6 +34,7 @@ public class ItemBoundSword extends ItemSword implements IBoundItem {
 		return true;
 	}
 
+	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		return false;
 	}

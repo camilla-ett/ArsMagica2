@@ -25,6 +25,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemWinterGuardianArm extends ItemArsMagica{
 
@@ -44,6 +46,7 @@ public class ItemWinterGuardianArm extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		par3List.add(I18n.format("am2.tooltip.winter_arm"));
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
@@ -95,6 +98,7 @@ public class ItemWinterGuardianArm extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		par3List.add(ItemDefs.winterArmEnchanted.copy());
 	}

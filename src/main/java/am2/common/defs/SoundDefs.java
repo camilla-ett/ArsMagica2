@@ -17,11 +17,13 @@ public class SoundDefs {
 	public static Map<Affinity, SoundEvent> CAST_MAP;
 
 	private static SoundEvent getLoopSound(String aff) {
-		return new SoundEvent(new ResourceLocation(ArsMagica2.MODID, "spell.loop." + aff));
+		ResourceLocation rl = new ResourceLocation(ArsMagica2.MODID, "spell.loop." + aff);
+		return new SoundEvent(rl).setRegistryName(rl);
 	}
 
 	private static SoundEvent getCastSound(String aff) {
-		return new SoundEvent(new ResourceLocation(ArsMagica2.MODID, "spell.cast." + aff));
+		ResourceLocation rl = new ResourceLocation(ArsMagica2.MODID, "spell.cast." + aff);
+		return new SoundEvent(rl).setRegistryName(rl);
 	}
 
 	public static SoundEvent LOOP_AIR = getLoopSound("air");
@@ -77,13 +79,13 @@ public class SoundDefs {
 		register(CAST_NONE);
 		register(CAST_WATER);
 
-		register(RUNE_CAST);
-		register(CONTINGENCY);
-		register(BINDING_CAST);
+		GameRegistry.register(RUNE_CAST, new ResourceLocation(ArsMagica2.MODID, "spell.rune.cast"));
+		GameRegistry.register(CONTINGENCY, new ResourceLocation(ArsMagica2.MODID, "spell.contingency.contingency"));
+		GameRegistry.register(BINDING_CAST, new ResourceLocation(ArsMagica2.MODID, "spell.binding.cast"));
 	}
 
 	private static void register(SoundEvent event) {
-		GameRegistry.register(event, event.getSoundName());
+		GameRegistry.register(event);
 	}
 
 	public static void createSoundMaps() {

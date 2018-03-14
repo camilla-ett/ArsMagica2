@@ -44,11 +44,13 @@ public class ItemBoundBow extends ItemBow implements IBoundItem {
             }
         });
 	}
-	
+
+	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		return false;
 	}
-	
+
+	@Override
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
 		if (!stack.hasTagCompound())
 			return;

@@ -34,6 +34,7 @@ public class ItemBoundPickaxe extends ItemPickaxe implements IBoundItem {
 		return true;
 	}
 
+	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		return false;
 	}

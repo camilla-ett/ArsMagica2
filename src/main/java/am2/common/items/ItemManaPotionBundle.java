@@ -132,6 +132,7 @@ public class ItemManaPotionBundle extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		Item potion = getPotion(par1ItemStack.getItemDamage());
 		if (potion == ItemDefs.lesserManaPotion){

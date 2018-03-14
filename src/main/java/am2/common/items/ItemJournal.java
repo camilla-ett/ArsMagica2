@@ -11,6 +11,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemJournal extends ItemArsMagica{
 
@@ -32,6 +34,7 @@ public class ItemJournal extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack journal, EntityPlayer player, List<String> list, boolean par4){
 		String owner = getOwner(journal);
 		if (owner == null){

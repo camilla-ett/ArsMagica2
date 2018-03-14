@@ -9,6 +9,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemFlickerJar extends ItemArsMagica{
 
@@ -19,6 +21,7 @@ public class ItemFlickerJar extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
 		String baseName = I18n.format("am2.item.flickerJar");
@@ -36,6 +39,7 @@ public class ItemFlickerJar extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry()){
 			par3List.add(new ItemStack(this, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)));

@@ -18,6 +18,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemKeystoneDoor extends Item{
 
@@ -33,6 +35,7 @@ public class ItemKeystoneDoor extends Item{
 
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack){
 		switch (stack.getItemDamage()){
 		case KEYSTONE_DOOR:
@@ -80,6 +83,7 @@ public class ItemKeystoneDoor extends Item{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list){
 		list.add(new ItemStack(this, 1, KEYSTONE_DOOR));
 		list.add(new ItemStack(this, 1, SPELL_SEALED_DOOR));

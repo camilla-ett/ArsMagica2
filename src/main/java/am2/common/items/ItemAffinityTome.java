@@ -15,6 +15,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemAffinityTome extends ItemArsMagica {
 
@@ -25,6 +27,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
 			subItems.add(new ItemStack(itemIn, 1, i));
@@ -51,12 +54,14 @@ public class ItemAffinityTome extends ItemArsMagica {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
 		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage());
 		return String.format(I18n.format("item.arsmagica2:tome.name"), aff.getLocalizedName());
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack stack) {
 		return true;
 	}

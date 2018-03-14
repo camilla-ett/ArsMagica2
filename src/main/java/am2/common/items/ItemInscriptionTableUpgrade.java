@@ -6,6 +6,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemInscriptionTableUpgrade extends ItemArsMagica{
 
@@ -16,6 +18,7 @@ public class ItemInscriptionTableUpgrade extends ItemArsMagica{
 		this.setHasSubtypes(true);
 	}
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		for (int i = 0; i < 3; ++i){
 			par3List.add(new ItemStack(this, 1, i));
@@ -23,6 +26,7 @@ public class ItemInscriptionTableUpgrade extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
 		switch (meta){

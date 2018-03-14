@@ -24,6 +24,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemCandle extends ItemArsMagica{
 
@@ -214,6 +216,7 @@ public class ItemCandle extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack){
 		String name = I18n.format("item.arsmagica2:warding_candle.name");
 		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("search_block")){
@@ -249,6 +252,7 @@ public class ItemCandle extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
 		ItemStack unattuned = new ItemStack(this, 1, 0);
 		par3List.add(unattuned);

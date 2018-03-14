@@ -46,6 +46,7 @@ public class ItemSpellBook extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		ItemStack activeSpell = GetActiveItemStack(par1ItemStack);
 		if (activeSpell != null){
@@ -240,6 +241,7 @@ public class ItemSpellBook extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		ItemSpellBase activeScroll = GetActiveScroll(par1ItemStack);
 		ItemStack stack = GetActiveItemStack(par1ItemStack);

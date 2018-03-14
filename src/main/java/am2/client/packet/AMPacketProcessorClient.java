@@ -56,7 +56,6 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
-						
 			switch (packetID){
 //			case AMPacketIDs.SPELL_CAST:
 //				handleSpellCast(remaining);

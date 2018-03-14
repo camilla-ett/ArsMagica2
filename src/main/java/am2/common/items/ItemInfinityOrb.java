@@ -18,6 +18,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemInfinityOrb extends ItemArsMagica {
 	
@@ -31,6 +33,7 @@ public class ItemInfinityOrb extends ItemArsMagica {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
 		SkillPoint point = SkillPointRegistry.getPointForTier(stack.getItemDamage());
 		if (point == null)
@@ -39,6 +42,7 @@ public class ItemInfinityOrb extends ItemArsMagica {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		SkillPoint point = SkillPointRegistry.getPointForTier(stack.getItemDamage());
 		if (point == null)
@@ -67,6 +71,7 @@ public class ItemInfinityOrb extends ItemArsMagica {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		subItems.add(new ItemStack(itemIn, 1, 0));
 		subItems.add(new ItemStack(itemIn, 1, 1));

@@ -34,6 +34,8 @@ public class ItemLostJournal extends ItemWritableBook{
 		return false;
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		String title = super.getItemStackDisplayName(par1ItemStack);
 		if (par1ItemStack.hasTagCompound()){

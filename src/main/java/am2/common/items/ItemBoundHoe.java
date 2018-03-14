@@ -32,6 +32,7 @@ public class ItemBoundHoe extends ItemHoe implements IBoundItem {
 		return stack;
 	}
 
+	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		return false;
 	}

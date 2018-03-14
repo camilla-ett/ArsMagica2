@@ -28,6 +28,7 @@ public class ItemBindingCatalyst extends ItemArsMagica{
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
 

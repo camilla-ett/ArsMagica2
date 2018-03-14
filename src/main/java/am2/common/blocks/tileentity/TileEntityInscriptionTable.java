@@ -442,7 +442,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			this.shapeGroups.clear();
 			int numGroups = rdr.getInt();
 			for (int i = 0; i < numGroups; ++i){
-				ArrayList<AbstractSpellPart> group = new ArrayList<AbstractSpellPart>();
+				ArrayList<AbstractSpellPart> group = new ArrayList<>();
 				int[] partData = rdr.getIntArray();
 				for (int n : partData){
 					Skill part = ArsMagicaAPI.getSkillRegistry().getObjectById(n);
@@ -484,6 +484,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		for (int i = 0; i < this.currentRecipe.size(); ++i){
 			writer.add(ArsMagicaAPI.getSkillRegistry().getId(this.currentRecipe.get(i).getRegistryName()));
 		}
+
 
 		writer.add(this.shapeGroups.size());
 		for (ArrayList<AbstractSpellPart> shapeGroup : this.shapeGroups){
@@ -642,7 +643,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> curRecipeSetup = new KeyValuePair<>(currentRecipe, new NBTTagCompound());
 
 			for (ArrayList<AbstractSpellPart> arr : shapeGroups){
-				shapeGroupSetup.add(new KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound>(arr, new NBTTagCompound()));
+				shapeGroupSetup.add(new KeyValuePair<>(arr, new NBTTagCompound()));
 			}
 			ItemStack stack = new ItemStack(ItemDefs.spell);
 			if (!stack.hasTagCompound())
@@ -661,7 +662,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			}
 
 			stack.getTagCompound().setString("suggestedName", currentSpellName);
-
 			player.inventory.addItemStackToInventory(stack);
 		}
 	}

@@ -56,6 +56,7 @@ public class ItemSpellStaff extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack par1ItemStack){
 		return isMagiTechStaff();// || getSpellStack(par1ItemStack) != null;
 	}
@@ -128,6 +129,7 @@ public class ItemSpellStaff extends ItemArsMagica{
 //	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack par1ItemStack){
 		if (isMagiTechStaff()){
 			return I18n.format("item.arsmagica2:spell_staff_magitech.name");

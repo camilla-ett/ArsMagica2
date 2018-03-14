@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
 public class ItemBoundShield extends ItemShield implements IBoundItem {
@@ -19,6 +21,7 @@ public class ItemBoundShield extends ItemShield implements IBoundItem {
 		this.setCreativeTab(null);
 	}
 
+	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		return false;
 	}
@@ -35,6 +38,7 @@ public class ItemBoundShield extends ItemShield implements IBoundItem {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
 		return I18n.format("item." + getRegistryName().toString() + ".name");
 	}

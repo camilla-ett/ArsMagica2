@@ -16,6 +16,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemKeystone extends ItemArsMagica{
 
@@ -160,6 +162,7 @@ public class ItemKeystone extends ItemArsMagica{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
 		ItemStack[] items = getMyInventory(par1ItemStack);
 

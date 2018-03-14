@@ -33,7 +33,8 @@ public class ItemBoundAxe extends ItemAxe implements IBoundItem {
 			caster.createSpellData(copiedStack).execute(worldIn, entityLiving, null, pos.getX(), pos.getY(), pos.getZ(), null);
 		return true;
 	}
-	
+
+	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		return false;
 	}

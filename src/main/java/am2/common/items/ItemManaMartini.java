@@ -12,6 +12,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 
 public class ItemManaMartini extends ItemFood{
@@ -26,11 +28,13 @@ public class ItemManaMartini extends ItemFood{
 		return this;
 	}
 
+	@Override
 	public EnumAction getItemUseAction(ItemStack p_77661_1_){
 		return EnumAction.DRINK;
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> lines, boolean iHaveNoIdea){
 		super.addInformation(stack, player, lines, iHaveNoIdea);
 		lines.add(I18n.format("am2.tooltip.shaken"));
