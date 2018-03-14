@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import am2.common.defs.*;
 import com.google.common.collect.ImmutableMap;
 
 import am2.ArsMagica2;
@@ -136,16 +137,6 @@ import am2.common.container.ContainerSpellBook;
 import am2.common.container.ContainerSpellCustomization;
 import am2.common.container.ContainerSpellSealedDoor;
 import am2.common.container.ContainerSummoner;
-import am2.common.defs.AMRecipes;
-import am2.common.defs.BlockDefs;
-import am2.common.defs.CreativeTabsDefs;
-import am2.common.defs.EntityManager;
-import am2.common.defs.ItemDefs;
-import am2.common.defs.LootTablesArsMagica;
-import am2.common.defs.LoreDefs;
-import am2.common.defs.PotionEffectsDefs;
-import am2.common.defs.SkillDefs;
-import am2.common.defs.SpellDefs;
 import am2.common.enchantments.AMEnchantments;
 import am2.common.extensions.RiftStorage;
 import am2.common.handler.EntityHandler;
@@ -365,6 +356,7 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityManaDrain.class, "TileEntityManaDrain");
 
 		worldGen = new AM2WorldDecorator();
+		SoundDefs.registerSounds();
 		GameRegistry.registerWorldGenerator(worldGen, 0);
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		EntityManager.instance.registerEntities();
@@ -403,6 +395,7 @@ public class CommonProxy implements IGuiHandler{
 		playerTracker.postInit();
 		MinecraftForge.EVENT_BUS.register(playerTracker);
 		MinecraftForge.EVENT_BUS.register(new SpellUnlockManager());
+		SoundDefs.createSoundMaps();
 		LoreDefs.postInit();	
 		AMRecipes.addRecipes();
 		for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {

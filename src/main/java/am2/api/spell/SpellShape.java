@@ -1,8 +1,10 @@
 package am2.api.spell;
 
+import am2.api.affinity.Affinity;
 import am2.common.spell.SpellCastResult;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 public abstract class SpellShape extends AbstractSpellPart{
@@ -14,9 +16,6 @@ public abstract class SpellShape extends AbstractSpellPart{
 
 	/**
 	 * Allows different shapes to vary the mana cost of a spell
-	 *
-	 * @param spellStack the itemstack representing the spell (useful if you want to vary based on added modifiers as well, for example)
-	 * @return
 	 */
 	public abstract float manaCostMultiplier();
 
@@ -33,7 +32,7 @@ public abstract class SpellShape extends AbstractSpellPart{
 	/**
 	 * Play the sound for the specified affinity
 	 */
-	//TODO public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world);
+	public abstract SoundEvent getSoundForAffinity(Affinity affinity, SpellData stack, World world);
 	
 	/**
 	 * Creates the target area/entity list and applies the effects to ground/mobs

@@ -1,13 +1,12 @@
 package am2.common.spell.shape;
 
-import java.util.EnumSet;
-
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
+import am2.common.defs.SoundDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.items.ItemOre;
 import am2.common.power.PowerTypes;
@@ -20,12 +19,15 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-public class Contingency_Death extends SpellShape{
+import java.util.EnumSet;
+
+public class Contingency_Death extends SpellShape {
 
 	@Override
-	public Object[] getRecipe(){
+	public Object[] getRecipe() {
 		return new Object[]{
 				Items.CLOCK,
 				AffinityShiftUtils.getEssenceForAffinity(Affinity.ENDER),
@@ -41,41 +43,42 @@ public class Contingency_Death extends SpellShape{
 	}
 
 	@Override
-	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount){
+	public SpellCastResult beginStackStage(SpellData spell, EntityLivingBase caster, EntityLivingBase target, World world, double x, double y, double z, EnumFacing side, boolean giveXP, int useCount) {
 		EntityExtension.For(target != null ? target : caster).setContingency(ContingencyType.DEATH, spell);
 		return SpellCastResult.SUCCESS;
 	}
 
 	@Override
-	public boolean isChanneled(){
+	public boolean isChanneled() {
 		return false;
 	}
 
 	@Override
-	public float manaCostMultiplier(){
+	public float manaCostMultiplier() {
 		return 10;
 	}
 
 	@Override
-	public boolean isTerminusShape(){
+	public boolean isTerminusShape() {
 		return false;
 	}
 
 	@Override
-	public boolean isPrincipumShape(){
+	public boolean isPrincipumShape() {
 		return true;
 	}
-	
+
 	@Override
 	public EnumSet<SpellModifiers> getModifiers() {
 		return EnumSet.noneOf(SpellModifiers.class);
 	}
 
-//	@Override
-//	public String getSoundForAffinity(Affinity affinity, ItemStack stack, World world){
-//		return "arsmagica2:spell.contingency.contingency";
-//	}
+	@Override
+	public SoundEvent getSoundForAffinity(Affinity affinity, SpellData stack, World world) {
+		return SoundDefs.CONTINGENCY;
+	}
 
 	@Override
-	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {}
+	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {
+	}
 }

@@ -1,13 +1,11 @@
 package am2.common.spell.shape;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.UUID;
-
+import am2.api.affinity.Affinity;
 import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.ItemDefs;
+import am2.common.defs.SoundDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.items.ItemOre;
 import am2.common.items.SpellBase;
@@ -19,7 +17,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.UUID;
 
 public class Toggle extends SpellShape {
 
@@ -58,7 +61,7 @@ public class Toggle extends SpellShape {
 		if (foundID != -1) {
 			EntityExtension.For(caster).runningStacks.remove(foundID);
 			if (caster instanceof EntityPlayer) {
-				InventoryPlayer inv = ((EntityPlayer)caster).inventory;
+				InventoryPlayer inv = ((EntityPlayer) caster).inventory;
 				for (int i = 0; i < inv.getSizeInventory(); i++) {
 					ItemStack is = inv.getStackInSlot(i);
 					//FIXME
@@ -70,7 +73,7 @@ public class Toggle extends SpellShape {
 		} else {
 			EntityExtension.For(caster).runningStacks.add(spell.copy());
 			if (caster instanceof EntityPlayer) {
-				InventoryPlayer inv = ((EntityPlayer)caster).inventory;
+				InventoryPlayer inv = ((EntityPlayer) caster).inventory;
 				for (int i = 0; i < inv.getSizeInventory(); i++) {
 					ItemStack is = inv.getStackInSlot(i);
 					//FIXME
@@ -85,7 +88,7 @@ public class Toggle extends SpellShape {
 
 	@Override
 	public Object[] getRecipe() {
-		return new Object[] {
+		return new Object[]{
 				new ItemStack(Blocks.LEVER),
 				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM),
 				new ItemStack(ItemDefs.greaterFocus)
@@ -100,6 +103,11 @@ public class Toggle extends SpellShape {
 	@Override
 	public EnumSet<SpellModifiers> getModifiers() {
 		return EnumSet.noneOf(SpellModifiers.class);
+	}
+
+	@Override
+	public SoundEvent getSoundForAffinity(Affinity affinity, SpellData stack, World world) {
+		return SoundDefs.CAST_MAP.get(affinity);
 	}
 
 }

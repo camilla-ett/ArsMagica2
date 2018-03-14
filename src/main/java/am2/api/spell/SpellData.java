@@ -1,11 +1,8 @@
 package am2.api.spell;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.UUID;
 import java.util.function.BiFunction;
 
 import javax.annotation.Nullable;
@@ -34,6 +31,8 @@ import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -45,10 +44,12 @@ public class SpellData {
 	
     public static final DataSerializer<Optional<SpellData>> OPTIONAL_SPELL_DATA = new DataSerializer<Optional<SpellData>>()
 	{
+		@Override
 		public void write(PacketBuffer buf, Optional<SpellData> value) {
 			buf.writeNBTTagCompoundToBuffer(value.isPresent() ? value.orNull().writeToNBT(new NBTTagCompound()) : null);
 		}
 
+		@Override
 		public Optional<SpellData> read(PacketBuffer buf) {
 			try {
 				NBTTagCompound tag = buf.readNBTTagCompoundFromBuffer();
@@ -59,6 +60,7 @@ public class SpellData {
 			return Optional.absent();
 		}
 
+		@Override
 		public DataParameter<Optional<SpellData>> createKey(int id) {
 			return new DataParameter<>(id, this);
 		}
@@ -137,7 +139,7 @@ public class SpellData {
 		if (exec < 0 || exec >= stages.size())
 			return SpellCastResult.EFFECT_FAILED;
 		List<AbstractSpellPart> parts = this.stages.get(exec);
-		parts.sort((t, o) -> t.compareTo(o));
+		parts.sort(Comparator.naturalOrder());
 		SpellShape shape = null;
 		for (AbstractSpellPart part : parts) {
 			if (part instanceof SpellShape) {
@@ -150,6 +152,9 @@ public class SpellData {
 			return SpellCastResult.MALFORMED_SPELL_STACK;
 		exec++;
 		SpellCastResult result = shape.beginStackStage(this, caster, null, world, x, y, z, side, true, 0);
+		SoundEvent soundEvent = shape.getSoundForAffinity(this.getMainShift(), this, world);
+		if (soundEvent != null)
+			world.playSound(x, y, z, soundEvent, SoundCategory.AMBIENT, 0.5F, 0, false);
 		return result;
 	}
 	
@@ -161,7 +166,7 @@ public class SpellData {
 		if (exec < 0 || exec >= stages.size())
 			return SpellCastResult.EFFECT_FAILED;
 		List<AbstractSpellPart> parts = Lists.newArrayList(this.stages.get(exec));
-		parts.sort((t, o) -> t.compareTo(o));
+		parts.sort(Comparator.naturalOrder());
 		boolean isPlayer = caster instanceof EntityPlayer;
 		boolean flag = false;
 		boolean success = false;
@@ -197,7 +202,7 @@ public class SpellData {
 		if (exec < 0 || exec >= stages.size())
 			return SpellCastResult.EFFECT_FAILED;
 		List<AbstractSpellPart> parts = Lists.newArrayList(this.stages.get(exec));
-		parts.sort((t, o) -> t.compareTo(o));
+		parts.sort(Comparator.naturalOrder());
 		boolean isPlayer = caster instanceof EntityPlayer;
 		boolean flag = false;
 		boolean success = false;

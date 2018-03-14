@@ -13,7 +13,6 @@ import am2.api.blocks.IMultiblock;
 import am2.api.blocks.Multiblock;
 import am2.api.blocks.MultiblockGroup;
 import am2.api.blocks.TypedMultiblockGroup;
-import am2.api.math.AMVector3;
 import am2.client.particles.AMLineArc;
 import am2.common.blocks.BlockArsMagicaBlock;
 import am2.common.buffs.BuffEffectAstralDistortion;
@@ -98,6 +97,18 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 	@Override
 	public void update(){
 		if (worldObj.isRemote){
+			Iterator<EntityLivingBase> arcIterator = arcs.keySet().iterator();
+			ArrayList<Entity> toRemove = new ArrayList<Entity>();
+			while (arcIterator.hasNext()){
+				EntityLivingBase arcEnt = arcIterator.next();
+				AMLineArc arc = (AMLineArc)arcs.get(arcEnt);
+				if (arcEnt == null || arcEnt.isDead || arc == null || !arc.isAlive() || arcEnt.getDistanceSq(pos) > 100 || EntityUtils.isSummon(arcEnt))
+					toRemove.add(arcEnt);
+			}
+
+			for (Entity e : toRemove){
+				arcs.remove(e);
+			}
 		}else{
 			surroundingCheckTicks++;
 		}
@@ -115,7 +126,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 			if (!ent.isPotionActive(PotionEffectsDefs.ASTRAL_DISTORTION))
 				ent.addPotionEffect(new BuffEffectAstralDistortion(600, 0));
 			
-			if (ent.isDead || new AMVector3(pos).distanceTo(new AMVector3(ent)) > 10){
+			if (ent.isDead || ent.getDistanceSq(pos) > 100){
 				it.remove();
 				continue;
 			}
@@ -167,18 +178,6 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 						arc.setRBGColorF(1, 1, 1);
 					}
 					arcs.put(ent, arc);
-				}
-				Iterator<EntityLivingBase> arcIterator = arcs.keySet().iterator();
-				ArrayList<Entity> toRemove = new ArrayList<Entity>();
-				while (arcIterator.hasNext()){
-					Entity arcEnt = (Entity)arcIterator.next();
-					AMLineArc arc = (AMLineArc)arcs.get(arcEnt);
-					if (arcEnt == null || arcEnt.isDead || arc == null || !arc.isAlive() || new AMVector3(ent).distanceSqTo(new AMVector3(pos)) > 100)
-						toRemove.add(arcEnt);
-				}
-
-				for (Entity e : toRemove){
-					arcs.remove(e);
 				}
 			}
 			if (!worldObj.isRemote)

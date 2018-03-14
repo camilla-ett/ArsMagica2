@@ -183,6 +183,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		return 0.0F;
 	}
 
+	@Override
 	public int compareTo(Affinity b) {
 		return ArsMagicaAPI.getAffinityRegistry().getId(b) - ArsMagicaAPI.getAffinityRegistry().getId(this);
 	}
@@ -238,13 +239,17 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 			minorOpposites.add(rl);
 		return this;
 	}
-	
-	public static class AffinityComparator implements Comparator<Affinity> {
 
-		@Override
-		public int compare(Affinity o1, Affinity o2) {
-			return o1.compareTo(o2);
-		}
-		
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Affinity)
+			return ((Affinity) obj).delegate.equals(this.delegate);
+		else
+			return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.getRegistryName().hashCode();
 	}
 }
