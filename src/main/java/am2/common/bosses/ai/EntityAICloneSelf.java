@@ -16,7 +16,7 @@ public class EntityAICloneSelf extends EntityAIBase{
 
 	@Override
 	public boolean shouldExecute(){
-		if (cooldownTicks-- > 0 || host.getCurrentAction() != BossActions.IDLE || !host.isActionValid(BossActions.CLONE))
+		if (cooldownTicks-- > 0 || host.getCurrentAction() != BossActions.IDLE || !host.isActionValid(BossActions.CLONE) || host.isClone())
 			return false;
 		EntityLivingBase AITarget = host.getAttackTarget();
 		if (AITarget == null || AITarget.isDead) return false;
@@ -25,6 +25,8 @@ public class EntityAICloneSelf extends EntityAIBase{
 
 	@Override
 	public boolean continueExecuting(){
+		if (host.isClone())
+			return false;
 		if (host.getCurrentAction() == BossActions.CLONE && host.getTicksInCurrentAction() > host.getCurrentAction().getMaxActionTime()){
 			host.setCurrentAction(BossActions.IDLE);
 			cooldownTicks = 200;
@@ -35,14 +37,17 @@ public class EntityAICloneSelf extends EntityAIBase{
 
 	@Override
 	public void updateTask(){
+		if (host.isClone())
+			return;
+
 		if (host.getCurrentAction() != BossActions.CLONE)
 			host.setCurrentAction(BossActions.CLONE);
 
 		if (!host.worldObj.isRemote && host.getCurrentAction() == BossActions.CLONE && host.getTicksInCurrentAction() == 30){
 			EntityWaterGuardian clone1 = spawnClone();
 			EntityWaterGuardian clone2 = spawnClone();
-
 			host.setClones(clone1, clone2);
+			this.cooldownTicks = 200;
 		}
 	}
 

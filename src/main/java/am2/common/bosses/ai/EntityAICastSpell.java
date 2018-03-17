@@ -6,6 +6,7 @@ import am2.common.bosses.IArsMagicaBoss;
 import am2.common.spell.SpellCaster;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 
@@ -24,7 +25,7 @@ public class EntityAICastSpell<T extends EntityLiving & IArsMagicaBoss> extends 
 	private ISpellCastCallback<T> callback;
 
 	public EntityAICastSpell(T host, ItemStack spell, int castPoint, int duration, int cooldown, BossActions activeAction){
-		this.host = (T)host;
+		this.host = host;
 		this.stack = spell;
 		this.castPoint = castPoint;
 		this.duration = duration;
@@ -35,7 +36,7 @@ public class EntityAICastSpell<T extends EntityLiving & IArsMagicaBoss> extends 
 	}
 
 	public EntityAICastSpell(T host, ItemStack spell, int castPoint, int duration, int cooldown, BossActions activeAction, ISpellCastCallback<T> callback){
-		this.host = (T)host;
+		this.host = host;
 		this.stack = spell;
 		this.castPoint = castPoint;
 		this.duration = duration;
@@ -46,11 +47,10 @@ public class EntityAICastSpell<T extends EntityLiving & IArsMagicaBoss> extends 
 
 	@Override
 	public boolean shouldExecute(){
-		cooldownTicks--;
-		boolean execute = host.getCurrentAction() == BossActions.IDLE && host.getAttackTarget() != null && cooldownTicks <= 0;
+		boolean execute = this.host.getCurrentAction() == BossActions.IDLE && this.host.getAttackTarget() != null && --this.cooldownTicks <= 0;
 		if (execute){
-			if (callback == null || callback.shouldCast(host, stack))
-				hasCasted = false;
+			if (this.callback == null || this.callback.shouldCast(this.host, this.stack))
+				this.hasCasted = false;
 			else
 				execute = false;
 		}
@@ -59,50 +59,55 @@ public class EntityAICastSpell<T extends EntityLiving & IArsMagicaBoss> extends 
 
 	@Override
 	public boolean continueExecuting(){
-		return !hasCasted && host.getAttackTarget() != null && !host.getAttackTarget().isDead;
+		return !this.hasCasted && this.host.getAttackTarget() != null && !this.host.getAttackTarget().isDead;
 	}
 
 	@Override
 	public void resetTask(){
-		((IArsMagicaBoss)host).setCurrentAction(BossActions.IDLE);
-		cooldownTicks = cooldown;
-		hasCasted = true;
-		castTicks = 0;
+		this.host.setCurrentAction(BossActions.IDLE);
+		this.cooldownTicks = this.cooldown;
+		this.hasCasted = true;
+		this.castTicks = 0;
 	}
 
 	@Override
 	public void updateTask(){
-		host.getLookHelper().setLookPositionWithEntity(host.getAttackTarget(), 30, 30);
-		if (host.getDistanceSqToEntity(host.getAttackTarget()) > 64){
+		if (this.host.getAttackTarget() == null) {
+			resetTask();
+			return;
+		}
 
-			double deltaZ = host.getAttackTarget().posZ - host.posZ;
-			double deltaX = host.getAttackTarget().posX - host.posX;
+		//this.host.getLookHelper().setLookPositionWithEntity(this.host.getAttackTarget(), 30, 30);
+		if (this.host.getDistanceSqToEntity(this.host.getAttackTarget()) > 64){
+
+			double deltaZ = this.host.getAttackTarget().posZ - this.host.posZ;
+			double deltaX = this.host.getAttackTarget().posX - this.host.posX;
 
 			double angle = -Math.atan2(deltaZ, deltaX);
 
-			double newX = host.getAttackTarget().posX + (Math.cos(angle) * 6);
-			double newZ = host.getAttackTarget().posZ + (Math.sin(angle) * 6);
+			double newX = this.host.getAttackTarget().posX + (Math.cos(angle) * 6);
+			double newZ = this.host.getAttackTarget().posZ + (Math.sin(angle) * 6);
 
-			host.getNavigator().tryMoveToXYZ(newX, host.getAttackTarget().posY, newZ, 0.5f);
-		}else if (!host.canEntityBeSeen(host.getAttackTarget())){
-			host.getNavigator().tryMoveToEntityLiving(host.getAttackTarget(), 0.5f);
+			this.host.getNavigator().tryMoveToXYZ(newX, this.host.getAttackTarget().posY, newZ, 0.5f);
+			//this.host.getNavigator().tryMoveToEntityLiving(this.host.getAttackTarget(), 0.5f);
+		}else if (!this.host.canEntityBeSeen(this.host.getAttackTarget())){
+			this.host.getNavigator().tryMoveToEntityLiving(this.host.getAttackTarget(), 0.5f);
 		}else{
-			if (((IArsMagicaBoss)host).getCurrentAction() != activeAction)
-				((IArsMagicaBoss)host).setCurrentAction(activeAction);
+			if (this.host.getCurrentAction() != this.activeAction)
+				this.host.setCurrentAction(this.activeAction);
 
-			castTicks++;
-			if (castTicks == castPoint){
-				if (!host.worldObj.isRemote)
-					host.worldObj.playSound(host.posX, host.posY, host.posZ, ((IArsMagicaBoss)host).getAttackSound(), SoundCategory.HOSTILE, 1.0f, 1.0f, false);
-				host.faceEntity(host.getAttackTarget(), 180, 180);
-				ISpellCaster spell = stack.getCapability(SpellCaster.INSTANCE, null);
+			if (++this.castTicks == this.castPoint){
+				if (!this.host.worldObj.isRemote)
+					this.host.worldObj.playSound(this.host.posX, this.host.posY, this.host.posZ, this.host.getAttackSound(), SoundCategory.HOSTILE, 1.0f, 1.0f, false);
+				this.host.faceEntity(this.host.getAttackTarget(), 180, 180);
+				ISpellCaster spell = this.stack.getCapability(SpellCaster.INSTANCE, null);
 				if (spell != null) {
-					spell.cast(stack, host.worldObj, host);
+					spell.cast(this.stack, this.host.worldObj, this.host);
 				}
 			}
 		}
-		if (castTicks >= duration){
-			resetTask();
+		if (this.castTicks >= this.duration){
+			this.resetTask();
 		}
 	}
 }
