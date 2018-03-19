@@ -29,14 +29,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class BlockIllusionBlock extends BlockAMContainer{
+public class BlockIllusionBlock extends BlockAMContainer {
 
 	public static final PropertyEnum<EnumIllusionType> ILLUSION_TYPE = PropertyEnum.create("illusion_type", EnumIllusionType.class);
 	
 	public BlockIllusionBlock() {
 		super(Material.WOOD);
-		setDefaultState(blockState.getBaseState().withProperty(ILLUSION_TYPE, EnumIllusionType.DEFAULT));
-		setLightOpacity(255);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(ILLUSION_TYPE, EnumIllusionType.DEFAULT));
+		this.setLightOpacity(255);
 
 		this.setHardness(3.0f);
 		this.setResistance(3.0f);
@@ -55,15 +55,13 @@ public class BlockIllusionBlock extends BlockAMContainer{
 	
 	@Override
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-		TileEntityIllusionBlock te = (TileEntityIllusionBlock)blockAccess.getTileEntity(pos);
-		if (te != null && te.getMimicBlock() != null && te.getMimicBlock() != Blocks.AIR.getDefaultState())
-			return te.getMimicBlock().shouldSideBeRendered(blockAccess, pos, side);
-		return true;
+		TileEntityIllusionBlock te = (TileEntityIllusionBlock) blockAccess.getTileEntity(pos);
+		return te == null || te.getMimicBlock() == null || te.getMimicBlock() == Blocks.AIR.getDefaultState() || te.getMimicBlock().shouldSideBeRendered(blockAccess, pos, side);
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(ILLUSION_TYPE, EnumIllusionType.values()[meta]);
+		return this.getDefaultState().withProperty(ILLUSION_TYPE, EnumIllusionType.values()[meta]);
 	}
 	
 	@Override
@@ -85,7 +83,7 @@ public class BlockIllusionBlock extends BlockAMContainer{
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
 		if (entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).isPotionActive(PotionEffectsDefs.TRUE_SIGHT))
 			return;
-		if (getIllusionType(state).isSolid())
+		if (state.getBlock() instanceof BlockIllusionBlock && getIllusionType(state).isSolid())
 			addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
 	}
 	
@@ -102,15 +100,15 @@ public class BlockIllusionBlock extends BlockAMContainer{
 		if (alwaysPassable){
 			return new Object[]{
 					"BRB", "RGR", "BRB",
-					Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
-					Character.valueOf('G'), Blocks.GLASS,
-					Character.valueOf('B'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE)
+					'R', new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
+					'G', Blocks.GLASS,
+					'B', new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE)
 			};
 		}else{
 			return new Object[]{
 					"BRB", "R R", "BRB",
-					Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
-					Character.valueOf('B'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE)
+					'R', new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
+					'B', new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE)
 			};
 		}
 	}
@@ -133,29 +131,29 @@ public class BlockIllusionBlock extends BlockAMContainer{
 		return this;
 	}
 	
-	public static enum EnumIllusionType implements IStringSerializable {
+	public enum EnumIllusionType implements IStringSerializable {
 		DEFAULT(true, true),
 		NON_COLLIDE(false, false);
 		
 		private final boolean isSolid;
 		private final boolean canBeRevealed;
 		
-		private EnumIllusionType(boolean isSolid, boolean canBeRevealed) {
+		EnumIllusionType(boolean isSolid, boolean canBeRevealed) {
 			this.isSolid = isSolid;
 			this.canBeRevealed = canBeRevealed;
 		}
 		
 		public boolean isSolid() {
-			return isSolid;
+			return this.isSolid;
 		}
 		
 		public boolean canBeRevealed() {
-			return canBeRevealed;
+			return this.canBeRevealed;
 		}
 
 		@Override
 		public String getName() {
-			return name().toLowerCase();
+			return this.name().toLowerCase();
 		}
 		
 	}

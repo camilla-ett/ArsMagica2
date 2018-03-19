@@ -69,7 +69,17 @@ public class PowerTypes {
 	public float getOutputMultiplier() {
 		return outputMultiplier;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return ID;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof PowerTypes && ((PowerTypes) obj).ID == this.ID;
+	}
+
 	public static List<PowerTypes> getTypes(int integer) {
 		ImmutableList.Builder<PowerTypes> builder = ImmutableList.builder();
 		for (PowerTypes type : all()) {

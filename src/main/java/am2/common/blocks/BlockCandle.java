@@ -20,7 +20,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class BlockCandle extends BlockAMSpecialRenderContainer{
+public class BlockCandle extends BlockAMSpecialRenderContainer {
 
 	public BlockCandle(){
 		super(Material.WOOD);
@@ -41,7 +41,7 @@ public class BlockCandle extends BlockAMSpecialRenderContainer{
 	
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+		ArrayList<ItemStack> drops = new ArrayList<>();
 		drops.add(new ItemStack(ItemDefs.wardingCandle));
 		return drops;
 	}
@@ -55,7 +55,7 @@ public class BlockCandle extends BlockAMSpecialRenderContainer{
 	public TileEntity createNewTileEntity(World world, int i){
 		return new TileEntityCandle();
 	}
-	
+
 	@Override
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		worldIn.spawnParticle(EnumParticleTypes.FLAME, pos.getX() + 0.5, pos.getY() + 0.65, pos.getZ() + 0.5, 0, 0, 0);

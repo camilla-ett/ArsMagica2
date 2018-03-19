@@ -51,7 +51,7 @@ public class SoundDefs {
 	public static SoundEvent CAST_WATER = getCastSound("water");
 
 	public static SoundEvent RUNE_CAST = new SoundEvent(new ResourceLocation(ArsMagica2.MODID, "spell.rune.cast"));
-	public static SoundEvent CONTINGENCY = new SoundEvent(new ResourceLocation(ArsMagica2.MODID, "spell.contingency.contingency"));
+	public static SoundEvent CONTINGENCY = new SoundEvent(new ResourceLocation(ArsMagica2.MODID, "spell.contingency.cast"));
 	public static SoundEvent BINDING_CAST = new SoundEvent(new ResourceLocation(ArsMagica2.MODID, "spell.binding.cast"));
 
 	public static void registerSounds() {

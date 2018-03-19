@@ -59,18 +59,20 @@ public class TileEntityManaBattery extends TileEntityAMPower implements ITileEnt
 			if (amt > 0) {
 				if(this.outputPowerType != highest) {
 					this.outputPowerType = highest;
+					this.getWorld().notifyBlockUpdate(this.getPos(), this.getWorld().getBlockState(getPos()), this.getWorld().getBlockState(getPos()), 3);
 					//this.tickCounter = 0;
 				}
 			} else {
 				if(this.outputPowerType != PowerTypes.NONE) {
 					this.outputPowerType = PowerTypes.NONE;
+					this.getWorld().notifyBlockUpdate(this.getPos(), this.getWorld().getBlockState(getPos()), this.getWorld().getBlockState(getPos()), 3);
 					//this.tickCounter = 0;
 				}
 			}
 		}
 		this.markDirty();
-		this.getWorld().setBlockState(getPos(), this.getWorld().getBlockState(getPos()), 3);
-		this.getWorld().notifyBlockOfStateChange(getPos(), getBlockType());
+//		this.getWorld().setBlockState(getPos(), this.getWorld().getBlockState(getPos()), 3);
+//		this.getWorld().notifyBlockOfStateChange(getPos(), getBlockType());
 //		if(this.tickCounter == 10) {
 //			this.tickCounter++;
 //			getWorld().notifyBlockUpdate(getPos(), getWorld().getBlockState(getPos()), getWorld().getBlockState(getPos()), 3);

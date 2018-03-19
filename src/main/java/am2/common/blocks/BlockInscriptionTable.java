@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -37,16 +38,16 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		super(Material.WOOD);
 
 		//setTextureFile(AMCore.proxy.getOverrideBlockTexturePath());
-		setHardness(2.0f);
-		setResistance(2.0f);
-		setLightLevel(0.8f);
+		this.setHardness(2.0f);
+		this.setResistance(2.0f);
+		this.setLightLevel(0.8f);
 		this.setBlockBounds(0.0f, 0.0f, 0.0f, 1.0f, 1.3f, 1.0f);
-		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(LEFT, false).withProperty(TIER_1, false).withProperty(TIER_2, false).withProperty(TIER_3, false));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(LEFT, false).withProperty(TIER_1, false).withProperty(TIER_2, false).withProperty(TIER_3, false));
 	}
 	
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().rotateY());
+		return this.getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().rotateY());
 	}
 	
 	@Override
@@ -87,7 +88,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 			}
 		}
 
-		if (te == null)
+		if (te == null || tealt == null)
 			return true;
 		
 		if (te.isInUse(playerIn)){
@@ -123,7 +124,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		BlockPos placePos = pos.offset(state.getValue(FACING), state.getValue(LEFT) ? -1 : 1);
 
 		if (world.getBlockState(placePos).getBlock() == this && state.getValue(LEFT)) {
-			breakBlock(world, placePos, state);
+			this.breakBlock(world, placePos, state);
 			world.setBlockToAir(placePos);
 		} else if (world.getBlockState(placePos).getBlock() == this) {
 			super.breakBlock(world, placePos, state);
@@ -136,12 +137,12 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 				if (itemstack == null){
 					continue;
 				}
-				spawnItemOnBreak(world, pos, itemstack);
+				this.spawnItemOnBreak(world, pos, itemstack);
 			}
 
 			int stat = insc.getUpgradeState();
 			for (int m = 0; m < stat; ++m)
-				spawnItemOnBreak(world, pos, new ItemStack(ItemDefs.inscriptionUpgrade, 1, m));
+				this.spawnItemOnBreak(world, pos, new ItemStack(ItemDefs.inscriptionUpgrade, 1, m));
 		}
 
 		super.breakBlock(world, pos, state);
@@ -161,7 +162,6 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 			}
 			itemstack.stackSize -= i1;
 			ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
-			newItem.setTagCompound(itemstack.getTagCompound());
 			EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
 			float f3 = 0.05F;
 			entityitem.motionX = (float)world.rand.nextGaussian() * f3;
@@ -186,7 +186,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(FACING, EnumFacing.values()[2 + (meta % 4)]).withProperty(LEFT, (meta & 0x8) == 0x8);
+		return this.getDefaultState().withProperty(FACING, EnumFacing.values()[2 + (meta % 4)]).withProperty(LEFT, (meta & 0x8) == 0x8);
 	}
 	
 	@Override

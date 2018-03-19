@@ -1,10 +1,5 @@
 package am2.common.power;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import am2.api.power.IPowerNode;
 import am2.common.utils.NBTUtils;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,27 +10,28 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.Constants;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+
 public class PowerNodeEntry{
-	HashMap<PowerTypes, Float> powerAmounts;
+	private HashMap<PowerTypes, Float> powerAmounts;
 	private HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> nodePaths;
 
 	public PowerNodeEntry(){
-		powerAmounts = new HashMap<PowerTypes, Float>();
-		nodePaths = new HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>>();
+		this.powerAmounts = new HashMap<>();
+		this.nodePaths = new HashMap<>();
 	}
 
 	public void clearNodePaths(){
-		for (PowerTypes type : nodePaths.keySet()){
-			nodePaths.get(type).clear();
+		for (PowerTypes type : this.nodePaths.keySet()){
+			this.nodePaths.get(type).clear();
 		}
 	}
 
 	public void registerNodePath(PowerTypes type, LinkedList<BlockPos> path){
-		ArrayList<LinkedList<BlockPos>> paths = nodePaths.get(type);
-		if (paths == null){
-			paths = new ArrayList<LinkedList<BlockPos>>();
-			nodePaths.put(type, paths);
-		}
+		ArrayList<LinkedList<BlockPos>> paths = this.nodePaths.computeIfAbsent(type, k -> new ArrayList<>());
 
 		//do we already have a path that ends here?
 		Iterator<LinkedList<BlockPos>> it = paths.iterator();
@@ -50,9 +46,9 @@ public class PowerNodeEntry{
 	}
 
 	public float requestPower(World world, PowerTypes type, float amount, float capacity){
-		if (getPower(type) >= capacity)
+		if (this.getPower(type) >= capacity)
 			return 0f;
-		ArrayList<LinkedList<BlockPos>> paths = nodePaths.get(type);
+		ArrayList<LinkedList<BlockPos>> paths = this.nodePaths.get(type);
 		if (paths == null || paths.size() == 0){
 			//AMCore.log.info("No Paths!");
 			return 0;
@@ -60,13 +56,13 @@ public class PowerNodeEntry{
 
 		//AMCore.log.info("Path Exists");
 
-		if (powerAmounts.containsKey(type) && powerAmounts.get(type) + amount > capacity){
-			amount = capacity - powerAmounts.get(type);
+		if (this.powerAmounts.containsKey(type) && this.powerAmounts.get(type) + amount > capacity){
+			amount = capacity - this.powerAmounts.get(type);
 		}
 
 		float requested = 0f;
 		for (LinkedList<BlockPos> path : paths){
-			requested += requestPowerFrom(world, path, type, amount - requested);
+			requested += this.requestPowerFrom(world, path, type, amount - requested);
 			if (requested >= amount)
 				break;
 		}
@@ -85,9 +81,9 @@ public class PowerNodeEntry{
 				continue;
 
 			//set a marker block to say that a conduit or other power relay of some sort was here and is now not
-			if (!world.isRemote && world.isAirBlock(vec)){
-//				world.setBlock(vec, BlocksCommonProxy.brokenLinkBlock);
-			}
+//			if (!world.isRemote && world.isAirBlock(vec)){
+//				world.setBlockState(vec, BlockDefs.brokenPowerLink.getDefaultState());
+//			}
 
 			return false;
 		}
@@ -96,7 +92,7 @@ public class PowerNodeEntry{
 	}
 
 	private float requestPowerFrom(World world, LinkedList<BlockPos> path, PowerTypes type, float amount){
-		if (!validatePath(world, path))
+		if (!this.validatePath(world, path))
 			return 0f;
 		BlockPos end = path.getLast();
 		TileEntity te = world.getTileEntity(end);
@@ -111,9 +107,9 @@ public class PowerNodeEntry{
 	public PowerTypes getHighestPowerType(){
 		float highest = 0;
 		PowerTypes hType = PowerTypes.NONE;
-		for (PowerTypes type : powerAmounts.keySet()){
-			if (powerAmounts.get(type) > highest){
-				highest = powerAmounts.get(type);
+		for (PowerTypes type : this.powerAmounts.keySet()){
+			if (this.powerAmounts.get(type) > highest){
+				highest = this.powerAmounts.get(type);
 				hType = type;
 			}
 		}
@@ -122,22 +118,22 @@ public class PowerNodeEntry{
 
 	public float getHighestPower(){
 		float highest = 0;
-		for (PowerTypes type : powerAmounts.keySet()){
-			if (powerAmounts.get(type) > highest){
-				highest = powerAmounts.get(type);
+		for (PowerTypes type : this.powerAmounts.keySet()){
+			if (this.powerAmounts.get(type) > highest){
+				highest = this.powerAmounts.get(type);
 			}
 		}
 		return highest;
 	}
 
 	public float getPower(PowerTypes type){
-		Float f = powerAmounts.get(type);
+		Float f = this.powerAmounts.get(type);
 		return f == null ? 0 : f;
 	}
 
 	public void setPower(PowerTypes type, float amt){
 		if (type != null)
-			powerAmounts.put(type, amt);
+			this.powerAmounts.put(type, amt);
 	}
 
 	public NBTTagCompound saveToNBT(){
@@ -154,7 +150,7 @@ public class PowerNodeEntry{
 			//set power type ID
 			powerType.setInteger("powerType", type.ID());
 			//set power amount
-			powerType.setFloat("powerAmount", powerAmounts.get(type));
+			powerType.setFloat("powerAmount", this.powerAmounts.get(type));
 			//attach the power node to the list
 			powerAmountStore.appendTag(powerType);
 		}
@@ -164,12 +160,12 @@ public class PowerNodeEntry{
 		//power paths
 		NBTTagList powerPathList = new NBTTagList();
 
-		for (PowerTypes type : nodePaths.keySet()){
+		for (PowerTypes type : this.nodePaths.keySet()){
 
 			//This is the actual entry in the power path list
 			NBTTagCompound powerPathEntry = new NBTTagCompound();
 
-			ArrayList<LinkedList<BlockPos>> paths = nodePaths.get(type);
+			ArrayList<LinkedList<BlockPos>> paths = this.nodePaths.get(type);
 			//This stores each path individually for a given power type
 			NBTTagList pathsForType = new NBTTagList();
 			for (LinkedList<BlockPos> path : paths){
@@ -207,51 +203,43 @@ public class PowerNodeEntry{
 		//locate the list of power amounts
 		NBTTagList powerAmountStore = compound.getTagList("powerAmounts", Constants.NBT.TAG_COMPOUND);
 		//sanity check
-		if (powerAmountStore != null){
-			//spin through nodes
-			for (int i = 0; i < powerAmountStore.tagCount(); ++i){
-				//reference current node
-				NBTTagCompound powerType = (NBTTagCompound)powerAmountStore.getCompoundTagAt(i);
-				//resolve power type
-				PowerTypes type = PowerTypes.getByID(powerType.getInteger("powerType"));
-				//resolve power amount
-				float powerAmount = powerType.getFloat("powerAmount");
-				//register entry
-				powerAmounts.put(type, powerAmount);
-			}
+		//spin through nodes
+		for (int i = 0; i < powerAmountStore.tagCount(); ++i){
+			//reference current node
+			NBTTagCompound powerType = powerAmountStore.getCompoundTagAt(i);
+			//resolve power type
+			PowerTypes type = PowerTypes.getByID(powerType.getInteger("powerType"));
+			//resolve power amount
+			float powerAmount = powerType.getFloat("powerAmount");
+			//register entry
+			this.powerAmounts.put(type, powerAmount);
 		}
 
 		//power paths
 		//locate list of power paths
 		NBTTagList powerPathList = compound.getTagList("powerPathList", Constants.NBT.TAG_COMPOUND);
-		if (powerPathList != null){
-			for (int i = 0; i < powerPathList.tagCount(); ++i){
-				NBTTagCompound powerPathEntry = (NBTTagCompound)powerPathList.getCompoundTagAt(i);
-				PowerTypes type = PowerTypes.getByID(powerPathEntry.getInteger("powerType"));
-				NBTTagList pathNodes = powerPathEntry.getTagList("nodePaths", Constants.NBT.TAG_LIST);
-				ArrayList<LinkedList<BlockPos>> pathsList = new ArrayList<LinkedList<BlockPos>>();
-				if (pathNodes != null){
-					for (int j = 0; j < pathNodes.tagCount(); j++){
-						NBTTagList nodeList = (NBTTagList)pathNodes.get(j);
-						LinkedList<BlockPos> powerPath = new LinkedList<BlockPos>();
-						if (nodeList != null){
-							for (int b = 0; b < nodeList.tagCount(); ++b){
-								NBTTagCompound node = (NBTTagCompound)nodeList.getCompoundTagAt(b);
-								BlockPos nodeLocation = NBTUtils.readBlockPosFromNBT(node);
-								powerPath.add(nodeLocation);
-							}
-							pathsList.add(powerPath);
-						}
-					}
-					nodePaths.put(type, pathsList);
-					//ArsMagica2.LOGGER.info(String.format("Loaded %d node paths for %s etherium.", pathsList.size(), type.name()));
+		for (int i = 0; i < powerPathList.tagCount(); ++i){
+			NBTTagCompound powerPathEntry = powerPathList.getCompoundTagAt(i);
+			PowerTypes type = PowerTypes.getByID(powerPathEntry.getInteger("powerType"));
+			NBTTagList pathNodes = powerPathEntry.getTagList("nodePaths", Constants.NBT.TAG_LIST);
+			ArrayList<LinkedList<BlockPos>> pathsList = new ArrayList<>();
+			for (int j = 0; j < pathNodes.tagCount(); j++){
+				NBTTagList nodeList = (NBTTagList)pathNodes.get(j);
+				LinkedList<BlockPos> powerPath = new LinkedList<>();
+				for (int b = 0; b < nodeList.tagCount(); ++b){
+					NBTTagCompound node = nodeList.getCompoundTagAt(b);
+					BlockPos nodeLocation = NBTUtils.readBlockPosFromNBT(node);
+					powerPath.add(nodeLocation);
 				}
+				pathsList.add(powerPath);
 			}
+			this.nodePaths.put(type, pathsList);
+			//ArsMagica2.LOGGER.info(String.format("Loaded %d node paths for %s etherium.", pathsList.size(), type.name()));
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>> getNodePaths(){
-		return (HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>>)nodePaths.clone();
+		return (HashMap<PowerTypes, ArrayList<LinkedList<BlockPos>>>) this.nodePaths.clone();
 	}
 }

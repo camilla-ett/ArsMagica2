@@ -186,13 +186,7 @@ public class BlockDefs {
 		Block blockliquid_essence = GameRegistry.findRegistry(Block.class).getValue(new ResourceLocation("arsmagica2:liquid_essence"));
 		Item itemliquid_essence = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("arsmagica2:liquid_essence"));
 		ModelBakery.registerItemVariants(itemliquid_essence, new ModelResourceLocation(new ResourceLocation("arsmagica2:liquid_essence"), liquid_essence.getName()));
-		ModelLoader.setCustomMeshDefinition(itemliquid_essence, new ItemMeshDefinition() {
-			
-			@Override
-			public ModelResourceLocation getModelLocation(ItemStack stack) {
-				return new ModelResourceLocation(new ResourceLocation("arsmagica2:liquid_essence"), liquid_essence.getName());
-			}
-		});
+		ModelLoader.setCustomMeshDefinition(itemliquid_essence, stack -> new ModelResourceLocation(new ResourceLocation("arsmagica2:liquid_essence"), liquid_essence.getName()));
 		
 		ModelLoader.setCustomStateMapper(iceEffigy, new StateMap.Builder().ignore(BlockEffigy.PROGRESS).build());
 		ModelLoader.setCustomStateMapper(lightningEffigy, new StateMap.Builder().ignore(BlockEffigy.PROGRESS).build());
