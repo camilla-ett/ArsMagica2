@@ -24,53 +24,53 @@ public class EntityAIChestDeposit extends EntityAIBase{
 
 	@Override
 	public boolean shouldExecute(){
-		AMVector3 iLoc = host.getChestLocation();
+		AMVector3 iLoc = this.host.getChestLocation();
 		if (iLoc == null)
 			return false;
 
-		if (InventoryUtilities.isInventoryEmpty(host.getBroomInventory()))
+		if (InventoryUtilities.isInventoryEmpty(this.host.getBroomInventory()))
 			return false;
-		return !host.isInventoryEmpty() && host.isInventoryFull() || EntityExtension.For(host).getInanimateTarget() == null;
+		return !this.host.isInventoryEmpty() && this.host.isInventoryFull() || EntityExtension.For(this.host).getInanimateTarget() == null;
 	}
 
 	@Override
 	public boolean continueExecuting(){
-		return isDepositing || super.continueExecuting();
+		return this.isDepositing || super.continueExecuting();
 	}
 
 	@Override
 	public void resetTask(){
-		isDepositing = false;
-		depositCounter = 0;
+		this.isDepositing = false;
+		this.depositCounter = 0;
 	}
 
 	@Override
 	public void updateTask(){
-		AMVector3 iLoc = host.getChestLocation();
+		AMVector3 iLoc = this.host.getChestLocation();
 
 		if (iLoc == null)
 			return;
 
-		TileEntity te = host.worldObj.getTileEntity(iLoc.toBlockPos());
+		TileEntity te = this.host.worldObj.getTileEntity(iLoc.toBlockPos());
 		if (te == null || !(te instanceof IInventory)) return;
 
-		if (new AMVector3(host).distanceSqTo(iLoc) > 256){
-			host.setPosition(iLoc.x, iLoc.y, iLoc.z);
+		if (new AMVector3(this.host).distanceSqTo(iLoc) > 256){
+			this.host.setPosition(iLoc.x, iLoc.y, iLoc.z);
 			return;
 		}
 
-		if (new AMVector3(host).distanceSqTo(iLoc) > 9){
-			host.getNavigator().tryMoveToXYZ(iLoc.x + 0.5, iLoc.y, iLoc.z + 0.5, 0.5f);
+		if (new AMVector3(this.host).distanceSqTo(iLoc) > 9){
+			this.host.getNavigator().tryMoveToXYZ(iLoc.x + 0.5, iLoc.y, iLoc.z + 0.5, 0.5f);
 		}else{
 			IInventory inventory = (IInventory)te;
-			if (!isDepositing)
-				inventory.openInventory(DummyEntityPlayer.fromEntityLiving(host));
+			if (!this.isDepositing)
+				inventory.openInventory(DummyEntityPlayer.fromEntityLiving(this.host));
 
-			isDepositing = true;
-			depositCounter++;
+			this.isDepositing = true;
+			this.depositCounter++;
 
-			if (depositCounter > 10){
-				ItemStack mergeStack = InventoryUtilities.getFirstStackInInventory(host.getBroomInventory()).copy();
+			if (this.depositCounter > 10){
+				ItemStack mergeStack = InventoryUtilities.getFirstStackInInventory(this.host.getBroomInventory()).copy();
 				int originalSize = mergeStack.stackSize;
 				if (!InventoryUtilities.mergeIntoInventory(inventory, mergeStack, 1)){
 					if (te instanceof TileEntityChest){
@@ -90,12 +90,12 @@ public class EntityAIChestDeposit extends EntityAIBase{
 						}
 					}
 				}
-				InventoryUtilities.deductFromInventory(host.getBroomInventory(), mergeStack, originalSize - mergeStack.stackSize);
+				InventoryUtilities.deductFromInventory(this.host.getBroomInventory(), mergeStack, originalSize - mergeStack.stackSize, null);
 			}
 
-			if (depositCounter > 10 && (InventoryUtilities.isInventoryEmpty(host.getBroomInventory()) || !InventoryUtilities.canMergeHappen(host.getBroomInventory(), inventory))){
-				inventory.closeInventory(DummyEntityPlayer.fromEntityLiving(host));
-				resetTask();
+			if (this.depositCounter > 10 && (InventoryUtilities.isInventoryEmpty(this.host.getBroomInventory()) || !InventoryUtilities.canMergeHappen(this.host.getBroomInventory(), inventory))){
+				inventory.closeInventory(DummyEntityPlayer.fromEntityLiving(this.host));
+				this.resetTask();
 			}
 		}
 	}

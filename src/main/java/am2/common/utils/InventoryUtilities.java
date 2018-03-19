@@ -6,8 +6,11 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class InventoryUtilities{
@@ -119,7 +122,23 @@ public class InventoryUtilities{
 		}
 	}
 
-	public static boolean deductFromInventory(IInventory inventory, ItemStack search, int quantity){
+	public static boolean deductFromInventory(IInventory inventory, ItemStack search, int quantity, EnumFacing side){
+		if (inventory instanceof TileEntity && ((TileEntity) inventory).hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)) {
+			IItemHandler handler = ((TileEntity) inventory).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+			for (int i = 0; i < handler.getSlots(); i++) {
+				ItemStack itemStack = handler.extractItem(i, quantity, true);
+				if (compareItemStacks(itemStack, search, true, false, true, true)) {
+					if (search.stackSize <= 0){
+						return true;
+					}else{
+						quantity -= handler.extractItem(i, quantity, false).stackSize;
+						if (quantity <= 0){
+							return true;
+						}
+					}
+				}
+			}
+		}
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack inventoryStack = inventory.getStackInSlot(i);
 			if (inventoryStack == null) continue;
@@ -330,7 +349,7 @@ public class InventoryUtilities{
 		return !(inventory instanceof ISidedInventory) || ((ISidedInventory)inventory).canExtractItem(slot, itemStack, side);
 	}
 
-	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot){
+	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot) {
 		for (int i = slot; i < inventory.getSizeInventory(); i++){
 			itemStack = inventory.getStackInSlot(i);
 			if (itemStack != null){
@@ -342,17 +361,27 @@ public class InventoryUtilities{
 	}
 
 	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot, EnumFacing side){
-		if (inventory instanceof ISidedInventory){
-			ISidedInventory sidededInventory = (ISidedInventory)inventory;
-			int[] slots = sidededInventory.getSlotsForFace(side);
-
-			for (int i = slot; i < slots.length; i++){
-				itemStack = inventory.getStackInSlot(slots[i]);
-				if (itemStack != null && canExtractItemFromInventory(sidededInventory, itemStack, slots[i], side)){
+		if (inventory instanceof TileEntity && ((TileEntity) inventory).hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)) {
+			IItemHandler handler = ((TileEntity) inventory).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+			for (int i = slot; i < handler.getSlots(); i++) {
+				itemStack = handler.extractItem(i, 1, true);
+				if (itemStack != null) {
 					return new GetFirstStackStartingFromSlotResult(i, itemStack);
 				}
 			}
-		}else{
+			//System.out.println("Has IItemHandler");
+		}
+		if (inventory instanceof ISidedInventory){
+			ISidedInventory sidedInventory = (ISidedInventory)inventory;
+			int[] slots = sidedInventory.getSlotsForFace(side);
+
+			for (int i = slot; i < slots.length; i++){
+				itemStack = inventory.getStackInSlot(slots[i]);
+				if (itemStack != null && canExtractItemFromInventory(sidedInventory, itemStack, slots[i], side)){
+					return new GetFirstStackStartingFromSlotResult(i, itemStack);
+				}
+			}
+		} else {
 			return getFirstStackStartingFromSlot(inventory, itemStack, slot);
 		}
 

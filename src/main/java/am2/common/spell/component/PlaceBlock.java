@@ -97,7 +97,7 @@ public class PlaceBlock extends SpellComponent{
 				if (!world.isRemote && (player.capabilities.isCreativeMode || InventoryUtilities.inventoryHasItem(player.inventory, searchStack, 1))){
 					world.setBlockState(pos, bd);
 					if (!player.capabilities.isCreativeMode)
-						InventoryUtilities.deductFromInventory(player.inventory, searchStack, 1);
+						InventoryUtilities.deductFromInventory(player.inventory, searchStack, 1, null);
 				}
 				return true;
 			}

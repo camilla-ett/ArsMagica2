@@ -76,7 +76,7 @@ public class EntityAISpellmaking extends EntityAIBase{
 				}
 				((IInventory)te).openInventory(new DummyEntityPlayer(host.worldObj));
 				if (!host.worldObj.isRemote)
-					InventoryUtilities.deductFromInventory(((IInventory)te), host.getSearchItem(), 1);
+					InventoryUtilities.deductFromInventory(((IInventory)te), host.getSearchItem(), 1, null);
 				host.setHeldItem(host.getSearchItem());
 				action_state = 1;
 			}else if (action_state == 1 && host.getNavigator().noPath() && wait_counter < WAIT_TIME){

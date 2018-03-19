@@ -23,9 +23,6 @@ public class GuiFlickerHabitat extends GuiContainer{
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/FlickerHabitat.png");
 	private final TileEntityFlickerHabitat flickerHabitat;
 
-	/**
-	 * @param par1Container
-	 */
 	public GuiFlickerHabitat(EntityPlayer player, TileEntityFlickerHabitat tileEntityFlickerHabitat){
 		super(new ContainerFlickerHabitat(player, tileEntityFlickerHabitat));
 		flickerHabitat = tileEntityFlickerHabitat;
@@ -50,7 +47,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 		super.drawGuiContainerForegroundLayer(p_146979_1_, p_146979_2_);
 
 		GlStateManager.enableBlend();
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
 		ItemStack stack = flickerHabitat.getStackInSlot(0);
 
@@ -64,7 +61,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 		String colorCode = Minecraft.getMinecraft().theWorld.isBlockIndirectlyGettingPowered(flickerHabitat.getPos()) > 0 ? "\2474" : "\2472";
 
 		int yPos = 5;
-		String curLine = "";
+		String curLine;
 
 		if (func.RequiresPower()){
 			curLine = I18n.format("am2.gui.flicker_needspower");
@@ -75,11 +72,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 		drawCenteredString(curLine, yPos);
 		yPos += 12 * (int)Math.ceil(this.fontRendererObj.getStringWidth(curLine) / 170.0f);
 
-		drawCenteredString(
-				String.format(
-						I18n.format("am2.gui.flicker_powerperop"),
-						String.format("%s%d\2470", colorCode, func.PowerPerOperation())),
-				yPos);
+		drawCenteredString(I18n.format("am2.gui.flicker_powerperop", String.format("%s%d\2470", colorCode, func.PowerPerOperation())), yPos);
 
 		yPos += 12;
 
@@ -88,12 +81,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 		if (yPos > 40)
 			yPos += 27;
 
-		drawCenteredString(
-				String.format(
-						I18n.format("am2.gui.flicker_optime"),
-						String.format("%s%.2f\2470", colorCode,
-								func.TimeBetweenOperation(powered, flickerHabitat.getNearbyUpgrades()) / 20.0f
-						)), yPos);
+		drawCenteredString(I18n.format("am2.gui.flicker_optime", String.format("%s%.2f\2470", colorCode, func.TimeBetweenOperation(powered, flickerHabitat.getNearbyUpgrades()) / 20.0f)), yPos);
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.disableBlend();
 	}
