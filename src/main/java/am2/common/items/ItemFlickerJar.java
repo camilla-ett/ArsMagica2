@@ -26,10 +26,10 @@ public class ItemFlickerJar extends ItemArsMagica{
 		int meta = stack.getItemDamage();
 		String baseName = I18n.format("am2.item.flickerJar");
 		if (meta == ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE))
-			return String.format(I18n.format("item.arsmagica2:flickerJar.name"), I18n.format("am2.tooltip.empty"));
+			return I18n.format("item.arsmagica2:flickerJar.name", I18n.format("am2.tooltip.empty"));
 
 		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
-		baseName = String.format(I18n.format("item.arsmagica2:flickerJar.name"), aff.getLocalizedName());
+		baseName = I18n.format("item.arsmagica2:flickerJar.name", aff.getLocalizedName());
 
 		return baseName;
 	}

@@ -42,10 +42,10 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 		if (par1ItemStack.hasTagCompound()){
 			String className = par1ItemStack.getTagCompound().getString("SpawnClassName");
 			if (className != null){
-				par3List.add(String.format(I18n.format("am2.tooltip.phyEss"), I18n.format("entity." + className + ".name")));
+				par3List.add(I18n.format("am2.tooltip.phyEss", I18n.format("entity." + className + ".name")));
 				Float f = par1ItemStack.getTagCompound().getFloat("PercentFilled");
 				float pct = f == null ? 0 : f.floatValue();
-				par3List.add(String.format(I18n.format("am2.tooltip.pctFull"), pct));
+				par3List.add(I18n.format("am2.tooltip.pctFull", pct));
 			}else{
 				par3List.add(I18n.format("am2.tooltip.empty"));
 			}

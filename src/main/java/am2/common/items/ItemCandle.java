@@ -68,7 +68,7 @@ public class ItemCandle extends ItemArsMagica{
 			pos = pos.offset(facing);
 
 			IBlockState block = worldIn.getBlockState(pos);
-			if (block == null || block.getBlock().isReplaceable(worldIn, pos)){
+			if (block.getBlock().isReplaceable(worldIn, pos)){
 				worldIn.setBlockState(pos, BlockDefs.wardingCandle.getDefaultState(), 3);
 				if (!playerIn.capabilities.isCreativeMode)
 					playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);

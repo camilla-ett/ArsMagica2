@@ -73,7 +73,6 @@ import am2.common.blocks.tileentity.TileEntityAstralBarrier;
 import am2.common.blocks.tileentity.TileEntityBlackAurem;
 import am2.common.blocks.tileentity.TileEntityBrokenPowerLink;
 import am2.common.blocks.tileentity.TileEntityCalefactor;
-import am2.common.blocks.tileentity.TileEntityCandle;
 import am2.common.blocks.tileentity.TileEntityCelestialPrism;
 import am2.common.blocks.tileentity.TileEntityCraftingAltar;
 import am2.common.blocks.tileentity.TileEntityCrystalMarker;
@@ -324,7 +323,6 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityObelisk.class, "TileEntityObelisk");
 		GameRegistry.registerTileEntity(TileEntityCelestialPrism.class, "TileEntityCelestialPrism");
 		GameRegistry.registerTileEntity(TileEntityBlackAurem.class, "TileEntityBlackAurem");
-		GameRegistry.registerTileEntity(TileEntityCandle.class, "TileEntityCandle");
 		GameRegistry.registerTileEntity(TileEntityCrystalMarker.class, "TileEntityCrystalMarker");
 		GameRegistry.registerTileEntity(TileEntityCrystalMarkerSpellExport.class, "TileEntityCrystalMarkerSpellExport");
 		GameRegistry.registerTileEntity(TileEntityFlickerHabitat.class, "TileEntityFlickerHabitat");

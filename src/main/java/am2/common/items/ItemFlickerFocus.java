@@ -25,7 +25,7 @@ public class ItemFlickerFocus extends ItemArsMagica{
 		AbstractFlickerFunctionality operator = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(meta);
 		if (operator == null)
 			return "Trash";
-		return String.format(I18n.format("item.arsmagica2:FlickerFocusPrefix"), I18n.format("item.arsmagica2:" + operator.getClass().getSimpleName() + ".name"));
+		return I18n.format("item.arsmagica2:FlickerFocusPrefix", I18n.format("item.arsmagica2:" + operator.getClass().getSimpleName() + ".name"));
 	}
 
 	@Override

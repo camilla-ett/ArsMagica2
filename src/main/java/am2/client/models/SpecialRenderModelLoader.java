@@ -80,7 +80,7 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 
 		@Override
 		public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
-			MinecraftForge.EVENT_BUS.post(new RenderingItemEvent(stack, cameraTransformType, entity));
+			MinecraftForge.EVENT_BUS.post(new RenderingItemEvent(this.stack, cameraTransformType, this.entity));
 			return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, transforms, cameraTransformType);
 		}
 
@@ -97,8 +97,8 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 		
 		@Override
 		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
-			baked.stack = stack;
-			baked.entity = entity;
+			this.baked.stack = stack;
+			this.baked.entity = entity;
 			return super.handleItemState(originalModel, stack, world, entity);
 		}
 		
@@ -150,7 +150,6 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 				modelLocation.toString().contains("essence_conduit") ||
 				modelLocation.toString().contains("arcane_reconstructor") ||
 				modelLocation.toString().contains("seer_stone") ||
-				modelLocation.toString().contains("warding_candle") ||
 				modelLocation.toString().contains("bound_shield") ||
 				modelLocation.toString().contains("calefactor") ||
 				modelLocation.toString().contains("magicians_workbench") ||
@@ -160,7 +159,7 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 	}
 
 	@Override
-	public IModel loadModel(ResourceLocation modelLocation) throws Exception {
+	public IModel loadModel(ResourceLocation modelLocation) {
 		return new SpecialRenderModelLoader.Model();
 	}
 

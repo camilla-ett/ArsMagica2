@@ -19,8 +19,7 @@ public class BlockAMSpecialRender extends BlockAM {
 	}
 	
 	@Override
-	public boolean shouldSideBeRendered(IBlockState blockState,
-			IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return true;
 	}
 	
