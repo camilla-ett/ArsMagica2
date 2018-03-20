@@ -124,6 +124,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public boolean hasEnoughtMana(float cost) {
+		if (this.entity instanceof EntityPlayer && ((EntityPlayer) this.entity).capabilities.isCreativeMode)
+			return true;
 		return !(this.getCurrentMana() + this.getBonusCurrentMana() < cost);
 	}
 	
@@ -499,6 +501,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	
 	@Override
 	public void deductMana(float manaCost){
+		if (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode)
+			return;
 		float leftOver = manaCost - this.getCurrentMana();
 		this.setCurrentMana(this.getCurrentMana() - manaCost);
 		if (leftOver > 0){

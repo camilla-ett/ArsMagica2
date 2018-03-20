@@ -18,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -71,13 +72,15 @@ public class AffinityShiftUtils {
 
 	public static float calculateXPGains(EntityLivingBase caster, SpellData data) {
 		IEntityExtension extension = EntityExtension.For(caster);
-		float modMultiplier = 0.1F;
-		float total = 0F;
+		float cost = 0F;
+		float multiplier = 0.1F;
+		float stageMultiplier = 1.0F;
 		for (List<AbstractSpellPart> parts : data.getStages()) {
-			float base = 0F;
-			float localMultiplier = 1.0F;
+			float _cost = 0F;
+			float _multiplier = stageMultiplier;
+			parts.sort(Comparator.naturalOrder());
 			for (AbstractSpellPart part : parts) {
-				float multiplier = 0.1F;
+				float __multiplier = 0.1F;
 				Skill skill = ArsMagicaAPI.getSkillRegistry().getObject(part.getRegistryName());
 				if (skill != null) {
 					SkillPoint point = skill.getPoint();
@@ -86,16 +89,18 @@ public class AffinityShiftUtils {
 					} else
 						multiplier *= 2F;
 				}
-				if (part instanceof SpellComponent)
-					base += ((SpellComponent) part).manaCost() * multiplier;
-				else if (part instanceof SpellModifier)
-					modMultiplier *= (1+multiplier);
-				else if (part instanceof SpellShape)
-					localMultiplier *= 10 * multiplier * (((SpellShape) part).isChanneled() ? 0.1F : 1F);
-
+				if (part instanceof SpellModifier) {
+					multiplier *= (1+__multiplier);
+				} else if (part instanceof SpellShape) {
+					_multiplier *= 10 * __multiplier * (((SpellShape) part).isChanneled() ? 0.1F : 1F);
+					stageMultiplier = 1.0F;
+				} else if (part instanceof SpellComponent) {
+					_cost += 10 * Math.log(((SpellComponent) part).manaCost()) * __multiplier;
+				}
 			}
-			total += base * localMultiplier;
+
+			cost += _cost * _multiplier;
 		}
-		return total * modMultiplier * 0.01F;
+		return cost * multiplier * 0.05F;
 	}
 }

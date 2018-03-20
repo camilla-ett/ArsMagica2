@@ -1,11 +1,7 @@
 package am2.common.spell;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import am2.common.utils.AffinityShiftUtils;
 import com.google.common.collect.ImmutableList;
@@ -117,24 +113,29 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 		if (ext.hasEnoughtMana(manaCost)) {
 			SpellCastResult result = data.execute(world, caster);
 			ext.deductMana(manaCost);
-			float burnout = 0.0F;
-			float modMult = 1.0F;
-			for (List<AbstractSpellPart> parts : data.getStages()) {
-				float mult = 1;
-				float amount = 0;
-				for (AbstractSpellPart part : parts) {
-					if (part instanceof SpellShape)
-						mult *= ((SpellShape) part).manaCostMultiplier();
-					else if (part instanceof SpellModifier)
-						modMult *= ((SpellModifier) part).getManaCostMultiplier();
-					else if (part instanceof SpellComponent)
-						amount += ((SpellComponent) part).burnout(caster);
-				}
-				burnout += mult * amount;
-			}
-			ext.setCurrentBurnout(Math.min(ext.getMaxBurnout(), ext.getCurrentBurnout() + (burnout * modMult)));
 			if (result == SpellCastResult.SUCCESS)
 				ext.addMagicXP(AffinityShiftUtils.calculateXPGains(caster, data));
+			float cost = 0F;
+			float multiplier = 1F;
+			float stageMultiplier = 1.0F;
+			for (List<AbstractSpellPart> parts : data.getStages()) {
+				float _cost = 0F;
+				float _multiplier = stageMultiplier;
+				parts.sort(Comparator.naturalOrder());
+				for (AbstractSpellPart part : parts) {
+					if (part instanceof SpellModifier) {
+						multiplier *= ((SpellModifier) part).getManaCostMultiplier();
+					} else if (part instanceof SpellShape) {
+						_multiplier *= ((SpellShape) part).manaCostMultiplier();
+						stageMultiplier = 1.0F;
+					} else if (part instanceof SpellComponent) {
+						_cost += ((SpellComponent) part).burnout(caster);
+					}
+				}
+
+				cost += _cost * _multiplier;
+			}
+			ext.setCurrentBurnout(Math.min(ext.getMaxBurnout(), ext.getCurrentBurnout() + (cost * multiplier)));
 			return result == SpellCastResult.SUCCESS;
 		}
 		return false;
@@ -251,7 +252,7 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 			for (List<AbstractSpellPart> parts : this.spellCommon) {
 				float _cost = 0F;
 				float _multiplier = stageMultiplier;
-				parts.sort((t, o)-> t.compareTo(o));
+				parts.sort(Comparator.naturalOrder());
 				for (AbstractSpellPart part : parts) {
 					if (part instanceof SpellModifier) {
 						multiplier *= ((SpellModifier) part).getManaCostMultiplier();
