@@ -1,17 +1,18 @@
 package am2.common.asm;
 
-import java.io.File;
-import java.util.Map;
-
 import am2.common.LogHelper;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.DependsOn;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.Name;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.SortingIndex;
 
-@Name("ArsMagica2-Preloader")
-@DependsOn("arsmagica2")
-@SortingIndex(1001)
+import java.io.File;
+import java.util.Map;
+
+@IFMLLoadingPlugin.Name("ArsMagica2-Preloader")
+@IFMLLoadingPlugin.DependsOn("arsmagica2")
+@IFMLLoadingPlugin.SortingIndex(1001)
+@IFMLLoadingPlugin.MCVersion("1.10.2")
 public class Preloader implements IFMLLoadingPlugin {
 
 	public static boolean isDevEnvironment;
@@ -19,7 +20,7 @@ public class Preloader implements IFMLLoadingPlugin {
 
 	@Override
 	public String[] getASMTransformerClass() {
-		return new String[] {"am2.common.asm.Transformer"};
+		return new String[]{"am2.common.asm.Transformer"};
 	}
 
 	@Override
@@ -34,19 +35,19 @@ public class Preloader implements IFMLLoadingPlugin {
 
 	@Override
 	public void injectData(Map<String, Object> data) {
-		File loc = (File)data.get("mcLocation");
+		File loc = (File) data.get("mcLocation");
 
 		LogHelper.trace("MC located at: " + loc.getAbsolutePath());
-		isDevEnvironment = !(Boolean)data.get("runtimeDeobfuscationEnabled");
+		isDevEnvironment = !(Boolean) data.get("runtimeDeobfuscationEnabled");
 
 		File mcFolder = new File(loc.getAbsolutePath() + File.separatorChar + "mods");
 		File[] subfiles = mcFolder.listFiles();
-		for (File file : subfiles){
+		for (File file : subfiles) {
 			String name = file.getName();
 			if (name != null) {
 				name = name.toLowerCase();
-				if (name.endsWith(".jar") || name.endsWith(".zip")){
-					if (name.contains("thaumcraft")){
+				if (name.endsWith(".jar") || name.endsWith(".zip")) {
+					if (name.contains("thaumcraft")) {
 						LogHelper.info("Core: Located Thaumcraft in " + file.getName());
 						foundThaumcraft = true;
 					}
