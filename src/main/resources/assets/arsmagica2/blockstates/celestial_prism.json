@@ -7,7 +7,7 @@
 	},
 	"variants": {
 		"normal": [{}],
-		"inventory": [{"submodel":"arsmagica2:celestial_prism_cullface.json"}],
+		"inventory": [{"submodel":"arsmagica2:celestial_prism_flipped.obj"}],
 		"facing": {"south":{}, "east":{}, "north":{}, "west":{}}
 	}
 }

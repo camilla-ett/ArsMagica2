@@ -69,7 +69,7 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 
 	@Override
 	public float getManaCost(World world, EntityLivingBase caster) {
-		float manaCost = this.getBaseManaCost(currentShapeGroup);
+		float manaCost = this.getBaseManaCost(this.currentShapeGroup);
 		IEntityExtension ext = EntityExtension.For(caster);
 		manaCost *= (1 + (ext.getCurrentBurnout() / ext.getMaxBurnout()));
 		return manaCost;
@@ -91,7 +91,7 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 				}
 			}
 		}
-		for (List<AbstractSpellPart> parts : spellCommon) {
+		for (List<AbstractSpellPart> parts : this.spellCommon) {
 			for (AbstractSpellPart part : parts) {
 				stage.add(part);
 				if (part instanceof SpellShape) {
@@ -104,8 +104,8 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 		}
 		stages.add(stage);
 		NBTTagCompound storedData = this.storedData.copy();
-		storedData.merge(this.getStoredData(getCurrentShapeGroup()).copy());
-		return new SpellData(source, stages, uuid, storedData);
+		storedData.merge(this.getStoredData(this.getCurrentShapeGroup()).copy());
+		return new SpellData(source, stages, this.uuid, storedData);
 	}
 
 	@Override
@@ -116,6 +116,22 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 		if (ext.hasEnoughtMana(manaCost)) {
 			SpellCastResult result = data.execute(world, caster);
 			ext.deductMana(manaCost);
+			float burnout = 0.0F;
+			float modMult = 1.0F;
+			for (List<AbstractSpellPart> parts : data.getStages()) {
+				float mult = 1;
+				float amount = 0;
+				for (AbstractSpellPart part : parts) {
+					if (part instanceof SpellShape)
+						mult *= ((SpellShape) part).manaCostMultiplier();
+					else if (part instanceof SpellModifier)
+						modMult *= ((SpellModifier) part).getManaCostMultiplier();
+					else if (part instanceof SpellComponent)
+						amount += ((SpellComponent) part).burnout(caster);
+				}
+				burnout += mult * amount;
+			}
+			ext.setCurrentBurnout(Math.min(ext.getMaxBurnout(), ext.getCurrentBurnout() + (burnout * modMult)));
 			return result == SpellCastResult.SUCCESS;
 		}
 		return false;
@@ -123,33 +139,33 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 
 	@Override
 	public List<List<AbstractSpellPart>> getSpellCommon() {
-		return spellCommon == null || spellCommon.isEmpty() ? ImmutableList.of(Lists.newArrayList()) : ImmutableList.copyOf(spellCommon);
+		return this.spellCommon == null || this.spellCommon.isEmpty() ? ImmutableList.of(Lists.newArrayList()) : ImmutableList.copyOf(this.spellCommon);
 	}
 
 	@Override
 	public List<List<List<AbstractSpellPart>>> getShapeGroups() {
-		return shapeGroups == null || shapeGroups.isEmpty() ? ImmutableList.of(Lists.newArrayList()) : ImmutableList.copyOf(shapeGroups);
+		return this.shapeGroups == null || this.shapeGroups.isEmpty() ? ImmutableList.of(Lists.newArrayList()) : ImmutableList.copyOf(this.shapeGroups);
 	}
 
 	@Override
 	public Map<Affinity, Float> getAffinityShift() {
-		return ImmutableMap.copyOf(affinityShift);
+		return ImmutableMap.copyOf(this.affinityShift);
 	}
 
 	@Override
 	public int getShapeGroupCount() {
-		return shapeGroups.size();
+		return this.shapeGroups.size();
 	}
 
 	@Override
 	public float getBaseManaCost(int shapeGroup) {
-		Float f = shapeGroupCosts.get(MathHelper.clamp_int(shapeGroup, 0, Math.max(0, shapeGroupCosts.size() - 1)));
+		Float f = this.shapeGroupCosts.get(MathHelper.clamp_int(shapeGroup, 0, Math.max(0, this.shapeGroupCosts.size() - 1)));
 		return f != null ? f.floatValue() : 0;
 	}
 
 	@Override
 	public UUID getSpellUUID() {
-		return UUID.fromString(uuid.toString());
+		return UUID.fromString(this.uuid.toString());
 	}
 
 	@Override
@@ -164,7 +180,7 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 							parts.add(asp);
 						}
 					}
-					spellCommon.add(parts);
+					this.spellCommon.add(parts);
 				}
 			}
 		}
@@ -189,7 +205,7 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 							stages.add(parts);
 						}
 					}
-					shapeGroups.add(stages);
+					this.shapeGroups.add(stages);
 				}
 			}
 		}
@@ -210,11 +226,11 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 
 	@Override
 	public void setBaseManaCost(int shapeGroup, float manaCost) {
-		shapeGroupCosts.ensureCapacity(shapeGroup + 1);
-	    while (shapeGroupCosts.size() < shapeGroup + 1) {
-	    	shapeGroupCosts.add(0F);
+		this.shapeGroupCosts.ensureCapacity(shapeGroup + 1);
+	    while (this.shapeGroupCosts.size() < shapeGroup + 1) {
+			this.shapeGroupCosts.add(0F);
 	    }
-		shapeGroupCosts.set(shapeGroup, manaCost);
+		this.shapeGroupCosts.set(shapeGroup, manaCost);
 	}
 
 	@Override
@@ -225,11 +241,11 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 	@Override
 	public void gatherBaseManaCosts() {
 		this.shapeGroupCosts.clear();
-		if (shapeGroups.isEmpty()) {
+		if (this.shapeGroups.isEmpty()) {
 			float cost = 0F;
 			float multiplier = 1F;
 			float stageMultiplier = 1.0F;
-			for (List<AbstractSpellPart> parts : spellCommon) {
+			for (List<AbstractSpellPart> parts : this.spellCommon) {
 				float _cost = 0F;
 				float _multiplier = stageMultiplier;
 				parts.sort((t, o)-> t.compareTo(o));
@@ -246,13 +262,13 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 				
 				cost += _cost * _multiplier;
 			}
-			shapeGroupCosts.add(cost * multiplier);
+			this.shapeGroupCosts.add(cost * multiplier);
 		} else {
-			for (int i = 0; i < shapeGroups.size(); i++) {
+			for (int i = 0; i < this.shapeGroups.size(); i++) {
 				float cost = 0F;
 				float multiplier = 1F;
 				float stageMultiplier = 1.0F;
-				for (List<AbstractSpellPart> parts : shapeGroups.get(i)) {
+				for (List<AbstractSpellPart> parts : this.shapeGroups.get(i)) {
 					for (AbstractSpellPart part : parts) {
 						if (part instanceof SpellModifier) {
 							multiplier *= ((SpellModifier) part).getManaCostMultiplier();
@@ -261,7 +277,7 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 						}
 					}
 				}
-				for (List<AbstractSpellPart> parts : spellCommon) {
+				for (List<AbstractSpellPart> parts : this.spellCommon) {
 					float _cost = 0F;
 					float _multiplier = stageMultiplier;
 					parts.sort((t, o)-> t.compareTo(o));
@@ -278,7 +294,7 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 					
 					cost += _cost * _multiplier;
 				}
-				shapeGroupCosts.add(cost * multiplier);
+				this.shapeGroupCosts.add(cost * multiplier);
 			}
 		}
 	}
@@ -286,14 +302,14 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 	@Override
 	public void gatherAffinityShift() {
 		this.affinityShift.clear();
-		for (List<AbstractSpellPart> parts : spellCommon) {
+		for (List<AbstractSpellPart> parts : this.spellCommon) {
 			for (AbstractSpellPart part : parts) {
 				if (part instanceof SpellComponent) {
 					for (Affinity aff : ((SpellComponent)part).getAffinity()) {
-						if (affinityShift.get(aff) != null) {
-							affinityShift.put(aff, affinityShift.get(aff) + ((SpellComponent)part).getAffinityShift(aff));
+						if (this.affinityShift.get(aff) != null) {
+							this.affinityShift.put(aff, this.affinityShift.get(aff) + ((SpellComponent)part).getAffinityShift(aff));
 						} else {
-							affinityShift.put(aff, ((SpellComponent)part).getAffinityShift(aff));
+							this.affinityShift.put(aff, ((SpellComponent)part).getAffinityShift(aff));
 						}
 					}
 				}
@@ -303,22 +319,22 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 
 	@Override
 	public void generateUUID() {
-		uuid = UUID.randomUUID();
+		this.uuid = UUID.randomUUID();
 	}
 
 	@Override
 	public int getCurrentShapeGroup() {
-		return currentShapeGroup;
+		return this.currentShapeGroup;
 	}
 
 	@Override
 	public void setCurentShapeGroup(int shapeGroup) {
-		this.currentShapeGroup = MathHelper.clamp_int(shapeGroup, 0, Math.max(shapeGroups.size() - 1, 0));
+		this.currentShapeGroup = MathHelper.clamp_int(shapeGroup, 0, Math.max(this.shapeGroups.size() - 1, 0));
 	}
 	
 	@Override
 	public boolean validate() {
-		for (List<AbstractSpellPart> parts : getSpellCommon()) {
+		for (List<AbstractSpellPart> parts : this.getSpellCommon()) {
 			if (parts == null)
 				return false;
 			boolean foundShape = false;
@@ -333,7 +349,7 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 				}
 			}
 		}
-		for (List<List<AbstractSpellPart>> groups : getShapeGroups()) {
+		for (List<List<AbstractSpellPart>> groups : this.getShapeGroups()) {
 			if (groups == null)
 				return false;
 			boolean flag = false;
@@ -382,14 +398,14 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 	public NBTTagCompound getCommonStoredData() {
 		if (this.storedData == null)
 			this.storedData = new NBTTagCompound();
-		return storedData;
+		return this.storedData;
 	}
 
 	@Override
 	public void setStoredData(int shapeGroup, NBTTagCompound tag) {
-		shapeGroupStoredData.ensureCapacity(shapeGroup);
-	    while (shapeGroupStoredData.size() < shapeGroup + 1) {
-	    	shapeGroupStoredData.add(new NBTTagCompound());
+		this.shapeGroupStoredData.ensureCapacity(shapeGroup);
+	    while (this.shapeGroupStoredData.size() < shapeGroup + 1) {
+			this.shapeGroupStoredData.add(new NBTTagCompound());
 	    }
 		this.shapeGroupStoredData.set(shapeGroup, tag);
 	}

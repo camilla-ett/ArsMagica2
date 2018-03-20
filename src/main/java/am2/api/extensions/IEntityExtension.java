@@ -17,98 +17,98 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 
 public interface IEntityExtension {
 
-	public boolean hasEnoughtMana(float f);
+	boolean hasEnoughtMana(float f);
 		
-	public void setContingency (ContingencyType type, SpellData stack);
+	void setContingency(ContingencyType type, SpellData stack);
 	
-	public ContingencyType getContingencyType();
+	ContingencyType getContingencyType();
 	
-	public SpellData getContingencyStack();
+	SpellData getContingencyStack();
 	
-	public double getMarkX();
+	double getMarkX();
 	
-	public double getMarkY();
+	double getMarkY();
 	
-	public double getMarkZ();
+	double getMarkZ();
 	
-	public int getMarkDimensionID();
+	int getMarkDimensionID();
 	
-	public float getCurrentMana();
+	float getCurrentMana();
 	
-	public int getCurrentLevel();
+	int getCurrentLevel();
 	
-	public float getCurrentBurnout();
+	float getCurrentBurnout();
 	
-	public int getCurrentSummons();
+	int getCurrentSummons();
 	
-	public float getCurrentXP();
+	float getCurrentXP();
 	
-	public int getHealCooldown();
+	int getHealCooldown();
 	
-	public void lowerHealCooldown(int amount);
+	void lowerHealCooldown(int amount);
 	
-	public void placeHealOnCooldown();
+	void placeHealOnCooldown();
 	
-	public void lowerAffinityHealCooldown (int amount);
+	void lowerAffinityHealCooldown(int amount);
 	
-	public int getAffinityHealCooldown();
+	int getAffinityHealCooldown();
 	
-	public void placeAffinityHealOnCooldown(boolean full);
+	void placeAffinityHealOnCooldown(boolean full);
 	
-	public float getMaxMana();
+	float getMaxMana();
 	
-	public float getMaxXP ();
+	float getMaxXP();
 	
-	public float getMaxBurnout ();
+	float getMaxBurnout();
 	
-	public void setAffinityHealCooldown(int affinityHealCooldown);
+	void setAffinityHealCooldown(int affinityHealCooldown);
 	
-	public void setCurrentBurnout(float currentBurnout);
+	void setCurrentBurnout(float currentBurnout);
 	
-	public void setCurrentLevel(int currentLevel);
+	void setCurrentLevel(int currentLevel);
 	
-	public void setCurrentMana(float currentMana);
+	void setCurrentMana(float currentMana);
 	
-	public void setCurrentSummons(int currentSummons);
+	void setCurrentSummons(int currentSummons);
 	
-	public void setCurrentXP(float currentXP);
+	void setCurrentXP(float currentXP);
 	
-	public void setHealCooldown(int healCooldown);
+	void setHealCooldown(int healCooldown);
 	
-	public void setMarkX(double markX);
+	void setMarkX(double markX);
 	
-	public void setMarkY(double markY);
+	void setMarkY(double markY);
 	
-	public void setMarkZ(double markZ);
+	void setMarkZ(double markZ);
 	
-	public void setMarkDimensionID(int markDimensionID);
+	void setMarkDimensionID(int markDimensionID);
 	
-	public void setMark (double x, double y, double z, int dim);
+	void setMark(double x, double y, double z, int dim);
 	
-	public void setShrunk(boolean shrunk);
+	void setShrunk(boolean shrunk);
 	
-	public boolean isShrunk();
+	boolean isShrunk();
 
-	public void setInverted(boolean inverted);
+	void setInverted(boolean inverted);
 
-	public void setFallProtection(float fallProtection);
+	void setFallProtection(float fallProtection);
 	
-	public boolean isInverted();
+	boolean isInverted();
 	
-	public void addEntityReference(EntityLivingBase entity);
+	void addEntityReference(EntityLivingBase entity);
 	
-	public void init(EntityLivingBase entity);
+	void init(EntityLivingBase entity);
 	
-	public boolean canHeal();
+	boolean canHeal();
 	
-	public int getMaxSummons();
+	int getMaxSummons();
 	
-	public boolean shouldUpdate();
-	public byte[] generateUpdatePacket();
-	public void handleUpdatePacket(byte[] bytes);
-	public void forceUpdate();
+	boolean shouldUpdate();
+	byte[] generateUpdatePacket();
+	void handleUpdatePacket(byte[] bytes);
+	void forceUpdate();
 	
-	public static class Storage implements IStorage<IEntityExtension> {
+	class Storage implements IStorage<IEntityExtension> {
 		
 		@Override
 		public NBTBase writeNBT(Capability<IEntityExtension> capability, IEntityExtension instance, EnumFacing side) {
@@ -176,76 +176,76 @@ public interface IEntityExtension {
 		}
 	}
 	
-	public static class Factory implements Callable<IEntityExtension> {
+	class Factory implements Callable<IEntityExtension> {
 
 		@Override
-		public IEntityExtension call() throws Exception {
+		public IEntityExtension call() {
 			return new EntityExtension();
 		}
 		
 	}
 
-	public boolean addSummon(EntityCreature entityliving);
+	boolean addSummon(EntityCreature entityliving);
 
-	public boolean getCanHaveMoreSummons();
+	boolean getCanHaveMoreSummons();
 
-	public void updateManaLink(EntityLivingBase caster);
+	void updateManaLink(EntityLivingBase caster);
 
-	public void deductMana(float amt);
+	void deductMana(float amt);
 
-	public void spawnManaLinkParticles();
+	void spawnManaLinkParticles();
 
-	public boolean removeSummon();
+	boolean removeSummon();
 
-	public boolean isManaLinkedTo(EntityLivingBase entity);
+	boolean isManaLinkedTo(EntityLivingBase entity);
 
-	public void cleanupManaLinks();
+	void cleanupManaLinks();
 
-	public float getBonusMaxMana();
+	float getBonusMaxMana();
 
-	public float getBonusCurrentMana();
+	float getBonusCurrentMana();
 
-	public boolean shouldReverseInput();
+	boolean shouldReverseInput();
 
-	public boolean getIsFlipped();
+	boolean getIsFlipped();
 
-	public float getFlipRotation();
+	float getFlipRotation();
 
-	public float getPrevFlipRotation();
+	float getPrevFlipRotation();
 
-	public float getShrinkPct();
+	float getShrinkPct();
 
-	public float getPrevShrinkPct();
+	float getPrevShrinkPct();
 	
-	public void setTKDistance(float newDist);
+	void setTKDistance(float newDist);
 	
-	public void addToTKDistance(float toAdd);
+	void addToTKDistance(float toAdd);
 	
-	public float getTKDistance();
+	float getTKDistance();
 
-	public void syncTKDistance();
+	void syncTKDistance();
 
-	public float getFallProtection();
+	float getFallProtection();
 
-	public void manaBurnoutTick();
+	void manaBurnoutTick();
 
-	public boolean setMagicLevelWithMana(int level);
+	boolean setMagicLevelWithMana(int level);
 
-	public void addMagicXP(float xp);
+	void addMagicXP(float xp);
 
-	public void setDisableGravity(boolean b);
+	void setDisableGravity(boolean b);
 
 	boolean isGravityDisabled();
 
-	public Entity getInanimateTarget();
+	Entity getInanimateTarget();
 
-	public void setInanimateTarget(Entity ent);
+	void setInanimateTarget(Entity ent);
 
-	public void setFlipRotation(float rot);
+	void setFlipRotation(float rot);
 
-	public void setPrevFlipRotation(float rot);
+	void setPrevFlipRotation(float rot);
 
-	public float getManaShielding();
+	float getManaShielding();
 	
-	public void setManaShielding(float manaShielding);
+	void setManaShielding(float manaShielding);
 }
