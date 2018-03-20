@@ -36,7 +36,7 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 	@CapabilityInject(ISpellCaster.class)
 	public static Capability<ISpellCaster> INSTANCE = null;
 	public static final ResourceLocation ID = new ResourceLocation(ArsMagica2.MODID, "spell_caster");
-	
+
 	private ArrayList<List<List<AbstractSpellPart>>> shapeGroups = new ArrayList<>();
 	private ArrayList<List<AbstractSpellPart>> spellCommon = new ArrayList<>();
 	private ArrayList<Float> shapeGroupCosts = new ArrayList<>();
@@ -110,10 +110,10 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 		IEntityExtension ext = EntityExtension.For(caster);
 		SpellData data = this.createSpellData(source);
 		float manaCost = this.getManaCost(world, caster);
-		if (ext.hasEnoughtMana(manaCost)) {
+		if (ext.hasEnoughMana(manaCost)) {
 			SpellCastResult result = data.execute(world, caster);
 			ext.deductMana(manaCost);
-			if (result == SpellCastResult.SUCCESS)
+			if (!ArsMagica2.config.getOldXpCalculations() && result == SpellCastResult.SUCCESS)
 				ext.addMagicXP(AffinityShiftUtils.calculateXPGains(caster, data));
 			float cost = 0F;
 			float multiplier = 1F;

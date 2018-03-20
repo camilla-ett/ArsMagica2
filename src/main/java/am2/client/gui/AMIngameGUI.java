@@ -42,7 +42,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -278,7 +277,7 @@ public class AMIngameGUI extends Gui {
 					ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
 					if (caster != null) {
 						float manaCost = caster.getManaCost(Minecraft.getMinecraft().theWorld, Minecraft.getMinecraft().thePlayer);
-						spellcost = (EntityExtension.For(Minecraft.getMinecraft().thePlayer).hasEnoughtMana(manaCost) ? ChatFormatting.AQUA.toString() : ChatFormatting.DARK_RED.toString()) + " (" + (int)(manaCost) + ")";
+						spellcost = (EntityExtension.For(Minecraft.getMinecraft().thePlayer).hasEnoughMana(manaCost) ? ChatFormatting.AQUA.toString() : ChatFormatting.DARK_RED.toString()) + " (" + (int)(manaCost) + ")";
 						spellcost += ChatFormatting.RESET.toString();
 					}
 				}

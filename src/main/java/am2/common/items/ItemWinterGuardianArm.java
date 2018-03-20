@@ -82,7 +82,7 @@ public class ItemWinterGuardianArm extends ItemArsMagica{
 	}
 
 	public boolean flingArm(ItemStack stack, World world, EntityPlayer player){
-		if (!EntityExtension.For(player).hasEnoughtMana(250) && !player.capabilities.isCreativeMode){
+		if (!EntityExtension.For(player).hasEnoughMana(250) && !player.capabilities.isCreativeMode){
 			if (world.isRemote)
 				ArsMagica2.proxy.flashManaBar();
 			return false;

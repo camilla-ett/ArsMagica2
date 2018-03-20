@@ -303,7 +303,7 @@ public class EntityHandler {
 			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack stack = player.inventory.getStackInSlot(i);
 				if (stack != null && stack.getItem() instanceof IBoundItem) {
-					if (ext.hasEnoughtMana(((IBoundItem)stack.getItem()).maintainCost(player, stack)))
+					if (ext.hasEnoughMana(((IBoundItem)stack.getItem()).maintainCost(player, stack)))
 						ext.deductMana(((IBoundItem)stack.getItem()).maintainCost(player, stack));
 					else 
 						stack.getItem().onDroppedByPlayer(stack, player);
@@ -394,10 +394,10 @@ public class EntityHandler {
 			ItemStack stack = player.getActiveItemStack();
 			if (e.getAmount() > 0.0F && stack != null && stack.getItem() == ItemDefs.BoundShield && EntityUtils.canBlockDamageSource(player, e.getSource())) {
 				ISpellCaster spell = stack.getCapability(SpellCaster.INSTANCE, null);
-				if (EntityExtension.For(player).hasEnoughtMana(e.getAmount() * 10)) {
+				if (EntityExtension.For(player).hasEnoughMana(e.getAmount() * 10)) {
 					stack.getItem().onDroppedByPlayer(stack, player);
 					EntityExtension.For(player).deductMana(e.getAmount() * 10);
-				} else if (EntityExtension.For(player).hasEnoughtMana(spell.getManaCost(player.worldObj, player))) {
+				} else if (EntityExtension.For(player).hasEnoughMana(spell.getManaCost(player.worldObj, player))) {
 					EntityLivingBase target = e.getSource().getEntity() instanceof EntityLivingBase ? (EntityLivingBase)e.getSource().getEntity() : null;
 					double posX = target != null ? target.posX : player.posX;
 					double posY = target != null ? target.posY : player.posY;

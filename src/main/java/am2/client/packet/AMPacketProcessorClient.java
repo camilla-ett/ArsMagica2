@@ -363,13 +363,16 @@ public class AMPacketProcessorClient extends AMPacketProcessorServer{
 		ArsMagica2.config.setSkillTreeSecondaryTierCap(skillTreeLock);
 		int[] disabledSkills = rdr.getIntArray();
 		double manaCap = rdr.getDouble();
+		boolean oldCalc = rdr.getBoolean();
 
 		ArsMagica2.config.setManaCap(manaCap);
+		ArsMagica2.config.setOldXpCalculations(oldCalc);
 
 		LogHelper.info("Received player login packet.");
 		LogHelper.debug("Secondary tree cap: %d", skillTreeLock);
 		LogHelper.debug("Disabled skills: %d", disabledSkills.length);
 		LogHelper.debug("Mana cap: %.2f", manaCap);
+		LogHelper.debug("Old XP System: {}", oldCalc);
 		
 		ArsMagica2.disabledSkills.disableAllSkillsIn(disabledSkills);
 	}

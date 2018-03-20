@@ -38,7 +38,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	private static final int SYNC_DIMINISHING_RETURNS = 0x10;
 	
 	private HashMap<Affinity, Double> depths;
-	private HashMap<String, Boolean> abilityBools;
+	private HashMap<String, Boolean> abilityBooleans;
 	private HashMap<String, Float> abilityFloats;
 	private HashMap<String, Integer> cooldowns;
 	private float diminishingReturns = 1.0F;
@@ -52,7 +52,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	public AffinityData() {
 		this.depths = new HashMap<>();
-		this.abilityBools = new HashMap<>();
+		this.abilityBooleans = new HashMap<>();
 		this.abilityFloats = new HashMap<>();
 		this.cooldowns = new HashMap<>();
 	}
@@ -93,21 +93,21 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	@Override
 	public boolean getAbilityBoolean(String name) {
 		Boolean bool = this.getAbilityBooleanMap().get(name);
-		return bool != null && bool.booleanValue();
+		return bool != null && bool;
 	}
 	
 	@Override
 	public void addAbilityBoolean(String name, boolean bool) {
 		if (this.getAbilityBoolean(name) != bool) {
-			this.abilityBools.put(name, bool);
+			this.abilityBooleans.put(name, bool);
 			this.syncCode |= SYNC_ABILITY_BOOLEANS;
 		}
 	}
 	
 	@Override
 	public float getAbilityFloat(String name) {
-		Float bool = this.getAbilityFloatMap().get(name);
-		return bool == null ? 0f : bool.floatValue();
+		Float f = this.getAbilityFloatMap().get(name);
+		return f == null ? 0f : f;
 	}
 	
 	@Override
@@ -120,7 +120,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	@Override
 	public Map<String, Boolean> getAbilityBooleanMap() {
-		return this.abilityBools;
+		return this.abilityBooleans;
 	}
 	
 	@Override
@@ -162,7 +162,6 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	@Override
 	public void addDiminishingReturns(boolean isChanneled){
 		this.diminishingReturns -= isChanneled ? 0.1f : 0.3f;
-		System.out.println(this.diminishingReturns);
 		this.syncCode |= SYNC_DIMINISHING_RETURNS;
 		if (this.diminishingReturns < 0)
 			this.diminishingReturns = 0F;
@@ -219,21 +218,21 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 			writer.add(this.depths.size());
 			for (Entry<Affinity, Double> entry : this.depths.entrySet()) {
 				writer.add(entry.getKey().getRegistryName().toString());
-				writer.add(entry.getValue().doubleValue());
+				writer.add(entry.getValue());
 			}
 		}
 		if ((this.syncCode & SYNC_ABILITY_BOOLEANS) == SYNC_ABILITY_BOOLEANS) {
-			writer.add(this.abilityBools.size());
-			for (Entry<String, Boolean> entry : this.abilityBools.entrySet()) {
+			writer.add(this.abilityBooleans.size());
+			for (Entry<String, Boolean> entry : this.abilityBooleans.entrySet()) {
 				writer.add(entry.getKey());
-				writer.add(entry.getValue().booleanValue());
+				writer.add(entry.getValue());
 			}
 		}
 		if ((this.syncCode & SYNC_ABILITY_FLOATS) == SYNC_ABILITY_FLOATS) {
 			writer.add(this.abilityFloats.size());
 			for (Entry<String, Float> entry : this.abilityFloats.entrySet()) {
 				writer.add(entry.getKey());
-				writer.add(entry.getValue().floatValue());
+				writer.add(entry.getValue());
 			}
 		}
 		if ((this.syncCode & SYNC_COOLDOWNS) == SYNC_COOLDOWNS) {
@@ -264,13 +263,13 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 			}
 		}
 		if ((syncCode & SYNC_ABILITY_BOOLEANS) == SYNC_ABILITY_BOOLEANS) {
-			this.abilityBools.clear();
+			this.abilityBooleans.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
 				String key = reader.getString();
 				boolean value = reader.getBoolean();
 				if (key != null)
-					this.abilityBools.put(key, value);
+					this.abilityBooleans.put(key, value);
 			}
 		}
 		if ((syncCode & SYNC_ABILITY_FLOATS) == SYNC_ABILITY_FLOATS) {

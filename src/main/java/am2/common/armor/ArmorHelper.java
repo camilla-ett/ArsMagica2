@@ -39,7 +39,7 @@ public class ArmorHelper{
 		if (bFullSet){
 			infusionCost *= 0.75;
 		}
-		if (infusionCost > 0 && ext.hasEnoughtMana(infusionCost)) {
+		if (infusionCost > 0 && ext.hasEnoughMana(infusionCost)) {
 			//deduct mana
 			ext.deductMana(infusionCost);
 			//bank infusion

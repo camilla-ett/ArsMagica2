@@ -56,17 +56,20 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		return living.getCapability(INSTANCE, null);
 	}
 	
+	@Override
 	public HashMap<Skill, Boolean> getSkills() {
-		return skills;
+		return this.skills;
 	}
 	
+	@Override
 	public boolean hasSkill (String name) {
-		if (player.capabilities.isCreativeMode) return true;
+		if (this.player.capabilities.isCreativeMode) return true;
 		if (ArsMagica2.disabledSkills.isSkillDisabled(name)) return true;
-		Boolean bool = skills.get(SkillRegistry.getSkillFromName(name));
+		Boolean bool = this.skills.get(SkillRegistry.getSkillFromName(name));
 		return bool == null ? false : bool;
 	}
 	
+	@Override
 	public void unlockSkill (String name) {
 		if (SkillRegistry.getSkillFromName(name) == null)
 			return;
@@ -77,52 +80,53 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName());
 				for (Object obj : entry.getObjects()) {
 					if (obj == part) {
-						ArcaneCompendium.For(player).unlockEntry(entry.getID());
+						ArcaneCompendium.For(this.player).unlockEntry(entry.getID());
 					}
 				}
 			} else {
 				for (Object obj : entry.getObjects()) {
 					if (obj == skill) {
-						ArcaneCompendium.For(player).unlockEntry(entry.getID());
+						ArcaneCompendium.For(this.player).unlockEntry(entry.getID());
 					}
 				}
 			}
 		}
-		
-		setSkillPoint(skill.getPoint(), getSkillPoint(skill.getPoint()) - 1);
-		skills.put(skill, true);
+
+		this.setSkillPoint(skill.getPoint(), this.getSkillPoint(skill.getPoint()) - 1);
+		this.skills.put(skill, true);
 		this.syncCode |= SYNC_SKILLS;
 	}
 	
+	@Override
 	public HashMap<SkillPoint, Integer> getSkillPoints() {
-		return skillPoints;
+		return this.skillPoints;
 	}
 	
+	@Override
 	public int getSkillPoint(SkillPoint point) {
 		if (point == null)
 			return 0;
-		Integer integer = skillPoints.get(point);
-		return integer == null ? 0 : integer.intValue();
+		Integer integer = this.skillPoints.get(point);
+		return integer == null ? 0 : integer;
 	}
 	
+	@Override
 	public void setSkillPoint(SkillPoint point, int num) {
-		if (!skillPoints.containsKey(point) || skillPoints.get(point).intValue() != num) {
-			skillPoints.put(point, num);
+		if (!this.skillPoints.containsKey(point) || this.skillPoints.get(point) != num) {
+			this.skillPoints.put(point, num);
 			this.syncCode |= SYNC_SKILL_POINTS;
 		}
 	}
 
 	public void init(EntityPlayer entity) {
 		this.player = entity;
-		HashMap<Skill, Boolean> skillMap = new HashMap<Skill, Boolean>();
-		HashMap<SkillPoint, Integer> pointMap = new HashMap<SkillPoint, Integer>();
 		for (Skill aff : ArsMagicaAPI.getSkillRegistry().getValues()) {
-			skillMap.put(aff, false);
+			this.skills.put(aff, false);
 		}
 		for (SkillPoint aff : SkillPointRegistry.getSkillPointMap().values()) {
-			pointMap.put(aff, 0);
+			this.skillPoints.put(aff, 0);
 		}
-		pointMap.put(SkillPoint.SKILL_POINT_1, 3);
+		this.skillPoints.put(SkillPoint.SKILL_POINT_1, 3);
 	}
 	
 	@Override
@@ -155,12 +159,10 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		for (String skill : SkillRegistry.getSkillFromName(name).getParents()) {
 			Skill s = SkillRegistry.getSkillFromName(skill);
 			if (s == null) continue;
-			if (hasSkill(skill)) continue;
+			if (this.hasSkill(skill)) continue;
 			return false;
 		}
-		if (getSkillPoint(SkillRegistry.getSkillFromName(name).getPoint()) <= 0)
-			return false;
-		return true;
+		return this.getSkillPoint(SkillRegistry.getSkillFromName(name).getPoint()) > 0;
 	}
 
 	@Override
@@ -168,10 +170,10 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		ArrayList<String> out = new ArrayList<>();
 		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
-			if ((this.hasSkill(skill.getRegistryName().toString()) || player.capabilities.isCreativeMode) && part != null && part instanceof SpellShape && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
+			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellShape && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(skill.getID());
 		}
-		out.sort(new Comparator<String>() {public int compare(String o1, String o2) {return o1.compareTo(o2);}});
+		out.sort(Comparator.naturalOrder());
 		return out;
 	}
 
@@ -180,10 +182,10 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		ArrayList<String> out = new ArrayList<>();
 		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
-			if ((this.hasSkill(skill.getRegistryName().toString()) || player.capabilities.isCreativeMode) && part != null && part instanceof SpellComponent && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
+			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellComponent && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(skill.getID());
 		}
-		out.sort(new Comparator<String>() {public int compare(String o1, String o2) {return o1.compareTo(o2);}});
+		out.sort(Comparator.naturalOrder());
 		return out;
 	}
 
@@ -192,37 +194,37 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		ArrayList<String> out = new ArrayList<>();
 		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
-			if ((this.hasSkill(skill.getRegistryName().toString()) || player.capabilities.isCreativeMode) && part != null && part instanceof SpellModifier && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
+			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellModifier && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(skill.getID());
 		}
-		out.sort(new Comparator<String>() {public int compare(String o1, String o2) {return o1.compareTo(o2);}});
+		out.sort(Comparator.naturalOrder());
 		return out;
 	}
 
 	@Override
 	public boolean shouldUpdate() {
-		return syncCode != 0;
+		return this.syncCode != 0;
 	}
 
 	@Override
 	public byte[] generateUpdatePacket() {
 		AMDataWriter writer = new AMDataWriter();
-		writer.add(syncCode);
-		if ((syncCode & SYNC_SKILLS) == SYNC_SKILLS) {
-			writer.add(skills.size());
-			for (Entry<Skill, Boolean> entry : skills.entrySet()) {
+		writer.add(this.syncCode);
+		if ((this.syncCode & SYNC_SKILLS) == SYNC_SKILLS) {
+			writer.add(this.skills.size());
+			for (Entry<Skill, Boolean> entry : this.skills.entrySet()) {
 				writer.add(entry.getKey().getRegistryName().toString());
-				writer.add(entry.getValue().booleanValue());
+				writer.add(entry.getValue());
 			}
 		}
-		if ((syncCode & SYNC_SKILL_POINTS) == SYNC_SKILL_POINTS) {
-			writer.add(skillPoints.size());
-			for (Entry<SkillPoint, Integer> entry : skillPoints.entrySet()) {
-				writer.add(entry.getKey().getName().toString());
-				writer.add(entry.getValue().intValue());
+		if ((this.syncCode & SYNC_SKILL_POINTS) == SYNC_SKILL_POINTS) {
+			writer.add(this.skillPoints.size());
+			for (Entry<SkillPoint, Integer> entry : this.skillPoints.entrySet()) {
+				writer.add(entry.getKey().getName());
+				writer.add(entry.getValue());
 			}
 		}
-		syncCode = 0;
+		this.syncCode = 0;
 		return writer.generate();
 	}
 
@@ -231,30 +233,30 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		AMDataReader reader = new AMDataReader(bytes, false);
 		int syncCode = reader.getInt();
 		if ((syncCode & SYNC_SKILLS) == SYNC_SKILLS) {
-			skills.clear();
+			this.skills.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
 				Skill key = ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation(reader.getString()));
 				boolean value = reader.getBoolean();
 				if (key != null)
-					skills.put(key, value);
+					this.skills.put(key, value);
 			}
 		}
 		if ((syncCode & SYNC_SKILL_POINTS) == SYNC_SKILL_POINTS) {
-			skillPoints.clear();
+			this.skillPoints.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
 				SkillPoint key = SkillPointRegistry.fromName(reader.getString());
 				int value = reader.getInt();
 				if (key != null)
-					skillPoints.put(key, value);
+					this.skillPoints.put(key, value);
 			}
 		}
 	}
 
 	@Override
 	public void forceUpdate() {
-		syncCode = 0xFFFFFFFF;
+		this.syncCode = 0xFFFFFFFF;
 	}
 
 }

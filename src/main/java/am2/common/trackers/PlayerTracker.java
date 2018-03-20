@@ -59,6 +59,7 @@ public class PlayerTracker{
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(ArsMagica2.config.getSkillTreeSecondaryTierCap()).add(disabledSkills);
 		writer.add(ArsMagica2.config.getManaCap());
+		writer.add(ArsMagica2.config.getOldXpCalculations());
 		byte[] data = writer.generate();
 
 		AMNetHandler.INSTANCE.syncLoginData((EntityPlayerMP)event.player, data);

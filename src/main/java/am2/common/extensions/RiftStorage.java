@@ -29,22 +29,22 @@ public class RiftStorage implements IRiftStorage, ICapabilityProvider, ICapabili
 
 	@Override
 	public ItemStack getStackInSlot(int i){
-		return stacks[i];
+		return this.stacks[i];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j){
-		if (stacks[i] != null){
-			if (stacks[i].stackSize <= j){
-				ItemStack itemstack = stacks[i];
-				stacks[i] = null;
+		if (this.stacks[i] != null){
+			if (this.stacks[i].stackSize <= j){
+				ItemStack itemstack = this.stacks[i];
+				this.stacks[i] = null;
 				return itemstack;
 			}
 
-			ItemStack itemstack1 = stacks[i].splitStack(j);
+			ItemStack itemstack1 = this.stacks[i].splitStack(j);
 
-			if (stacks[i].stackSize == 0){
-				stacks[i] = null;
+			if (this.stacks[i].stackSize == 0){
+				this.stacks[i] = null;
 			}
 
 			return itemstack1;
@@ -55,9 +55,9 @@ public class RiftStorage implements IRiftStorage, ICapabilityProvider, ICapabili
 
 	@Override
 	public ItemStack removeStackFromSlot(int i){
-		if (stacks[i] != null){
-			ItemStack itemstack = stacks[i];
-			stacks[i] = null;
+		if (this.stacks[i] != null){
+			ItemStack itemstack = this.stacks[i];
+			this.stacks[i] = null;
 			return itemstack;
 		}else{
 			return null;
@@ -66,9 +66,9 @@ public class RiftStorage implements IRiftStorage, ICapabilityProvider, ICapabili
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
-		stacks[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
-			itemstack.stackSize = getInventoryStackLimit();
+		this.stacks[i] = itemstack;
+		if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()){
+			itemstack.stackSize = this.getInventoryStackLimit();
 		}
 	}
 
@@ -130,7 +130,7 @@ public class RiftStorage implements IRiftStorage, ICapabilityProvider, ICapabili
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TextComponentString(getName());
+		return new TextComponentString(this.getName());
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public class RiftStorage implements IRiftStorage, ICapabilityProvider, ICapabili
 	
 	@Override
 	public int getAccessLevel() {
-		return accessLevel;
+		return this.accessLevel;
 	}
 	
 	@Override

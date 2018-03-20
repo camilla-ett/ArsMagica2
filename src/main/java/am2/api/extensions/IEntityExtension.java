@@ -17,7 +17,7 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 
 public interface IEntityExtension {
 
-	boolean hasEnoughtMana(float f);
+	boolean hasEnoughMana(float f);
 		
 	void setContingency(ContingencyType type, SpellData stack);
 	
