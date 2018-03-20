@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import am2.common.utils.AffinityShiftUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -132,6 +133,8 @@ public class SpellCaster implements ISpellCaster, ICapabilityProvider, ICapabili
 				burnout += mult * amount;
 			}
 			ext.setCurrentBurnout(Math.min(ext.getMaxBurnout(), ext.getCurrentBurnout() + (burnout * modMult)));
+			if (result == SpellCastResult.SUCCESS)
+				ext.addMagicXP(AffinityShiftUtils.calculateXPGains(caster, data));
 			return result == SpellCastResult.SUCCESS;
 		}
 		return false;

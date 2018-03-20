@@ -61,25 +61,29 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		return (AffinityData) living.getCapability(INSTANCE, null);
 	}
 	
+	@Override
 	public double getAffinityDepth(Affinity aff) {
-		Double depth = depths.get(aff);
+		Double depth = this.depths.get(aff);
 		if (depth == null)
 			depth = 0D;
 		return depth / MAX_DEPTH;
 	}
 	
+	@Override
 	public void setAffinityDepth (Affinity name, double value) {
 		value = MathHelper.clamp_double(value, 0, MAX_DEPTH);
-		if (value != getAffinityDepth(name)) {
-			syncCode |= SYNC_DEPTHS;
-			depths.put(name, value);
+		if (value != this.getAffinityDepth(name)) {
+			this.syncCode |= SYNC_DEPTHS;
+			this.depths.put(name, value);
 		}
 	}
 	
+	@Override
 	public HashMap<Affinity, Double> getAffinities() {
-		return depths;
+		return this.depths;
 	}
 
+	@Override
 	public void init(EntityPlayer entity) {
 		HashMap<Affinity, Double> map = new HashMap<>();
 		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues())
@@ -88,80 +92,80 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	@Override
 	public boolean getAbilityBoolean(String name) {
-		Boolean bool = getAbilityBooleanMap().get(name);
-		return bool == null ? false : bool.booleanValue();
+		Boolean bool = this.getAbilityBooleanMap().get(name);
+		return bool != null && bool.booleanValue();
 	}
 	
 	@Override
 	public void addAbilityBoolean(String name, boolean bool) {
-		if (getAbilityBoolean(name) != bool) {
-			abilityBools.put(name, bool);
-			syncCode |= SYNC_ABILITY_BOOLEANS;
+		if (this.getAbilityBoolean(name) != bool) {
+			this.abilityBools.put(name, bool);
+			this.syncCode |= SYNC_ABILITY_BOOLEANS;
 		}
 	}
 	
 	@Override
 	public float getAbilityFloat(String name) {
-		Float bool = getAbilityFloatMap().get(name);
+		Float bool = this.getAbilityFloatMap().get(name);
 		return bool == null ? 0f : bool.floatValue();
 	}
 	
 	@Override
 	public void addAbilityFloat(String name, float f) {
-		if (getAbilityFloat(name) != f) {
-			abilityFloats.put(name, f);
-			syncCode |= SYNC_ABILITY_FLOATS;
+		if (this.getAbilityFloat(name) != f) {
+			this.abilityFloats.put(name, f);
+			this.syncCode |= SYNC_ABILITY_FLOATS;
 		}
 	}
 	
 	@Override
 	public Map<String, Boolean> getAbilityBooleanMap() {
-		return abilityBools;
+		return this.abilityBools;
 	}
 	
 	@Override
 	public Map<String, Float> getAbilityFloatMap() {
-		return abilityFloats;
+		return this.abilityFloats;
 	}
 	
 	@Override
 	public void addCooldown(String name, int cooldown) {
-		if (getCooldown(name) != cooldown) {
-			cooldowns.put(name, cooldown);
-			syncCode |= SYNC_COOLDOWNS;
+		if (this.getCooldown(name) != cooldown) {
+			this.cooldowns.put(name, cooldown);
+			this.syncCode |= SYNC_COOLDOWNS;
 		}
 	}
 	
 	@Override
 	public int getCooldown(String name) {
-		return cooldowns.get(name) == null ? 0 : cooldowns.get(name);
+		return this.cooldowns.get(name) == null ? 0 : this.cooldowns.get(name);
 	}
 	
 	@Override
 	public Map<String, Integer> getCooldowns() {
-		return cooldowns;
+		return this.cooldowns;
 	}
 	
 	@Override
 	public float getDiminishingReturnsFactor(){
-		return diminishingReturns;
+		return this.diminishingReturns;
 	}
 	
 	@Override
 	public void tickDiminishingReturns(){
-		if (getDiminishingReturnsFactor() < 1.3f){
-			diminishingReturns += 0.005f;
-			syncCode |= SYNC_DIMINISHING_RETURNS;
+		if (this.getDiminishingReturnsFactor() < 1.3f){
+			this.diminishingReturns += 0.005f;
+			this.syncCode |= SYNC_DIMINISHING_RETURNS;
 		}
 	}
 	
 	@Override
 	public void addDiminishingReturns(boolean isChanneled){
-		diminishingReturns -= isChanneled ? 0.1f : 0.3f;
-		System.out.println(diminishingReturns);
-		syncCode |= SYNC_DIMINISHING_RETURNS;
-		if (diminishingReturns < 0) 
-			diminishingReturns = 0F;
+		this.diminishingReturns -= isChanneled ? 0.1f : 0.3f;
+		System.out.println(this.diminishingReturns);
+		this.syncCode |= SYNC_DIMINISHING_RETURNS;
+		if (this.diminishingReturns < 0)
+			this.diminishingReturns = 0F;
 	}
 	
 	@Override
@@ -193,7 +197,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		double max2 = 0;
 		Affinity maxAff1 = Affinity.NONE;
 		Affinity maxAff2 = Affinity.NONE;
-		for (Entry<Affinity, Double> entry : Maps.newHashMap(getAffinities()).entrySet()) {
+		for (Entry<Affinity, Double> entry : Maps.newHashMap(this.getAffinities()).entrySet()) {
 			if (entry.getValue() > max1) {
 				max2 = max1;
 				maxAff2 = maxAff1;
@@ -210,38 +214,38 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	@Override
 	public byte[] generateUpdatePacket() {
 		AMDataWriter writer = new AMDataWriter();
-		writer.add(syncCode);
-		if ((syncCode & SYNC_DEPTHS) == SYNC_DEPTHS) {
-			writer.add(depths.size());
-			for (Entry<Affinity, Double> entry : depths.entrySet()) {
+		writer.add(this.syncCode);
+		if ((this.syncCode & SYNC_DEPTHS) == SYNC_DEPTHS) {
+			writer.add(this.depths.size());
+			for (Entry<Affinity, Double> entry : this.depths.entrySet()) {
 				writer.add(entry.getKey().getRegistryName().toString());
 				writer.add(entry.getValue().doubleValue());
 			}
 		}
-		if ((syncCode & SYNC_ABILITY_BOOLEANS) == SYNC_ABILITY_BOOLEANS) {
-			writer.add(abilityBools.size());
-			for (Entry<String, Boolean> entry : abilityBools.entrySet()) {
+		if ((this.syncCode & SYNC_ABILITY_BOOLEANS) == SYNC_ABILITY_BOOLEANS) {
+			writer.add(this.abilityBools.size());
+			for (Entry<String, Boolean> entry : this.abilityBools.entrySet()) {
 				writer.add(entry.getKey());
 				writer.add(entry.getValue().booleanValue());
 			}
 		}
-		if ((syncCode & SYNC_ABILITY_FLOATS) == SYNC_ABILITY_FLOATS) {
-			writer.add(abilityFloats.size());
-			for (Entry<String, Float> entry : abilityFloats.entrySet()) {
+		if ((this.syncCode & SYNC_ABILITY_FLOATS) == SYNC_ABILITY_FLOATS) {
+			writer.add(this.abilityFloats.size());
+			for (Entry<String, Float> entry : this.abilityFloats.entrySet()) {
 				writer.add(entry.getKey());
 				writer.add(entry.getValue().floatValue());
 			}
 		}
-		if ((syncCode & SYNC_COOLDOWNS) == SYNC_COOLDOWNS) {
-			writer.add(cooldowns.size());
-			for (Entry<String, Integer> entry : cooldowns.entrySet()) {
+		if ((this.syncCode & SYNC_COOLDOWNS) == SYNC_COOLDOWNS) {
+			writer.add(this.cooldowns.size());
+			for (Entry<String, Integer> entry : this.cooldowns.entrySet()) {
 				writer.add(entry.getKey());
 				writer.add(entry.getValue());
 			}
 		}
-		if ((syncCode & SYNC_DIMINISHING_RETURNS) == SYNC_DIMINISHING_RETURNS)
-			writer.add(diminishingReturns);
-		syncCode = 0;
+		if ((this.syncCode & SYNC_DIMINISHING_RETURNS) == SYNC_DIMINISHING_RETURNS)
+			writer.add(this.diminishingReturns);
+		this.syncCode = 0;
 		return writer.generate();
 	}
 	
@@ -250,116 +254,116 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 		AMDataReader reader = new AMDataReader(bytes, false);
 		int syncCode = reader.getInt();
 		if ((syncCode & SYNC_DEPTHS) == SYNC_DEPTHS) {
-			depths.clear();
+			this.depths.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
 				Affinity key = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(reader.getString()));
 				double value = reader.getDouble();
 				if (key != null)
-					depths.put(key, value);
+					this.depths.put(key, value);
 			}
 		}
 		if ((syncCode & SYNC_ABILITY_BOOLEANS) == SYNC_ABILITY_BOOLEANS) {
-			abilityBools.clear();
+			this.abilityBools.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
 				String key = reader.getString();
 				boolean value = reader.getBoolean();
 				if (key != null)
-					abilityBools.put(key, value);
+					this.abilityBools.put(key, value);
 			}
 		}
 		if ((syncCode & SYNC_ABILITY_FLOATS) == SYNC_ABILITY_FLOATS) {
-			abilityFloats.clear();
+			this.abilityFloats.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
 				String key = reader.getString();
 				float value = reader.getFloat();
 				if (key != null)
-					abilityFloats.put(key, value);
+					this.abilityFloats.put(key, value);
 			}
 		}
 		if ((syncCode & SYNC_COOLDOWNS) == SYNC_COOLDOWNS) {
-			cooldowns.clear();
+			this.cooldowns.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
 				String key = reader.getString();
 				int value = reader.getInt();
 				if (key != null)
-					cooldowns.put(key, value);
+					this.cooldowns.put(key, value);
 			}
 		}
 		if ((syncCode & SYNC_DIMINISHING_RETURNS) == SYNC_DIMINISHING_RETURNS)
-			diminishingReturns = reader.getFloat();
+			this.diminishingReturns = reader.getFloat();
 	}
 
 	@Override
 	public void incrementAffinity(Affinity affinity, float amt) {
-		if (affinity == Affinity.NONE || isLocked()) return;
+		if (affinity == Affinity.NONE || this.isLocked()) return;
 
 		float adjacentDecrement = amt * ADJACENT_FACTOR;
 		float minorOppositeDecrement = amt * MINOR_OPPOSING_FACTOR;
 		float majorOppositeDecrement = amt * MAJOR_OPPOSING_FACTOR;
-		
-		addToAffinity(affinity, amt);
 
-		if (getAffinityDepth(affinity) * MAX_DEPTH == MAX_DEPTH){
-			setLocked(true);
+		this.addToAffinity(affinity, amt);
+
+		if (this.getAffinityDepth(affinity) * MAX_DEPTH == MAX_DEPTH){
+			this.setLocked(true);
 		}
 
 		for (Affinity adjacent : affinity.getAdjacentAffinities()){
-			subtractFromAffinity(adjacent, adjacentDecrement);
+			this.subtractFromAffinity(adjacent, adjacentDecrement);
 		}
 
 		for (Affinity minorOpposite : affinity.getMinorOpposingAffinities()){
-			subtractFromAffinity(minorOpposite, minorOppositeDecrement);
+			this.subtractFromAffinity(minorOpposite, minorOppositeDecrement);
 		}
 
 		for (Affinity majorOpposite : affinity.getMajorOpposingAffinities()){
-			subtractFromAffinity(majorOpposite, majorOppositeDecrement);
+			this.subtractFromAffinity(majorOpposite, majorOppositeDecrement);
 		}
 
 		Affinity directOpposite = affinity.getOpposingAffinity();
 		if (directOpposite != null){
-			subtractFromAffinity(directOpposite, amt);
+			this.subtractFromAffinity(directOpposite, amt);
 		}
 	}
 	
 	private void addToAffinity(Affinity affinity, float amt){
 		if (affinity == Affinity.NONE) return;
-		double existingAmt = getAffinityDepth(affinity) * MAX_DEPTH;
+		double existingAmt = this.getAffinityDepth(affinity) * MAX_DEPTH;
 		existingAmt += amt;
 		if (existingAmt > MAX_DEPTH) existingAmt = MAX_DEPTH;
 		else if (existingAmt < 0) existingAmt = 0;
-		setAffinityDepth(affinity, existingAmt);
+		this.setAffinityDepth(affinity, existingAmt);
 	}
 	
 	private void subtractFromAffinity(Affinity affinity, float amt){
 		if (affinity == Affinity.NONE) return;
-		double existingAmt = getAffinityDepth(affinity)  * MAX_DEPTH;
+		double existingAmt = this.getAffinityDepth(affinity)  * MAX_DEPTH;
 		existingAmt -= amt;
 		if (existingAmt > MAX_DEPTH) existingAmt = MAX_DEPTH;
 		else if (existingAmt < 0) existingAmt = 0;
-		setAffinityDepth(affinity, existingAmt);
+		this.setAffinityDepth(affinity, existingAmt);
 	}
 
 	@Override
 	public void setLocked(boolean b) {
-		addAbilityBoolean("affinity_data_locked", b);
+		this.addAbilityBoolean("affinity_data_locked", b);
 	}
 	
 	@Override
 	public boolean isLocked() {
-		return getAbilityBoolean("affinity_data_locked");
+		return this.getAbilityBoolean("affinity_data_locked");
 	}
 
 	@Override
 	public boolean shouldUpdate() {
-		return syncCode != 0;
+		return this.syncCode != 0;
 	}
 
 	@Override
 	public void forceUpdate() {
-		syncCode = 0xFFFFFFFF;
+		this.syncCode = 0xFFFFFFFF;
 	}
 }
