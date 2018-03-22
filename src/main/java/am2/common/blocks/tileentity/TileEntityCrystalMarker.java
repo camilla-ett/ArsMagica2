@@ -1,7 +1,5 @@
 package am2.common.blocks.tileentity;
 
-import java.util.List;
-
 import am2.api.math.AMVector3;
 import am2.common.blocks.BlockCrystalMarker;
 import am2.common.utils.InventoryUtilities;
@@ -24,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.Constants;
 
 public class TileEntityCrystalMarker extends TileEntity implements IInventory, ISidedInventory, ITickable{
@@ -37,6 +36,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	protected ItemStack[] filterItems;
 	private int markerType;
 	private AxisAlignedBB connectedBoundingBox;
+	private int tickCount;
 
 	public void setFacing(EnumFacing face){
 		this.facing = face;
@@ -54,26 +54,26 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 		this.priority++;
 		this.priority %= TileEntityFlickerHabitat.PRIORITY_LEVELS;
 		if (!this.worldObj.isRemote){
-			for (EntityPlayerMP player : (List<EntityPlayerMP>)this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(pos).expand(64, 64, 64))){
-				player.connection.sendPacket(getUpdatePacket());
+			for (EntityPlayerMP player : this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(this.pos).expand(64, 64, 64))){
+				player.connection.sendPacket(this.getUpdatePacket());
 			}
 		}
 	}
 
 	public AxisAlignedBB GetConnectedBoundingBox(){
-		if (connectedBoundingBox != null){
-			return connectedBoundingBox;
+		if (this.connectedBoundingBox != null){
+			return this.connectedBoundingBox;
 		}else{
 			return new AxisAlignedBB(BlockPos.ORIGIN);
 		}
 	}
 
 	public void SetConnectedBoundingBox(AxisAlignedBB boundingBox){
-		connectedBoundingBox = boundingBox;
+		this.connectedBoundingBox = boundingBox;
 	}
 
 	public void SetConnectedBoundingBox(double minx, double miny, double minz, double maxx, double maxy, double maxz){
-		connectedBoundingBox = new AxisAlignedBB(minx, miny, minz, maxx, maxy, maxz);
+		this.connectedBoundingBox = new AxisAlignedBB(minx, miny, minz, maxx, maxy, maxz);
 	}
 
 	public int getMarkerType(){
@@ -81,23 +81,23 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	}
 
 	public void setElementalAttuner(AMVector3 vector){
-		elementalAttuner = new AMVector3(vector.x, vector.y, vector.z);
+		this.elementalAttuner = new AMVector3(vector.x, vector.y, vector.z);
 	}
 
 	public AMVector3 getElementalAttuner(){
-		return elementalAttuner;
+		return this.elementalAttuner;
 	}
 
 	public void removeElementalAttuner(){
-		elementalAttuner = null;
+		this.elementalAttuner = null;
 	}
 
 	public boolean hasFilterItems(){
 		boolean retVar = false;
 
-		if (filterItems != null){
-			for (int i = 0; i < filterItems.length; i++){
-				if (filterItems[i] != null){
+		if (this.filterItems != null){
+			for (int i = 0; i < this.filterItems.length; i++){
+				if (this.filterItems[i] != null){
 					retVar = true;
 					break;
 				}
@@ -116,9 +116,9 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	public boolean filterHasItem(ItemStack stack){
 		boolean retVal = false;
 
-		if (stack != null && hasFilterItems()){
-			for (int i = 0; i < filterItems.length; i++){
-				if (filterItems[i] != null && InventoryUtilities.compareItemStacks(filterItems[i], stack, true, false, true, true)){
+		if (stack != null && this.hasFilterItems()){
+			for (int i = 0; i < this.filterItems.length; i++){
+				if (this.filterItems[i] != null && InventoryUtilities.compareItemStacks(this.filterItems[i], stack, true, false, true, true)){
 					retVal = true;
 					break;
 				}
@@ -131,10 +131,10 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	public int getFilterCount(ItemStack stack){
 		int totalCount = 0;
 
-		if (hasFilterItems()){
-			for (int i = 0; i < filterItems.length; i++){
-				if (filterItems[i] != null && InventoryUtilities.compareItemStacks(filterItems[i], stack, true, false, true, true)){
-					totalCount += filterItems[i].stackSize;
+		if (this.hasFilterItems()){
+			for (int i = 0; i < this.filterItems.length; i++){
+				if (this.filterItems[i] != null && InventoryUtilities.compareItemStacks(this.filterItems[i], stack, true, false, true, true)){
+					totalCount += this.filterItems[i].stackSize;
 				}
 			}
 		}
@@ -147,7 +147,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	}
 
 	public TileEntityCrystalMarker(int markerType){
-		filterItems = new ItemStack[FILTER_SIZE];
+		this.filterItems = new ItemStack[FILTER_SIZE];
 		this.markerType = markerType;
 		if (this.markerType == BlockCrystalMarker.META_FINAL_DEST)
 			this.priority = TileEntityFlickerHabitat.PRIORITY_FINAL;
@@ -158,13 +158,13 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 		super.writeToNBT(nbttagcompound);
 		nbttagcompound.setInteger("facing", this.facing.ordinal());
 		nbttagcompound.setInteger("priority", this.priority);
-		nbttagcompound.setInteger("markerType", markerType);
+		nbttagcompound.setInteger("markerType", this.markerType);
 
-		if (elementalAttuner != null){
+		if (this.elementalAttuner != null){
 			NBTTagCompound elementalAttunerLocation = new NBTTagCompound();
-			elementalAttunerLocation.setFloat("x", elementalAttuner.x);
-			elementalAttunerLocation.setFloat("y", elementalAttuner.y);
-			elementalAttunerLocation.setFloat("z", elementalAttuner.z);
+			elementalAttunerLocation.setFloat("x", this.elementalAttuner.x);
+			elementalAttunerLocation.setFloat("y", this.elementalAttuner.y);
+			elementalAttunerLocation.setFloat("z", this.elementalAttuner.z);
 			nbttagcompound.setTag("elementalAttuner", elementalAttunerLocation);
 		}
 
@@ -172,11 +172,11 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 			NBTTagList filterItemsList = new NBTTagList();
 
 			for (int i = 0; i < this.getSizeInventory(); i++){
-				if (filterItems[i] != null){
+				if (this.filterItems[i] != null){
 					String tag = String.format("ArrayIndex", i);
 					NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 					nbttagcompound1.setByte(tag, (byte)i);
-					filterItems[i].writeToNBT(nbttagcompound1);
+					this.filterItems[i].writeToNBT(nbttagcompound1);
 					filterItemsList.appendTag(nbttagcompound1);
 				}
 			}
@@ -186,12 +186,12 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 		if (this.connectedBoundingBox != null){
 			NBTTagCompound connectedBoundingBoxDimensions = new NBTTagCompound();
-			connectedBoundingBoxDimensions.setDouble("minx", connectedBoundingBox.minX);
-			connectedBoundingBoxDimensions.setDouble("miny", connectedBoundingBox.minY);
-			connectedBoundingBoxDimensions.setDouble("minz", connectedBoundingBox.minZ);
-			connectedBoundingBoxDimensions.setDouble("maxx", connectedBoundingBox.maxX);
-			connectedBoundingBoxDimensions.setDouble("maxy", connectedBoundingBox.maxY);
-			connectedBoundingBoxDimensions.setDouble("maxz", connectedBoundingBox.maxZ);
+			connectedBoundingBoxDimensions.setDouble("minx", this.connectedBoundingBox.minX);
+			connectedBoundingBoxDimensions.setDouble("miny", this.connectedBoundingBox.minY);
+			connectedBoundingBoxDimensions.setDouble("minz", this.connectedBoundingBox.minZ);
+			connectedBoundingBoxDimensions.setDouble("maxx", this.connectedBoundingBox.maxX);
+			connectedBoundingBoxDimensions.setDouble("maxy", this.connectedBoundingBox.maxY);
+			connectedBoundingBoxDimensions.setDouble("maxz", this.connectedBoundingBox.maxZ);
 			nbttagcompound.setTag("connectedBoundingBox", connectedBoundingBoxDimensions);
 		}
 		return nbttagcompound;
@@ -200,9 +200,9 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	@Override
 	public void readFromNBT(NBTTagCompound par1){
 		super.readFromNBT(par1);
-		filterItems = new ItemStack[FILTER_SIZE];
+		this.filterItems = new ItemStack[FILTER_SIZE];
 		if (par1.hasKey("facing")){
-			facing = EnumFacing.values()[par1.getInteger("facing")];
+			this.facing = EnumFacing.values()[par1.getInteger("facing")];
 		}
 
 		if (par1.hasKey("priority")){
@@ -242,20 +242,20 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 			}
 
 			if (success){
-				elementalAttuner = new AMVector3(x, y, z);
+				this.elementalAttuner = new AMVector3(x, y, z);
 			}
 		}
 
 		//Load filter items
 		if (par1.hasKey("filterItems")){
 			NBTTagList filterItemsList = par1.getTagList("filterItems", Constants.NBT.TAG_COMPOUND);
-			filterItems = new ItemStack[getSizeInventory()];
+			this.filterItems = new ItemStack[this.getSizeInventory()];
 			for (int i = 0; i < filterItemsList.tagCount(); i++){
 				String tag = String.format("ArrayIndex", i);
-				NBTTagCompound nbttagcompound1 = (NBTTagCompound)filterItemsList.getCompoundTagAt(i);
+				NBTTagCompound nbttagcompound1 = filterItemsList.getCompoundTagAt(i);
 				byte byte0 = nbttagcompound1.getByte(tag);
-				if (byte0 >= 0 && byte0 < filterItems.length){
-					filterItems[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+				if (byte0 >= 0 && byte0 < this.filterItems.length){
+					this.filterItems[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 				}
 			}
 		}//end if(par1.hasKey("filterItems")){
@@ -269,7 +269,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 			double maxx = connectedBoundingBoxDimensions.getDouble("maxx");
 			double maxy = connectedBoundingBoxDimensions.getDouble("maxy");
 			double maxz = connectedBoundingBoxDimensions.getDouble("maxz");
-			connectedBoundingBox = new AxisAlignedBB(minx, miny, minz, maxx, maxy, maxz);
+			this.connectedBoundingBox = new AxisAlignedBB(minx, miny, minz, maxx, maxy, maxz);
 		}
 	}
 
@@ -287,20 +287,20 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 		if (i > FILTER_SIZE){
 			return null;
 		}
-		return filterItems[i];
+		return this.filterItems[i];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j){
-		if (filterItems[i] != null){
-			if (filterItems[i].stackSize <= j){
-				ItemStack itemstack = filterItems[i];
-				filterItems[i] = null;
+		if (this.filterItems[i] != null){
+			if (this.filterItems[i].stackSize <= j){
+				ItemStack itemstack = this.filterItems[i];
+				this.filterItems[i] = null;
 				return itemstack;
 			}
-			ItemStack itemstack1 = filterItems[i].splitStack(j);
-			if (filterItems[i].stackSize == 0){
-				filterItems[i] = null;
+			ItemStack itemstack1 = this.filterItems[i].splitStack(j);
+			if (this.filterItems[i].stackSize == 0){
+				this.filterItems[i] = null;
 			}
 			return itemstack1;
 		}else{
@@ -310,9 +310,9 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 	@Override
 	public ItemStack removeStackFromSlot(int i){
-		if (filterItems[i] != null){
-			ItemStack itemstack = filterItems[i];
-			filterItems[i] = null;
+		if (this.filterItems[i] != null){
+			ItemStack itemstack = this.filterItems[i];
+			this.filterItems[i] = null;
 			return itemstack;
 		}else{
 			return null;
@@ -321,9 +321,9 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
-		filterItems[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
-			itemstack.stackSize = getInventoryStackLimit();
+		this.filterItems[i] = itemstack;
+		if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()){
+			itemstack.stackSize = this.getInventoryStackLimit();
 		}
 	}
 
@@ -348,10 +348,10 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+		if (this.worldObj.getTileEntity(this.pos) != this){
 			return false;
 		}
-		return entityplayer.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override
@@ -373,7 +373,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	public SPacketUpdateTileEntity getUpdatePacket(){
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
-		return new SPacketUpdateTileEntity(pos, 1, nbt);
+		return new SPacketUpdateTileEntity(this.pos, 1, nbt);
 	}
 
 	@Override
@@ -383,14 +383,14 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox(){
-		return new AxisAlignedBB(pos);
+		return new AxisAlignedBB(this.pos);
 	}
 
 	public void linkToHabitat(AMVector3 habLocation, EntityPlayer player){
-		TileEntity te = worldObj.getTileEntity(habLocation.toBlockPos());
+		TileEntity te = this.worldObj.getTileEntity(habLocation.toBlockPos());
 
 		if (te instanceof TileEntityFlickerHabitat){
-			AMVector3 myLocation = new AMVector3(pos);
+			AMVector3 myLocation = new AMVector3(this.pos);
 			boolean setElementalAttuner = false;
 
 			if (myLocation.distanceSqTo(habLocation) <= SEARCH_RADIUS){
@@ -452,12 +452,14 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 	@Override
 	public void update() {
-		if (!worldObj.isRemote && worldObj.getBlockState(pos).getValue(BlockCrystalMarker.FACING) != facing) {
-			IBlockState prev = worldObj.getBlockState(pos);
-			worldObj.setBlockState(pos, prev.withProperty(BlockCrystalMarker.FACING, facing));
-			for (EntityPlayerMP player : this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(pos).expand(64, 64, 64))){
-				player.connection.sendPacket(getUpdatePacket());
-			}
+		if (!this.worldObj.isRemote) {
+			IBlockState state = this.worldObj.getBlockState(this.pos);
+			if (!state.getValue(BlockCrystalMarker.FACING).equals(facing))
+				this.worldObj.setBlockState(this.pos, state.withProperty(BlockCrystalMarker.FACING, this.facing), 3);
+			//This is probably the fastest I can get it to go.
+			//If you know of any better way, please feel free to suggest it.
+			if (++tickCount % 20 == 0)
+				this.worldObj.notifyBlockUpdate(this.pos, state, state, 2);
 		}
 	}
 	

@@ -10,6 +10,8 @@ import am2.common.defs.ItemDefs;
 import am2.common.packet.AMDataWriter;
 import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMPacketIDs;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,6 +20,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityEnchantmentTable;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 
 public class TileEntityLectern extends TileEntityEnchantmentTable implements ITickable{
@@ -61,6 +64,11 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 					}
 				}
 			}
+		} else if (tickCount % 20 == 0){
+			IBlockState state = this.worldObj.getBlockState(this.pos);
+			//This is probably the fastest I can get it to go.
+			//If you know of any better way, please feel free to suggest it.
+			this.worldObj.notifyBlockUpdate(this.pos, state, state, 2);
 		}
 	}
 

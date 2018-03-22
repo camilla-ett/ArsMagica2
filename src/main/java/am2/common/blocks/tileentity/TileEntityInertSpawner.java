@@ -184,6 +184,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 		this.powerConsumed = nbttagcompound.getFloat("powerConsumed");
 	}
 
+	@Override
 	public void update(){
 		super.update();
 

@@ -25,12 +25,14 @@ public class TileCrystalMarkerRenderer extends TileEntitySpecialRenderer<TileEnt
 	private IBakedModel bakedModel;
 	
 	private IBakedModel getBakedModel() {
-		try {
-			model = ModelLoaderRegistry.getModel(new ResourceLocation("arsmagica2", "block/crystal_marker.obj"));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		if (bakedModel == null) {
+			try {
+				model = ModelLoaderRegistry.getModel(new ResourceLocation("arsmagica2", "block/crystal_marker.obj"));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			bakedModel = model.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
 		}
-		bakedModel = model.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
 		return bakedModel;
 	}
 
@@ -38,17 +40,19 @@ public class TileCrystalMarkerRenderer extends TileEntitySpecialRenderer<TileEnt
 	public TileCrystalMarkerRenderer(){
 	}
 
+	@Override
 	public void renderTileEntityAt(TileEntityCrystalMarker tileentity, double x, double y, double z, float partialTicks, int destroyStage){
 		EnumFacing facing = EnumFacing.UP;
 		
 		if (tileentity.getWorld() != null){
 			facing = tileentity.getFacing();
+			//facing = tileentity.getWorld().getBlockState(tileentity.getPos()).getValue(BlockCrystalMarker.FACING);
 		}
 
-		GL11.glPushMatrix();
-		GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+		GlStateManager.pushMatrix();
+		GlStateManager.pushAttrib();//(GL11.GL_LIGHTING_BIT);
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GlStateManager.disableCull();
 		RenderHelper.disableStandardItemLighting();
 
 		if (tileentity.getPos() != BlockPos.ORIGIN){
@@ -101,10 +105,10 @@ public class TileCrystalMarkerRenderer extends TileEntitySpecialRenderer<TileEnt
 		tesselator.draw();
 		GlStateManager.popMatrix();
 		RenderHelper.enableStandardItemLighting();
-		GL11.glPopAttrib();
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GlStateManager.popAttrib();
+		GlStateManager.enableCull();
 		GlStateManager.enableBlend();
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 	}
 
 }
