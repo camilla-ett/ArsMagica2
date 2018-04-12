@@ -11,7 +11,7 @@ buildscript {
         }
 	}
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath 'com.matthewprenger:CurseGradle:1.0-SNAPSHOT'
     }
 }
@@ -35,13 +35,13 @@ archivesBaseName = "ArsMagica2"
 
 
 minecraft {
-    version = "1.10.2-12.18.3.2185"
+    version = "1.12.2-14.23.2.2654"
     runDir = "run"
     replace 'GRADLE:BUILD', config.build_number
     replace 'GRADLE:VERSION', config.version
     replaceIn 'ArsMagica2.java'
 	//replace '${version}', project.version
-    mappings = "snapshot_20161111"  //uncomment this line to use newest Forge mappings. Needs a lot of rework.
+    mappings = "snapshot_20171003"  //uncomment this line to use newest Forge mappings. Needs a lot of rework.
 }
 
 jar {
