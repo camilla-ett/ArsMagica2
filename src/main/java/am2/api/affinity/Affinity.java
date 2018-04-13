@@ -77,7 +77,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 			.setDirectOpposite(LIFE_LOC)
 			.addMajorOpposite(NATURE_LOC, LIGHTNING_LOC, WATER_LOC, AIR_LOC)
 			.addMinorOpposite(ARCANE_LOC, ICE_LOC);
-	
+
 	public static void registerAffinities() {
 		GameRegistry.register(NONE, NONE_LOC);
 		GameRegistry.register(ARCANE, ARCANE_LOC);
