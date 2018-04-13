@@ -7,12 +7,12 @@ import am2.common.entity.EntityLightMage;
 import am2.common.extensions.EntityExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityMultiPart;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -28,7 +28,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 
 	protected BossActions currentAction = BossActions.IDLE;
 	protected int ticksInCurrentAction;
-	protected EntityDragonPart[] parts;
+	protected MultiPartEntityPart[] parts;
 
 	public boolean playerCanSee = false;
 	private BossInfoServer bossInfo = null;
@@ -47,12 +47,12 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	@Override
 	public void setSize(float width, float height) {
 		if (this.parts == null) {
-			this.parts = new EntityDragonPart[]{new EntityDragonPart(this, "defaultBody", width, height) {
+			this.parts = new MultiPartEntityPart[]{new MultiPartEntityPart(this, "defaultBody", width, height) {
 
 				@Override
 				public void onUpdate() {
 					super.onUpdate();
-					this.isDead = ((Entity) this.entityDragonObj).isDead;
+					this.isDead = ((Entity) this.parent).isDead;
 				}
 
 				@Override
@@ -145,12 +145,12 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 
-		if (par1DamageSource == DamageSource.inWall) {
-			if (!this.worldObj.isRemote) {// dead code? (calling canSnowAt() without using the result) could it be a buggy upgrade to 1.7.10?
+		if (par1DamageSource == DamageSource.IN_WALL) {
+			if (!this.getWorld().isRemote) {// dead code? (calling canSnowAt() without using the result) could it be a buggy upgrade to 1.7.10?
 				for (int i = -1; i <= 1; ++i) {
 					for (int j = 0; j < 3; ++j) {
 						for (int k = -1; k <= 1; ++k) {
-							this.worldObj.destroyBlock(this.getPosition().add(i, j, k), true);
+							this.getWorld().destroyBlock(this.getPosition().add(i, j, k), true);
 						}
 					}
 				}
@@ -158,30 +158,30 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 			return false;
 		}
 
-		if (par1DamageSource.getSourceOfDamage() != null) {
+		if (par1DamageSource.getTrueSource() != null) {
 
-			if (par1DamageSource.getSourceOfDamage() instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) par1DamageSource.getSourceOfDamage();
+			if (par1DamageSource.getTrueSource() instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) par1DamageSource.getTrueSource();
 				if (player.capabilities.isCreativeMode && player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == ItemDefs.woodenLeg) {
-					if (!this.worldObj.isRemote)
+					if (!this.getWorld().isRemote)
 						this.setDead();
 					return false;
 				}
-			} else if (par1DamageSource.getSourceOfDamage() instanceof EntityArrow) {
-				Entity shooter = ((EntityArrow) par1DamageSource.getSourceOfDamage()).shootingEntity;
-				if (shooter != null && this.getDistanceSqToEntity(shooter) > 900) {
+			} else if (par1DamageSource.getTrueSource() instanceof EntityArrow) {
+				Entity shooter = ((EntityArrow) par1DamageSource.getTrueSource()).shootingEntity;
+				if (shooter != null && this.getDistanceSq(shooter) > 900) {
 					this.setPositionAndUpdate(shooter.posX, shooter.posY, shooter.posZ);
 				}
 				return false;
-			} else if (this.getDistanceSqToEntity(par1DamageSource.getSourceOfDamage()) > 900) {
-				Entity shooter = (par1DamageSource.getSourceOfDamage());
+			} else if (this.getDistanceSq(par1DamageSource.getTrueSource()) > 900) {
+				Entity shooter = (par1DamageSource.getTrueSource());
 				if (shooter != null) {
 					this.setPositionAndUpdate(shooter.posX, shooter.posY, shooter.posZ);
 				}
 			}
 		}
 
-		if (par2 > 7 && !par1DamageSource.damageType.equals(DamageSource.outOfWorld.damageType)) par2 = 7;
+		if (par2 > 7 && !par1DamageSource.damageType.equals(DamageSource.OUT_OF_WORLD.damageType)) par2 = 7;
 
 		par2 = this.modifyDamageAmount(par1DamageSource, par2);
 
@@ -200,7 +200,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	protected abstract float modifyDamageAmount(DamageSource source, float damageAmt);
 
 	@Override
-	public boolean attackEntityFromPart(EntityDragonPart part, DamageSource source, float damage) {
+	public boolean attackEntityFromPart(MultiPartEntityPart part, DamageSource source, float damage) {
 		return this.attackEntityFrom(source, damage);
 	}
 
@@ -209,11 +209,11 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 
 		if (this.parts != null && this.parts[0] != null && this.parts[0].partName == "defaultBody") {
 			this.parts[0].setPosition(this.posX, this.posY, this.posZ);
-			if (this.worldObj.isRemote) {
+			if (this.getWorld().isRemote) {
 				this.parts[0].setVelocity(this.motionX, this.motionY, this.motionZ);
 			}
 			if (!this.parts[0].addedToChunk) {
-				this.worldObj.spawnEntityInWorld(this.parts[0]);
+				this.getWorld().spawnEntity(this.parts[0]);
 			}
 		}
 
@@ -222,9 +222,9 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 			this.setCurrentAction(BossActions.IDLE);
 		}
 
-		if (this.worldObj.isRemote) {
+		if (this.getWorld().isRemote) {
 			this.playerCanSee = ArsMagica2.proxy.getLocalPlayer().canEntityBeSeen(this);
-			this.ignoreFrustumCheck = ArsMagica2.proxy.getLocalPlayer().getDistanceToEntity(this) < 32;
+			this.ignoreFrustumCheck = ArsMagica2.proxy.getLocalPlayer().getDistance(this) < 32;
 		}
 
 		if (this.bossInfo != null)
