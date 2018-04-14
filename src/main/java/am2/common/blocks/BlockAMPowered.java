@@ -46,8 +46,8 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
 		
 		if (HandleSpecialItems(worldIn, playerIn, pos))
 			return false;
@@ -82,17 +82,15 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 		if (defaultRender) return super.shouldSideBeRendered(blockState, blockAccess, pos, side);
 		return true;
 	}
-	
+
+	@SuppressWarnings("deprecation")
+	public abstract boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
+											 EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ);
+
 	@Override
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
-	
-	@Override
-	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-		if (defaultRender) return super.isBlockSolid(worldIn, pos, side);
-		return true;
-	}
 	
 	@SuppressWarnings("deprecation")
 	@Override

@@ -101,7 +101,8 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 			return Lists.newArrayList();
 		}
 
-		public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+		@Override
+		public IBakedModel bake(IModelState state, VertexFormat format, java.util.function.Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
 			return new SpecialRenderModelLoader.Baked();
 		}
 

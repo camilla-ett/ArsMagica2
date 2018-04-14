@@ -353,7 +353,7 @@ public class SpellData {
 			stages.set(id, pts);
 		}
 		NBTTagCompound storedData = tag.getCompoundTag("StoredData");
-		SpellData data = new SpellData(ItemStack.loadItemStackFromNBT(tag.getCompoundTag("Stack")), stages, new UUID(tag.getLong("UUIDMost"), tag.getLong("UUIDLeast")), storedData);
+		SpellData data = new SpellData(new ItemStack(tag.getCompoundTag("Stack")), stages, new UUID(tag.getLong("UUIDMost"), tag.getLong("UUIDLeast")), storedData);
 		data.exec = tag.getInteger("ExecutionStage");
 		return data;
 	}

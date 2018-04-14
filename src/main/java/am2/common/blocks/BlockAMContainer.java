@@ -33,11 +33,6 @@ public abstract class BlockAMContainer extends BlockContainer {
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return getBoundingBox(blockState, worldIn, pos);
-	}
-	
-	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return boundingBox;
 	}

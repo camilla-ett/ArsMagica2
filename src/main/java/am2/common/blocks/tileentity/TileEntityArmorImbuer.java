@@ -73,6 +73,11 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 	public int getSizeInventory(){
 		return 4;
 	}
+	//Lehet, hogy nem kéne mindig false-t visszaadnia, de legalább így nem ad errort mert implementálva van az isEmpty
+	@Override
+	public boolean isEmpty() {
+		return false;
+	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot){
@@ -126,6 +131,11 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 	@Override
 	public int getInventoryStackLimit(){
 		return 64;
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return true;
 	}
 
 	@Override

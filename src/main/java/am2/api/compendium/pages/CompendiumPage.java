@@ -24,7 +24,6 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -198,7 +197,7 @@ public abstract class CompendiumPage<E> {
 					list.add(skill.getName());
 				}else if (stack.getItem() == ItemDefs.etherium){
 					list.clear();
-					list.add(stack.stackSize + " " + I18n.format("item.arsmagica2:etherium.name"));
+					list.add(stack.getCount() + " " + I18n.format("item.arsmagica2:etherium.name"));
 					ArrayList<String> subList = new ArrayList<>();
 					for (PowerTypes type : PowerTypes.all()) {
 						if ((stack.getItemDamage() & type.ID()) == type.ID()) {
@@ -235,7 +234,7 @@ public abstract class CompendiumPage<E> {
 			}
 
 			FontRenderer font = stack.getItem().getFontRenderer(stack);
-			drawHoveringText(list, x, y, (font == null ? this.mc.fontRendererObj : font));
+			drawHoveringText(list, x, y, (font == null ? this.mc.fontRenderer : font));
 		}catch (Throwable t){
 		}
 	}

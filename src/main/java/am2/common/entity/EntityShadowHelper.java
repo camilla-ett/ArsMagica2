@@ -53,16 +53,16 @@ public class EntityShadowHelper extends EntityLiving{
 	@Override
 	public void onDeath(DamageSource par1DamageSource){
 		super.onDeath(par1DamageSource);
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			spawnParticles();
-			worldObj.playSound(posX, posY, posZ, AMSounds.CRAFTING_ALTAR_CREATE_SPELL, SoundCategory.NEUTRAL, 1.0f, 1.0f, true);
+			world.playSound(posX, posY, posZ, AMSounds.CRAFTING_ALTAR_CREATE_SPELL, SoundCategory.NEUTRAL, 1.0f, 1.0f, true);
 		}
 	}
 
 	private void spawnParticles(){
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			for (int i = 0; i < 25 * ArsMagica2.config.getGFXLevel() + 1; ++i){
-				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "arcane", posX, posY, posZ);
+				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "arcane", posX, posY, posZ);
 				if (particle != null){
 					particle.addRandomOffset(1, 1, 1);
 					particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.02f + getRNG().nextFloat() * 0.2f, 1, false));
@@ -103,7 +103,7 @@ public class EntityShadowHelper extends EntityLiving{
 	}
 
 	public void setSearchLocationAndItem(AMVector3 location, ItemStack item){
-		if (this.worldObj.isRemote) return;
+		if (this.world.isRemote) return;
 		this.dataManager.set(DW_SEARCH_ITEM, Optional.of(item));
 		this.dataManager.set(DW_TRANS_LOC_X, (int)location.x);
 		this.dataManager.set(DW_TRANS_LOC_Y, (int)location.y);
@@ -166,29 +166,24 @@ public class EntityShadowHelper extends EntityLiving{
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
-		if (worldObj != null && worldObj.isRemote && skinHelper == null) {
+		if (world != null && world.isRemote && skinHelper == null) {
 			this.skinHelper = new ShadowSkinHelper();
 			spawnParticles();
 		}
 		
-		if (this.worldObj.isRemote){
+		if (this.world.isRemote){
 			if (this.getMimicUser() != lastDWString){
 				lastDWString = getMimicUser();
 				this.skinHelper.setupCustomSkin(lastDWString);
 			}
 		}
-		if (!worldObj.isRemote && (altarTarget == null || !altarTarget.isCrafting())){
+		if (!world.isRemote && (altarTarget == null || !altarTarget.isCrafting())){
 			this.unSummon();
 		}
 	}
 
-	@Override
-	protected SoundEvent getHurtSound(){
-		return null;
-	}
-
 	public void unSummon(){
-		this.attackEntityFrom(DamageSource.generic, 5000);
+		this.attackEntityFrom(DamageSource.GENERIC, 5000);
 	}
 
 	public ResourceLocation getLocationSkin(){

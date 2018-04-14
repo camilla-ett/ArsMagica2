@@ -14,7 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.stats.Achievement;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -110,7 +110,7 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 				unlockEntry(entry.getID());
 			else if (obj instanceof Item && crafting.getItem() == obj)
 				unlockEntry(entry.getID());
-			else if (obj instanceof Block && crafting.getItem() instanceof ItemBlock && ((ItemBlock)crafting.getItem()).block == obj)
+			else if (obj instanceof Block && crafting.getItem() instanceof ItemBlock && ((ItemBlock)crafting.getItem()).getBlock() == obj)
 				unlockEntry(entry.getID());
 		}
 	}
