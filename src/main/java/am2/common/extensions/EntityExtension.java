@@ -787,7 +787,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.manaLinks.clear();
 		int numLinks = rdr.getInt();
 		for (int i = 0; i < numLinks; ++i) {
-			Entity e = this.entity.worldObj.getEntityByID(rdr.getInt());
+			Entity e = this.entity.world.getEntityByID(rdr.getInt());
 			if (e != null && e instanceof EntityLivingBase)
 				this.updateManaLink((EntityLivingBase) e);
 		}

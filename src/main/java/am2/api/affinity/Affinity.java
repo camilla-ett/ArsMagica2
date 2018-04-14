@@ -156,7 +156,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		ArrayList<Affinity> affinities = new ArrayList<Affinity>();
 		for (int i = 0; i < affinityTag.tagCount(); i++) {
 			NBTTagCompound tmp = affinityTag.getCompoundTagAt(i);
-			Affinity aff = this.getRegistryType().(new ResourceLocation(tmp.getString("Name")));
+			Affinity aff = this.getRegistryType().getObj(new ResourceLocation(tmp.getString("Name")));
 			affinities.add(aff);
 		}
 		return affinities;

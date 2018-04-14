@@ -71,7 +71,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	
 	@Override
 	public void setAffinityDepth (Affinity name, double value) {
-		value = MathHelper.clamp_double(value, 0, MAX_DEPTH);
+		value = MathHelper.clamp(value, 0, MAX_DEPTH);
 		if (value != this.getAffinityDepth(name)) {
 			this.syncCode |= SYNC_DEPTHS;
 			this.depths.put(name, value);
