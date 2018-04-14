@@ -20,6 +20,11 @@ public class ParticleFleeEntity extends ParticleController{
 	@Override
 	public void doUpdate(){
 
+		if (target == null) {
+			this.finish();
+			return;
+		}
+
 		double posX;
 		double posZ;
 		double posY = particle.getPosY();

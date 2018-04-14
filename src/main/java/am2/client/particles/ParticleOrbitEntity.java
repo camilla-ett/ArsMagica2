@@ -19,11 +19,11 @@ public final class ParticleOrbitEntity extends ParticleController{
 
 	public ParticleOrbitEntity(AMParticle particleEffect, Entity orbitTarget, double orbitSpeed, int priority, boolean exclusive){
 		super(particleEffect, priority, exclusive);
-		target = orbitTarget;
-		orbitAngle = particle.getWorldObj().rand.nextInt(360);
-		rotateClockwise = particle.getWorldObj().rand.nextBoolean();
-		generateNewTargetY();
-		targetDistance = 1 + (particle.getWorldObj().rand.nextDouble() * 0.5);
+		this.target = orbitTarget;
+		this.orbitAngle = this.particle.getWorldObj().rand.nextInt(360);
+		this.rotateClockwise = this.particle.getWorldObj().rand.nextBoolean();
+		this.generateNewTargetY();
+		this.targetDistance = 1 + (this.particle.getWorldObj().rand.nextDouble() * 0.5);
 		this.orbitSpeed = orbitSpeed;
 	}
 
@@ -38,10 +38,10 @@ public final class ParticleOrbitEntity extends ParticleController{
 	}
 
 	private void generateNewTargetY(){
-		if (target != null){
-			targetY = particle.getWorldObj().rand.nextDouble() * target.height;
+		if (this.target != null){
+			this.targetY = this.particle.getWorldObj().rand.nextDouble() * this.target.height;
 		}else{
-			targetY = 0;
+			this.targetY = 0;
 		}
 	}
 
@@ -56,72 +56,72 @@ public final class ParticleOrbitEntity extends ParticleController{
 	@Override
 	public void doUpdate(){
 
-		if (firstTick){
-			curYOffset = particle.getPosY() - (target.posY + target.getEyeHeight());
-		}
-
-		if (target == null || target.isDead){
+		if (this.target == null || this.target.isDead){
 			this.finish();
 			return;
 		}
 
+		if (this.firstTick){
+			this.curYOffset = this.particle.getPosY() - (this.target.posY + this.target.getEyeHeight());
+		}
+
 		double posX;
 		double posZ;
-		double posY = particle.getPosY();
+		double posY = this.particle.getPosY();
 
-		if (Math.abs(targetY - curYOffset) < 0.1){
-			generateNewTargetY();
+		if (Math.abs(this.targetY - this.curYOffset) < 0.1){
+			this.generateNewTargetY();
 		}
 
-		posX = target.posX + (Math.cos(orbitAngle) * targetDistance);
-		posZ = target.posZ + (Math.sin(orbitAngle) * targetDistance);
+		posX = this.target.posX + (Math.cos(this.orbitAngle) * this.targetDistance);
+		posZ = this.target.posZ + (Math.sin(this.orbitAngle) * this.targetDistance);
 
-		if (targetY < curYOffset){
-			curYOffset -= orbitSpeed / 4;
-		}else if (targetY > curYOffset){
-			curYOffset += orbitSpeed / 4;
+		if (this.targetY < this.curYOffset){
+			this.curYOffset -= this.orbitSpeed / 4;
+		}else if (this.targetY > this.curYOffset){
+			this.curYOffset += this.orbitSpeed / 4;
 		}
 
-		if (rotateClockwise){
-			orbitAngle += orbitSpeed;
+		if (this.rotateClockwise){
+			this.orbitAngle += this.orbitSpeed;
 		}else{
-			orbitAngle -= orbitSpeed;
+			this.orbitAngle -= this.orbitSpeed;
 		}
-		if (orbitAngle > 360){
-			orbitAngle -= 360;
-		}else if (orbitAngle < 0){
-			orbitAngle += 360;
+		if (this.orbitAngle > 360){
+			this.orbitAngle -= 360;
+		}else if (this.orbitAngle < 0){
+			this.orbitAngle += 360;
 		}
 
-		if (!ignoreYCoordinate){
-			if (orbitY != -512){
-				posY = (target.posY + target.getEyeHeight()) + orbitY;
+		if (!this.ignoreYCoordinate){
+			if (this.orbitY != -512){
+				posY = (this.target.posY + this.target.getEyeHeight()) + this.orbitY;
 			}else{
 				int offset = 0;
-				if (target instanceof EntityPlayer && !(target instanceof EntityPlayerMP))
-					offset += 2 * target.height;
-				posY = target.posY - target.getEyeHeight() + curYOffset + offset;
+				if (this.target instanceof EntityPlayer && !(this.target instanceof EntityPlayerMP))
+					offset += 2 * this.target.height;
+				posY = this.target.posY - this.target.getEyeHeight() + this.curYOffset + offset;
 			}
 		}
 
-		particle.setPosition(posX, posY, posZ);
-		if (firstTick){
-			particle.setPrevPos(posX, posY, posZ);
+		this.particle.setPosition(posX, posY, posZ);
+		if (this.firstTick){
+			this.particle.setPrevPos(posX, posY, posZ);
 		}
 	}
 
 	@Override
 	public ParticleController clone(){
-		ParticleOrbitEntity clone = new ParticleOrbitEntity(particle, target, orbitSpeed, priority, rotateClockwise).SetTargetDistance(targetDistance);
-		if (orbitY != -512){
-			clone.setOrbitY(orbitY);
+		ParticleOrbitEntity clone = new ParticleOrbitEntity(this.particle, this.target, this.orbitSpeed, this.priority, this.rotateClockwise).SetTargetDistance(this.targetDistance);
+		if (this.orbitY != -512){
+			clone.setOrbitY(this.orbitY);
 		}
-		clone.setIgnoreYCoordinate(ignoreYCoordinate);
+		clone.setIgnoreYCoordinate(this.ignoreYCoordinate);
 		return clone;
 	}
 
 	public ParticleOrbitEntity setIgnoreYCoordinate(boolean b){
-		ignoreYCoordinate = b;
+		this.ignoreYCoordinate = b;
 		return this;
 	}
 
