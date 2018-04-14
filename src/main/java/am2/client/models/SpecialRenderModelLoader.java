@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.vecmath.Matrix4f;
 
+import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.base.Function;
@@ -31,46 +33,32 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 
 public class SpecialRenderModelLoader implements ICustomModelLoader{
 	
-	public class Baked implements IPerspectiveAwareModel {
+	public class Baked implements IBakedModel {
 		
 		private ItemStack stack = null;
 		private EntityLivingBase entity = null;
 		
 		@Override
-		public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
-			return new ArrayList<>();
-		}
+		public List<BakedQuad> getQuads(@Nullable IBlockState state,@Nullable EnumFacing side, long rand) { return new ArrayList<>(); }
 
 		@Override
-		public boolean isAmbientOcclusion() {
-			return false;
-		}
+		public boolean isAmbientOcclusion() { return false; }
 
 		@Override
-		public boolean isGui3d() {
-			return false;
-		}
+		public boolean isGui3d() { return false; }
 
 		@Override
-		public boolean isBuiltInRenderer() {
-			return true;
-		}
+		public boolean isBuiltInRenderer() { return true; }
 
 		@Override
 		public TextureAtlasSprite getParticleTexture() {
 			return Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
-		}
-
-		@Override
-		public ItemCameraTransforms getItemCameraTransforms() {
-			return ItemCameraTransforms.DEFAULT;
 		}
 
 		@Override
@@ -81,7 +69,7 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 		@Override
 		public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
 			MinecraftForge.EVENT_BUS.post(new RenderingItemEvent(this.stack, cameraTransformType, this.entity));
-			return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, transforms, cameraTransformType);
+			return PerspectiveMapWrapper.handlePerspective(this, transforms, cameraTransformType);
 		}
 
 	}
@@ -105,28 +93,24 @@ public class SpecialRenderModelLoader implements ICustomModelLoader{
 	}
 
 	class Model implements IModel {
-		@Override
 		public Collection<ResourceLocation> getDependencies() {
 			return Lists.newArrayList();
 		}
 
-		@Override
 		public Collection<ResourceLocation> getTextures() {
 			return Lists.newArrayList();
 		}
 
-		@Override
 		public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
 			return new SpecialRenderModelLoader.Baked();
 		}
 
-		@Override
 		public IModelState getDefaultState() {
 			return ModelUtils.DEFAULT_ITEM_STATE;
 		}
 	}
 
-	static ImmutableMap<TransformType, TRSRTransformation> transforms = IPerspectiveAwareModel.MapWrapper.getTransforms(ModelUtils.DEFAULT_ITEM_STATE);
+	static ImmutableMap<TransformType, TRSRTransformation> transforms = PerspectiveMapWrapper.getTransforms(ModelUtils.DEFAULT_ITEM_STATE);
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
