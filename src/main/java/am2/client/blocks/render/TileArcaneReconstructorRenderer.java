@@ -1,26 +1,21 @@
 package am2.client.blocks.render;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Function;
 
 import am2.api.math.AMVector3;
-import am2.client.bosses.renderers.RenderItemNoBob;
 import am2.client.gui.AMGuiHelper;
 import am2.common.blocks.tileentity.TileEntityArcaneReconstructor;
 import am2.common.defs.BlockDefs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.GlStateManager.DestFactor;
-import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Items;
@@ -68,54 +63,6 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 
 	}
 
-	@Override
-	public void renderTileEntityAt(TileEntityArcaneReconstructor te, double x, double y, double z, float partialTicks, int destructionStage){
-		if (renderItem == null)
-			renderItem = new RenderItemNoBob(Minecraft.getMinecraft().getRenderManager());
-		bake();
-		float floatingOffset = te.getOffset();//(float) (Math.sin(te.getOffset()) * (Math.PI/ 180F) * 1.4f);
-
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-
-		if ((destructionStage != -10) && te.shouldRenderItemStack()){
-			renderStack = te.getCurrentItem();
-			if (renderStack != null)
-				RenderItemAtCoords(renderStack, x + 0.5f, y + 0.85f, z + 0.5f, partialTicks);
-		}
-		RenderHelper.disableStandardItemLighting();
-
-		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-
-		GlStateManager.pushMatrix(); //start
-		GL11.glTranslatef((float)x + 0.5f, (float)y + 0.22f, (float)z + 0.5f);
-		
-		renderGroup(te, mainBakedModel);
-		
-		GL11.glTranslatef(0, 0.22f + floatingOffset, 0);
-		RenderRotatedModelGroup(te, ring3BakedModel, te.getInnerRingRotation());
-		RenderRotatedModelGroup(te, ring1BakedModel, te.getMiddleRingRotation());
-		RenderRotatedModelGroup(te, ring2BakedModel, te.getOuterRingRotation());
-
-		if (te.shouldRenderRotateOffset()){
-
-			GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.4f);
-			RenderRotatedModelGroup(te, ring3BakedModel, te.getInnerRingRotation().copy().sub(te.getInnerRingRotationSpeed().copy().scale(te.getRotateOffset())));
-			RenderRotatedModelGroup(te, ring1BakedModel, te.getMiddleRingRotation().copy().sub(te.getMiddleRingRotationSpeed().copy().scale(te.getRotateOffset())));
-			RenderRotatedModelGroup(te, ring2BakedModel, te.getOuterRingRotation().copy().sub(te.getOuterRingRotationSpeed().copy().scale(te.getRotateOffset())));
-
-			GL11.glColor4f(1.0f, 1.0f, 1.0f, 0.15f);
-
-			RenderRotatedModelGroup(te, ring3BakedModel, te.getInnerRingRotation().copy().sub(te.getInnerRingRotationSpeed().copy().scale(te.getRotateOffset() * 2)));
-			RenderRotatedModelGroup(te, ring1BakedModel, te.getMiddleRingRotation().copy().sub(te.getMiddleRingRotationSpeed().copy().scale(te.getRotateOffset() * 2)));
-			RenderRotatedModelGroup(te, ring2BakedModel, te.getOuterRingRotation().copy().sub(te.getOuterRingRotationSpeed().copy().scale(te.getRotateOffset() * 2)));
-		}
-
-		//GL11.glEnable(GL11.GL_LIGHTING);
-		GlStateManager.popMatrix(); //end
-		RenderHelper.enableStandardItemLighting();
-	}
-
 	private void RenderRotatedModelGroup(TileEntityArcaneReconstructor te, IBakedModel model, AMVector3 rotation){
 		GlStateManager.pushMatrix();
 
@@ -131,11 +78,11 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 			Tessellator t = Tessellator.getInstance();
-			VertexBuffer wr = t.getBuffer();
+			BufferBuilder wr = t.getBuffer();
 			wr.begin(7, DefaultVertexFormats.BLOCK);
 			World world = te.getWorld();
 			if (world == null)
-				world = Minecraft.getMinecraft().theWorld;
+				world = Minecraft.getMinecraft().world;
 			IBlockState state = world.getBlockState(te.getPos());
 			if (state.getBlock() != BlockDefs.arcaneReconstructor)
 				state = BlockDefs.arcaneReconstructor.getDefaultState();
@@ -149,7 +96,7 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 
 	private void RenderItemAtCoords(ItemStack item, double x, double y, double z, float partialTick){
 		item.stackSize = 1;
-		AMGuiHelper.instance.dummyItem.setEntityItemStack(item);
+		AMGuiHelper.instance.dummyItem.setItem(item);
 		renderItem.doRender(AMGuiHelper.instance.dummyItem, x, y, z, AMGuiHelper.instance.dummyItem.rotationYaw, partialTick);
 	}
 }
