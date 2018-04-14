@@ -180,7 +180,7 @@ public class EntityDarkMage extends EntityMob{
 				this.dataManager.set(MAGE_BOOK, 1);
 			}
 		}else{
-			int levelRand = rand.nextInt(avgLevel * 2);
+			int levelRand = rand.nextInt(Math.min(avgLevel * 2, Integer.MAX_VALUE));
 			if (levelRand > 60){
 				this.tasks.addTask(2, new EntityAIRangedAttackSpell(this, MovementSpeed(), 160, NPCSpells.instance.darkMage_AugmentedAttack));
 				this.dataManager.set(MAGE_BOOK, 2);
