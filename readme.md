@@ -1,8 +1,8 @@
-Ars Magica 2 - Reborn 1.10.2
+Ars Magica 2 - Reborn 1.12.2
 ========
 [![Build Status](https://travis-ci.org/Sqbika/ArsMagica2.svg?branch=1.12.2-Update)](https://travis-ci.org/Sqbika/ArsMagica2.svg?branch=1.12.2-Update)
 
-This is a reworked version of the Ars Magica 2 mod by Mithion.
+This is a fork of the reworked version of the Ars Magica 2 mod by Mithion which is getting updated to 1.12.2 by XFR and Sqbika.
 
 ## Useful Links
 * [Homepage](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1292222)
