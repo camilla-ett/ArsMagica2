@@ -431,9 +431,7 @@ public class AMParticle extends Particle {
 		setPosition(entity.posX, entity.posY, entity.posZ);
 	}
 
-	public boolean isCollided() {
-		return canCollide;
-	}
+	public boolean isCollided() { return canCollide; }
 
 	public void addVelocity(double d, double e, double f) {
 		this.motionX = d;
