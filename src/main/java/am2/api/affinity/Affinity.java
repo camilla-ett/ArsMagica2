@@ -1,16 +1,18 @@
 package am2.api.affinity;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-
 import am2.api.ArsMagicaAPI;
 import am2.common.utils.NBTUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+
+import java.util.ArrayList;
+
+//TODO: Needs Complete Rework.
 
 /**
  * Affinity :<BR>
@@ -78,19 +80,11 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 			.addMajorOpposite(NATURE_LOC, LIGHTNING_LOC, WATER_LOC, AIR_LOC)
 			.addMinorOpposite(ARCANE_LOC, ICE_LOC);
 
+	@SubscribeEvent
 	public static void registerAffinities() {
-		GameRegistry.register(NONE, NONE_LOC);
-		GameRegistry.register(ARCANE, ARCANE_LOC);
-		GameRegistry.register(WATER, WATER_LOC);
-		GameRegistry.register(FIRE, FIRE_LOC);
-		GameRegistry.register(EARTH, EARTH_LOC);
-		GameRegistry.register(AIR, AIR_LOC);
-		GameRegistry.register(LIGHTNING, LIGHTNING_LOC);
-		GameRegistry.register(ICE, ICE_LOC);
-		GameRegistry.register(NATURE, NATURE_LOC);
-		GameRegistry.register(LIFE, LIFE_LOC);
-		GameRegistry.register(ENDER, ENDER_LOC);
+		GameRegistry.findRegistry(Affinity.class).registerAll(NONE, ARCANE, WATER, FIRE, EARTH, AIR, LIGHTNING, ICE, NATURE, LIFE, ENDER);
 	}
+
 	private int color;
 	private String name;
 	private ResourceLocation directOpposite;
@@ -162,7 +156,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		ArrayList<Affinity> affinities = new ArrayList<Affinity>();
 		for (int i = 0; i < affinityTag.tagCount(); i++) {
 			NBTTagCompound tmp = affinityTag.getCompoundTagAt(i);
-			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(tmp.getString("Name")));
+			Affinity aff = this.getRegistryType(). (new ResourceLocation(tmp.getString("Name")));
 			affinities.add(aff);
 		}
 		return affinities;

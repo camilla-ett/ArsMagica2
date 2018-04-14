@@ -3,9 +3,9 @@ package am2.api.flickers;
 import am2.api.affinity.Affinity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public abstract class AbstractFlickerFunctionality extends IForgeRegistryEntry.Impl<AbstractFlickerFunctionality> {
+public abstract class AbstractFlickerFunctionality extends IForgeRegistryEntry.Impl<AbstractFlickerFunctionality> implements IForgeRegistryEntry<AbstractFlickerFunctionality> {
 	
 	public abstract boolean RequiresPower();
 

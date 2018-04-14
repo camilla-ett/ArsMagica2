@@ -1,20 +1,19 @@
 package am2.api;
 
-import java.util.Map;
-
 import am2.api.affinity.AbstractAffinityAbility;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
-import com.google.common.collect.BiMap;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.registry.*;
+import net.minecraftforge.registries.*;
+
+import javax.annotation.Nullable;
 
 public class ArsMagicaAPI {
 	
@@ -51,12 +50,12 @@ public class ArsMagicaAPI {
 	public static final IAttribute burnoutReductionRate = new RangedAttribute(null, "am2.burnoutReduction", 1.0f, 0.1f, 2.0f).setDescription("Burnout Reduction Rate").setShouldWatch(true);
 
 	
-	public static FMLControlledNamespacedRegistry<Affinity> getAffinityRegistry() {return (FMLControlledNamespacedRegistry<Affinity>)AFFINITY_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<AbstractAffinityAbility> getAffinityAbilityRegistry() {return (FMLControlledNamespacedRegistry<AbstractAffinityAbility>)ABILITY_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<ArmorImbuement> getArmorImbuementRegistry() {return (FMLControlledNamespacedRegistry<ArmorImbuement>)IMBUEMENTS_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<AbstractSpellPart> getSpellRegistry() {return (FMLControlledNamespacedRegistry<AbstractSpellPart>)SPELL_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<Skill> getSkillRegistry() {return (FMLControlledNamespacedRegistry<Skill>)SKILL_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<AbstractFlickerFunctionality> getFlickerFocusRegistry() {return (FMLControlledNamespacedRegistry<AbstractFlickerFunctionality>)FLICKER_FOCUS_REGISTRY;}
+	public static RegistryBuilder<Affinity> getAffinityRegistry() {return (RegistryBuilder<Affinity>)AFFINITY_REGISTRY;}
+	public static RegistryBuilder<AbstractAffinityAbility> getAffinityAbilityRegistry() {return (RegistryBuilder<AbstractAffinityAbility>)ABILITY_REGISTRY;}
+	public static RegistryBuilder<ArmorImbuement> getArmorImbuementRegistry() {return (RegistryBuilder<ArmorImbuement>)IMBUEMENTS_REGISTRY;}
+	public static RegistryBuilder<AbstractSpellPart> getSpellRegistry() {return (RegistryBuilder<AbstractSpellPart>)SPELL_REGISTRY;}
+	public static RegistryBuilder<Skill> getSkillRegistry() {return (RegistryBuilder<Skill>)SKILL_REGISTRY;}
+	public static RegistryBuilder<AbstractFlickerFunctionality> getFlickerFocusRegistry() {return (RegistryBuilder<AbstractFlickerFunctionality>)FLICKER_FOCUS_REGISTRY;}
 	
 	/**
 	 * Enable Tier 4, call in static{} for change to take effect.
@@ -94,17 +93,17 @@ public class ArsMagicaAPI {
 		static final ObjectCallbacks<AbstractFlickerFunctionality> FLICKER_FOCUS = new ObjectCallbacks<>();
 
 		@Override
-		public void onCreate(Map<ResourceLocation, ?> slaveset, BiMap<ResourceLocation, ? extends IForgeRegistry<?>> registries) {
+		public void onAdd(IForgeRegistryInternal<T> owner, RegistryManager stage, int id, T obj, @Nullable T oldObj) {
 
 		}
 
 		@Override
-		public void onClear(IForgeRegistry<T> is, Map<ResourceLocation, ?> slaveset) {
+		public void onClear(IForgeRegistryInternal<T> owner, RegistryManager stage) {
 
 		}
 
 		@Override
-		public void onAdd(T obj, int id, Map<ResourceLocation, ?> slaveset) {
+		public void onCreate(IForgeRegistryInternal<T> owner, RegistryManager stage) {
 
 		}
 	}
@@ -112,7 +111,7 @@ public class ArsMagicaAPI {
     public static class SpellCallbacks extends ObjectCallbacks<AbstractSpellPart> {
 
 		@Override
-		public void onAdd(AbstractSpellPart ability, int id, Map<ResourceLocation, ?> slaves) {
+		public void onAdd(IForgeRegistryInternal<AbstractSpellPart> owner, RegistryManager stage, int id, AbstractSpellPart obj, @Nullable AbstractSpellPart oldObj) {
 		}
 		
 	}

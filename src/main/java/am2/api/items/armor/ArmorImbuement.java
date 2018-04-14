@@ -1,7 +1,5 @@
 package am2.api.items.armor;
 
-import java.util.EnumSet;
-
 import am2.common.extensions.AffinityData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -11,9 +9,11 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbuement>{
+import java.util.EnumSet;
+
+public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbuement> implements IForgeRegistryEntry<ArmorImbuement> {
 	
 	public abstract String getID();
 	
