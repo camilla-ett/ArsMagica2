@@ -156,7 +156,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 		ArrayList<Affinity> affinities = new ArrayList<Affinity>();
 		for (int i = 0; i < affinityTag.tagCount(); i++) {
 			NBTTagCompound tmp = affinityTag.getCompoundTagAt(i);
-			Affinity aff = this.getRegistryType().getObj(new ResourceLocation(tmp.getString("Name")));
+			Affinity aff = GameRegistry.findRegistry(Affinity.class).getValue (new ResourceLocation(tmp.getString("Name")));
 			affinities.add(aff);
 		}
 		return affinities;
@@ -179,13 +179,13 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 
 	@Override
 	public int compareTo(Affinity b) {
-		return ArsMagicaAPI.getAffinityRegistry().getId(b) - ArsMagicaAPI.getAffinityRegistry().getId(this);
+		return ArsMagicaAPI.getAffinityRegistry().getKey(b).compareTo(ArsMagicaAPI.getAffinityRegistry().getKey(this));
 	}
 
 	public ArrayList<Affinity> getMinorOpposingAffinities() {
 		ArrayList<Affinity> returnList = new ArrayList<>();
 		for (ResourceLocation rl : minorOpposites) {
-			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(rl);
+			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getValue(rl);
 			if (aff != NONE)
 				returnList.add(aff);
 		}
@@ -195,7 +195,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	public ArrayList<Affinity> getMajorOpposingAffinities() {
 		ArrayList<Affinity> returnList = new ArrayList<>();
 		for (ResourceLocation rl : majorOpposites) {
-			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(rl);
+			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getValue(rl);
 			if (aff != NONE)
 				returnList.add(aff);
 		}
@@ -205,7 +205,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	public ArrayList<Affinity> getAdjacentAffinities() {
 		ArrayList<Affinity> returnList = new ArrayList<>();
 		for (ResourceLocation rl : ArsMagicaAPI.getAffinityRegistry().getKeys()) {
-			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(rl);
+			Affinity aff = ArsMagicaAPI.getAffinityRegistry().getValue(rl);
 			if (aff == NONE || majorOpposites.contains(rl) || minorOpposites.contains(rl) || directOpposite == rl || aff == this)
 				continue;
 			returnList.add(aff);
@@ -214,7 +214,7 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	}
 	
 	public Affinity getOpposingAffinity() {
-		return ArsMagicaAPI.getAffinityRegistry().getObject(directOpposite);
+		return ArsMagicaAPI.getAffinityRegistry().getValue(directOpposite);
 	}
 	
 	public Affinity setDirectOpposite(ResourceLocation directOpposite) {

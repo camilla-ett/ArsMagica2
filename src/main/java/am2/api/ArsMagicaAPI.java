@@ -11,6 +11,7 @@ import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.*;
 
 import javax.annotation.Nullable;
@@ -50,12 +51,12 @@ public class ArsMagicaAPI {
 	public static final IAttribute burnoutReductionRate = new RangedAttribute(null, "am2.burnoutReduction", 1.0f, 0.1f, 2.0f).setDescription("Burnout Reduction Rate").setShouldWatch(true);
 
 	
-	public static RegistryBuilder<Affinity> getAffinityRegistry() {return (RegistryBuilder<Affinity>)AFFINITY_REGISTRY;}
-	public static RegistryBuilder<AbstractAffinityAbility> getAffinityAbilityRegistry() {return (RegistryBuilder<AbstractAffinityAbility>)ABILITY_REGISTRY;}
-	public static RegistryBuilder<ArmorImbuement> getArmorImbuementRegistry() {return (RegistryBuilder<ArmorImbuement>)IMBUEMENTS_REGISTRY;}
-	public static RegistryBuilder<AbstractSpellPart> getSpellRegistry() {return (RegistryBuilder<AbstractSpellPart>)SPELL_REGISTRY;}
-	public static RegistryBuilder<Skill> getSkillRegistry() {return (RegistryBuilder<Skill>)SKILL_REGISTRY;}
-	public static RegistryBuilder<AbstractFlickerFunctionality> getFlickerFocusRegistry() {return (RegistryBuilder<AbstractFlickerFunctionality>)FLICKER_FOCUS_REGISTRY;}
+	public static IForgeRegistry<Affinity> getAffinityRegistry() {return (GameRegistry.findRegistry(Affinity.class));}
+	public static IForgeRegistry<AbstractAffinityAbility> getAffinityAbilityRegistry() {return (GameRegistry.findRegistry(AbstractAffinityAbility.class));}
+	public static IForgeRegistry<ArmorImbuement> getArmorImbuementRegistry() {return (GameRegistry.findRegistry(ArmorImbuement.class));}
+	public static IForgeRegistry<AbstractSpellPart> getSpellRegistry() {return (GameRegistry.findRegistry(AbstractSpellPart.class));}
+	public static IForgeRegistry<Skill> getSkillRegistry() {return (GameRegistry.findRegistry(Skill.class));}
+	public static IForgeRegistry<AbstractFlickerFunctionality> getFlickerFocusRegistry() {return GameRegistry.findRegistry(AbstractFlickerFunctionality.class);}
 	
 	/**
 	 * Enable Tier 4, call in static{} for change to take effect.
