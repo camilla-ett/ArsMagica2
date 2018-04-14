@@ -1,22 +1,18 @@
 package am2.client.particles;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.*;
 
 @SideOnly(Side.CLIENT)
 public class AMParticle extends Particle {
@@ -66,7 +62,7 @@ public class AMParticle extends Particle {
 		particleRed = particleGreen = particleBlue = particleAlpha = 1.0F;
 		this.ignoreMaxAge = false;
 		particleMaxAge = 20 + rand.nextInt(20);
-		controllers = new ArrayList<ParticleController>();
+		controllers = new ArrayList<>();
 		comparer = new ControllerComparator();
 //		doRender = true;
 //		maxFrames = 1;
@@ -237,7 +233,7 @@ public class AMParticle extends Particle {
 		if (isAffectedByGravity)
 			this.motionY -= 0.04D * this.particleGravity;
 		if (doVelocityUpdates)
-			this.moveEntity(this.motionX, this.motionY, this.motionZ);
+			this.move(this.motionX, this.motionY, this.motionZ);
 
 		List<ParticleController> remove = new ArrayList<ParticleController>();
 
@@ -246,7 +242,7 @@ public class AMParticle extends Particle {
 				remove.add(pmc);
 				continue;
 			}
-			pmc.onUpdate(this.worldObj);
+			pmc.onUpdate(this.getWorldObj());
 			if (pmc.getExclusive()){
 				break;
 			}
@@ -272,7 +268,44 @@ public class AMParticle extends Particle {
 	public int getFXLayer(){
 		return 2;
 	}
-	
+
+	@Override
+    public void renderParticle(BufferBuilder tessellator, Entity entityIn, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch)
+    {
+        if (!this.getWorldObj().isRemote){
+            return;
+        }
+        float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * partialframe - interpPosX);
+        float f12 = (float)(this.prevPosY + (this.posY - this.prevPosY) * partialframe - interpPosY);
+        float f13 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * partialframe - interpPosZ);
+
+        if (this.isRadiant){
+            renderRadiant(Tessellator.getInstance(), partialframe);
+        }else{
+            if (this.particleTexture == null){ //|| this.renderManager.renderEngine == null){
+                return;
+            }
+//			tessellator.setBrightness(0x0F0000F0);
+//			tessellator.setColorRGBA_F(this.GetParticleRed(), this.GetParticleGreen(), this.GetParticleBlue(), this.GetParticleAlpha());
+
+            float scaleFactorX = this.getParticleScaleX();
+            float scaleFactorY = this.getParticleScaleY();
+            float scaleFactorZ = this.getParticleScaleZ();
+
+            float min_u = this.particleTexture.getMinU();
+            float min_v = this.particleTexture.getMinV();
+            float max_u = this.particleTexture.getMaxU();
+            float max_v = this.particleTexture.getMaxV();
+
+            tessellator.pos(f11 - cosyaw * scaleFactorX - sinsinpitch * scaleFactorX, f12 - cospitch * scaleFactorY, f13 - sinyaw * scaleFactorZ - cossinpitch * scaleFactorZ).tex( max_u, max_v).color(this.GetParticleRed(), this.GetParticleGreen(), this.GetParticleBlue(), this.GetParticleAlpha()).endVertex();
+            tessellator.pos(f11 - cosyaw * scaleFactorX + sinsinpitch * scaleFactorX, f12 + cospitch * scaleFactorY, f13 - sinyaw * scaleFactorZ + cossinpitch * scaleFactorZ).tex( max_u, min_v).color(this.GetParticleRed(), this.GetParticleGreen(), this.GetParticleBlue(), this.GetParticleAlpha()).endVertex();
+            tessellator.pos(f11 + cosyaw * scaleFactorX + sinsinpitch * scaleFactorX, f12 + cospitch * scaleFactorY, f13 + sinyaw * scaleFactorZ + cossinpitch * scaleFactorZ).tex( min_u, min_v).color(this.GetParticleRed(), this.GetParticleGreen(), this.GetParticleBlue(), this.GetParticleAlpha()).endVertex();
+            tessellator.pos(f11 + cosyaw * scaleFactorX - sinsinpitch * scaleFactorX, f12 - cospitch * scaleFactorY, f13 + sinyaw * scaleFactorZ - cossinpitch * scaleFactorZ).tex( min_u, max_v).color(this.GetParticleRed(), this.GetParticleGreen(), this.GetParticleBlue(), this.GetParticleAlpha()).endVertex();
+        }
+
+    }
+
+    /* Old
 	@Override
 	public void renderParticle(VertexBuffer tessellator, Entity ent, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch){
 		if (!this.worldObj.isRemote){
@@ -306,7 +339,7 @@ public class AMParticle extends Particle {
 			tessellator.pos(f11 + cosyaw * scaleFactorX - sinsinpitch * scaleFactorX, f12 - cospitch * scaleFactorY, f13 + sinyaw * scaleFactorZ - cossinpitch * scaleFactorZ).tex( min_u, max_v).color(this.GetParticleRed(), this.GetParticleGreen(), this.GetParticleBlue(), this.GetParticleAlpha()).endVertex();
 		}
 	}
-
+*/
 	private void renderRadiant(Tessellator tessellator, float partialFrame){
 		RenderHelper.disableStandardItemLighting();
 		float var4 = (this.GetParticleAge() + partialFrame) / this.GetParticleMaxAge();
@@ -384,7 +417,7 @@ public class AMParticle extends Particle {
 	}
 	
 	public World getWorldObj() {
-		return worldObj;
+		return this.world;
 	}
 
 	public void SetParticleTextureByName(String name) {
@@ -399,7 +432,7 @@ public class AMParticle extends Particle {
 	}
 
 	public boolean isCollided() {
-		return isCollided;
+		return canCollide;
 	}
 
 	public void addVelocity(double d, double e, double f) {
