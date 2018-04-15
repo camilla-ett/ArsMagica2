@@ -15,26 +15,27 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class AMGuiFactory implements IModGuiFactory {
 
-	@Override
+    @Override
 	public void initialize(Minecraft minecraftInstance) {
 		
 	}
 
 	@Override
-	public Class<? extends GuiScreen> mainConfigGuiClass() {
-		return AMGuiConfig.class;
+	public boolean hasConfigGui() {
+        return true;
 	}
 
 	@Override
-	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
+	public GuiScreen createConfigGui(GuiScreen parentScreen) {
+	    return new AMGuiConfig(parentScreen);
+	}
+
+	@Override
+	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {  //This apperantly isn't used lol
 		return null;
 	}
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
-		return null;
-	}
+
 	
 	public static class AMGuiConfig extends GuiConfig {
 
