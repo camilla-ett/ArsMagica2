@@ -8,7 +8,7 @@ install:
 script:
 - "./gradlew build"
 notifications:
-  webhooks: http://sqbika.win/travis.php
+  webhooks: https://sqbika.win/travis.php
 deploy:
   provider: releases
   api_key:
