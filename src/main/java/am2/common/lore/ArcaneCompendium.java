@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -25,10 +26,12 @@ public class ArcaneCompendium implements IArcaneCompendium, ICapabilityProvider,
 	
 	@CapabilityInject(IArcaneCompendium.class)
 	public static Capability<IArcaneCompendium> INSTANCE = null;
-	
-	public static Achievement compendiumData = (new Achievement("am2_ach_data", "compendiumData", 0, 0, ItemDefs.arcaneCompendium, null));
-	public static Achievement componentUnlock = (new Achievement("am2_ach_unlock", "componentUnlock", 0, 0, ItemDefs.spellParchment, null));
-	
+
+	/*Old - This goes into JSON files.
+	public static Advancement compendiumData = (new Advancement("am2_ach_data", "compendiumData", 0, 0, ItemDefs.arcaneCompendium, null));
+	public static Advancement componentUnlock = (new Advancement("am2_ach_unlock", "componentUnlock", 0, 0, ItemDefs.spellParchment, null));
+	*/
+
 	public static final int SYNC_COMPENDIUM = 0x1;
 	
 //	private EntityPlayer player;

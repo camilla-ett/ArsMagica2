@@ -81,7 +81,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityHandler {
-	
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onMouseEvent(MouseEvent event){
@@ -111,7 +111,7 @@ public class EntityHandler {
 	}
 	
 	@SubscribeEvent
-	public void attachItemStack(AttachCapabilitiesEvent.Item event) {
+	public void attachItemStack(AttachCapabilitiesEvent event) {
 		if (event.getObject() == ItemDefs.spell) {
 			event.addCapability(SpellCaster.ID, new SpellCaster());
 		}
@@ -365,8 +365,8 @@ public class EntityHandler {
 			ArsMagica2.proxy.playerTracker.onPlayerDeath((EntityPlayer)e.getEntityLiving());
 		}
 		
-		if (e.getSource() != null && e.getEntityLiving() != null && e.getEntityLiving() instanceof EntityLiving && e.getSource().getEntity() instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) e.getSource().getEntity();
+		if (e.getSource() != null && e.getEntityLiving() != null && e.getEntityLiving() instanceof EntityLiving && e.getSource().getTrueSource() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) e.getSource().getTrueSource();
 			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack stack = player.inventory.getStackInSlot(i);
 				if (stack == stack.EMPTY || stack.getItem() != ItemDefs.crystalPhylactery) continue;
@@ -378,8 +378,8 @@ public class EntityHandler {
 			}
 		}
 		
-		if (e.getSource() != null && e.getSource().getEntity() instanceof EntityLivingBase)
-			target = e.getSource().getEntity() != null ? (EntityLivingBase)e.getSource().getEntity() : null;
+		if (e.getSource() != null && e.getSource().getTrueSource() instanceof EntityLivingBase)
+			target = e.getSource().getTrueSource() != null ? (EntityLivingBase)e.getSource().getTrueSource() : null;
 		if (type == ContingencyType.DEATH) {
 			ext.getContingencyStack().execute(e.getEntityLiving().world, e.getEntityLiving(), (target != null ? target : (EntityLivingBase) e.getEntity()), (target != null ? target : e.getEntity()).posX, (target != null ? target : e.getEntity()).posY, (target != null ? target : e.getEntity()).posZ, null);
 			if (ext.getContingencyType() == ContingencyType.DEATH)
@@ -398,7 +398,7 @@ public class EntityHandler {
 					stack.getItem().onDroppedByPlayer(stack, player);
 					EntityExtension.For(player).deductMana(e.getAmount() * 10);
 				} else if (EntityExtension.For(player).hasEnoughMana(spell.getManaCost(player.world, player))) {
-					EntityLivingBase target = e.getSource().getEntity() instanceof EntityLivingBase ? (EntityLivingBase)e.getSource().getEntity() : null;
+					EntityLivingBase target = e.getSource().getTrueSource() instanceof EntityLivingBase ? (EntityLivingBase)e.getSource().getTrueSource() : null;
 					double posX = target != null ? target.posX : player.posX;
 					double posY = target != null ? target.posY : player.posY;
 					double posZ = target != null ? target.posZ : player.posZ;
@@ -414,7 +414,7 @@ public class EntityHandler {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onPlayerRender(RenderPlayerEvent.Pre event){
-		ItemStack chestPlate = event.getEntityPlayer().inventory.armorInventory[2];
+		ItemStack chestPlate = event.getEntityPlayer().inventory.armorInventory.get(2);
 
 		ModelBiped mainModel = event.getRenderer().getMainModel();
 
@@ -506,7 +506,7 @@ public class EntityHandler {
 		if (event.player == null)
 			return;
 
-		if (!event.player.world.isRemote && EntityExtension.For(event.player).getCurrentLevel() <= 0 && event.pickedUp.getItem().getItem() == ItemDefs.arcaneCompendium){
+		if (!event.player.world.isRemote && EntityExtension.For(event.player).getCurrentLevel() <= 0 && event.getStack().getItem() == ItemDefs.arcaneCompendium){
 			event.player.sendMessage(new TextComponentString("You have unlocked the secrets of the arcane!"));
 			// Not implemented client side
 //			AMNetHandler.INSTANCE.sendCompendiumUnlockPacket((EntityPlayerMP)event.player, "shapes", true);
