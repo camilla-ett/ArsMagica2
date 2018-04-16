@@ -50,7 +50,7 @@ public class BlockArsMagicaBlock extends BlockAM {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(BLOCK_TYPE, EnumBlockType.values()[MathHelper.clamp_int(meta, 0, EnumBlockType.values().length - 1)]);
+		return getDefaultState().withProperty(BLOCK_TYPE, EnumBlockType.values()[MathHelper.clamp(meta, 0, EnumBlockType.values().length - 1)]);
 	}
 	
 	@Override

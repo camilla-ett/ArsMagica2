@@ -429,7 +429,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 		if (this.flickerJar.getItem() == ItemDefs.flickerJar)
 			return ArsMagicaAPI.getAffinityRegistry().getObjectById(this.flickerJar.getItemDamage()).getColor();
 		else if (this.flickerJar.getItem() == ItemDefs.flickerFocus){
-			ArrayList<Affinity> affinities = Lists.newArrayList(ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(MathHelper.clamp_int(this.flickerJar.getItemDamage(), 0, ArsMagicaAPI.getFlickerFocusRegistry().getKeys().size())).getMask());
+			ArrayList<Affinity> affinities = Lists.newArrayList(ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(MathHelper.clamp(this.flickerJar.getItemDamage(), 0, ArsMagicaAPI.getFlickerFocusRegistry().getKeys().size())).getMask());
 
 			if (affinities.size() > 0){
 				int firstColor = affinities.get(this.colorCounter % affinities.size()).getColor();
@@ -472,6 +472,11 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
 	public ItemStack getStackInSlot(int i){
 		if (i <= this.getSizeInventory() && this.flickerJar != null){
 			return this.flickerJar;
@@ -503,8 +508,8 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		this.flickerJar = itemstack;
-		if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()){
-			itemstack.stackSize = this.getInventoryStackLimit();
+		if (itemstack != itemstack.EMPTY && itemstack.getCount() > this.getInventoryStackLimit()){
+			itemstack.setCount(this.getInventoryStackLimit());
 		}
 
 	}
@@ -520,8 +525,13 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return false;
+	}
+
+	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (this.worldObj.getTileEntity(this.pos) != this){
+		if (this.world.getTileEntity(this.pos) != this){
 			return false;
 		}
 
@@ -544,8 +554,8 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	private void setUpgradeOfMainHabitat(){
 		if (this.mainHabitatDirection != null){
-			TileEntity te = this.worldObj.getTileEntity(this.pos.offset(this.mainHabitatDirection));
-			if (te != null && te instanceof TileEntityFlickerHabitat){
+			TileEntity te = this.world.getTileEntity(this.pos.offset(this.mainHabitatDirection));
+			if (te instanceof TileEntityFlickerHabitat){
 				((TileEntityFlickerHabitat)te).notifyOfNearbyUpgradeChange(this);
 			}
 		}
@@ -573,7 +583,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.getNbtCompound());
-		this.worldObj.markAndNotifyBlock(this.pos, this.worldObj.getChunkFromBlockCoords(this.pos), this.worldObj.getBlockState(this.pos), this.worldObj.getBlockState(this.pos), 0);
+		this.world.markAndNotifyBlock(this.pos, this.world.getChunkFromBlockCoords(this.pos), this.world.getBlockState(this.pos), this.world.getBlockState(this.pos), 0);
 	}
 
 	@Override
@@ -585,7 +595,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			this.fadeCounter = 0;
 		}
 
-		if (this.worldObj.isRemote && this.hasFlicker()){
+		if (this.world.isRemote && this.hasFlicker()){
 			this.rotateOffset += ROATATION_RATE;
 
 			if (this.rotateOffset >= FULL_CIRCLE){

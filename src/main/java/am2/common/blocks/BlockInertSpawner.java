@@ -29,12 +29,11 @@ public class BlockInertSpawner extends BlockAMPowered{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (this.HandleSpecialItems(world, player, pos)){
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (this.HandleSpecialItems(worldIn, playerIn, pos)){
 			return false;
 		}
-		FMLNetworkHandler.openGui(player, ArsMagica2.instance, IDDefs.GUI_INERT_SPAWNER, world, pos.getX(), pos.getY(), pos.getZ());
+		FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_INERT_SPAWNER, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 
@@ -64,7 +63,7 @@ public class BlockInertSpawner extends BlockAMPowered{
 			entityItem.motionX = (float)world.rand.nextGaussian() * force;
 			entityItem.motionY = (float)world.rand.nextGaussian() * force + 0.2F;
 			entityItem.motionZ = (float)world.rand.nextGaussian() * force;
-			world.spawnEntityInWorld(entityItem);
+			world.spawnEntity(entityItem);
 		}
 
 		super.breakBlock(world, pos, state);
