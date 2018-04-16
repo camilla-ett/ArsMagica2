@@ -1,14 +1,5 @@
 package am2.api.extensions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.spell.AbstractSpellPart;
@@ -26,6 +17,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.util.Constants;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Capability for spells.<BR>
@@ -163,7 +158,7 @@ public interface ISpellCaster {
 				NBTTagList parts = tmp.getTagList(KEY_PARTS, Constants.NBT.TAG_STRING);
 				ArrayList<AbstractSpellPart> pts = new ArrayList<>();
 				for (int j = 0; j < parts.tagCount(); j++) {
-					AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(j)));
+					AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(parts.getStringTagAt(j)));
 					if (part != null) {
 						pts.add(part);
 					}
@@ -187,7 +182,7 @@ public interface ISpellCaster {
 					NBTTagList parts = tmp.getTagList(KEY_PARTS, Constants.NBT.TAG_STRING);
 					ArrayList<AbstractSpellPart> pts = new ArrayList<>();
 					for (int k = 0; k < parts.tagCount(); k++) {
-						AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(k)));
+						AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(parts.getStringTagAt(k)));
 						if (part != null) {
 							pts.add(part);
 						}
@@ -203,7 +198,7 @@ public interface ISpellCaster {
 			HashMap<Affinity, Float> affMap = new HashMap<>();
 			for (int i = 0; i < affinityShift.tagCount(); i++) {
 				NBTTagCompound tmp = affinityShift.getCompoundTagAt(i);
-				Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(tmp.getString(KEY_AFFINITY_TYPE)));
+				Affinity aff = ArsMagicaAPI.getAffinityRegistry().getValue(new ResourceLocation(tmp.getString(KEY_AFFINITY_TYPE)));
 				float depth = tmp.getFloat(KEY_AFFINITY_DEPTH);
 				if (depth != 0 && aff != null)
 					affMap.put(aff, depth);
