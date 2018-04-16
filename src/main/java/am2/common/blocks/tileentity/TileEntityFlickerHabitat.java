@@ -71,9 +71,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	public TileEntityFlickerHabitat(){
 		this.initLocationLists();
 
-		if (this.worldObj != null && this.worldObj.isRemote){
-			this.rotateOffset = this.worldObj.rand.nextFloat() * FULL_CIRCLE - 1;
-			this.floatOffset = MAX_FLOAT_DOWN + (this.worldObj.rand.nextFloat() * (MAX_FLOAT_UP - MAX_FLOAT_DOWN) + 1);
+		if (this.world != null && this.world.isRemote){
+			this.rotateOffset = this.world.rand.nextFloat() * FULL_CIRCLE - 1;
+			this.floatOffset = MAX_FLOAT_DOWN + (this.world.rand.nextFloat() * (MAX_FLOAT_UP - MAX_FLOAT_DOWN) + 1);
 		}
 	}
 
@@ -145,7 +145,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	/**
-	 * @param inList the inList to set
+	 * @param //inList the inList to set
 	 */
 	public void setInListAt(int index, AMVector3 value){
 		this.inList.set(index, value);
@@ -213,11 +213,11 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	public void AddMarkerLocationOut(AMVector3 markerLocation){
 
-		Block out = this.worldObj.getBlockState(markerLocation.toBlockPos()).getBlock();
+		Block out = this.world.getBlockState(markerLocation.toBlockPos()).getBlock();
 		if (out != BlockDefs.crystalMarker)
 			return;
 
-		TileEntity te = this.worldObj.getTileEntity(markerLocation.toBlockPos());
+		TileEntity te = this.world.getTileEntity(markerLocation.toBlockPos());
 		if (te == null || te instanceof TileEntityCrystalMarker == false)
 			return;
 
@@ -402,7 +402,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 		if (nbttagcompound.hasKey("flickerJar")){
 			NBTTagCompound jar = nbttagcompound.getCompoundTag("flickerJar");
-			this.flickerJar = ItemStack.loadItemStackFromNBT(jar);
+			this.flickerJar = new ItemStack(jar);
 
 			if (!this.isUpgrade){
 				this.setOperatorBasedOnFlicker();
@@ -526,16 +526,11 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		return false;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer){
 		if (this.world.getTileEntity(this.pos) != this){
 			return false;
 		}
 
-		return entityplayer.getDistanceSq(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D) <= 64D;
+		return player.getDistanceSq(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D) <= 64D;
 	}
 
 	@Override

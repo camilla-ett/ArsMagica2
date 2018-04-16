@@ -18,9 +18,9 @@ public class GuiButtonSkillTree extends GuiButton{
 		this.inverted = inverted;
 		this.page = page;
 	}
-	
+	//PARTIAL TICKS IS NEVER FUCKING USED, WHY THE FUCK DOES IT EVEN EXIST THEN?
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		if (visible) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/occulus/overlay.png"));
 			float f = 0.00390625F;
