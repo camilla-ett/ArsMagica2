@@ -15,6 +15,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -46,9 +47,9 @@ public class BlockArsMagicaOre extends BlockAM {
 	}
 	
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
 		for (int i = 0; i < EnumOreType.values().length; i++) {
-			list.add(new ItemStack(this, 1, i));
+			items.add(new ItemStack(this, 1, i));
 		}
 	}
 	

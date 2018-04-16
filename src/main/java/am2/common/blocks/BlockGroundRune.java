@@ -54,9 +54,7 @@ public abstract class BlockGroundRune extends BlockAMContainer{
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return NULL_AABB;
-	}
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) { return NULL_AABB; }
 
 	@Override
 	public boolean isFullCube(IBlockState state) {
