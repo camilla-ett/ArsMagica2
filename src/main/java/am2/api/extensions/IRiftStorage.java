@@ -1,7 +1,5 @@
 package am2.api.extensions;
 
-import java.util.concurrent.Callable;
-
 import am2.common.extensions.RiftStorage;
 import am2.common.utils.NBTUtils;
 import net.minecraft.inventory.IInventory;
@@ -12,6 +10,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
+
+import java.util.concurrent.Callable;
 
 public interface IRiftStorage extends IInventory {
 	
@@ -41,7 +41,7 @@ public interface IRiftStorage extends IInventory {
 			for (int i = 0; i < list.tagCount(); i++) {
 				//LogHelper.info("Found a tag ");
 				NBTTagCompound compound = list.getCompoundTagAt(i);
-				instance.setInventorySlotContents(compound.getInteger("Slot"), ItemStack.loadItemStackFromNBT(compound));
+				instance.setInventorySlotContents(compound.getInteger("Slot"), new ItemStack(compound));
 			}
 		}
 	}
