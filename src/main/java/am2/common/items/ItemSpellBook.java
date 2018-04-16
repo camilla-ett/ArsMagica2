@@ -11,6 +11,7 @@ import am2.common.enchantments.AMEnchantmentHelper;
 import am2.common.enchantments.AMEnchantments;
 import am2.common.extensions.SkillData;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -29,6 +30,8 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 
 
 public class ItemSpellBook extends ItemArsMagica{
@@ -73,15 +76,15 @@ public class ItemSpellBook extends ItemArsMagica{
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		if (playerIn.isSneaking()){
 			FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_SPELL_BOOK, worldIn, (int)playerIn.posX, (int)playerIn.posY, (int)playerIn.posZ);
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 		}
 
-		playerIn.setActiveHand(hand);
+		playerIn.setActiveHand(handIn);
 
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 	}
 	
 	private ItemStack[] getMyInventory(ItemStack itemStack){
@@ -214,8 +217,8 @@ public class ItemSpellBook extends ItemArsMagica{
 		for (int i = 0; i < list.tagCount(); ++i){
 			NBTTagCompound spell = list.getCompoundTagAt(i);
 			short slot = spell.getShort("Slot");
-			ItemStack is = ItemStack.loadItemStackFromNBT(spell);
-			if (is != null)
+			ItemStack is = new ItemStack(spell);
+			if (!is.isEmpty())
 				items[slot] = is;
 		}
 		return items;
@@ -242,20 +245,20 @@ public class ItemSpellBook extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		ItemSpellBase activeScroll = GetActiveScroll(par1ItemStack);
-		ItemStack stack = GetActiveItemStack(par1ItemStack);
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+		ItemSpellBase activeScroll = GetActiveScroll(stack);
+		ItemStack Astack = GetActiveItemStack(stack);
 
 		String s = I18n.format("am2.tooltip.open");
 		String s2 = I18n.format("am2.tooltip.scroll");
-		par3List.add((new StringBuilder()).append("\2477").append(s).toString());
-		par3List.add((new StringBuilder()).append("\2477").append(s2).toString());
+		tooltip.add((new StringBuilder()).append("\2477").append(s).toString());
+		tooltip.add((new StringBuilder()).append("\2477").append(s2).toString());
 		if (activeScroll != null){
-			activeScroll.addInformation(stack, par2EntityPlayer, par3List, par4);
+			activeScroll.addInformation(Astack, worldIn, tooltip, flagIn);
 		}
 
-		par3List.add("\247c" + I18n.format("am2.tooltip.spellbookWarning1") + "\247f");
-		par3List.add("\247c" + I18n.format("am2.tooltip.spellbookWarning2") + "\247f");
+		tooltip.add("\247c" + I18n.format("am2.tooltip.spellbookWarning1") + "\247f");
+		tooltip.add("\247c" + I18n.format("am2.tooltip.spellbookWarning2") + "\247f");
 	}
 
 	@Override
@@ -280,11 +283,6 @@ public class ItemSpellBook extends ItemArsMagica{
 	@Override
 	public int getItemEnchantability(){
 		return 1;
-	}
-
-	@Override
-	public boolean isItemTool(ItemStack par1ItemStack){
-		return true;
 	}
 
 	@Override

@@ -12,8 +12,7 @@ public class AMEnchantments{
 	public static EnchantmentSoulbound soulbound = new EnchantmentSoulbound(Rarity.RARE);
 
 	public static void Init(){
-		GameRegistry.register(magicResist, new ResourceLocation("arsmagica2", "magicResist"));
-		GameRegistry.register(soulbound, new ResourceLocation("arsmagica2", "soulbound"));
+		GameRegistry.findRegistry(Enchantment.class).registerAll(magicResist, soulbound);
 	}
 
 	public static int GetEnchantmentLevelSpecial(Enchantment ench, ItemStack stack){

@@ -2,6 +2,7 @@ package am2.common.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -28,6 +29,11 @@ public class InventorySpellBook implements IInventory{
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
 	public ItemStack getStackInSlot(int i){
 		if (i < 0 || i > inventoryItems.length - 1){
 			return null;
@@ -39,14 +45,14 @@ public class InventorySpellBook implements IInventory{
 	public ItemStack decrStackSize(int i, int j){
 
 		if (inventoryItems[i] != null){
-			if (inventoryItems[i].stackSize <= j){
+			if (inventoryItems[i].getCount() <= j){
 				ItemStack itemstack = inventoryItems[i];
 				inventoryItems[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventoryItems[i].splitStack(j);
-			if (inventoryItems[i].stackSize == 0){
-				inventoryItems[i] = null;
+			if (inventoryItems[i].getCount() == 0){
+				inventoryItems[i] = ItemStack.EMPTY;
 			}
 			return itemstack1;
 		}else{
@@ -70,7 +76,7 @@ public class InventorySpellBook implements IInventory{
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer){
+	public boolean isUsableByPlayer(EntityPlayer entityplayer){
 		return true;
 	}
 

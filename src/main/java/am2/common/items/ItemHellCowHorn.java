@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -50,8 +51,8 @@ public class ItemHellCowHorn extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		par3List.add(createItemStack());
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items){
+		items.add(createItemStack());
 	}
 
 	@Override

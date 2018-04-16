@@ -6,6 +6,7 @@ import am2.common.defs.CreativeTabsDefs;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -40,9 +41,9 @@ public class ItemOre extends ItemArsMagica {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		for (int i = 0; i < names.length; i++) {
-			subItems.add(new ItemStack(this, 1, i));
+			items.add(new ItemStack(this, 1, i));
 		}
 	}
 	

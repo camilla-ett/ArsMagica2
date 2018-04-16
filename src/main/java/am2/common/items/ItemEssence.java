@@ -8,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -21,11 +22,11 @@ public class ItemEssence extends ItemArsMagica {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
 			if (ArsMagicaAPI.getAffinityRegistry().getValues().get(i).equals(Affinity.NONE))
 				continue;
-			subItems.add(new ItemStack(this, 1, i));
+			items.add(new ItemStack(this, 1, i));
 		}
 	}
 	

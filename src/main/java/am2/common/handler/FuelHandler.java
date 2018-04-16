@@ -12,14 +12,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class FuelHandler {
 
     @SubscribeEvent
-    public int getBurnTime(FurnaceFuelBurnTimeEvent event) {
+    public static void furnaceEvent(FurnaceFuelBurnTimeEvent event) {
         Item fuelItem = event.getItemStack().getItem();
         Block fuelBlock = Block.getBlockFromItem(fuelItem);
         if (fuelBlock == BlockDefs.witchwoodPlanks) event.setBurnTime(300);
         if (fuelBlock == BlockDefs.witchwoodLog) event.setBurnTime(300);
         if (fuelBlock == BlockDefs.witchwoodSapling) event.setBurnTime(100);
         if (fuelBlock == BlockDefs.witchwoodStairs) event.setBurnTime(300);
-
-        return 0;
     }
 }

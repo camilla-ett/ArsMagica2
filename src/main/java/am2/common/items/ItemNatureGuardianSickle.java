@@ -45,8 +45,8 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot){
 		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
 		if (slot.equals(EntityEquipmentSlot.MAINHAND)) {
-			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 9, 0));
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3, 0));
+			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 9, 0));
+			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3, 0));
 		}
 		return multimap;
 	}

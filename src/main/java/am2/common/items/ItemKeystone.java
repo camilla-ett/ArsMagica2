@@ -7,6 +7,7 @@ import am2.common.container.InventoryKeyStone;
 import am2.common.defs.IDDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.utils.KeystoneUtilities;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,6 +19,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 
 public class ItemKeystone extends ItemArsMagica{
 
@@ -94,12 +97,12 @@ public class ItemKeystone extends ItemArsMagica{
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand){
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn){
 		if (player.isSneaking()){
 			FMLNetworkHandler.openGui(player, ArsMagica2.instance, IDDefs.GUI_KEYSTONE, world, (int)player.posX, (int)player.posY, (int)player.posZ);
 		}
 
-		return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(handIn));
 	}
 
 	private ItemStack[] getMyInventory(ItemStack itemStack){
@@ -163,22 +166,22 @@ public class ItemKeystone extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		ItemStack[] items = getMyInventory(par1ItemStack);
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+		ItemStack[] items = getMyInventory(stack);
 
 		String s = I18n.format("am2.tooltip.open");
-		par3List.add((new StringBuilder()).append("\2477").append(s).toString());
+		tooltip.add((new StringBuilder()).append("\2477").append(s).toString());
 
 		if (items.length > 0){
 			s = I18n.format("am2.tooltip.runes") + ": ";
-			par3List.add((new StringBuilder()).append("\2477").append(s).toString());
+			tooltip.add((new StringBuilder()).append("\2477").append(s).toString());
 			s = "";
 			for (int i = 0; i < KEYSTONE_INVENTORY_SIZE; ++i){
 				if (items[i] == null) continue;
 				s += items[i].getDisplayName().replace("Rune", "").trim() + " ";
 			}
 			if (s == "") s = I18n.format("am2.tooltip.none");
-			par3List.add((new StringBuilder()).append("\2477").append(s).toString());
+			tooltip.add((new StringBuilder()).append("\2477").append(s).toString());
 		}
 	}
 

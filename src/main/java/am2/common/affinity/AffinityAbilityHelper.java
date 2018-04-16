@@ -58,58 +58,58 @@ public class AffinityAbilityHelper {
 	
 	static {
 		//AIR
-		GameRegistry.register(new AbilityLightAsAFeather());
-		GameRegistry.register(new AbilityAgile());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).registerAll(new AbilityLightAsAFeather(),
+																			 new AbilityAgile());
 		
 		//ARCANE
-		GameRegistry.register(new AbilityClearCaster());
-		GameRegistry.register(new AbilityMagicWeakness());
-		GameRegistry.register(new AbilityOneWithMagic());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).registerAll(new AbilityClearCaster(),
+																			 new AbilityMagicWeakness(),
+																			 new AbilityOneWithMagic());
 		
 		//EARTH
-		GameRegistry.register(new AbilitySolidBones());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).registerAll(new AbilitySolidBones());
 		
 		//ENDER
-		GameRegistry.register(new AbilityRelocation());
-		GameRegistry.register(new AbilityNightVision());
-		GameRegistry.register(new AbilityWaterWeakness(Affinity.ENDER));
-		GameRegistry.register(new AbilityPoisonResistance());
-		GameRegistry.register(new AbilitySunlightWeakness());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).registerAll(new AbilityRelocation(),
+																			 new AbilityNightVision(),
+																			 new AbilityWaterWeakness(Affinity.ENDER),
+																			 new AbilityPoisonResistance(),
+																			 new AbilitySunlightWeakness());
 		
 		//FIRE
-		GameRegistry.register(new AbilityFireResistance());
-		GameRegistry.register(new AbilityFirePunch());
-		GameRegistry.register(new AbilityWaterWeakness(Affinity.FIRE));
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).registerAll(new AbilityFireResistance(),
+																			 new AbilityFirePunch(),
+																			 new AbilityWaterWeakness(Affinity.FIRE));
 		
 		//ICE
-		GameRegistry.register(new AbilityLavaFreeze());
-		GameRegistry.register(new AbilityWaterFreeze());
-		GameRegistry.register(new AbilityColdBlooded());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).registerAll(new AbilityLavaFreeze(),
+																			 new AbilityWaterFreeze(),
+																			 new AbilityColdBlooded());
 		
 		//LIFE
-		GameRegistry.register(new AbilityFastHealing());
-		GameRegistry.register(new AbilityPacifist());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).registerAll(new AbilityFastHealing(),
+																			 new AbilityPacifist());
 		
 		//WATER
-		GameRegistry.register(new AbilityExpandedLungs());
-		GameRegistry.register(new AbilityFluidity());
-		GameRegistry.register(new AbilitySwiftSwim());
-		GameRegistry.register(new AbilityFireWeakness());
-		GameRegistry.register(new AbilityAntiEndermen());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).registerAll(new AbilityExpandedLungs(),
+																			 new AbilityFluidity(),
+																			 new AbilitySwiftSwim(),
+																			 new AbilityFireWeakness(),
+																			 new AbilityAntiEndermen());
 		
 		//NATURE
-		GameRegistry.register(new AbilityRooted());
-		GameRegistry.register(new AbilityThorns());
-		GameRegistry.register(new AbilityLeafLike());
-		GameRegistry.register(new AbilityPhotosynthesis());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).registerAll(new AbilityRooted(),
+																			 new AbilityThorns(),
+																			 new AbilityLeafLike(),
+																			 new AbilityPhotosynthesis());
 		
 		//LIGHTNING
-		GameRegistry.register(new AbilityLightningStep());
-		GameRegistry.register(new AbilityReflexes());
-		GameRegistry.register(new AbilityFulmination());
-		GameRegistry.register(new AbilityShortCircuit());
-		GameRegistry.register(new AbilityThunderPunch());
-		GameRegistry.register(new AbilityWaterWeakness(Affinity.LIGHTNING));
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).registerAll(new AbilityLightningStep(),
+																			 new AbilityReflexes(),
+																			 new AbilityFulmination(),
+																			 new AbilityShortCircuit(),
+																			 new AbilityThunderPunch(),
+																			 new AbilityWaterWeakness(Affinity.LIGHTNING));
 	}
 	
 	
@@ -133,7 +133,7 @@ public class AffinityAbilityHelper {
 	@SubscribeEvent
 	public void onPlayerTick(LivingUpdateEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) {
-			if (!event.getEntityLiving().worldObj.isRemote) {
+			if (!event.getEntityLiving().world.isRemote) {
 				for (Entry<String, Integer> entry : AffinityData.For(event.getEntityLiving()).getCooldowns().entrySet()) {
 					if (entry.getValue() > 0)
 						AffinityData.For(event.getEntityLiving()).addCooldown(entry.getKey(), entry.getValue() - 1);
@@ -156,10 +156,10 @@ public class AffinityAbilityHelper {
 					ability.applyHurt((EntityPlayer) event.getEntityLiving(), event, false);
 			}
 		}
-		if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityPlayer) {
+		if (event.getSource().getTrueSource() != null && event.getSource().getTrueSource() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.canApply((EntityPlayer) event.getSource().getEntity()))
-					ability.applyHurt((EntityPlayer) event.getSource().getEntity(), event, true);
+				if (ability.canApply((EntityPlayer) event.getSource().getTrueSource()))
+					ability.applyHurt((EntityPlayer) event.getSource().getTrueSource(), event, true);
 			}
 		}
 	}
@@ -182,10 +182,10 @@ public class AffinityAbilityHelper {
 					ability.applyDeath((EntityPlayer) event.getEntityLiving(), event);
 			}
 		}
-		if (event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EntityPlayer) {
+		if (event.getSource().getTrueSource() != null && event.getSource().getTrueSource() instanceof EntityPlayer) {
 			for (AbstractAffinityAbility ability : GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues()) {
-				if (ability.canApply((EntityPlayer) event.getSource().getEntity()))
-					ability.applyKill((EntityPlayer) event.getSource().getEntity(), event);
+				if (ability.canApply((EntityPlayer) event.getSource().getTrueSource()))
+					ability.applyKill((EntityPlayer) event.getSource().getTrueSource(), event);
 			}
 		}
 	}

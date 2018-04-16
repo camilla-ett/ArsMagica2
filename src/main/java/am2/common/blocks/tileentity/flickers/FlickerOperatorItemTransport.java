@@ -3,7 +3,6 @@ package am2.common.blocks.tileentity.flickers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.api.flickers.AbstractFlickerFunctionality;
@@ -20,7 +19,6 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -56,7 +54,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 		}
 
 		//Gets the habitat running this operation
-		TileEntityFlickerHabitat habitat = null;
+		TileEntityFlickerHabitat habitat;
 		if (controller instanceof TileEntityFlickerHabitat){
 			habitat = (TileEntityFlickerHabitat)controller;
 		}else{
@@ -79,7 +77,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 		toMove = Math.max(toMove, 1);
 
 
-		ArrayList<AMVector3> removeFromInList = new ArrayList<AMVector3>();
+		ArrayList<AMVector3> removeFromInList = new ArrayList<>();
 		boolean itemFound = false;
 
 		//if the in list position has exceeded the size of the list reset it
@@ -90,7 +88,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 		for (int inIterator = habitat.getInListPosition(); inIterator < habitat.getInListSize(); ++inIterator){
 			//Gets the tile entity for the attached crystal marker at the specified location
 			AMVector3 vector = habitat.getInListAt(inIterator);
-			TileEntity te = null;
+			TileEntity te;
 			TileEntityCrystalMarker crystalMarkerTE = this.GetCrystalMarkerTileEntity(worldObj, vector.toBlockPos());
 
 			if (crystalMarkerTE == null){
@@ -101,7 +99,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 
 			te = this.GetAttachedCrystalMarkerTileEntity(worldObj, crystalMarkerTE, vector);
 
-			if (te != null && te instanceof IInventory){
+			if (te instanceof IInventory){
 				//if the crystal is attached to an inventory
 				itemFound = this.moveItem(worldObj, (IInventory)te, crystalMarkerTE, habitat, toMove);
 
@@ -138,7 +136,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 
 	private boolean moveItem(World worldObj, IInventory inventory, TileEntityCrystalMarker crystalMarkerTE, TileEntityFlickerHabitat habitat, int toMove){
 		boolean itemFound = false;
-		ItemStack orgStack = null;
+		ItemStack orgStack = ItemStack.EMPTY;
 		int currentSlot = 0;
 		GetFirstStackStartingFromSlotResult result = InventoryUtilities.getFirstStackStartingFromSlot(inventory, orgStack, currentSlot, crystalMarkerTE.getFacing());
 		orgStack = result.stack;
@@ -146,11 +144,11 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 		while (orgStack != null){
 			if (this.InputCanMove(crystalMarkerTE, orgStack, inventory)){
 				ItemStack stackCopy = orgStack.copy();
-				int amountToMove = Math.min(toMove, stackCopy.stackSize);
+				int amountToMove = Math.min(toMove, stackCopy.getCount());
 				ItemStack mergeStack = stackCopy.splitStack(amountToMove);
 				if (this.FindOutput(worldObj, habitat, mergeStack, inventory)){
 					//if a valid item was found in input, and a valid output for it was found remove the item from the source
-					InventoryUtilities.deductFromInventory(inventory, orgStack, amountToMove - mergeStack.stackSize, crystalMarkerTE.getFacing());
+					InventoryUtilities.deductFromInventory(inventory, orgStack, amountToMove - mergeStack.getCount(), crystalMarkerTE.getFacing());
 
 					itemFound = true;
 					break;
@@ -204,7 +202,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 	 * @return Returns true if the item can be moved, returns false otherwise
 	 */
 	private boolean FindOutput(World worldObj, TileEntityFlickerHabitat attuner, ItemStack stack, IInventory source){
-		HashMap<Integer, ArrayList<AMVector3>> removeFromOutList = new HashMap<Integer, ArrayList<AMVector3>>();
+		HashMap<Integer, ArrayList<AMVector3>> removeFromOutList = new HashMap<>();
 		boolean itemMoved = false;
 
 		for (int priority = 0; priority <= TileEntityFlickerHabitat.PRIORITY_FINAL; ++priority){
@@ -221,13 +219,13 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 			while (!fullLoop){
 				//get the crystal marker tile entity for the specified position
 				AMVector3 vector = attuner.getOutListAt(priority, pos);
-				TileEntity te = null;
+				TileEntity te;
 				TileEntityCrystalMarker crystalMarkerTE = this.GetCrystalMarkerTileEntity(worldObj, vector.toBlockPos());
 
 				if (crystalMarkerTE == null){
 					//crystal marker no longer exists, remove it from the list
 					if (!removeFromOutList.containsKey(priority))
-						removeFromOutList.put(priority, new ArrayList<AMVector3>());
+						removeFromOutList.put(priority, new ArrayList<>());
 					removeFromOutList.get(priority).add(vector);
 					break;
 				}
@@ -235,7 +233,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 				te = this.GetAttachedCrystalMarkerTileEntity(worldObj, crystalMarkerTE, vector);
 				int markerType = worldObj.getBlockState(vector.toBlockPos()).getValue(BlockCrystalMarker.TYPE);
 
-				if (te != null && te instanceof IInventory){
+				if (te instanceof IInventory){
 					IInventory inventory = (IInventory)te;
 					itemMoved = this.outputItem(markerType, new IInventory[]{inventory}, stack, crystalMarkerTE, new IInventory[]{source});
 
@@ -249,8 +247,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 					TileEntityChest adjacent = InventoryUtilities.getAdjacentChest((TileEntityChest)te);
 
 					if (adjacent != null){
-						IInventory inventory = adjacent;
-						itemMoved = this.outputItem(markerType, new IInventory[]{inventory, (IInventory)te}, stack, crystalMarkerTE, new IInventory[]{source});
+						itemMoved = this.outputItem(markerType, new IInventory[]{adjacent, (IInventory)te}, stack, crystalMarkerTE, new IInventory[]{source});
 
 						if (itemMoved){
 							attuner.setOutListPosition(priority, pos + 1);
@@ -288,7 +285,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 	 * Attempts to move an item into the specified inventory
 	 *
 	 * @param markerType The type of marker attached to the inventory we are trying to move into
-	 * @param inventory  The inventory we are trying to move into
+	 * @param sources  The inventory we are trying to move into
 	 * @param stack      The item stack we are trying to move
 	 * @return Returns true if successful, false otherwise
 	 */
@@ -300,7 +297,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 			//Inventory must have room for the item
 			for (IInventory inventory : outputs){
 				if (InventoryUtilities.inventoryHasRoomFor(inventory, stack, 1, side) && this.isDestinationDifferentFromSource(outputs, sources)){
-					return InventoryUtilities.mergeIntoInventory(inventory, stack, stack.stackSize, side);
+					return InventoryUtilities.mergeIntoInventory(inventory, stack, stack.getCount(), side);
 				}
 			}
 
@@ -319,7 +316,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 
 			for (IInventory inventory : outputs){
 				if (atLeastOneContains && InventoryUtilities.inventoryHasRoomFor(inventory, stack, 1, side) && this.isDestinationDifferentFromSource(outputs, sources)){
-					return InventoryUtilities.mergeIntoInventory(inventory, stack, stack.stackSize, side);
+					return InventoryUtilities.mergeIntoInventory(inventory, stack, stack.getCount(), side);
 				}
 			}
 			break;
@@ -327,7 +324,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 			//Check that the item exists in the item filter and that the inventory has room for the item
 			for (IInventory inventory : outputs){
 				if (crystalMarkerTE.filterHasItem(stack) && InventoryUtilities.inventoryHasRoomFor(inventory, stack, 1, side) && this.isDestinationDifferentFromSource(outputs, sources)){
-					return InventoryUtilities.mergeIntoInventory(inventory, stack, stack.stackSize, side);
+					return InventoryUtilities.mergeIntoInventory(inventory, stack, stack.getCount(), side);
 				}
 			}
 			break;
@@ -339,7 +336,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 			//and that the inventory has room for the item
 			for (IInventory inventory : outputs){
 				if (crystalMarkerTE.filterHasItem(stack) && InventoryUtilities.getLikeItemCount(inventory, stack, side) < crystalMarkerTE.getFilterCount(stack) && InventoryUtilities.inventoryHasRoomFor(inventory, stack, 1, side) && this.isDestinationDifferentFromSource(outputs, sources)){
-					return InventoryUtilities.mergeIntoInventory(inventory, stack, stack.stackSize, side);
+					return InventoryUtilities.mergeIntoInventory(inventory, stack, stack.getCount(), side);
 				}
 			}
 		}
@@ -351,7 +348,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 		boolean destinationDifferent = true;
 		for (IInventory destination : destinations){
 			for (IInventory source : sources){
-				if (destination instanceof ISidedInventory == false && destination.equals(source)){
+				if (!(destination instanceof ISidedInventory) && destination.equals(source)){
 					destinationDifferent = false;
 					break;
 				}
@@ -366,15 +363,13 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 	 * Gets the tile entity for the crystal marker at the specified co-ordinates
 	 *
 	 * @param worldObj The world object to search through
-	 * @param xy
-	 * @param y
-	 * @param z
+	 * @param pos Position of the Block
 	 * @return
 	 */
 	private TileEntityCrystalMarker GetCrystalMarkerTileEntity(World worldObj, BlockPos pos){
 		TileEntity te = worldObj.getTileEntity(pos);
 
-		if (te != null && te instanceof TileEntityCrystalMarker){
+		if (te instanceof TileEntityCrystalMarker){
 			return (TileEntityCrystalMarker)te;
 		}else{
 			return null;
@@ -382,7 +377,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 	}
 
 	private TileEntity GetAttachedCrystalMarkerTileEntity(World worldObj, TileEntityCrystalMarker crystalMarkerTE, AMVector3 cmVector){
-		TileEntity te = null;
+		TileEntity te;
 
 		//Get the inventory tile entity
 		te = worldObj.getTileEntity(cmVector.toBlockPos().offset(crystalMarkerTE.getFacing()));
@@ -425,9 +420,9 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 				" B ",
 				"CAC",
 				" B ",
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
-				Character.valueOf('C'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE),
-				Character.valueOf('B'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ)
+				'A', new ItemStack(ItemDefs.flickerJar, 1, Affinity.AIR.getID()),
+				'C', new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE),
+				'B', new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ)
 		};
 	}
 	

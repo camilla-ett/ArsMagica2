@@ -11,10 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemWritableBook;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -78,10 +75,9 @@ public class ItemLostJournal extends ItemWritableBook{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items){
 
-		super.getSubItems(item, par2CreativeTabs, par3List);
-
+		super.getSubItems(tab, items);
 		int sCount = 0;
 		for (Story s : StoryManager.INSTANCE.allStories()){
 			int meta = sCount << 16;
@@ -91,7 +87,7 @@ public class ItemLostJournal extends ItemWritableBook{
 				stack.setTagCompound(new NBTTagCompound());
 				s.WritePartToNBT(stack.getTagCompound(), i);
 				stack.getTagCompound().setString("title", s.getTitle());
-				par3List.add(stack);
+				items.add(stack);
 			}
 		}
 	}

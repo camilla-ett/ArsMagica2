@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.common.defs.*;
 import com.google.common.collect.ImmutableMap;
 
@@ -356,7 +357,7 @@ public class CommonProxy implements IGuiHandler{
 		worldGen = new AM2WorldDecorator();
 		SoundDefs.registerSounds();
 		GameRegistry.registerWorldGenerator(worldGen, 0);
-		GameRegistry.registerFuelHandler(new FuelHandler());
+		MinecraftForge.EVENT_BUS.register(FuelHandler.class);
 		EntityManager.instance.registerEntities();
 		EntityManager.instance.initializeSpawns();
 		AMEnchantments.Init();
@@ -502,19 +503,19 @@ public class CommonProxy implements IGuiHandler{
 	}
 	
 	private void registerFlickerOperators(){
-		GameRegistry.register(FlickerOperatorItemTransport.instance, new ResourceLocation("arsmagica2", "item_transport"));
-		GameRegistry.register(FlickerOperatorButchery.instance, new ResourceLocation("arsmagica2", "butchery"));
-		GameRegistry.register(FlickerOperatorContainment.instance, new ResourceLocation("arsmagica2", "containment"));
-		GameRegistry.register(FlickerOperatorFelledOak.instance, new ResourceLocation("arsmagica2", "felled_oak"));
-		GameRegistry.register(FlickerOperatorFlatLands.instance, new ResourceLocation("arsmagica2", "flat_lands"));
-		GameRegistry.register(FlickerOperatorGentleRains.instance, new ResourceLocation("arsmagica2", "gentle_rains"));
-		GameRegistry.register(FlickerOperatorInterdiction.instance, new ResourceLocation("arsmagica2", "interdiction"));
-		GameRegistry.register(FlickerOperatorLight.instance, new ResourceLocation("arsmagica2", "light"));
-		GameRegistry.register(FlickerOperatorMoonstoneAttractor.instance, new ResourceLocation("arsmagica2", "moonstone_attractor"));
-		GameRegistry.register(FlickerOperatorNaturesBounty.instance, new ResourceLocation("arsmagica2", "natures_bounty"));
-		GameRegistry.register(FlickerOperatorPackedEarth.instance, new ResourceLocation("arsmagica2", "packed_earth"));
-		GameRegistry.register(FlickerOperatorProgeny.instance, new ResourceLocation("arsmagica2", "progeny"));
-		GameRegistry.register(FlickerOperatorFishing.instance, new ResourceLocation("arsmagica2", "fishing"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).registerAll(FlickerOperatorItemTransport.instance,
+																				  FlickerOperatorButchery.instance,
+																				  FlickerOperatorContainment.instance,
+																				  FlickerOperatorFelledOak.instance,
+																				  FlickerOperatorFlatLands.instance,
+																				  FlickerOperatorGentleRains.instance,
+																				  FlickerOperatorInterdiction.instance,
+																				  FlickerOperatorLight.instance,
+																				  FlickerOperatorMoonstoneAttractor.instance,
+																				  FlickerOperatorNaturesBounty.instance,
+																				  FlickerOperatorPackedEarth.instance,
+																				  FlickerOperatorProgeny.instance,
+																				  FlickerOperatorFishing.instance);
 	}
 	
 	public AM2WorldDecorator getWorldGenerator() {
