@@ -1,89 +1,14 @@
 package am2.client;
 
-import static am2.common.defs.IDDefs.GUI_ARCANE_DECONSTRUCTOR;
-import static am2.common.defs.IDDefs.GUI_ARCANE_RECONSTRUCTOR;
-import static am2.common.defs.IDDefs.GUI_ARMOR_INFUSION;
-import static am2.common.defs.IDDefs.GUI_ASTRAL_BARRIER;
-import static am2.common.defs.IDDefs.GUI_CALEFACTOR;
-import static am2.common.defs.IDDefs.GUI_CRYSTAL_MARKER;
-import static am2.common.defs.IDDefs.GUI_ESSENCE_BAG;
-import static am2.common.defs.IDDefs.GUI_ESSENCE_REFINER;
-import static am2.common.defs.IDDefs.GUI_FLICKER_HABITAT;
-import static am2.common.defs.IDDefs.GUI_INERT_SPAWNER;
-import static am2.common.defs.IDDefs.GUI_INSCRIPTION_TABLE;
-import static am2.common.defs.IDDefs.GUI_KEYSTONE;
-import static am2.common.defs.IDDefs.GUI_KEYSTONE_CHEST;
-import static am2.common.defs.IDDefs.GUI_KEYSTONE_LOCKABLE;
-import static am2.common.defs.IDDefs.GUI_MAGICIANS_WORKBENCH;
-import static am2.common.defs.IDDefs.GUI_OBELISK;
-import static am2.common.defs.IDDefs.GUI_OCCULUS;
-import static am2.common.defs.IDDefs.GUI_RIFT;
-import static am2.common.defs.IDDefs.GUI_RUNE_BAG;
-import static am2.common.defs.IDDefs.GUI_SEER_STONE;
-import static am2.common.defs.IDDefs.GUI_SPELL_BOOK;
-import static am2.common.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
-import static am2.common.defs.IDDefs.GUI_SPELL_SEALED_DOOR;
-import static am2.common.defs.IDDefs.GUI_SUMMONER;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-
 import am2.ArsMagica2;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.extensions.ISpellCaster;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.api.spell.AbstractSpellPart;
-import am2.client.blocks.render.TileArcaneReconstructorRenderer;
-import am2.client.blocks.render.TileAstralBarrierRenderer;
-import am2.client.blocks.render.TileBlackAuremRenderer;
-import am2.client.blocks.render.TileCalefactorRenderer;
-import am2.client.blocks.render.TileCelestialPrismRenderer;
-import am2.client.blocks.render.TileCraftingAltarRenderer;
-import am2.client.blocks.render.TileCrystalMarkerRenderer;
-import am2.client.blocks.render.TileEssenceConduitRenderer;
-import am2.client.blocks.render.TileEverstoneRenderer;
-import am2.client.blocks.render.TileFlickerHabitatRenderer;
-import am2.client.blocks.render.TileIllusionBlockRenderer;
-import am2.client.blocks.render.TileKeystoneChestRenderer;
-import am2.client.blocks.render.TileKeystoneReceptacleRenderer;
-import am2.client.blocks.render.TileLecternRenderer;
-import am2.client.blocks.render.TileMagiciansWorkbenchRenderer;
-import am2.client.blocks.render.TileObeliskRenderer;
-import am2.client.blocks.render.TileOtherworldAuraRenderer;
-import am2.client.blocks.render.TileRuneRenderer;
-import am2.client.blocks.render.TileSeerStoneRenderer;
-import am2.client.blocks.render.TileSummonerRenderer;
+import am2.client.blocks.render.*;
 import am2.client.commands.ConfigureAMUICommand;
-import am2.client.gui.AMGuiHelper;
-import am2.client.gui.AMIngameGUI;
-import am2.client.gui.GuiArcaneDeconstructor;
-import am2.client.gui.GuiArcaneReconstructor;
-import am2.client.gui.GuiArmorImbuer;
-import am2.client.gui.GuiAstralBarrier;
-import am2.client.gui.GuiCalefactor;
-import am2.client.gui.GuiCrystalMarker;
-import am2.client.gui.GuiEssenceBag;
-import am2.client.gui.GuiEssenceRefiner;
-import am2.client.gui.GuiFlickerHabitat;
-import am2.client.gui.GuiInertSpawner;
-import am2.client.gui.GuiInscriptionTable;
-import am2.client.gui.GuiKeystone;
-import am2.client.gui.GuiKeystoneChest;
-import am2.client.gui.GuiKeystoneLockable;
-import am2.client.gui.GuiMagiciansWorkbench;
-import am2.client.gui.GuiObelisk;
-import am2.client.gui.GuiOcculus;
-import am2.client.gui.GuiParticleEmitter;
-import am2.client.gui.GuiRiftStorage;
-import am2.client.gui.GuiRuneBag;
-import am2.client.gui.GuiSeerStone;
-import am2.client.gui.GuiSpellBook;
-import am2.client.gui.GuiSpellCustomization;
-import am2.client.gui.GuiSpellSealedDoor;
-import am2.client.gui.GuiSummoner;
+import am2.client.gui.*;
 import am2.client.handlers.ClientTickHandler;
 import am2.client.models.ArsMagicaModelLoader;
 import am2.client.models.CullfaceModelLoader;
@@ -96,45 +21,11 @@ import am2.client.utils.ItemRenderer;
 import am2.common.CommonProxy;
 import am2.common.armor.ArmorHelper;
 import am2.common.armor.infusions.GenericImbuement;
-import am2.common.blocks.tileentity.TileEntityArcaneDeconstructor;
-import am2.common.blocks.tileentity.TileEntityArcaneReconstructor;
-import am2.common.blocks.tileentity.TileEntityArmorImbuer;
-import am2.common.blocks.tileentity.TileEntityAstralBarrier;
-import am2.common.blocks.tileentity.TileEntityBlackAurem;
-import am2.common.blocks.tileentity.TileEntityCalefactor;
-import am2.common.blocks.tileentity.TileEntityCelestialPrism;
-import am2.common.blocks.tileentity.TileEntityCraftingAltar;
-import am2.common.blocks.tileentity.TileEntityCrystalMarker;
-import am2.common.blocks.tileentity.TileEntityEssenceConduit;
-import am2.common.blocks.tileentity.TileEntityEssenceRefiner;
-import am2.common.blocks.tileentity.TileEntityEverstone;
-import am2.common.blocks.tileentity.TileEntityFlickerHabitat;
-import am2.common.blocks.tileentity.TileEntityGroundRuneSpell;
-import am2.common.blocks.tileentity.TileEntityIllusionBlock;
-import am2.common.blocks.tileentity.TileEntityInertSpawner;
-import am2.common.blocks.tileentity.TileEntityInscriptionTable;
-import am2.common.blocks.tileentity.TileEntityKeystoneChest;
-import am2.common.blocks.tileentity.TileEntityKeystoneRecepticle;
-import am2.common.blocks.tileentity.TileEntityLectern;
-import am2.common.blocks.tileentity.TileEntityMagiciansWorkbench;
-import am2.common.blocks.tileentity.TileEntityObelisk;
-import am2.common.blocks.tileentity.TileEntityOtherworldAura;
-import am2.common.blocks.tileentity.TileEntityParticleEmitter;
-import am2.common.blocks.tileentity.TileEntitySeerStone;
-import am2.common.blocks.tileentity.TileEntitySpellSealedDoor;
-import am2.common.blocks.tileentity.TileEntitySummoner;
-import am2.common.defs.AMSounds;
-import am2.common.defs.BindingsDefs;
-import am2.common.defs.BlockDefs;
-import am2.common.defs.EntityManager;
-import am2.common.defs.ItemDefs;
+import am2.common.blocks.tileentity.*;
+import am2.common.defs.*;
 import am2.common.extensions.RiftStorage;
 import am2.common.handler.BakingHandler;
-import am2.common.items.ItemEssenceBag;
-import am2.common.items.ItemKeystone;
-import am2.common.items.ItemRuneBag;
-import am2.common.items.ItemSpellBase;
-import am2.common.items.ItemSpellBook;
+import am2.common.items.*;
 import am2.common.packet.AMNetHandler;
 import am2.common.power.PowerNodeEntry;
 import am2.common.power.PowerTypes;
@@ -159,6 +50,13 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
+import static am2.common.defs.IDDefs.*;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -324,16 +222,16 @@ public class ClientProxy extends CommonProxy {
 	public boolean setMouseDWheel(int dwheel){
 		if (dwheel == 0) return false;
 
-		ItemStack stack = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
+		ItemStack stack = Minecraft.getMinecraft().player.getHeldItemMainhand();
 		if (stack == null) return false;
 
 		boolean store = checkForTKMove(stack);
 		if (!store && stack.getItem() instanceof ItemSpellBook){
-			store = Minecraft.getMinecraft().thePlayer.isSneaking();
+			store = Minecraft.getMinecraft().player.isSneaking();
 		}
 
 		if (store){
-			clientTickHandler.setDWheel(dwheel / 120, Minecraft.getMinecraft().thePlayer.inventory.currentItem, Minecraft.getMinecraft().thePlayer.isHandActive());
+			clientTickHandler.setDWheel(dwheel / 120, Minecraft.getMinecraft().player.inventory.currentItem, Minecraft.getMinecraft().player.isHandActive());
 			return true;
 		}else{
 			clientTickHandler.setDWheel(0, -1, false);
@@ -347,7 +245,7 @@ public class ClientProxy extends CommonProxy {
 			if (activeStack != null)
 				stack = activeStack;
 		}
-		if (stack.getItem() instanceof ItemSpellBase && stack.hasCapability(SpellCaster.INSTANCE, null) && Minecraft.getMinecraft().thePlayer.isHandActive()){
+		if (stack.getItem() instanceof ItemSpellBase && stack.hasCapability(SpellCaster.INSTANCE, null) && Minecraft.getMinecraft().player.isHandActive()){
 			ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
 			for (List<AbstractSpellPart> components : caster.getSpellCommon()){
 				for (AbstractSpellPart component : components) {
@@ -364,12 +262,12 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void drawPowerOnBlockHighlight(EntityPlayer player, RayTraceResult target, float partialTicks){
 		
-		if (Minecraft.getMinecraft().thePlayer.getItemStackFromSlot(EntityEquipmentSlot.HEAD) != null &&
-				(Minecraft.getMinecraft().thePlayer.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == ItemDefs.magitechGoggles)
-					|| ArmorHelper.isInfusionPreset(Minecraft.getMinecraft().thePlayer.getItemStackFromSlot(EntityEquipmentSlot.HEAD), GenericImbuement.magitechGoggleIntegration)){
+		if (Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD) != null &&
+				(Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == ItemDefs.magitechGoggles)
+					|| ArmorHelper.isInfusionPreset(Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD), GenericImbuement.magitechGoggleIntegration)){
 			if (target.getBlockPos() == null)
 				return;
-			TileEntity te = player.worldObj.getTileEntity(target.getBlockPos());
+			TileEntity te = player.world.getTileEntity(target.getBlockPos());
 			if (te != null && te instanceof IPowerNode){
 				ArsMagica2.proxy.setTrackedLocation(new AMVector3(target.getBlockPos()));
 			}else{
@@ -378,7 +276,7 @@ public class ClientProxy extends CommonProxy {
 
 			if (ArsMagica2.proxy.hasTrackedLocationSynced()){
 				PowerNodeEntry data = ArsMagica2.proxy.getTrackedData();
-				Block block = player.worldObj.getBlockState(target.getBlockPos()).getBlock();
+				Block block = player.world.getBlockState(target.getBlockPos()).getBlock();
 				float yOff = 0.5f;
 				if (data != null){
 					GlStateManager.pushAttrib();
@@ -393,14 +291,14 @@ public class ClientProxy extends CommonProxy {
 						if (target.getBlockPos().getY() <= player.posY + player.getEyeHeight()){
 							RenderUtils.drawTextInWorldAtOffset(String.format("%s%.2f (%.2f%%)", type.getChatColor(), pwr, pct),
 									target.getBlockPos().getX() - (player.prevPosX - (player.prevPosX - player.posX) * partialTicks) + 0.5f - offset.x,
-									target.getBlockPos().getY() + yOff - (player.prevPosY - (player.prevPosY - player.posY) * partialTicks) + block.getBoundingBox(player.worldObj.getBlockState(target.getBlockPos()), player.worldObj, target.getBlockPos()).maxY * 0.8f,
+									target.getBlockPos().getY() + yOff - (player.prevPosY - (player.prevPosY - player.posY) * partialTicks) + block.getBoundingBox(player.world.getBlockState(target.getBlockPos()), player.world, target.getBlockPos()).maxY * 0.8f,
 									target.getBlockPos().getZ() - (player.prevPosZ - (player.prevPosZ - player.posZ) * partialTicks) + 0.5f - offset.z,
 									0xFFFFFF);
 							yOff += 0.12f;
 						}else{
 							RenderUtils.drawTextInWorldAtOffset(String.format("%s%.2f (%.2f%%)", type.getChatColor(), pwr, pct),
 									target.getBlockPos().getX() - (player.prevPosX - (player.prevPosX - player.posX) * partialTicks) + 0.5f - offset.x,
-									target.getBlockPos().getY() - yOff - (player.prevPosY - (player.prevPosY - player.posY) * partialTicks) - block.getBoundingBox(player.worldObj.getBlockState(target.getBlockPos()), player.worldObj, target.getBlockPos()).maxY * 0.2f,
+									target.getBlockPos().getY() - yOff - (player.prevPosY - (player.prevPosY - player.posY) * partialTicks) - block.getBoundingBox(player.world.getBlockState(target.getBlockPos()), player.world, target.getBlockPos()).maxY * 0.2f,
 									target.getBlockPos().getZ() - (player.prevPosZ - (player.prevPosZ - player.posZ) * partialTicks) + 0.5f - offset.z,
 									0xFFFFFF);
 							yOff -= 0.12f;
@@ -435,7 +333,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public EntityPlayer getLocalPlayer() {
-		return Minecraft.getMinecraft().thePlayer;
+		return Minecraft.getMinecraft().player;
 	}
 	
 	@Override

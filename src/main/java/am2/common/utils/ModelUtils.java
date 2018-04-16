@@ -1,35 +1,25 @@
 package am2.common.utils;
 
-import java.lang.reflect.Type;
-import java.util.Map;
-
-import javax.vecmath.Vector3f;
-
-import org.lwjgl.util.vector.Quaternion;
-
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-
 import net.minecraft.client.model.ModelShield;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.model.SimpleModelState;
 import net.minecraftforge.common.model.IModelPart;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.util.vector.Quaternion;
+
+import javax.vecmath.Vector3f;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class ModelUtils {
@@ -101,18 +91,18 @@ public class ModelUtils {
 				new Vector3f(s, s, s), null));
 	}
 	
-	public static void renderShield(ItemStack stack, boolean isBlocking, TransformType type, EntityLivingBase entity) {
+	public static void renderShield(ItemStack stack, boolean isBlocking, ItemCameraTransforms.TransformType type, EntityLivingBase entity) {
 		GlStateManager.pushMatrix();
 		
-		ModelUtils.transform(isBlocking ? BLOCKING_SHIELD_STATE : DEFAULT_SHIELD_STATE , type, false);
+		ModelUtils.transform(isBlocking ? BLOCKING_SHIELD_STATE : DEFAULT_SHIELD_STATE , entity.getHorizontalFacing(), false);
 		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 		GlStateManager.scale(1.0F, -1.0F, -1.0F);
 		new ModelShield().render();
 		GlStateManager.popMatrix();
 	}
 	
-	public static void transform(IModelState state, TransformType type, boolean leftHand) {
-		TRSRTransformation transform = state.apply(Optional.fromNullable(type)).orNull();
+	public static void transform(IModelState state, EnumFacing type, boolean leftHand) {
+		TRSRTransformation transform = TRSRTransformation.from(type);
 		if (transform != null) {
 			GlStateManager.translate(transform.getTranslation().x, transform.getTranslation().y, transform.getTranslation().z);
 			GlStateManager.scale(transform.getScale().x, transform.getScale().y, transform.getScale().z);
