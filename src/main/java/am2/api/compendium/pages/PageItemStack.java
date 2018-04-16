@@ -1,10 +1,5 @@
 package am2.api.compendium.pages;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-
 import am2.api.recipes.RecipeArsMagica;
 import am2.api.recipes.RecipesEssenceRefiner;
 import am2.client.gui.AMGuiHelper;
@@ -16,15 +11,22 @@ import net.minecraft.client.renderer.GlStateManager.DestFactor;
 import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
 
 public class PageItemStack extends CompendiumPage<ItemStack> {
 	
@@ -51,8 +53,8 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 			if (mouseX > cx && mouseX < cx + 16){
 				if (mouseY > cy && mouseY < cy + 16){
 					ArrayList<String> tooltip = new ArrayList<>();
-					tooltip.addAll(element.getTooltip(Minecraft.getMinecraft().thePlayer, false));
-					drawHoveringText(tooltip, mouseX, mouseY, mc.fontRendererObj);
+					tooltip.addAll(element.getTooltip(Minecraft.getMinecraft().player, ITooltipFlag.TooltipFlags.NORMAL));
+					drawHoveringText(tooltip, mouseX, mouseY, mc.fontRenderer);
 				}
 			}
 		}
@@ -107,7 +109,7 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 				int widthSq = (int)Math.ceil(Math.sqrt(recipeWidth));
 		
 				String label = "\247nShapeless";
-				mc.fontRendererObj.drawString(label, cx - (int)(mc.fontRendererObj.getStringWidth(label) / 2.5), cy - step * 3, 0x6600FF);
+				mc.fontRenderer.drawString(label, cx - (int)(mc.fontRenderer.getStringWidth(label) / 2.5), cy - step * 3, 0x6600FF);
 		
 				for (int i = 0; i < recipeWidth; ++i){
 					sx = cx - step + (step * col);
@@ -128,8 +130,8 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 		if (element != null){
 			AMGuiHelper.DrawItemAtXY(element, sx, sy, this.zLevel);
 	
-			if (element.stackSize > 1)
-				mc.fontRendererObj.drawString("x" + element.stackSize, sx + 16, sy + 8, 0, false);
+			if (element.getCount() > 1)
+				mc.fontRenderer.drawString("x" + element.getCount(), sx + 16, sy + 8, 0, false);
 	
 			if (mousex > sx && mousex < sx + 16){
 				if (mousey > sy && mousey < sy + 16){
@@ -160,7 +162,7 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 		List<ItemStack> alternates = new ArrayList<ItemStack>();
 		//System.out.println(stack.getItemDamage() == OreDictionary.WILDCARD_VALUE);
 		if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-			stack.getItem().getSubItems(stack.getItem(), stack.getItem().getCreativeTab(), alternates);
+			stack.getItem().getSubItems(stack.getItem().getCreativeTab(), (NonNullList<ItemStack>) alternates);
 		}
 //		alternates.addAll(oredict);
 		
@@ -230,22 +232,22 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 				if (recipe instanceof ShapedRecipes){
 					recipeWidth = ((ShapedRecipes)recipe).recipeWidth;
 					recipeHeight = ((ShapedRecipes)recipe).recipeHeight;
-					craftingComponents = ((ShapedRecipes)recipe).recipeItems;
+					craftingComponents = ((ShapedRecipes)recipe).recipeItems.toArray();
 				}else if (recipe instanceof ShapedOreRecipe){
 					recipeWidth = ReflectionHelper.getPrivateValue(ShapedOreRecipe.class, ((ShapedOreRecipe)recipe), "width");
 					recipeHeight = ReflectionHelper.getPrivateValue(ShapedOreRecipe.class, ((ShapedOreRecipe)recipe), "height");
 
-					craftingComponents = ((ShapedOreRecipe)recipe).getInput();
+					craftingComponents = ((ShapedOreRecipe)recipe).getIngredients().toArray();
 				}else if (recipe instanceof ShapelessRecipes){
-					recipeWidth = ((ShapelessRecipes)recipe).getRecipeSize();
+					recipeWidth = ((ShapelessRecipes)recipe).getIngredients().size();
 					recipeHeight = -1;
 
 					craftingComponents = ((ShapelessRecipes)recipe).recipeItems.toArray();
 				}else if (recipe instanceof ShapelessOreRecipe){
-					recipeWidth = ((ShapelessOreRecipe)recipe).getRecipeSize();
+					recipeWidth = ((ShapelessOreRecipe)recipe).getIngredients().size();
 					recipeHeight = -1;
 
-					craftingComponents = ((ShapelessOreRecipe)recipe).getInput().toArray();
+					craftingComponents = ((ShapelessOreRecipe)recipe).getIngredients().toArray();
 				}else{
 					craftingComponents = null;
 				}

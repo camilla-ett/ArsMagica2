@@ -1,7 +1,5 @@
 package am2.api.compendium.pages;
 
-import java.io.IOException;
-
 import am2.api.blocks.IMultiblock;
 import am2.api.compendium.AdvancedBlockRenderer;
 import am2.api.compendium.BlockRenderWorld;
@@ -14,6 +12,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+
+import java.io.IOException;
 
 public class PageMultiblock extends CompendiumPage<IMultiblock> {
 
@@ -80,7 +80,7 @@ public class PageMultiblock extends CompendiumPage<IMultiblock> {
 		int cy = posY + 92;
 		String label = String.format("%s: %s", I18n.format("am2.gui.layer"), curLayer == -1 ? I18n.format("am2.gui.all") : "" + curLayer);
 
-		mc.fontRendererObj.drawString(label, cx - mc.fontRendererObj.getStringWidth(label) / 2, cy - 90, 0x000000);
+		mc.fontRenderer.drawString(label, cx - mc.fontRenderer.getStringWidth(label) / 2, cy - 90, 0x000000);
 
 		GlStateManager.pushMatrix();
 		GlStateManager.pushAttrib();

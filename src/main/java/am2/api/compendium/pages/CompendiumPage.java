@@ -1,14 +1,5 @@
 package am2.api.compendium.pages;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.blocks.IMultiblock;
 import am2.api.compendium.wrapper.StackMapWrapper;
@@ -26,12 +17,22 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
 @SideOnly(Side.CLIENT)
 public abstract class CompendiumPage<E> {
@@ -48,7 +49,7 @@ public abstract class CompendiumPage<E> {
 		registerPageType(PageSkill.class, Skill.class);
 		registerPageType(PageEntity.class, Entity.class);
 	}
-	
+
 	public static final <E> void registerPageType(Class<? extends CompendiumPage<E>> page, Class<E> clazz) {
 		HANDLERS.put(clazz, page);
 	}
@@ -185,13 +186,13 @@ public abstract class CompendiumPage<E> {
     
 	protected void renderItemToolTip(ItemStack stack, int x, int y){
 		try{
-			List<String> list = stack.getTooltip(this.mc.player, this.mc.gameSettings.advancedItemTooltips);
+			List<String> list = stack.getTooltip(this.mc.player, ITooltipFlag.TooltipFlags.NORMAL);
 
 			if (stack.getItem() instanceof ItemBlock){
 			}else{
 				if (stack.getItem() == ItemDefs.spell_component){
 					list.clear();
-					Skill skill = ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage());
+					Skill skill = (Skill)ArsMagicaAPI.getSkillRegistry().getValuesCollection().toArray()[stack.getItemDamage()];
 					if (skill == null)
 						return;
 					list.add(skill.getName());

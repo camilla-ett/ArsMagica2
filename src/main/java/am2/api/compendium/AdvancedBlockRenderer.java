@@ -1,8 +1,5 @@
 package am2.api.compendium;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import am2.api.blocks.IMultiblock;
 import am2.api.blocks.IMultiblockGroup;
 import am2.client.gui.AMGuiHelper;
@@ -13,6 +10,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdvancedBlockRenderer {
 	
@@ -61,7 +61,7 @@ public class AdvancedBlockRenderer {
 				Tessellator.getInstance().draw();
 				try {
 					if (state.getBlock() instanceof ITileEntityProvider) {
-						TileEntityRendererDispatcher.instance.renderTileEntityAt(((ITileEntityProvider)state.getBlock()).createNewTileEntity(Minecraft.getMinecraft().theWorld, state.getBlock().getMetaFromState(state)), pos.getX(), pos.getY(), pos.getZ(), Minecraft.getMinecraft().getRenderPartialTicks(), 0);
+						TileEntityRendererDispatcher.instance.render(((ITileEntityProvider)state.getBlock()).createNewTileEntity(Minecraft.getMinecraft().world, state.getBlock().getMetaFromState(state)), pos.getX(), pos.getY(), pos.getZ(), Minecraft.getMinecraft().getRenderPartialTicks(), 0);
 					
 					}
 				} catch (Exception e) {

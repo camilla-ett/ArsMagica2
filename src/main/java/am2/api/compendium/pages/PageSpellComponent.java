@@ -1,13 +1,5 @@
 package am2.api.compendium.pages;
 
-import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.event.SpellRecipeItemsEvent;
 import am2.api.spell.AbstractSpellPart;
@@ -26,9 +18,14 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.*;
+
+import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
 
 public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 
@@ -59,8 +56,8 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 			AMGuiHelper.DrawIconAtXY(icon, cx, cy, zLevel, 16, 16, false);
 		
 		if (mouseX > cx && mouseX < cx + 16){
-			if (mouseY > cy && mouseY < cy + 16){
-				stackTip = new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(element.getRegistryName()));
+			if (mouseY > cy && mouseY < cy + 16){ //  ArsMagicaAPI.getSkillRegistry().getId(element.getRegistryName())
+				stackTip = new ItemStack(ItemDefs.spell_component, 1);
 				tipX = mouseX;
 				tipY = mouseY;
 			}
@@ -102,7 +99,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		int yOffset = 10;
 		if (!modifiers.isEmpty()) {
 			String shapeName = I18n.format(element instanceof SpellModifier ? "am2.gui.modifies" :  "am2.gui.modifiedBy");
-			mc.fontRendererObj.drawString(shapeName, posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY, 0);
+			mc.fontRenderer.drawString(shapeName, posX + 72 - (mc.fontRenderer.getStringWidth(shapeName) / 2), posY, 0);
 			GlStateManager.color(1.0f, 1.0f, 1.0f);
 		}
 		RenderHelper.enableGUIStandardItemLighting();
@@ -111,8 +108,8 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 			if (modIcon != null)
 				AMGuiHelper.DrawIconAtXY(modIcon, posX + startX, posY + yOffset, zLevel, 16, 16, false);
 			if (mouseX > posX + startX && mouseX < posX + startX + 16){
-				if (mouseY > posY + yOffset && mouseY < posY + yOffset + 16){
-					stackTip = new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(mod.getRegistryName()));
+				if (mouseY > posY + yOffset && mouseY < posY + yOffset + 16){ //ArsMagicaAPI.getSkillRegistry().getId(mod.getRegistryName())
+					stackTip = new ItemStack(ItemDefs.spell_component, 1);
 					tipX = mouseX;
 					tipY = mouseY;
 				}
@@ -160,7 +157,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		List<ItemStack> alternates = new ArrayList<ItemStack>();
 		
 		if (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-			stack.getItem().getSubItems(stack.getItem(), stack.getItem().getCreativeTab(), alternates);
+			stack.getItem().getSubItems(stack.getItem().getCreativeTab(), (NonNullList<ItemStack>) alternates);
 		} else {
 			alternates.add(stack);
 		}
@@ -169,7 +166,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 			stack = alternates.get(new Random(new Random(AMGuiHelper.instance.getSlowTicker()).nextLong()).nextInt(alternates.size()));
 		}
 		if (forcedMetas.containsKey(stack.getItem()))
-			stack = new ItemStack(stack.getItem(), stack.stackSize, forcedMetas.get(stack.getItem()));
+			stack = new ItemStack(stack.getItem(), stack.getCount(), forcedMetas.get(stack.getItem()));
 	
 		try{
 			AMGuiHelper.DrawItemAtXY(stack, sx, sy, this.zLevel);

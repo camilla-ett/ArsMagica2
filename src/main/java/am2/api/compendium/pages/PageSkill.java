@@ -1,8 +1,5 @@
 package am2.api.compendium.pages;
 
-import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
-
-import am2.api.ArsMagicaAPI;
 import am2.api.skill.Skill;
 import am2.client.gui.AMGuiHelper;
 import am2.client.texture.SpellIconManager;
@@ -15,6 +12,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
+import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
 
 public class PageSkill extends CompendiumPage<Skill> {
 
@@ -33,8 +32,8 @@ public class PageSkill extends CompendiumPage<Skill> {
 		if (icon != null)
 			AMGuiHelper.DrawIconAtXY(icon, cx, cy, zLevel, 16, 16, false);
 		if (mouseX > cx && mouseX < cx + 16){
-			if (mouseY > cy && mouseY < cy + 16){
-				renderItemToolTip(new ItemStack(ItemDefs.spell_component, 1, ArsMagicaAPI.getSkillRegistry().getId(element.getRegistryName())), mouseX, mouseY);
+			if (mouseY > cy && mouseY < cy + 16){ //ArsMagicaAPI.getSkillRegistry().getValue(element.getRegistryName()).) RENDER NOT INT
+				renderItemToolTip(new ItemStack(ItemDefs.spell_component, 1), mouseX, mouseY);
 			}
 		}
 		mc.renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumGuiExtras.png"));
