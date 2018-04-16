@@ -111,9 +111,8 @@ public class BlockEverstone extends BlockAMPowered{
 	}	
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (player.getHeldItemMainhand() != null){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (player.getHeldItemMainhand() != ItemStack.EMPTY){
 			IBlockState block = null;
 			TileEntityEverstone everstone = getTE(world, pos);
 			if (everstone == null) return false;
@@ -159,7 +158,7 @@ public class BlockEverstone extends BlockAMPowered{
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		TileEntityEverstone everstone = getTE(worldIn, pos);
 		if (everstone == null || everstone.isSolid())
 			return super.getCollisionBoundingBox(blockState, worldIn, pos);
