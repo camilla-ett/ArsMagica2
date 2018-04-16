@@ -23,7 +23,7 @@ public class FlickerOperatorRenderer implements ItemMeshDefinition{
 	
 	@Override
 	public ModelResourceLocation getModelLocation(ItemStack stack) {
-		AbstractFlickerFunctionality func = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(stack.getItemDamage());
+		AbstractFlickerFunctionality func = (AbstractFlickerFunctionality)ArsMagicaAPI.getFlickerFocusRegistry().getValuesCollection().toArray()[stack.getItemDamage()];
 		if (func == null) return new ModelResourceLocation(new ResourceLocation("arsmagica2:FlickerOperatorBlank"), "inventory");
 		return new ModelResourceLocation(func.getTexture(), "inventory");
 	}
