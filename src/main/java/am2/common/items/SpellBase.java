@@ -14,6 +14,7 @@ import am2.common.spell.SpellCaster;
 import am2.common.utils.EntityUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -63,12 +64,12 @@ public class SpellBase extends ItemSpellBase{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean par4){
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if (!stack.hasTagCompound()) return;
 		
 		ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
 
-		list.add("Mana Cost : " + caster.getManaCost(player.getEntityWorld(), player));
+		tooltip.add("Mana Cost : " + caster.getManaCost(((EntityLivingBase)caster).world, (EntityLivingBase)caster));
 	}
 
 	@Override
@@ -77,15 +78,15 @@ public class SpellBase extends ItemSpellBase{
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer caster, EnumHand hand){
-		if (!stack.hasTagCompound()) return new ActionResult<ItemStack>(EnumActionResult.FAIL, stack);
-		if (!stack.hasDisplayName()){
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn){
+		if (!player.getHeldItem(EnumHand.MAIN_HAND).hasTagCompound()) return new ActionResult<ItemStack>(EnumActionResult.FAIL, player.getHeldItem(EnumHand.MAIN_HAND));
+		if (!player.getHeldItem(EnumHand.MAIN_HAND).hasDisplayName()){
 			if (!world.isRemote)
-				FMLNetworkHandler.openGui(caster, ArsMagica2.instance, IDDefs.GUI_SPELL_CUSTOMIZATION, world, (int)caster.posX, (int)caster.posY, (int)caster.posZ);
+				FMLNetworkHandler.openGui(player, ArsMagica2.instance, IDDefs.GUI_SPELL_CUSTOMIZATION, world, (int)player.posX, (int)player.posY, (int)player.posZ);
 		} else {
-			caster.setActiveHand(hand);
+			player.setActiveHand(EnumHand.MAIN_HAND);
 		}
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(EnumHand.MAIN_HAND));
 	}
 
 	@Override
@@ -106,7 +107,7 @@ public class SpellBase extends ItemSpellBase{
 		if (stack.hasCapability(SpellCaster.INSTANCE, null) && caster != null) {
 			ISpellCaster spell = stack.getCapability(SpellCaster.INSTANCE, null);
 			if (spell.createSpellData(stack).isChanneled())
-				spell.cast(stack, caster.worldObj, caster);
+				spell.cast(stack, caster.world, caster);
 		}
 		super.onUsingTick(stack, caster, count);
 	}
@@ -170,7 +171,7 @@ public class SpellBase extends ItemSpellBase{
 
 	@Override
 	public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
-	    player.worldObj.destroyBlock(pos, player.canHarvestBlock(player.worldObj.getBlockState(pos)));
+	    player.world.destroyBlock(pos, player.canHarvestBlock(player.world.getBlockState(pos)));
 	    return true;
 	}
 
@@ -178,7 +179,7 @@ public class SpellBase extends ItemSpellBase{
 	public int getHarvestLevel(ItemStack stack, String toolClass, @Nullable EntityPlayer player, @Nullable IBlockState blockState) {
 		if (stack.hasCapability(SpellCaster.INSTANCE, null) && player != null) {
 			ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
-			return (int) caster.createSpellData(stack).getModifiedValue(2, SpellModifiers.MINING_POWER, Operation.ADD, player.worldObj, player, null);
+			return (int) caster.createSpellData(stack).getModifiedValue(2, SpellModifiers.MINING_POWER, Operation.ADD, player.world, player, null);
 		}
 	    return -1;
 	}
