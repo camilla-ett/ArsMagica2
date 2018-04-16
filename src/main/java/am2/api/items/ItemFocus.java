@@ -1,9 +1,9 @@
 package am2.api.items;
 
 import am2.common.defs.CreativeTabsDefs;
+import am2.common.registry.Registry;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public abstract class ItemFocus extends Item{
 	
@@ -19,7 +19,7 @@ public abstract class ItemFocus extends Item{
 	
 	public ItemFocus registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		Registry.GetItemsToRegister().add(this);
 		return this;
 	}
 }
