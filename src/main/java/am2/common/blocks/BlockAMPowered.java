@@ -83,9 +83,11 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 		return true;
 	}
 
-	@SuppressWarnings("deprecation")
+	/*
+	@SuppressWarnings("deprecation") IF DEPRECATED THEN KEEP BEING DEPRECATED THANKS
 	public abstract boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
 											 EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ);
+	*/
 
 	@Override
     public boolean isOpaqueCube(IBlockState state) {

@@ -1,15 +1,10 @@
 package am2.common.bosses;
 
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleHoldPosition;
-import am2.common.bosses.ai.EntityAICastSpell;
-import am2.common.bosses.ai.EntityAIDispel;
-import am2.common.bosses.ai.EntityAILightningBolt;
-import am2.common.bosses.ai.EntityAILightningRod;
-import am2.common.bosses.ai.EntityAIStatic;
+import am2.common.bosses.ai.*;
 import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
@@ -74,18 +69,18 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 				EntityExtension.For(getAttackTarget()).setDisableGravity(false);
 			}
 
-			if (!this.worldObj.isRemote && this.getDistanceSqToEntity(getAttackTarget()) > 64D && this.getCurrentAction() == BossActions.IDLE){
+			if (!this.world.isRemote && this.getDistanceSq(getAttackTarget()) > 64D && this.getCurrentAction() == BossActions.IDLE){
 				this.getNavigator().tryMoveToEntityLiving(getAttackTarget(), 0.5f);
 			}
 		}
 
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			int halfDist = 8;
 			int dist = 16;
 			if (this.getCurrentAction() == BossActions.CHARGE){
 				if (ticksInCurrentAction > 50){
 					for (int i = 0; i < 2 * ArsMagica2.config.getGFXLevel(); ++i){
-						AMParticle smoke = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke", posX, posY + 4, posZ);
+						AMParticle smoke = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "smoke", posX, posY + 4, posZ);
 						if (smoke != null){
 							smoke.addRandomOffset(halfDist, 1, halfDist);
 							smoke.SetParticleAlpha(1f);
@@ -98,7 +93,7 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 				}
 				if (ticksInCurrentAction > 66){
 					ArsMagica2.proxy.particleManager.BoltFromPointToPoint(
-							worldObj,
+							world,
 							posX + rand.nextDouble() - 0.5,
 							posY + rand.nextDouble() - 0.5 + 2,
 							posZ + rand.nextDouble() - 0.5,
@@ -109,7 +104,7 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 			}else if (this.getCurrentAction() == BossActions.LONG_CASTING){
 				if (ticksInCurrentAction > 25 && ticksInCurrentAction < 150){
 					for (int i = 0; i < 2 * ArsMagica2.config.getGFXLevel(); ++i){
-						AMParticle smoke = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke", posX, posY + 4, posZ);
+						AMParticle smoke = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "smoke", posX, posY + 4, posZ);
 						if (smoke != null){
 							smoke.addRandomOffset(halfDist, 1, halfDist);
 							smoke.SetParticleAlpha(1f);
@@ -136,8 +131,9 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 		return damageAmt;
 	}
 
+
 	@Override
-	protected SoundEvent getHurtSound(){
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
 		return AMSounds.LIGHTNING_GUARDIAN_HIT;
 	}
 
@@ -164,7 +160,7 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, Affinity.LIGHTNING.getID()), 0.0f);
 		}
 		i = rand.nextInt(10);
 

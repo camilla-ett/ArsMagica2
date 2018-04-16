@@ -1,17 +1,10 @@
 package am2.common.bosses;
 
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
 import am2.api.math.AMVector3;
-import am2.common.bosses.ai.EntityAIEnderRush;
-import am2.common.bosses.ai.EntityAIEnderbolt;
-import am2.common.bosses.ai.EntityAIEndertorrent;
-import am2.common.bosses.ai.EntityAIEnderwave;
-import am2.common.bosses.ai.EntityAIOtherworldlyRoar;
-import am2.common.bosses.ai.EntityAIProtect;
-import am2.common.bosses.ai.EntityAIShadowstep;
+import am2.common.bosses.ai.*;
 import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.defs.PotionEffectsDefs;
@@ -104,7 +97,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 		switch (getCurrentAction()){
 		case LONG_CASTING: //roar
 			if (this.getTicksInCurrentAction() == 32)
-				worldObj.playSound(posX, posY, posZ, AMSounds.ENDER_GUARDIAN_ROAR, SoundCategory.HOSTILE, 1.0f, 1.0f, false);
+				world.playSound(posX, posY, posZ, AMSounds.ENDER_GUARDIAN_ROAR, SoundCategory.HOSTILE, 1.0f, 1.0f, false);
 			break;
 		case CHARGE:
 			if (this.getTicksInCurrentAction() == 0)
@@ -114,7 +107,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 		}
 
 		if (shouldFlapWings() && wingFlapTime % (50 * this.getWingFlapSpeed()) == 0){
-			worldObj.playSound(posX, posY, posZ, AMSounds.ENDER_GUARDIAN_FLAP, SoundCategory.HOSTILE, 1.0f, 1.0f, false);
+			world.playSound(posX, posY, posZ, AMSounds.ENDER_GUARDIAN_FLAP, SoundCategory.HOSTILE, 1.0f, 1.0f, false);
 		}
 	}
 
@@ -125,7 +118,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 	@Override
 	public void setAttackTarget(EntityLivingBase par1EntityLivingBase){
 		super.setAttackTarget(par1EntityLivingBase);
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			if (par1EntityLivingBase != null)
 				this.dataManager.set(ATTACK_TARGET, par1EntityLivingBase.getEntityId());
 			else
@@ -146,8 +139,8 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 		
 		//Thanks but I'm not reading all the code, just fixing.
 		
-		if (par1DamageSource.getSourceOfDamage() instanceof EntityEnderman){
-			((EntityEnderman)par1DamageSource.getSourceOfDamage()).attackEntityFrom(DamageSources.wtfBoom, 5000);
+		if (par1DamageSource.getTrueSource() instanceof EntityEnderman){
+			((EntityEnderman)par1DamageSource.getTrueSource()).attackEntityFrom(DamageSources.wtfBoom, 5000);
 			this.heal(10);
 			return false;
 		}
@@ -156,7 +149,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 			if (spawn != null){
 				this.setPosition(spawn.x, spawn.y, spawn.z);
 				this.setCurrentAction(BossActions.IDLE);
-				if (!this.worldObj.isRemote)
+				if (!this.world.isRemote)
 					ArsMagica2.proxy.addDeferredTargetSet(this, null);
 			}else{
 				this.setDead();
@@ -166,7 +159,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 
 		ticksSinceLastAttack = 0;
 
-		if (!worldObj.isRemote && par1DamageSource.getSourceOfDamage() != null && par1DamageSource.getSourceOfDamage() instanceof EntityPlayer){
+		if (!world.isRemote && par1DamageSource.getTrueSource() != null && par1DamageSource.getTrueSource() instanceof EntityPlayer){
 			if (par1DamageSource.damageType == this.lastDamageType){
 				hitCount++;
 				if (hitCount > 5)
@@ -183,10 +176,10 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 
 	@Override
 	public EntityLivingBase getAttackTarget(){
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 			return super.getAttackTarget();
 		else
-			return (EntityLivingBase)worldObj.getEntityByID(this.dataManager.get(ATTACK_TARGET));
+			return (EntityLivingBase)world.getEntityByID(this.dataManager.get(ATTACK_TARGET));
 	}
 
 	@Override
@@ -229,7 +222,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(){
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
 		return AMSounds.ENDER_GUARDIAN_HIT;
 	}
 
@@ -256,7 +249,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, Affinity.ENDER.getID()), 0.0f);
 		}
 
 		i = rand.nextInt(10);

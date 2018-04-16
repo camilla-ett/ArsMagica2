@@ -1,20 +1,11 @@
 package am2.common.entity;
 
-import java.util.List;
-
 import am2.ArsMagica2;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleApproachPoint;
 import am2.common.entity.ai.EntityAIFireballAttack;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +17,8 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class EntityFireElemental extends EntityMob{
 
@@ -109,7 +102,7 @@ public class EntityFireElemental extends EntityMob{
 	@Override
 	public void onLivingUpdate(){
 		if (isWet()){
-			this.attackEntityFrom(DamageSource.drown, 1);
+			this.attackEntityFrom(DamageSource.DROWN, 1);
 		}
 //		if (!this.worldObj.isRemote){
 //			if (this.getAttackTarget() != null && !this.getAttackTarget().isDead){
@@ -132,7 +125,7 @@ public class EntityFireElemental extends EntityMob{
 	public void onUpdate(){
 		int cookTargetID = dataManager.get(COOK_TARGET_ID);
 		if (cookTargetID != 0){
-			List<EntityItem> items = worldObj.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(cookRadius, cookRadius, cookRadius));
+			List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(cookRadius, cookRadius, cookRadius));
 			EntityItem inanimate = null;
 			for (EntityItem item : items){
 				if (item.getEntityId() == cookTargetID){
@@ -140,8 +133,8 @@ public class EntityFireElemental extends EntityMob{
 				}
 			}
 
-			if (inanimate != null && worldObj.isRemote){
-				AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "fire", posX, posY + getEyeHeight(), posZ);
+			if (inanimate != null && world.isRemote){
+				AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "fire", posX, posY + getEyeHeight(), posZ);
 				if (effect != null){
 					effect.setIgnoreMaxAge(true);
 					effect.AddParticleController(new ParticleApproachPoint(effect, inanimate.posX + (rand.nextFloat() - 0.5), inanimate.posY + (rand.nextFloat() - 0.5), inanimate.posZ + (rand.nextFloat() - 0.5), 0.1f, 0.1f, 1, false).setKillParticleOnFinish(true));
@@ -149,9 +142,9 @@ public class EntityFireElemental extends EntityMob{
 			}
 		}
 
-		if (worldObj.isRemote && rand.nextInt(100) > 75 && !isBurning())
+		if (world.isRemote && rand.nextInt(100) > 75 && !isBurning())
 			for (int i = 0; i < ArsMagica2.config.getGFXLevel(); i++)
-				worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D);
 		super.onUpdate();
 	}
 
@@ -166,7 +159,7 @@ public class EntityFireElemental extends EntityMob{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), world, this))
 			return false;
 		return super.getCanSpawnHere();
 	}

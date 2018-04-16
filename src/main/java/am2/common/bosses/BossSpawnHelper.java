@@ -1,9 +1,5 @@
 package am2.common.bosses;
 
-import java.util.HashMap;
-import java.util.List;
-
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.common.blocks.tileentity.TileEntityLectern;
 import am2.common.defs.BlockDefs;
@@ -27,6 +23,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class BossSpawnHelper{
 	public int dryadsKilled;
 	public int ticksSinceLastDryadDeath;
@@ -44,7 +43,7 @@ public class BossSpawnHelper{
 		ticksSinceLastDryadDeath = 0;
 		dryadsKilled++;
 		if (dryadsKilled >= 5){
-			spawnNatureGuardian(dryad.worldObj, dryad.posX, dryad.posY, dryad.posZ);
+			spawnNatureGuardian(dryad.world, dryad.posX, dryad.posY, dryad.posZ);
 			dryadsKilled = 0;
 		}
 	}
@@ -60,7 +59,7 @@ public class BossSpawnHelper{
 		
 		BlockPos pos = villager.getPosition();
 
-		World world = villager.worldObj;
+		World world = villager.world;
 
 		long time = world.getWorldTime() % 24000;
 		if (time < 12500 || time > 23500) //night time
@@ -153,7 +152,7 @@ public class BossSpawnHelper{
 		for (EntityLivingBase ent : queuedBosses.keySet()){
 			World world = queuedBosses.get(ent);
 			if (!world.isRemote){
-				world.spawnEntityInWorld(ent);
+				world.spawnEntity(ent);
 				onBossSpawn(ent, world, ent.getPosition());
 			}
 		}
@@ -162,14 +161,14 @@ public class BossSpawnHelper{
 
 	public void onItemInRing(EntityItem item, Block ringID){
 		if (ringID == BlockDefs.redstoneInlay){
-			checkForWaterGuardianSpawn(item.worldObj, item.getPosition());
+			checkForWaterGuardianSpawn(item.world, item.getPosition());
 		}else if (ringID == BlockDefs.ironInlay){
-			checkForArcaneGuardianSpawn(item.worldObj, item.getPosition());
-			checkForEarthGuardianSpawn(item.worldObj, item.getPosition());
+			checkForArcaneGuardianSpawn(item.world, item.getPosition());
+			checkForEarthGuardianSpawn(item.world, item.getPosition());
 		}else if (ringID == BlockDefs.goldInlay){
-			checkForAirGuardianSpawn(item.worldObj, item.getPosition());
-			checkForFireGuardianSpawn(item, item.worldObj, item.getPosition());
-			checkForEnderGuardianSpawn(item.worldObj, item.getPosition());
+			checkForAirGuardianSpawn(item.world, item.getPosition());
+			checkForFireGuardianSpawn(item, item.world, item.getPosition());
+			checkForEnderGuardianSpawn(item.world, item.getPosition());
 		}
 	}
 
@@ -178,7 +177,7 @@ public class BossSpawnHelper{
 		if (!world.isRaining()) return;
 
 		Biome biome = world.getBiome(pos);
-		Type[] types = BiomeDictionary.getTypesForBiome(biome);
+		Type[] types = (Type[])BiomeDictionary.getTypes(biome).toArray();
 
 		boolean containsWaterType = false;
 
@@ -196,16 +195,16 @@ public class BossSpawnHelper{
 				if (!world.canBlockSeeSky(pos.add(i, 1, j)))
 					return;
 
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expandXyz(1D));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expand(1D, 1D, 1D));
 		if (itemsInRange.size() != 2) return;
 		boolean hasBucket = false;
 		boolean hasBoat = false;
 
 		for (EntityItem item : itemsInRange){
 			if (item.isDead) continue;
-			if (item.getEntityItem().getItem() == Items.BOAT)
+			if (item.getItem().getItem() == Items.BOAT)
 				hasBoat = true;
-			else if (item.getEntityItem().getItem() == Items.WATER_BUCKET)
+			else if (item.getItem().getItem() == Items.WATER_BUCKET)
 				hasBucket = true;
 		}
 
@@ -221,9 +220,9 @@ public class BossSpawnHelper{
 
 	private void checkForAirGuardianSpawn(World world, BlockPos pos){
 		if (pos.getY() < 150) return;
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expandXyz(1D));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expand(1D, 1D, 1D));
 		if (itemsInRange.size() != 1) return;
-		if (itemsInRange.get(0).getEntityItem().getItem() != ItemDefs.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR))
+		if (itemsInRange.get(0).getItem().getItem() != ItemDefs.essence || itemsInRange.get(0).getItem().getItemDamage() != Affinity.AIR.getID())
 			return;
 
 		itemsInRange.get(0).setDead();
@@ -233,9 +232,9 @@ public class BossSpawnHelper{
 	}
 
 	private void checkForArcaneGuardianSpawn(World world, BlockPos pos){
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expandXyz(1D));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expand(1D, 1D, 1D));
 		if (itemsInRange.size() != 1) return;
-		if (itemsInRange.get(0).getEntityItem().getItem() != ItemDefs.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE))
+		if (itemsInRange.get(0).getItem().getItem() != ItemDefs.essence || itemsInRange.get(0).getItem().getItemDamage() != Affinity.ARCANE.getID())
 			return;
 		boolean hasStructure = false;
 		TileEntityLectern lectern = null;
@@ -297,7 +296,7 @@ public class BossSpawnHelper{
 	}
 
 	private void checkForEarthGuardianSpawn(World world, BlockPos pos){
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expandXyz(1D));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expand(1D, 1D, 1D));
 		if (itemsInRange.size() != 3) return;
 		boolean hasEmerald = false;
 		boolean hasTopaz = false;
@@ -306,11 +305,11 @@ public class BossSpawnHelper{
 
 		for (EntityItem item : itemsInRange){
 			if (item.isDead) continue;
-			if (item.getEntityItem().getItem() == Items.EMERALD)
+			if (item.getItem().getItem() == Items.EMERALD)
 				hasEmerald = true;
-			else if (item.getEntityItem().getItem() == ItemDefs.itemOre && item.getEntityItem().getItemDamage() == ItemOre.META_BLUE_TOPAZ)
+			else if (item.getItem().getItem() == ItemDefs.itemOre && item.getItem().getItemDamage() == ItemOre.META_BLUE_TOPAZ)
 				hasTopaz = true;
-			else if (item.getEntityItem().getItem() == ItemDefs.itemOre && item.getEntityItem().getItemDamage() == ItemOre.META_CHIMERITE)
+			else if (item.getItem().getItem() == ItemDefs.itemOre && item.getItem().getItemDamage() == ItemOre.META_CHIMERITE)
 				hasChimerite = true;
 		}
 
@@ -342,7 +341,7 @@ public class BossSpawnHelper{
 	}
 
 	private void checkForFireGuardianSpawn(EntityItem item, World world, BlockPos pos){
-		if (item.getEntityItem().getItem() != ItemDefs.essence || item.getEntityItem().getItemDamage() != ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER))
+		if (item.getItem().getItem() != ItemDefs.essence || item.getItem().getItemDamage() != Affinity.WATER.getID())
 			return;
 		boolean hasStructure = false;
 		boolean hasDimension = world.provider.getDimension() == -1;
@@ -392,7 +391,7 @@ public class BossSpawnHelper{
 
 	public void onIceEffigyBuilt(World world, BlockPos pos){
 		Biome biome = world.getBiome(pos);
-		Type[] types = BiomeDictionary.getTypesForBiome(biome);
+		Type[] types = (Type[])BiomeDictionary.getTypes(biome).toArray();
 
 		boolean containsIceType = false;
 
@@ -417,7 +416,7 @@ public class BossSpawnHelper{
 
 		EntityWinterGuardian guardian = new EntityWinterGuardian(world);
 		guardian.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-		world.spawnEntityInWorld(guardian);
+		world.spawnEntity(guardian);
 	}
 
 	public void onLightningEffigyBuilt(World world, BlockPos pos){
@@ -433,7 +432,7 @@ public class BossSpawnHelper{
 
 		EntityLightningGuardian guardian = new EntityLightningGuardian(world);
 		guardian.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-		world.spawnEntityInWorld(guardian);
+		world.spawnEntity(guardian);
 
 		world.thunderingStrength = 1.0f;
 	}
@@ -447,7 +446,7 @@ public class BossSpawnHelper{
 				else if (!world.canBlockSeeSky(pos.add(i, 1, j)))
 					return;
 
-		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expandXyz(1D));
+		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expand(1D, 1D, 1D));
 		if (itemsInRange.size() != 2) return;
 
 		boolean hasEnderEssence = false;
@@ -456,9 +455,9 @@ public class BossSpawnHelper{
 
 		for (EntityItem item : itemsInRange){
 			if (item.isDead) continue;
-			if (item.getEntityItem().getItem() == Items.ENDER_EYE)
+			if (item.getItem().getItem() == Items.ENDER_EYE)
 				hasEyeofEnder = true;
-			else if (item.getEntityItem().getItem() == ItemDefs.essence && item.getEntityItem().getItemDamage() == ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER))
+			else if (item.getItem().getItem() == ItemDefs.essence && item.getItem().getItemDamage() == Affinity.ENDER.getID())
 				hasEnderEssence = true;
 		}
 
@@ -492,7 +491,7 @@ public class BossSpawnHelper{
 
 			EntityEnderGuardian guardian = new EntityEnderGuardian(world);
 			guardian.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-			world.spawnEntityInWorld(guardian);
+			world.spawnEntity(guardian);
 		}
 	}
 

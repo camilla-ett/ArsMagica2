@@ -6,7 +6,6 @@ import am2.common.bosses.IArsMagicaBoss;
 import am2.common.spell.SpellCaster;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 
@@ -58,7 +57,7 @@ public class EntityAICastSpell<T extends EntityLiving & IArsMagicaBoss> extends 
 	}
 
 	@Override
-	public boolean continueExecuting(){
+	public boolean shouldContinueExecuting(){
 		return !this.hasCasted && this.host.getAttackTarget() != null && !this.host.getAttackTarget().isDead;
 	}
 
@@ -78,7 +77,7 @@ public class EntityAICastSpell<T extends EntityLiving & IArsMagicaBoss> extends 
 		}
 
 		//this.host.getLookHelper().setLookPositionWithEntity(this.host.getAttackTarget(), 30, 30);
-		if (this.host.getDistanceSqToEntity(this.host.getAttackTarget()) > 64){
+		if (this.host.getDistanceSq(this.host.getAttackTarget()) > 64){
 
 			double deltaZ = this.host.getAttackTarget().posZ - this.host.posZ;
 			double deltaX = this.host.getAttackTarget().posX - this.host.posX;
@@ -97,12 +96,12 @@ public class EntityAICastSpell<T extends EntityLiving & IArsMagicaBoss> extends 
 				this.host.setCurrentAction(this.activeAction);
 
 			if (++this.castTicks == this.castPoint){
-				if (!this.host.worldObj.isRemote)
-					this.host.worldObj.playSound(this.host.posX, this.host.posY, this.host.posZ, this.host.getAttackSound(), SoundCategory.HOSTILE, 1.0f, 1.0f, false);
+				if (!this.host.world.isRemote)
+					this.host.world.playSound(this.host.posX, this.host.posY, this.host.posZ, this.host.getAttackSound(), SoundCategory.HOSTILE, 1.0f, 1.0f, false);
 				this.host.faceEntity(this.host.getAttackTarget(), 180, 180);
 				ISpellCaster spell = this.stack.getCapability(SpellCaster.INSTANCE, null);
 				if (spell != null) {
-					spell.cast(this.stack, this.host.worldObj, this.host);
+					spell.cast(this.stack, this.host.world, this.host);
 				}
 			}
 		}

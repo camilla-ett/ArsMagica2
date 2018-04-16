@@ -1,7 +1,6 @@
 package am2.common.bosses;
 
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
 import am2.api.sources.DamageSourceFire;
@@ -9,12 +8,7 @@ import am2.api.sources.DamageSourceFrost;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.client.particles.ParticleOrbitEntity;
-import am2.common.bosses.ai.EntityAICastSpell;
-import am2.common.bosses.ai.EntityAIPlantGuardianThrowSickle;
-import am2.common.bosses.ai.EntityAIShieldBash;
-import am2.common.bosses.ai.EntityAISpinAttack;
-import am2.common.bosses.ai.EntityAIStrikeAttack;
-import am2.common.bosses.ai.ISpellCastCallback;
+import am2.common.bosses.ai.*;
 import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.packet.AMNetHandler;
@@ -149,7 +143,7 @@ public class EntityNatureGuardian extends AM2Boss{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, Affinity.NATURE.getID()), 0.0f);
 		}
 		i = rand.nextInt(10);
 
@@ -166,6 +160,11 @@ public class EntityNatureGuardian extends AM2Boss{
 			damageAmt *= 1.5f;
 		}
 		return damageAmt;
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
+		return AMSounds.NATURE_GUARDIAN_HIT;
 	}
 
 	@Override

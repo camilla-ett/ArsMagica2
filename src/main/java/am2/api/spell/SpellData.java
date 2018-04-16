@@ -1,23 +1,14 @@
 package am2.api.spell;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.function.BiFunction;
-
-import javax.annotation.Nullable;
-
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.common.spell.SpellCastResult;
 import am2.common.spell.shape.MissingShape;
 import am2.common.utils.AffinityShiftUtils;
 import am2.common.utils.EntityUtils;
 import am2.common.utils.NBTUtils;
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,6 +31,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.function.BiFunction;
 
 public class SpellData {
 	
@@ -64,6 +61,11 @@ public class SpellData {
 		@Override
 		public DataParameter<Optional<SpellData>> createKey(int id) {
 			return new DataParameter<>(id, this);
+		}
+
+		@Override
+		public Optional<SpellData> copyValue(Optional<SpellData> value) {
+			return value;
 		}
 	};
     

@@ -1,6 +1,5 @@
 package am2.common.bosses;
 
-import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
 import am2.api.sources.DamageSourceFrost;
@@ -52,10 +51,10 @@ public class EntityEarthGuardian extends AM2Boss{
 	public void setCurrentAction(BossActions action){
 		super.setCurrentAction(action);
 
-		if (currentAction != action && action == BossActions.STRIKE && worldObj.isRemote)
+		if (currentAction != action && action == BossActions.STRIKE && world.isRemote)
 			this.leftArm = !this.leftArm;
 
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			AMNetHandler.INSTANCE.sendActionUpdateToAllAround(this);
 		}
 	}
@@ -66,11 +65,11 @@ public class EntityEarthGuardian extends AM2Boss{
 
 	@Override
 	public void onUpdate(){
-		if (ticksInCurrentAction > 40 && !worldObj.isRemote){
+		if (ticksInCurrentAction > 40 && !world.isRemote){
 			setCurrentAction(BossActions.IDLE);
 		}
 
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			updateRotations();
 		}
 		
@@ -95,7 +94,7 @@ public class EntityEarthGuardian extends AM2Boss{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, Affinity.EARTH.getID()), 0.0f);
 		}
 
 		i = rand.nextInt(10);
@@ -116,7 +115,7 @@ public class EntityEarthGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(){
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
 		return AMSounds.EARTH_GUARDIAN_HIT;
 	}
 

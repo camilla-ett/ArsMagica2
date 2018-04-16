@@ -1,10 +1,6 @@
 package am2.common.bosses;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.common.bosses.ai.EntityAICastSpell;
 import am2.common.bosses.ai.EntityAIDispel;
@@ -28,6 +24,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class EntityLifeGuardian extends AM2Boss{
 
@@ -69,9 +68,9 @@ public class EntityLifeGuardian extends AM2Boss{
 
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
-		if (par1DamageSource.getSourceOfDamage() != null && par1DamageSource.getSourceOfDamage() instanceof EntityLivingBase){
+		if (par1DamageSource.getTrueSource() != null && par1DamageSource.getTrueSource() instanceof EntityLivingBase){
 			for (EntityLivingBase minion : minions.toArray(new EntityLivingBase[minions.size()])){
-				((EntityLiving)minion).setAttackTarget((EntityLivingBase)par1DamageSource.getSourceOfDamage());
+				((EntityLiving)minion).setAttackTarget((EntityLivingBase)par1DamageSource.getTrueSource());
 			}
 		}
 		return super.attackEntityFrom(par1DamageSource, par2);
@@ -99,7 +98,7 @@ public class EntityLifeGuardian extends AM2Boss{
 	@Override
 	public void onUpdate(){
 		//Minion management - add any queued minions to the minion list and prune out any fallen or nonexistant ones
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			minions.addAll(queued_minions);
 			queued_minions.clear();
 			Iterator<EntityLiving> it = minions.iterator();
@@ -113,7 +112,7 @@ public class EntityLifeGuardian extends AM2Boss{
 
 			if (this.ticksExisted % 100 == 0){
 				for (EntityLivingBase e : minions)
-					ArsMagica2.proxy.particleManager.spawn(worldObj, "textures/blocks/oreblocksunstone.png", this, e);
+					ArsMagica2.proxy.particleManager.spawn(world, "textures/blocks/oreblocksunstone.png", this, e);
 			}
 		}
 
@@ -124,7 +123,7 @@ public class EntityLifeGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(){
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
 		return AMSounds.LIFE_GUARDIAN_HIT;
 	}
 
@@ -151,7 +150,7 @@ public class EntityLifeGuardian extends AM2Boss{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, Affinity.LIFE.getID()), 0.0f);
 		}
 		i = rand.nextInt(10);
 

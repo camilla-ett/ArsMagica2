@@ -1,7 +1,6 @@
 package am2.common.bosses;
 
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.math.AMVector3;
 import am2.api.sources.DamageSourceLightning;
@@ -64,7 +63,7 @@ public class EntityAirGuardian extends AM2Boss{
 		if (action == BossActions.CASTING)
 			this.useLeftArm = !this.useLeftArm;
 
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			AMNetHandler.INSTANCE.sendActionUpdateToAllAround(this);
 		}
 	}
@@ -90,9 +89,9 @@ public class EntityAirGuardian extends AM2Boss{
 			break;
 		case SPINNING:
 			this.spinRotation = (this.spinRotation - 40) % 360;
-			if (this.worldObj.isRemote){
+			if (this.world.isRemote){
 				for (int i = 0; i < ArsMagica2.config.getGFXLevel(); ++i){
-					AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "wind", posX + worldObj.rand.nextDouble() * 4 - 2, posY, posZ + worldObj.rand.nextDouble() * 4 - 2);
+					AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "wind", posX + world.rand.nextDouble() * 4 - 2, posY, posZ + world.rand.nextDouble() * 4 - 2);
 					if (particle != null){
 						if (ticksInCurrentAction < BossActions.SPINNING.getMaxActionTime() - 10){
 							particle.AddParticleController(new ParticleApproachEntity(particle, this, 0.2f, 0.5f, 1, true));
@@ -112,9 +111,9 @@ public class EntityAirGuardian extends AM2Boss{
 		}
 
 		if (this.posY < 150){
-			if (worldObj.isRemote){
+			if (world.isRemote){
 				for (int i = 0; i < 25; ++i){
-					AMParticle wind = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "wind", posX, posY, posZ);
+					AMParticle wind = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "wind", posX, posY, posZ);
 					if (wind != null){
 						wind.setIgnoreMaxAge(false);
 						wind.setMaxAge(10 + rand.nextInt(10));
@@ -152,7 +151,7 @@ public class EntityAirGuardian extends AM2Boss{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, Affinity.AIR.getID()), 0.0f);
 		}
 
 		i = rand.nextInt(10);
@@ -178,7 +177,7 @@ public class EntityAirGuardian extends AM2Boss{
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(){
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
 		return AMSounds.AIR_GUARDIAN_HIT;
 	}
 
