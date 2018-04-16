@@ -1,6 +1,5 @@
 package am2.common.blocks.tileentity.flickers;
 
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.IFlickerController;
 import am2.common.blocks.BlockInvisibleUtility.EnumInvisibleType;
@@ -91,9 +90,9 @@ public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
 				"IWI",
 				Character.valueOf('F'), "fenceWood",
 				Character.valueOf('W'), Blocks.COBBLESTONE_WALL,
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.ARCANE.getID()),
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PURPLE.getDyeDamage()),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
+				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.AIR.getID()),
 				Character.valueOf('I'), Blocks.IRON_BARS
 
 		};

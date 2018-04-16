@@ -1,13 +1,12 @@
 package am2.common.blocks.tileentity.flickers;
 
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.flickers.IFlickerController;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.utils.AffinityShiftUtils;
 import am2.common.utils.DummyEntityPlayer;
-import am2.api.flickers.AbstractFlickerFunctionality;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -99,9 +98,9 @@ public class FlickerOperatorFlatLands extends AbstractFlickerFunctionality{
 				" R ",
 				Character.valueOf('S'), Items.IRON_SHOVEL,
 				Character.valueOf('P'), Items.IRON_PICKAXE,
-				Character.valueOf('E'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)),
+				Character.valueOf('E'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.EARTH.getID()),
 				Character.valueOf('N'), AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH),
-				Character.valueOf('I'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ICE)),
+				Character.valueOf('I'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.ICE.getID()),
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage())
 		};
 	}

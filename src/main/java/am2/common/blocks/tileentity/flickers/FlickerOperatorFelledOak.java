@@ -1,10 +1,5 @@
 package am2.common.blocks.tileentity.flickers;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.flickers.IFlickerController;
@@ -29,6 +24,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 
@@ -151,7 +150,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 			offset = new AMVector3(reader.getInt(), te.getPos().getY() - radius_vert, reader.getInt());
 		}
 
-		Block treeBlock = ((ItemBlock)sapling.getItem()).block;
+		Block treeBlock = ((ItemBlock)sapling.getItem()).getBlock();
 
 		for (int i = (int)offset.x; i <= te.getPos().getX() + radius_horiz; i += 2){
 			for (int k = (int)offset.z; k <= te.getPos().getZ() + radius_horiz; k += 2){
@@ -188,7 +187,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 			int index = InventoryUtilities.getInventorySlotIndexFor(inv, new ItemStack(Blocks.SAPLING, 1, Short.MAX_VALUE));
 			if (index > -1){
 				ItemStack stack = inv.getStackInSlot(index).copy();
-				stack.stackSize = 1;
+				stack.setCount(1);
 				return stack;
 			}
 		}
@@ -288,8 +287,8 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 				" OW",
 				Character.valueOf('W'), BlockDefs.witchwoodLog,
 				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
+				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.NATURE.getID()),
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.LIGHTNING.getID()),
 				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
 				Character.valueOf('G'), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_AXE)
 		};

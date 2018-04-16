@@ -1,13 +1,12 @@
 package am2.common.blocks.tileentity.flickers;
 
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.flickers.IFlickerController;
 import am2.client.particles.AMParticle;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
-import am2.api.flickers.AbstractFlickerFunctionality;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -100,7 +99,7 @@ public class FlickerOperatorGentleRains extends AbstractFlickerFunctionality{
 				" B ",
 				Character.valueOf('C'), BlockDefs.essenceConduit,
 				Character.valueOf('T'), BlockDefs.tarmaRoot,
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)),
+				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.WATER.getID()),
 				Character.valueOf('B'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage())
 		};
 	}

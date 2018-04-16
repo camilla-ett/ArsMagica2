@@ -1,7 +1,5 @@
 package am2.common.armor.infusions;
 
-import java.util.ArrayList;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.IImbuementRegistry;
@@ -11,7 +9,8 @@ import am2.common.armor.ArmorHelper;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.ArrayList;
 
 public class ImbuementRegistry implements IImbuementRegistry{
 
@@ -24,13 +23,13 @@ public class ImbuementRegistry implements IImbuementRegistry{
 
 	@Override
 	public void registerImbuement(ArmorImbuement imbuementInstance) {
-		GameRegistry.register(imbuementInstance, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), imbuementInstance.getID()));
+		ArsMagicaAPI.getArmorImbuementRegistry().register(imbuementInstance);
 		LogHelper.info(String.format("Registered imbuement: %s", imbuementInstance.getID()));
 	}
 
 	@Override
 	public ArmorImbuement getImbuementByID(ResourceLocation ID){
-		return ArsMagicaAPI.getArmorImbuementRegistry().getObject(ID);
+		return ArsMagicaAPI.getArmorImbuementRegistry().getValue(ID);
 	}
 
 	@Override

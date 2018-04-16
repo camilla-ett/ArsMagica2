@@ -1,18 +1,14 @@
 package am2.common.blocks.tileentity.flickers;
 
-import java.util.HashMap;
-import java.util.List;
-
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.flickers.IFlickerController;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.SpawnBlacklists;
 import am2.common.utils.AffinityShiftUtils;
-import am2.api.flickers.AbstractFlickerFunctionality;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -21,6 +17,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class FlickerOperatorProgeny extends AbstractFlickerFunctionality{
 
@@ -116,7 +115,7 @@ public class FlickerOperatorProgeny extends AbstractFlickerFunctionality{
 				"EWE",
 				Character.valueOf('E'), Items.EGG,
 				Character.valueOf('L'), AffinityShiftUtils.getEssenceForAffinity(Affinity.LIFE),
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
+				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.LIFE.getID()),
 				Character.valueOf('W'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage())
 
 		};

@@ -1,6 +1,7 @@
 package am2.common.armor;
 
 import am2.common.defs.CreativeTabsDefs;
+import am2.common.registry.Registry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,9 +10,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ISpecialArmor;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class AMArmor extends ItemArmor implements ISpecialArmor{
 
@@ -46,7 +45,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 
 	public AMArmor registerAndName(String name) {
 		this.setUnlocalizedName("arsmagica2:" + name);
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		Registry.GetItemsToRegister().add(this);
 		return this;
 	}
 

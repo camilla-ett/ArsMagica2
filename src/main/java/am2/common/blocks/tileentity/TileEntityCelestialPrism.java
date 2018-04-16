@@ -1,16 +1,7 @@
 package am2.common.blocks.tileentity;
 
-import java.util.HashMap;
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import am2.ArsMagica2;
-import am2.api.blocks.IMultiblock;
-import am2.api.blocks.IMultiblockGroup;
-import am2.api.blocks.Multiblock;
-import am2.api.blocks.MultiblockGroup;
-import am2.api.blocks.TypedMultiblockGroup;
+import am2.api.blocks.*;
 import am2.common.blocks.BlockArsMagicaBlock;
 import am2.common.blocks.BlockArsMagicaBlock.EnumBlockType;
 import am2.common.buffs.BuffEffectManaRegen;
@@ -18,11 +9,15 @@ import am2.common.defs.BlockDefs;
 import am2.common.defs.PotionEffectsDefs;
 import am2.common.power.PowerNodeRegistry;
 import am2.common.power.PowerTypes;
+import com.google.common.collect.Lists;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class TileEntityCelestialPrism extends TileEntityObelisk {
 
@@ -83,7 +78,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk {
 
 	@Override
 	protected void checkNearbyBlockState(){
-		List<IMultiblockGroup> groups = structure.getMatchingGroups(worldObj, pos);
+		List<IMultiblockGroup> groups = structure.getMatchingGroups(world, pos);
 
 		float capsLevel = 1;
 		boolean pillarsFound = false;
@@ -100,7 +95,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk {
 		}
 		
 		if (pillarsFound && capsFound) {
-			IBlockState capState = worldObj.getBlockState(pos.add(2, 2, 2));
+			IBlockState capState = world.getBlockState(pos.add(2, 2, 2));
 			
 			for (IBlockState cap : caps.keySet()){
 				if (capState == cap){
@@ -124,7 +119,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk {
 	}
 
 	private boolean isNight(){
-		long ticks = worldObj.getWorldTime() % 24000;
+		long ticks = world.getWorldTime() % 24000;
 		return ticks >= 12500 && ticks <= 23500;
 	}
 
@@ -134,8 +129,8 @@ public class TileEntityCelestialPrism extends TileEntityObelisk {
 		if (surroundingCheckTicks++ % 100 == 0){
 			checkNearbyBlockState();
 			surroundingCheckTicks = 1;
-			if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
-				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
+			if (!world.isRemote && PowerNodeRegistry.For(this.world).checkPower(this, this.capacity * 0.1f)){
+				List<EntityPlayer> nearbyPlayers = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
 				for (EntityPlayer p : nearbyPlayers){
 					if (p.isPotionActive(PotionEffectsDefs.MANA_REGEN)) continue;
 					p.addPotionEffect(new BuffEffectManaRegen(600, 0));
@@ -144,18 +139,18 @@ public class TileEntityCelestialPrism extends TileEntityObelisk {
 		}
 
 		if (onlyChargeAtNight == isNight()){
-			PowerNodeRegistry.For(this.worldObj).insertPower(this, PowerTypes.LIGHT, 0.25f * powerMultiplier);
-			if (worldObj.isRemote){
+			PowerNodeRegistry.For(this.world).insertPower(this, PowerTypes.LIGHT, 0.25f * powerMultiplier);
+			if (world.isRemote){
 
 				if (particleCounter++ % (ArsMagica2.config.FullGFX() ? 60 : ArsMagica2.config.NoGFX() ? 180 : 120) == 0){
 					particleCounter = 1;
-					ArsMagica2.proxy.particleManager.RibbonFromPointToPoint(worldObj,
-							pos.getX() + worldObj.rand.nextFloat(),
-							pos.getY() + (worldObj.rand.nextFloat() * 2),
-							pos.getZ() + worldObj.rand.nextFloat(),
-							pos.getX() + worldObj.rand.nextFloat(),
-							pos.getY() + (worldObj.rand.nextFloat() * 2),
-							pos.getZ() + worldObj.rand.nextFloat());
+					ArsMagica2.proxy.particleManager.RibbonFromPointToPoint(world,
+							pos.getX() + world.rand.nextFloat(),
+							pos.getY() + (world.rand.nextFloat() * 2),
+							pos.getZ() + world.rand.nextFloat(),
+							pos.getX() + world.rand.nextFloat(),
+							pos.getY() + (world.rand.nextFloat() * 2),
+							pos.getZ() + world.rand.nextFloat());
 				}
 			}
 		}

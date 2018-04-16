@@ -1,23 +1,23 @@
 package am2.common.blocks.tileentity.flickers;
 
-import java.util.HashMap;
-import java.util.List;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.flickers.IFlickerController;
 import am2.common.blocks.tileentity.TileEntityAMPower;
 import am2.common.blocks.tileentity.TileEntityFlickerHabitat;
 import am2.common.defs.ItemDefs;
 import am2.common.power.PowerNodeRegistry;
 import am2.common.power.PowerTypes;
-import am2.api.flickers.AbstractFlickerFunctionality;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class TileEntityFlickerControllerBase extends TileEntityAMPower implements IFlickerController<TileEntityFlickerControllerBase>{
 	private HashMap<Integer, byte[]> sigilMetadata;
@@ -43,7 +43,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	public void updateOperator(ItemStack stack){
 		if (stack == null || stack.getItem() != ItemDefs.flickerFocus)
 			return;
-		operator = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(stack.getItemDamage());
+		operator = ArsMagicaAPI.getFlickerFocusRegistry().getValue(stack.getItem().getRegistryName());
 	}
 
 	public void scanForNearbyUpgrades(){
@@ -134,7 +134,11 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	private Integer getFlagForOperator(AbstractFlickerFunctionality operator){
-		return ArsMagicaAPI.getFlickerFocusRegistry().getId(operator);
+		AbstractFlickerFunctionality[] asd = (AbstractFlickerFunctionality[])ArsMagicaAPI.getFlickerFocusRegistry().getValuesCollection().toArray();
+		for (int i = 0 ; i< asd.length; i++) {
+			if (asd[i].equals(operator)) return i;
+		}
+		return -1;
 	}
 
 	public void setMetadata(AbstractFlickerFunctionality operator, byte[] meta){

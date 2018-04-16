@@ -1,12 +1,5 @@
 package am2.common.blocks.tileentity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import am2.ArsMagica2;
 import am2.api.DamageSources;
 import am2.api.blocks.IMultiblock;
@@ -19,25 +12,25 @@ import am2.common.buffs.BuffEffectAstralDistortion;
 import am2.common.buffs.BuffEffectManaRegen;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.PotionEffectsDefs;
-import am2.common.entity.EntityAirSled;
-import am2.common.entity.EntityBroom;
-import am2.common.entity.EntityDarkling;
-import am2.common.entity.EntityFlicker;
-import am2.common.entity.EntityShadowHelper;
-import am2.common.entity.EntityThrownRock;
-import am2.common.entity.EntityThrownSickle;
-import am2.common.entity.EntityWinterGuardianArm;
+import am2.common.entity.*;
 import am2.common.power.PowerNodeRegistry;
 import am2.common.power.PowerTypes;
 import am2.common.utils.EntityUtils;
+import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class TileEntityBlackAurem extends TileEntityObelisk {
 
@@ -96,7 +89,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 
 	@Override
 	public void update(){
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			Iterator<EntityLivingBase> arcIterator = arcs.keySet().iterator();
 			ArrayList<Entity> toRemove = new ArrayList<Entity>();
 			while (arcIterator.hasNext()){
@@ -113,7 +106,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 			surroundingCheckTicks++;
 		}
 
-		if (worldObj.isRemote || ticksSinceLastEntityScan++ > 25){
+		if (world.isRemote || ticksSinceLastEntityScan++ > 25){
 			updateNearbyEntities();
 			ticksSinceLastEntityScan = 0;
 		}
@@ -131,7 +124,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 				continue;
 			}
 
-			RayTraceResult mop = this.worldObj.rayTraceBlocks(new Vec3d(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5), new Vec3d(ent.posX, ent.posY + ent.getEyeHeight(), ent.posZ), false);
+			RayTraceResult mop = this.world.rayTraceBlocks(new Vec3d(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5), new Vec3d(ent.posX, ent.posY + ent.getEyeHeight(), ent.posZ), false);
 
 			if (EntityUtils.isSummon(ent) || mop != null){
 				continue;
@@ -152,27 +145,27 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 			double distanceVertical = this.pos.getY() - ent.posY;
 			if (distanceHorizontal < 1.3 * Math.max(1, Math.abs(distanceVertical / 2))){
 				if (distanceVertical < -1.5){
-					if (worldObj.isRemote && worldObj.rand.nextInt(10) < 3){
-						ArsMagica2.proxy.particleManager.BoltFromPointToPoint(worldObj, pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, ent.posX, ent.posY, ent.posZ, 4, 0x000000);
+					if (world.isRemote && world.rand.nextInt(10) < 3){
+						ArsMagica2.proxy.particleManager.BoltFromPointToPoint(world, pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, ent.posX, ent.posY, ent.posZ, 4, 0x000000);
 					}
 				}
 				if (distanceVertical < -2){
 					offsetY = 0;
-					if (!worldObj.isRemote){
+					if (!world.isRemote){
 						if (ent.attackEntityFrom(DamageSources.darkNexus, 4)){
 							if (ent.getHealth() <= 0){
 								ent.setDead();
 								float power = ((int)Math.ceil((ent.getMaxHealth() * (ent.ticksExisted / 20)) % 5000)) * this.powerMultiplier;
-								PowerNodeRegistry.For(this.worldObj).insertPower(this, PowerTypes.DARK, power);
+								PowerNodeRegistry.For(this.world).insertPower(this, PowerTypes.DARK, power);
 							}
 						}
 					}
 				}
 			}
 
-			if (worldObj.isRemote){
+			if (world.isRemote){
 				if (!arcs.containsKey(ent)){
-					AMLineArc arc = (AMLineArc)ArsMagica2.proxy.particleManager.spawn(worldObj, "textures/blocks/oreblocksunstone.png", pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, ent);
+					AMLineArc arc = (AMLineArc)ArsMagica2.proxy.particleManager.spawn(world, "textures/blocks/oreblocksunstone.png", pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, ent);
 					if (arc != null){
 						arc.setExtendToTarget();
 						arc.setRBGColorF(1, 1, 1);
@@ -180,14 +173,14 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 					arcs.put(ent, arc);
 				}
 			}
-			if (!worldObj.isRemote)
-				ent.moveEntity(offsetX, offsetY, offsetZ);
+			if (!world.isRemote)
+				ent.move(MoverType.SELF,  offsetX, offsetY, offsetZ);
 		}
 		if (surroundingCheckTicks % 100 == 0){
 			checkNearbyBlockState();
 			surroundingCheckTicks = 1;
-			if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
-				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
+			if (!world.isRemote && PowerNodeRegistry.For(this.world).checkPower(this, this.capacity * 0.1f)){
+				List<EntityPlayer> nearbyPlayers = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
 				for (EntityPlayer p : nearbyPlayers){
 					if (p.isPotionActive(PotionEffectsDefs.MANA_REGEN)) continue;
 					p.addPotionEffect(new BuffEffectManaRegen(600, 2));
@@ -205,7 +198,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 	}
 
 	private void updateNearbyEntities(){
-		List<EntityLivingBase> nearbyEntities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos.add(-10, 0, -10), pos.add(10, 4, 10)));
+		List<EntityLivingBase> nearbyEntities = this.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos.add(-10, 0, -10), pos.add(10, 4, 10)));
 		for (EntityLivingBase entity : nearbyEntities){
 			if (entity.isEntityInvulnerable(DamageSources.darkNexus) ||
 					!entity.isNonBoss() ||

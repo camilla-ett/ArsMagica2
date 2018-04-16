@@ -1,11 +1,10 @@
 package am2.common.blocks.tileentity.flickers;
 
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.flickers.IFlickerController;
 import am2.common.defs.ItemDefs;
 import am2.common.utils.InventoryUtilities;
-import am2.api.flickers.AbstractFlickerFunctionality;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
@@ -83,7 +82,7 @@ public class FlickerOperatorFishing extends AbstractFlickerFunctionality{
 					TileEntity te = worldObj.getTileEntity(pos.add(i, j, k));
 					if (te instanceof IInventory){
 						for (EnumFacing facing : EnumFacing.values()){
-							if (InventoryUtilities.mergeIntoInventory((IInventory)te, stack, stack.stackSize, facing))
+							if (InventoryUtilities.mergeIntoInventory((IInventory)te, stack, stack.getCount(), facing))
 								return;
 						}
 					}
@@ -123,8 +122,8 @@ public class FlickerOperatorFishing extends AbstractFlickerFunctionality{
 				"N W",
 				" R ",
 				'F', Items.FISH,
-				'W', new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)),
-				'N', new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
+				'W', new ItemStack(ItemDefs.flickerJar, 1, Affinity.WATER.getID()),
+				'N', new ItemStack(ItemDefs.flickerJar, 1, Affinity.NATURE.getID()),
 				'R', Items.FISHING_ROD
 		};
 	}

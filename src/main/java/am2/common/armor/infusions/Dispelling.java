@@ -1,8 +1,5 @@
 package am2.common.armor.infusions;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
@@ -12,6 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
 
 public class Dispelling extends ArmorImbuement{
 
@@ -35,7 +35,7 @@ public class Dispelling extends ArmorImbuement{
 		if (player.getActivePotionEffects().size() == 0)
 			return false;
 
-		if (player.worldObj.isRemote)
+		if (player.world.isRemote)
 			return false;
 
 		ArrayList<Potion> effectsToRemove = new ArrayList<>();

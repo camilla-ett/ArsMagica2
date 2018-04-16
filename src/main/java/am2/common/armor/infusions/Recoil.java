@@ -1,7 +1,5 @@
 package am2.common.armor.infusions;
 
-import java.util.EnumSet;
-
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
@@ -12,6 +10,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+
+import java.util.EnumSet;
 
 public class Recoil extends ArmorImbuement{
 
@@ -33,7 +33,7 @@ public class Recoil extends ArmorImbuement{
 	@Override
 	public boolean applyEffect(EntityPlayer player, World world, ItemStack stack, ImbuementApplicationTypes matchedType, Object... params){
 		LivingHurtEvent event = (LivingHurtEvent)params[0];
-		Entity e = event.getSource().getSourceOfDamage();
+		Entity e = event.getSource().getTrueSource();
 		if (e != null && e instanceof EntityLivingBase){
 			((EntityLivingBase)e).knockBack(player, 10, player.posX - e.posX, player.posZ - e.posZ);
 		}

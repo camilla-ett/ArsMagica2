@@ -1,7 +1,7 @@
 package am2.common.blocks.tileentity.flickers;
 
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.flickers.IFlickerController;
 import am2.common.blocks.BlockInvisibleUtility;
 import am2.common.blocks.BlockInvisibleUtility.EnumInvisibleType;
@@ -9,7 +9,6 @@ import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.packet.AMDataReader;
 import am2.common.packet.AMDataWriter;
-import am2.api.flickers.AbstractFlickerFunctionality;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
@@ -168,9 +167,9 @@ public class FlickerOperatorContainment extends AbstractFlickerFunctionality{
 				"IWI",
 				Character.valueOf('F'), "fenceWood",
 				Character.valueOf('W'), Blocks.COBBLESTONE_WALL,
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.AIR.getID()),
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage()),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)),
+				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.ENDER.getID()),
 				Character.valueOf('I'), Blocks.IRON_BARS
 
 		};

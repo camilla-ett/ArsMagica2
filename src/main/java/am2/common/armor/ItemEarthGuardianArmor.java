@@ -1,20 +1,23 @@
 package am2.common.armor;
 
-import java.util.List;
-
 import am2.client.utils.ModelLibrary;
 import am2.common.defs.ItemDefs;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemEarthGuardianArmor extends AMArmor{
 
@@ -35,8 +38,8 @@ public class ItemEarthGuardianArmor extends AMArmor{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.format("am2.tooltip.earth_armor"));
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+		tooltip.add(I18n.format("am2.tooltip.earth_armor"));
 	}
 
 	@Override
@@ -46,7 +49,7 @@ public class ItemEarthGuardianArmor extends AMArmor{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		par3List.add(ItemDefs.earthArmorEnchanted.copy());
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items){
+		items.add(ItemDefs.earthArmorEnchanted.copy());
 	}
 }

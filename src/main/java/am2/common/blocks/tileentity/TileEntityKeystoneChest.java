@@ -1,7 +1,5 @@
 package am2.common.blocks.tileentity;
 
-import java.util.Random;
-
 import am2.api.blocks.IKeystoneLockable;
 import am2.common.blocks.BlockKeystoneChest;
 import am2.common.container.ContainerKeystoneChest;
@@ -18,12 +16,15 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityLockableLoot;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.common.util.Constants;
+
+import java.util.Random;
 
 public class TileEntityKeystoneChest extends TileEntityLockableLoot implements IInventory, ITickable, IKeystoneLockable<TileEntityKeystoneChest>{
 
@@ -42,6 +43,11 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 	@Override
 	public int getSizeInventory(){
 		return 30;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return false;
 	}
 
 	@Override
@@ -269,6 +275,11 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 
 	@Override
 	public void clear() {}
+
+	@Override
+	protected NonNullList<ItemStack> getItems() {
+		return (NonNullList<ItemStack>)NonNullList.from(inventory);
+	}
 
 	@Override
 	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {

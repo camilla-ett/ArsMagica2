@@ -1,7 +1,5 @@
 package am2.common.armor.infusions;
 
-import java.util.EnumSet;
-
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
@@ -15,6 +13,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+
+import java.util.EnumSet;
 
 public class WaterWalking extends ArmorImbuement{
 
@@ -58,18 +58,18 @@ public class WaterWalking extends ArmorImbuement{
 			player.fallDistance = 0;
 			player.onGround = true;
 			player.isAirBorne = false;
-			player.isCollidedVertically = true;
-			player.isCollided = true;
+			player.collidedHorizontally = true;
+			player.collided = true;
 			if (player.motionY < 0){
 				player.motionY = 0;
 			}
 
-			if (player.worldObj.isRemote && player.ticksExisted % 5 == 0 && (Math.abs(player.motionX) > 0.1f || Math.abs(player.motionZ) > 0.1f)){
+			if (player.world.isRemote && player.ticksExisted % 5 == 0 && (Math.abs(player.motionX) > 0.1f || Math.abs(player.motionZ) > 0.1f)){
 				player.playSound(SoundEvents.ENTITY_PLAYER_SWIM, 0.02f, 1.0F + (player.getRNG().nextFloat() - player.getRNG().nextFloat()) * 0.4F);
 				for (float l = 0; l < 5; ++l){
 					float f5 = (player.getRNG().nextFloat() * 2.0F - 1.0F) * player.width;
 					float f4 = (player.getRNG().nextFloat() * 2.0F - 1.0F) * player.width;
-					player.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, player.posX + f5, player.posY, player.posZ + f4, (player.getRNG().nextFloat() - 0.5f) * 0.2f, player.getRNG().nextFloat() * 0.1f, (player.getRNG().nextFloat() - 0.5f) * 0.2f);
+					player.world.spawnParticle(EnumParticleTypes.WATER_SPLASH, player.posX + f5, player.posY, player.posZ + f4, (player.getRNG().nextFloat() - 0.5f) * 0.2f, player.getRNG().nextFloat() * 0.1f, (player.getRNG().nextFloat() - 0.5f) * 0.2f);
 				}
 			}
 		}
