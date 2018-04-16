@@ -12,6 +12,7 @@ import am2.common.extensions.EntityExtension;
 import am2.common.utils.DummyEntityPlayer;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -23,12 +24,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 
 public class ItemNatureGuardianSickle extends ItemArsMagica{
 
@@ -49,9 +53,10 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.format("am2.tooltip.nature_scythe"));
-		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
+	//public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+		tooltip.add(I18n.format("am2.tooltip.nature_scythe"));
+		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 	
 	@Override
@@ -83,11 +88,11 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, EnumHand hand){
-		if (flingSickle(par1ItemStack, par2World, par3EntityPlayer)){
-			par3EntityPlayer.setItemStackToSlot(hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND, null);//inventory.setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn){
+		if (flingSickle(playerIn.getHeldItem(EnumHand.MAIN_HAND), worldIn, playerIn)){
+			playerIn.setItemStackToSlot(handIn == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND, null);//inventory.setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);
 		}
-		return new ActionResult<>(EnumActionResult.SUCCESS, par1ItemStack);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(EnumHand.MAIN_HAND));
 	}
 
 	public boolean flingSickle(ItemStack stack, World world, EntityPlayer player){
@@ -102,7 +107,7 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 			projectile.setThrowingEntity(player);
 			projectile.setProjectileSpeed(2.0);
 			//projectile.setInMotion(1.25);
-			world.spawnEntityInWorld(projectile);
+			world.spawnEntity(projectile);
 			EntityExtension.For(player).deductMana(250f);
 		}
 		return true;
@@ -110,7 +115,7 @@ public class ItemNatureGuardianSickle extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		par3List.add(ItemDefs.natureScytheEnchanted.copy());
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items){
+		items.add(ItemDefs.natureScytheEnchanted.copy());
 	}
 }

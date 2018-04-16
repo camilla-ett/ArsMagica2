@@ -26,6 +26,11 @@ public class InventoryRuneBag implements IInventory{
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
 	public ItemStack getStackInSlot(int i){
 		if (i < 0 || i > inventoryItems.length - 1){
 			return null;
@@ -102,6 +107,11 @@ public class InventoryRuneBag implements IInventory{
 
 	@Override
 	public void markDirty(){
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return true;
 	}
 
 	@Override

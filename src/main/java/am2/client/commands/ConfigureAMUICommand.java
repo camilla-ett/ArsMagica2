@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import am2.client.gui.GuiHudCustomization;
+import com.sun.xml.internal.bind.v2.TODO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -41,6 +42,17 @@ public class ConfigureAMUICommand extends CommandBase{
 		ArrayList<String> aliases = new ArrayList<String>();
 		aliases.add("AMUICFG");
 		return aliases;
+	}
+
+	@Override
+	public String getName() {
+		return null;
+	}
+
+	@Override
+	public String getUsage(ICommandSender sender) {
+		//TODO: Implement this and getname properly
+		return null;
 	}
 
 	@Override
