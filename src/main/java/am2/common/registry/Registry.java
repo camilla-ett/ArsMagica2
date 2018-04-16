@@ -15,15 +15,15 @@ import java.util.List;
 public class Registry {
 
     private static List<Item> itemsToRegister;
-    private static List<Item> blocksToRegister;
+    private static List<Block> blocksToRegister;
 
     public static List<Item> GetItemsToRegister() {
         if (itemsToRegister == null) itemsToRegister = new ArrayList<>();
         return itemsToRegister;
     }
 
-    public static List<Item> GetBlocksToRegister() {
-        if (blocksToRegister == null) blocksToRegister = new ArrayList<Item>();
+    public static List<Block> GetBlocksToRegister() {
+        if (blocksToRegister == null) blocksToRegister = new ArrayList<>();
         return blocksToRegister;
     }
 

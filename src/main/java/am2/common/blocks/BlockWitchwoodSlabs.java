@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import am2.common.defs.BlockDefs;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -15,6 +16,8 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BlockWitchwoodSlabs extends BlockSlab{
 	
@@ -27,13 +30,14 @@ public abstract class BlockWitchwoodSlabs extends BlockSlab{
 		this.setHarvestLevel("axe", 2);
 		setDefaultState(isDouble() ? blockState.getBaseState().withProperty(SLAB_TYPE, EnumSlabType.WITCHWOOD) : blockState.getBaseState().withProperty(SLAB_TYPE, EnumSlabType.WITCHWOOD).withProperty(HALF, EnumBlockHalf.BOTTOM));
 	}
-	
+
+	/*
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		drops.add(new ItemStack(BlockDefs.witchwoodSingleSlab, isDouble() ? 2 : 1, state.getValue(SLAB_TYPE).ordinal()));
 		return drops;
-	}
+	}*/
 	
 	@Override
 	public String getUnlocalizedName(int meta) {
@@ -65,7 +69,8 @@ public abstract class BlockWitchwoodSlabs extends BlockSlab{
 			meta |= 0x8;
 		return meta;
 	}
-	
+
+	/*
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumSlabType slabType = EnumSlabType.byMeta(meta);
@@ -73,9 +78,9 @@ public abstract class BlockWitchwoodSlabs extends BlockSlab{
 		if (!isDouble())
 			state = state.withProperty(HALF, (meta & 0x8) == 0x8 ? EnumBlockHalf.TOP : EnumBlockHalf.BOTTOM);
 		return state;
-	}
+	}*/
 	
-	public static enum EnumSlabType implements IStringSerializable {
+	public enum EnumSlabType implements IStringSerializable {
 		WITCHWOOD;
 
 		@Override
@@ -85,7 +90,7 @@ public abstract class BlockWitchwoodSlabs extends BlockSlab{
 		
 		public static EnumSlabType byMeta(int meta) {
 			meta &= 0x7;
-			meta = MathHelper.clamp_int(meta, 0, values().length - 1);
+			meta = MathHelper.clamp(meta, 0, values().length - 1);
 			return values()[meta];
 		}
 	}
