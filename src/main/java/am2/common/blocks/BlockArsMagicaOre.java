@@ -80,7 +80,7 @@ public class BlockArsMagicaOre extends BlockAM {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(ORE_TYPE, EnumOreType.values()[MathHelper.clamp_int(meta, 0, EnumOreType.values().length - 1)]);
+		return getDefaultState().withProperty(ORE_TYPE, EnumOreType.values()[MathHelper.clamp(meta, 0, EnumOreType.values().length - 1)]);
 	}
 	
 	@Override

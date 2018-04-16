@@ -356,7 +356,7 @@ public class CommonProxy implements IGuiHandler{
 		worldGen = new AM2WorldDecorator();
 		SoundDefs.registerSounds();
 		GameRegistry.registerWorldGenerator(worldGen, 0);
-		GameRegistry.registerFuelHandler(new FuelHandler());
+		MinecraftForge.EVENT_BUS.register(FuelHandler.class);
 		EntityManager.instance.registerEntities();
 		EntityManager.instance.initializeSpawns();
 		AMEnchantments.Init();
