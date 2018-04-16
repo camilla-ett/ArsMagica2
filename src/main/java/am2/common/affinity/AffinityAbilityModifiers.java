@@ -1,7 +1,5 @@
 package am2.common.affinity;
 
-import java.util.UUID;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -10,6 +8,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.UUID;
 
 public class AffinityAbilityModifiers {
 
@@ -73,7 +73,7 @@ public class AffinityAbilityModifiers {
 	}
 
 	public boolean isOnIce(EntityPlayer ent){
-		AxisAlignedBB par1AxisAlignedBB = ent.getEntityBoundingBox().expand(0.0D, -0.4000000059604645D, 0.0D).contract(0.001D);
+		AxisAlignedBB par1AxisAlignedBB = ent.getEntityBoundingBox().expand(0.0D, -0.4000000059604645D, 0.0D).contract(0.001D, 0, 0);
 		int i = MathHelper.floor(par1AxisAlignedBB.minX);
 		int j = MathHelper.floor(par1AxisAlignedBB.maxX + 1.0D);
 		int k = MathHelper.floor(par1AxisAlignedBB.minY - 1.0D);
