@@ -1,7 +1,5 @@
 package am2.client.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.ArsMagica2;
 import am2.common.blocks.tileentity.TileEntityBlackAurem;
 import net.minecraft.client.Minecraft;
@@ -10,11 +8,12 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class TileBlackAuremRenderer extends TileEntitySpecialRenderer<TileEntityBlackAurem> {
 	
 	@Override
-	public void renderTileEntityAt(TileEntityBlackAurem te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityBlackAurem te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushAttrib();
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x + 0.5, y + 1, z + 0.5);

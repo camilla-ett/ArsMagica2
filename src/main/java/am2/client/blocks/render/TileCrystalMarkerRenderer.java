@@ -1,7 +1,5 @@
 package am2.client.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.common.blocks.BlockCrystalMarker;
 import am2.common.blocks.tileentity.TileEntityCrystalMarker;
 import am2.common.defs.BlockDefs;
@@ -19,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.TRSRTransformation;
+import org.lwjgl.opengl.GL11;
 
 public class TileCrystalMarkerRenderer extends TileEntitySpecialRenderer<TileEntityCrystalMarker>{
 	private IModel model;
@@ -41,7 +40,7 @@ public class TileCrystalMarkerRenderer extends TileEntitySpecialRenderer<TileEnt
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntityCrystalMarker tileentity, double x, double y, double z, float partialTicks, int destroyStage){
+	public void render(TileEntityCrystalMarker tileentity, double x, double y, double z, float partialTicks, int destroyStage, float alpha){
 		EnumFacing facing = EnumFacing.UP;
 		
 		if (tileentity.getWorld() != null){

@@ -1,7 +1,5 @@
 package am2.client.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.client.gui.AMGuiHelper;
 import am2.client.models.ModelCalefactor;
 import am2.common.blocks.tileentity.TileEntityCalefactor;
@@ -10,6 +8,7 @@ import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class TileCalefactorRenderer extends TileEntitySpecialRenderer<TileEntityCalefactor>{
 
@@ -23,7 +22,7 @@ public class TileCalefactorRenderer extends TileEntitySpecialRenderer<TileEntity
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntityCalefactor tile, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityCalefactor tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		if (renderItem == null)
 			renderItem = new RenderEntityItem(Minecraft.getMinecraft().getRenderManager(), Minecraft.getMinecraft().getRenderItem());
 		int i = 0;
@@ -110,7 +109,7 @@ public class TileCalefactorRenderer extends TileEntitySpecialRenderer<TileEntity
 	}
 
 	private void RenderItemAtCoords(ItemStack item, double x, double y, double z, float partialTicks){
-		AMGuiHelper.instance.dummyItem.setEntityItemStack(item);
+		AMGuiHelper.instance.dummyItem.setItem(item);
 		renderItem.doRender(AMGuiHelper.instance.dummyItem, x, y, z, AMGuiHelper.instance.dummyItem.rotationYaw, partialTicks);
 	}
 

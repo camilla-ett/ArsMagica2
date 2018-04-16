@@ -1,12 +1,11 @@
 package am2.client.blocks.render;
 
 
-import org.lwjgl.opengl.GL11;
-
 import am2.client.models.ModelMagiciansWorkbench;
 import am2.common.blocks.tileentity.TileEntityMagiciansWorkbench;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class TileMagiciansWorkbenchRenderer extends TileEntitySpecialRenderer<TileEntityMagiciansWorkbench>{
 
@@ -18,7 +17,7 @@ public class TileMagiciansWorkbenchRenderer extends TileEntitySpecialRenderer<Ti
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntityMagiciansWorkbench tile, double x, double y, double z, float f, int destroyStage){
+	public void render(TileEntityMagiciansWorkbench tile, double x, double y, double z, float f, int destroyStage, float alpha){
 		int i = 3;
 
 		if (destroyStage != -10 && tile.getWorld() != null){

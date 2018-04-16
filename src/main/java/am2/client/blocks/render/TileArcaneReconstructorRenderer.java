@@ -1,16 +1,13 @@
 package am2.client.blocks.render;
 
-import net.minecraft.client.renderer.BufferBuilder;
-import org.lwjgl.opengl.GL11;
-
-import com.google.common.base.Function;
-
 import am2.api.math.AMVector3;
 import am2.client.gui.AMGuiHelper;
 import am2.common.blocks.tileentity.TileEntityArcaneReconstructor;
 import am2.common.defs.BlockDefs;
+import com.google.common.base.Function;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -95,7 +92,7 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 	}
 
 	private void RenderItemAtCoords(ItemStack item, double x, double y, double z, float partialTick){
-		item.stackSize = 1;
+		item.setCount(1);
 		AMGuiHelper.instance.dummyItem.setItem(item);
 		renderItem.doRender(AMGuiHelper.instance.dummyItem, x, y, z, AMGuiHelper.instance.dummyItem.rotationYaw, partialTick);
 	}

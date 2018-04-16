@@ -1,13 +1,10 @@
 package am2.client.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableMap;
-
 import am2.common.blocks.BlockEssenceGenerator;
 import am2.common.blocks.tileentity.TileEntityObelisk;
 import am2.common.defs.BlockDefs;
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -27,6 +24,7 @@ import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.common.model.TRSRTransformation;
+import org.lwjgl.opengl.GL11;
 
 public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObelisk> {
 	
@@ -60,7 +58,7 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
     }
 	
 	@Override
-	public void renderTileEntityAt(TileEntityObelisk te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityObelisk te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         if (!te.getWorld().isBlockLoaded(te.getPos(), false) || te.getWorld().getBlockState(te.getPos()).getBlock() != BlockDefs.obelisk)
             return;
         GlStateManager.pushAttrib();
@@ -70,7 +68,7 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
         GlStateManager.pushMatrix();
         RenderHelper.disableStandardItemLighting();
         EnumFacing facing = EnumFacing.NORTH;
-        if (te.hasWorldObj()) {
+        if (te.hasWorld()) {
             IBlockState state = te.getWorld().getBlockState(te.getPos());
             facing = state.getValue(BlockEssenceGenerator.FACING);
         }
@@ -87,10 +85,10 @@ public class TileObeliskRenderer extends TileEntitySpecialRenderer<TileEntityObe
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         Tessellator tessellator = Tessellator.getInstance();
         tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-        if (te.hasWorldObj())
+        if (te.hasWorld())
             Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(te.getWorld(), getBakedModel(te), te.getWorld().getBlockState(te.getPos()), te.getPos(), tessellator.getBuffer(), false);
         else
-            Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(Minecraft.getMinecraft().theWorld, getBakedModel(te), BlockDefs.obelisk.getDefaultState(), new BlockPos(0, 0, 0), tessellator.getBuffer(), false);
+            Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(Minecraft.getMinecraft().world, getBakedModel(te), BlockDefs.obelisk.getDefaultState(), new BlockPos(0, 0, 0), tessellator.getBuffer(), false);
         tessellator.draw();
         if (te.isActive()) {
             GlStateManager.matrixMode(GL11.GL_TEXTURE);

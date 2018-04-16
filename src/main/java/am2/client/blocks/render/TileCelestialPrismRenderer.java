@@ -1,7 +1,5 @@
 package am2.client.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.common.blocks.BlockEssenceGenerator;
 import am2.common.blocks.tileentity.TileEntityCelestialPrism;
 import am2.common.defs.BlockDefs;
@@ -20,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.TRSRTransformation;
+import org.lwjgl.opengl.GL11;
 
 public class TileCelestialPrismRenderer extends TileEntitySpecialRenderer<TileEntityCelestialPrism> {
 	
@@ -38,7 +37,7 @@ public class TileCelestialPrismRenderer extends TileEntitySpecialRenderer<TileEn
 	}
 	
 	@Override
-	public void renderTileEntityAt(TileEntityCelestialPrism te, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntityCelestialPrism te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushAttrib();
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
@@ -68,7 +67,7 @@ public class TileCelestialPrismRenderer extends TileEntitySpecialRenderer<TileEn
 		if (x != 0 || y != 0 || z != 0) {
 			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(te.getWorld(), this.getBakedModel(), te.getWorld().getBlockState(te.getPos()), te.getPos(), tessellator.getBuffer(), false);
 		} else {
-			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(Minecraft.getMinecraft().theWorld, this.getBakedModel(), BlockDefs.celestialPrism.getDefaultState(), BlockPos.ORIGIN, tessellator.getBuffer(), false);
+			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(Minecraft.getMinecraft().world, this.getBakedModel(), BlockDefs.celestialPrism.getDefaultState(), BlockPos.ORIGIN, tessellator.getBuffer(), false);
 		}
 		tessellator.draw();
 		RenderHelper.enableStandardItemLighting();

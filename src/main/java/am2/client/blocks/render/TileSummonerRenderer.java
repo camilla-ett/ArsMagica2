@@ -1,11 +1,10 @@
 package am2.client.blocks.render;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.client.models.ModelSummoner;
 import am2.common.blocks.tileentity.TileEntitySummoner;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class TileSummonerRenderer extends TileEntitySpecialRenderer<TileEntitySummoner>{
 	private ResourceLocation rLoc;
@@ -19,7 +18,7 @@ public class TileSummonerRenderer extends TileEntitySpecialRenderer<TileEntitySu
 	}
 	
 	@Override
-	public void renderTileEntityAt(TileEntitySummoner tile, double x, double y, double z, float partialTicks, int destroyStage) {
+	public void render(TileEntitySummoner tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		int i = 2;
 		int y2 = 0;
 
