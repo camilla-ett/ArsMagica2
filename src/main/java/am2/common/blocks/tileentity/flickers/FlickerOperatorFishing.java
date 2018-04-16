@@ -81,7 +81,7 @@ public class FlickerOperatorFishing extends AbstractFlickerFunctionality{
 					if (i == 0 && j == 0 && k == 0)
 						continue;
 					TileEntity te = worldObj.getTileEntity(pos.add(i, j, k));
-					if (te != null && te instanceof IInventory){
+					if (te instanceof IInventory){
 						for (EnumFacing facing : EnumFacing.values()){
 							if (InventoryUtilities.mergeIntoInventory((IInventory)te, stack, stack.stackSize, facing))
 								return;
@@ -94,8 +94,8 @@ public class FlickerOperatorFishing extends AbstractFlickerFunctionality{
 		//eject the remainder
 		EntityItem item = new EntityItem(worldObj);
 		item.setPosition(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
-		item.setEntityItemStack(stack);
-		worldObj.spawnEntityInWorld(item);
+		item.setItem(stack);
+		worldObj.spawnEntity(item);
 	}
 
 	@Override
@@ -122,10 +122,10 @@ public class FlickerOperatorFishing extends AbstractFlickerFunctionality{
 				" F ",
 				"N W",
 				" R ",
-				Character.valueOf('F'), Items.FISH,
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
-				Character.valueOf('R'), Items.FISHING_ROD
+				'F', Items.FISH,
+				'W', new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)),
+				'N', new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
+				'R', Items.FISHING_ROD
 		};
 	}
 	

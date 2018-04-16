@@ -158,7 +158,7 @@ public class Summon extends SpellComponent{
 				}
 			}else{
 				if (caster instanceof EntityPlayer){
-					((EntityPlayer)caster).addChatMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
+					((EntityPlayer)caster).sendMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
 				}
 			}
 		}
@@ -179,7 +179,7 @@ public class Summon extends SpellComponent{
 				}
 			}else{
 				if (caster instanceof EntityPlayer){
-					((EntityPlayer)caster).addChatComponentMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
+					((EntityPlayer)caster).sendMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
 				}
 			}
 		}
