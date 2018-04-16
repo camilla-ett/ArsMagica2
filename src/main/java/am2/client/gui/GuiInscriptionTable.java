@@ -1,13 +1,5 @@
 package am2.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.SkillRegistry;
 import am2.api.SpellRegistry;
@@ -36,6 +28,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GuiInscriptionTable extends GuiContainer{
 
@@ -111,11 +110,11 @@ public class GuiInscriptionTable extends GuiContainer{
 		super.initGui();
 		searchFieldPosition = new AMVector2(39, 59);
 		searchFieldDimensions = new AMVector2(141, 12);
-		searchBar = new GuiTextField(0, Minecraft.getMinecraft().fontRendererObj, searchFieldPosition.iX, searchFieldPosition.iY, searchFieldDimensions.iX, searchFieldDimensions.iY);
+		searchBar = new GuiTextField(0, Minecraft.getMinecraft().fontRenderer, searchFieldPosition.iX, searchFieldPosition.iY, searchFieldDimensions.iX, searchFieldDimensions.iY);
 
 		nameFieldPosition = new AMVector2(39, 93);
 		nameFieldDimensions = new AMVector2(141, 12);
-		nameBar = new GuiTextField(1, Minecraft.getMinecraft().fontRendererObj, nameFieldPosition.iX, nameFieldPosition.iY, nameFieldDimensions.iX, nameFieldDimensions.iY);
+		nameBar = new GuiTextField(1, Minecraft.getMinecraft().fontRenderer, nameFieldPosition.iX, nameFieldPosition.iY, nameFieldDimensions.iX, nameFieldDimensions.iY);
 
 
 		int l = (width - xSize) / 2;
@@ -360,7 +359,7 @@ public class GuiInscriptionTable extends GuiContainer{
 		if (result.valid){
 			if (((ContainerInscriptionTable)this.inventorySlots).slotHasStack(0)){
 				if (((ContainerInscriptionTable)this.inventorySlots).slotIsBook(0)){
-					Minecraft.getMinecraft().fontRendererObj.drawSplitString(I18n.format("am2.gui.bookOut"), 225, 5, 100, 0xFF7700);
+					Minecraft.getMinecraft().fontRenderer.drawSplitString(I18n.format("am2.gui.bookOut"), 225, 5, 100, 0xFF7700);
 				}else{
 					resetSpellButton.visible = true;
 				}
@@ -375,13 +374,13 @@ public class GuiInscriptionTable extends GuiContainer{
 			}else{
 				resetSpellButton.visible = false;
 			}
-			Minecraft.getMinecraft().fontRendererObj.drawSplitString(result.message, 225, 5, 100, 0xFF7700);
+			Minecraft.getMinecraft().fontRenderer.drawSplitString(result.message, 225, 5, 100, 0xFF7700);
 			createSpellButton.enabled = false;
 		}
 
 		if (!dragging){
 			if (hovering){
-				drawHoveringText(label, lastMouseX, lastMouseY, Minecraft.getMinecraft().fontRendererObj);
+				drawHoveringText(label, lastMouseX, lastMouseY, Minecraft.getMinecraft().fontRenderer);
 			}else{
 				hoveredItem = null;
 				hoveredIcon = null;
@@ -394,8 +393,8 @@ public class GuiInscriptionTable extends GuiContainer{
 	}
 
 	private void drawBookIcon(){
-		int bookX = this.inventorySlots.getSlot(0).xDisplayPosition;
-		int bookY = this.inventorySlots.getSlot(0).yDisplayPosition;
+		int bookX = this.inventorySlots.getSlot(0).xPos;
+		int bookY = this.inventorySlots.getSlot(0).yPos;
 
 		TextureAtlasSprite icon = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getParticleIcon(Items.WRITABLE_BOOK);
 

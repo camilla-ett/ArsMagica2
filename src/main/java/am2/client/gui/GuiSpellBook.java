@@ -1,9 +1,5 @@
 package am2.client.gui;
 
-import java.io.IOException;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.common.container.ContainerSpellBook;
 import am2.common.container.InventorySpellBook;
 import am2.common.items.ItemSpellBook;
@@ -12,6 +8,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+import java.io.IOException;
 
 
 public class GuiSpellBook extends GuiContainer{
@@ -51,14 +50,14 @@ public class GuiSpellBook extends GuiContainer{
 			int maxWidth = 120;
 			int line = 1;
 			for (String s : nameParts){
-				int width = fontRendererObj.getStringWidth(s);
+				int width = fontRenderer.getStringWidth(s);
 				if (X + width > maxWidth && line == 1){
-					Y += fontRendererObj.FONT_HEIGHT;
+					Y += fontRenderer.FONT_HEIGHT;
 					line++;
 					X = 37;
 				}
-				fontRendererObj.drawString(s.replace("\247b", ""), X, Y, 0x404040);
-				X += fontRendererObj.getStringWidth(s + " ");
+				fontRenderer.drawString(s.replace("\247b", ""), X, Y, 0x404040);
+				X += fontRenderer.getStringWidth(s + " ");
 			}
 		}
 

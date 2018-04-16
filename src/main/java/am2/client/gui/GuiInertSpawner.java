@@ -4,20 +4,17 @@
 package am2.client.gui;
 
 
-import org.lwjgl.opengl.GL11;
-
 import am2.common.blocks.tileentity.TileEntityInertSpawner;
 import am2.common.container.ContainerInertSpawner;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class GuiInertSpawner extends GuiContainer{
 
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/FlickerHabitat.png");
-	/**
-	 * @param par1Container
-	 */
+
 	public GuiInertSpawner(EntityPlayer player, TileEntityInertSpawner tileEntityFlickerHabitat){
 		super(new ContainerInertSpawner(player, tileEntityFlickerHabitat));
 		xSize = 176;

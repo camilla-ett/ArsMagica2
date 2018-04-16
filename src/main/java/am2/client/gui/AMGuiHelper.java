@@ -1,22 +1,5 @@
 package am2.client.gui;
 
-import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-
-import am2.api.skill.Skill;
-import net.minecraft.client.renderer.*;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.lwjgl.opengl.EXTFramebufferObject;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLContext;
-
 import am2.api.ArsMagicaAPI;
 import am2.client.particles.AMParticleIcons;
 import am2.client.texture.SpellIconManager;
@@ -30,6 +13,7 @@ import am2.common.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
 import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -41,6 +25,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.EXTFramebufferObject;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
+import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
 
 @SideOnly(Side.CLIENT)
 public class AMGuiHelper{
@@ -305,7 +301,8 @@ public class AMGuiHelper{
 			if (stack.getItem() instanceof ItemSpellComponent) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
 				//Sqbi ezt neked hagyom, már ha ránézek az undor fog el
-				TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(ArsMagicaAPI.getSpellRegistry().getValue(ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage()).getRegistryName()).getRegistryName().toString());
+				//Megvan :D
+				TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(ArsMagicaAPI.getSpellRegistry().getValue(stack.getItem().getRegistryName()).getRegistryName().getResourceDomain());
 				GlStateManager.color(1, 1, 1, 1);
 				if (icon != null)
 					DrawIconAtXY(icon, x, y, zLevel + 1, 16, 16, false);

@@ -1,10 +1,5 @@
 package am2.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementTiers;
 import am2.common.armor.ArmorHelper;
@@ -23,6 +18,10 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class GuiArmorImbuer extends GuiContainer{
 
@@ -264,7 +263,7 @@ public class GuiArmorImbuer extends GuiContainer{
 		drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
 
 		if (hoverLines.size() > 0)
-			AMGuiHelper.drawHoveringText(hoverLines, i, j, fontRendererObj, width, height);
+			AMGuiHelper.drawHoveringText(hoverLines, i, j, fontRenderer, width, height);
 	}
 
 	private void drawInfusionIconAt(int x, int y, boolean active){

@@ -1,14 +1,5 @@
 package am2.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import am2.client.gui.controls.GuiButtonVariableDims;
 import am2.common.blocks.tileentity.TileEntityMagiciansWorkbench;
 import am2.common.blocks.tileentity.TileEntityMagiciansWorkbench.RememberedRecipe;
@@ -23,6 +14,14 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GuiMagiciansWorkbench extends GuiContainer{
 
@@ -69,13 +68,13 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 		if (par1GuiButton == clearGridOne){
 			for (int i = 0; i < 9; ++i){
 				Slot slot = this.inventorySlots.getSlot(i);
-				this.mc.playerController.windowClick(this.inventorySlots.windowId, slot.slotNumber, 0, ClickType.THROW, this.mc.thePlayer);
+				this.mc.playerController.windowClick(this.inventorySlots.windowId, slot.slotNumber, 0, ClickType.THROW, this.mc.player);
 			}
 		}else if (par1GuiButton == clearGridTwo){
 			int stop = ((ContainerMagiciansWorkbench)this.inventorySlots).getWorkbench().getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT) ? 9 : 4;
 			for (int i = 10; i < 10 + stop; ++i){
 				Slot slot = this.inventorySlots.getSlot(i);
-				this.mc.playerController.windowClick(this.inventorySlots.windowId, slot.slotNumber, 0, ClickType.THROW, this.mc.thePlayer);
+				this.mc.playerController.windowClick(this.inventorySlots.windowId, slot.slotNumber, 0, ClickType.THROW, this.mc.player);
 			}
 		}
 	}
@@ -183,7 +182,7 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 		int i1 = (height - ySize) / 2;
 
 		if (ttList.size() > 0){
-			drawHoveringText(ttList, mouseX - l, mouseY - i1, fontRendererObj, color);
+			drawHoveringText(ttList, mouseX - l, mouseY - i1, fontRenderer, color);
 		}
 	}
 

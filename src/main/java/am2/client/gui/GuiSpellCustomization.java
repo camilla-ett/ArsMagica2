@@ -1,9 +1,5 @@
 package am2.client.gui;
 
-import java.io.IOException;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.ArsMagica2;
 import am2.client.gui.controls.GuiButtonVariableDims;
 import am2.client.gui.controls.GuiSpellImageButton;
@@ -18,6 +14,9 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+import java.io.IOException;
 
 public class GuiSpellCustomization extends GuiContainer{
 
@@ -101,9 +100,9 @@ public class GuiSpellCustomization extends GuiContainer{
 		int i1 = (height - ySize) / 2;
 
 		if (ArsMagica2.config.suggestSpellNames())
-			spellName = new GuiTextField(0, fontRendererObj, l + 8, i1 + 8, xSize - 36, 16);
+			spellName = new GuiTextField(0, fontRenderer, l + 8, i1 + 8, xSize - 36, 16);
 		else
-			spellName = new GuiTextField(0, fontRendererObj, l + 8, i1 + 8, xSize - 16, 16);
+			spellName = new GuiTextField(0, fontRenderer, l + 8, i1 + 8, xSize - 16, 16);
 
 		String suggestion = ((ContainerSpellCustomization)this.inventorySlots).getInitialSuggestedName();
 		spellName.setText(suggestion);

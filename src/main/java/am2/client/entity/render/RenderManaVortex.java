@@ -1,9 +1,5 @@
 package am2.client.entity.render;
 
-import java.util.Random;
-
-import org.lwjgl.opengl.GL11;
-
 import am2.common.entity.EntityManaVortex;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -15,6 +11,9 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class RenderManaVortex extends Render<EntityManaVortex>{
@@ -35,7 +34,7 @@ public class RenderManaVortex extends Render<EntityManaVortex>{
 
 	@Override
 	public void doRender(EntityManaVortex var1, double var2, double var4, double var6, float var8, float var9){
-		if (var1 == null || !var1.worldObj.isRemote){
+		if (var1 == null || !var1.world.isRemote){
 			return;
 		}
 		GL11.glPushMatrix();

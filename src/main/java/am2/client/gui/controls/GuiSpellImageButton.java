@@ -1,13 +1,12 @@
 package am2.client.gui.controls;
 
-import org.lwjgl.opengl.GL11;
-
 import am2.client.gui.AMGuiIcons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import org.lwjgl.opengl.GL11;
 
 public class GuiSpellImageButton extends GuiButtonVariableDims{
 	/**
@@ -45,23 +44,23 @@ public class GuiSpellImageButton extends GuiButtonVariableDims{
 	 * Draws this button to the screen.
 	 */
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
+	public void drawButton(Minecraft par1Minecraft, int par2, int par3, float partialTicks){
 		if (this.visible){
-			boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
+			boolean isMousedOver = par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height;
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			par1Minecraft.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 			if (isMousedOver){
 				GL11.glColor4f(0.6f, 0.6f, 0.6f, 1.0f);
 				if (this.hoverTextLines.size() > 0){
-					drawHoveringText(hoverTextLines, par2, par3, Minecraft.getMinecraft().fontRendererObj);
+					drawHoveringText(hoverTextLines, par2, par3, Minecraft.getMinecraft().fontRenderer);
 				}
 			}
 
 			GL11.glDisable(GL11.GL_LIGHTING);
-			this.drawTexturedModelRectFromIcon(this.xPosition, this.yPosition, this.icon, this.width, this.height);
+			this.drawTexturedModelRectFromIcon(this.x, this.y, this.icon, this.width, this.height);
 			if (this.isSelected){
-				this.drawTexturedModelRectFromIcon(this.xPosition, this.yPosition, AMGuiIcons.frame, this.width, this.height);
+				this.drawTexturedModelRectFromIcon(this.x, this.y, AMGuiIcons.frame, this.width, this.height);
 			}
 			GL11.glEnable(GL11.GL_LIGHTING);
 		}

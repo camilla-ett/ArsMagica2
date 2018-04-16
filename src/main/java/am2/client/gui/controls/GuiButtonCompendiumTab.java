@@ -1,12 +1,5 @@
 package am2.client.gui.controls;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import am2.api.compendium.CompendiumCategory;
 import am2.client.gui.AMGuiHelper;
 import am2.client.particles.AMParticleIcons;
@@ -18,6 +11,12 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GuiButtonCompendiumTab extends GuiButton{
 
@@ -34,7 +33,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 
 	public GuiButtonCompendiumTab(int id, int xPos, int yPos, CompendiumCategory category){
 		super(id, xPos, yPos, sourceWidth, sourceHeight, category.getCategoryName());
-		this.width = category.getTexture() == null ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(category.getCategoryName()) : 20;
+		this.width = category.getTexture() == null ? Minecraft.getMinecraft().fontRenderer.getStringWidth(category.getCategoryName()) : 20;
 		this.categoryID = category.getID();
 		this.displayIcon = category.getTexture();
 		this.category = category;
@@ -65,9 +64,9 @@ public class GuiButtonCompendiumTab extends GuiButton{
 	 * Draws this button to the screen.
 	 */
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3){
+	public void drawButton(Minecraft par1Minecraft, int par2, int par3, float partialTicks){
 		if (this.visible){
-			boolean isMousedOver = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
+			boolean isMousedOver = par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height;
 			GL11.glColor4f(0.6f, 0.6f, 0.6f, 1.0f);
 			par1Minecraft.renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumIndexGui.png"));
 
@@ -79,18 +78,18 @@ public class GuiButtonCompendiumTab extends GuiButton{
 			int v = 240;
 
 			GL11.glDisable(GL11.GL_LIGHTING);
-			this.drawTexturedModalRect_Classic(this.xPosition, this.yPosition, u, v, this.width * 4, this.height, 138, 16);
+			this.drawTexturedModalRect_Classic(this.x, this.y, u, v, this.width * 4, this.height, 138, 16);
 			if (hasNew){
 				GL11.glColor4f(1, 1, 1, 0.7f);
-				AMGuiHelper.DrawIconAtXY(AMParticleIcons.instance.getIconByName("lights"), this.xPosition + (this.width / 3) - 1, this.yPosition + 1, this.zLevel, 16, 16, true);
+				AMGuiHelper.DrawIconAtXY(AMParticleIcons.instance.getIconByName("lights"), this.x + (this.width / 3) - 1, this.y + 1, this.zLevel, 16, 16, true);
 			}
 			if (displayIcon != null){
 				par1Minecraft.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-				AMGuiHelper.DrawIconAtXY(displayIcon, this.xPosition + (this.width / 3), this.yPosition + 2, this.zLevel, 14, 14, true);
+				AMGuiHelper.DrawIconAtXY(displayIcon, this.x + (this.width / 3), this.y + 2, this.zLevel, 14, 14, true);
 			}else{
 				GL11.glColor4f(0, 0, 0, 1);
 				
-				Minecraft.getMinecraft().fontRendererObj.drawString(this.displayString, this.xPosition + (this.width / 4), this.yPosition + 2, 0x000000);
+				Minecraft.getMinecraft().fontRenderer.drawString(this.displayString, this.x + (this.width / 4), this.y + 2, 0x000000);
 			}
 			GL11.glEnable(GL11.GL_LIGHTING);
 
@@ -98,7 +97,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 				List<String> list = new ArrayList<String>();
 				list.add(this.displayString);
 
-				drawHoveringText(list, par2, par3, Minecraft.getMinecraft().fontRendererObj);
+				drawHoveringText(list, par2, par3, Minecraft.getMinecraft().fontRenderer);
 			}
 		}
 	}

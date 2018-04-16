@@ -1,11 +1,5 @@
 package am2.client.gui;
 
-import java.io.IOException;
-import java.util.HashMap;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
 import am2.ArsMagica2;
 import am2.api.math.AMVector2;
 import am2.client.gui.controls.GuiButtonVariableDims;
@@ -14,6 +8,11 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 public class GuiHudCustomization extends GuiScreen{
 	private GuiButtonVariableDims manaButton;
@@ -380,18 +379,18 @@ public class GuiHudCustomization extends GuiScreen{
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition, button.yPosition + button.getDimensions().iY / 2, this.zLevel);
-		GL11.glVertex3f(0, button.yPosition + button.getDimensions().iY / 2, this.zLevel);
+		GL11.glVertex3f(button.x, button.y + button.getDimensions().iY / 2, this.zLevel);
+		GL11.glVertex3f(0, button.y + button.getDimensions().iY / 2, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(0, button.yPosition + button.getDimensions().iY / 2, this.zLevel);
-		GL11.glVertex3f(5, button.yPosition + button.getDimensions().iY / 2 - 5, this.zLevel);
+		GL11.glVertex3f(0, button.y + button.getDimensions().iY / 2, this.zLevel);
+		GL11.glVertex3f(5, button.y + button.getDimensions().iY / 2 - 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(0, button.yPosition + button.getDimensions().iY / 2, this.zLevel);
-		GL11.glVertex3f(5, button.yPosition + button.getDimensions().iY / 2 + 5, this.zLevel);
+		GL11.glVertex3f(0, button.y + button.getDimensions().iY / 2, this.zLevel);
+		GL11.glVertex3f(5, button.y + button.getDimensions().iY / 2 + 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -409,18 +408,18 @@ public class GuiHudCustomization extends GuiScreen{
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX, button.yPosition + button.getDimensions().iY / 2, this.zLevel);
-		GL11.glVertex3f(screenWidth, button.yPosition + button.getDimensions().iY / 2, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX, button.y + button.getDimensions().iY / 2, this.zLevel);
+		GL11.glVertex3f(screenWidth, button.y + button.getDimensions().iY / 2, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(screenWidth, button.yPosition + button.getDimensions().iY / 2, this.zLevel);
-		GL11.glVertex3f(screenWidth - 5, button.yPosition + button.getDimensions().iY / 2 - 5, this.zLevel);
+		GL11.glVertex3f(screenWidth, button.y + button.getDimensions().iY / 2, this.zLevel);
+		GL11.glVertex3f(screenWidth - 5, button.y + button.getDimensions().iY / 2 - 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(screenWidth, button.yPosition + button.getDimensions().iY / 2, this.zLevel);
-		GL11.glVertex3f(screenWidth - 5, button.yPosition + button.getDimensions().iY / 2 + 5, this.zLevel);
+		GL11.glVertex3f(screenWidth, button.y + button.getDimensions().iY / 2, this.zLevel);
+		GL11.glVertex3f(screenWidth - 5, button.y + button.getDimensions().iY / 2 + 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -438,18 +437,18 @@ public class GuiHudCustomization extends GuiScreen{
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, button.yPosition, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, 0, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2, button.y, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2, 0, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, 0, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2 + 5, 5, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2, 0, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2 + 5, 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, 0, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2 - 5, 5, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2, 0, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2 - 5, 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -467,18 +466,18 @@ public class GuiHudCustomization extends GuiScreen{
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, button.yPosition + button.getDimensions().iY, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, screenHeight, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2, button.y + button.getDimensions().iY, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2, screenHeight, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, screenHeight, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2 + 5, screenHeight - 5, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2, screenHeight, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2 + 5, screenHeight - 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2, screenHeight, this.zLevel);
-		GL11.glVertex3f(button.xPosition + button.getDimensions().iX / 2 - 5, screenHeight - 5, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2, screenHeight, this.zLevel);
+		GL11.glVertex3f(button.x + button.getDimensions().iX / 2 - 5, screenHeight - 5, this.zLevel);
 		GL11.glEnd();
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);

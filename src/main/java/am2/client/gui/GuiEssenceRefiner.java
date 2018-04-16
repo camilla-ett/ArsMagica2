@@ -1,8 +1,5 @@
 package am2.client.gui;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import am2.common.blocks.tileentity.TileEntityEssenceRefiner;
 import am2.common.container.ContainerEssenceRefiner;
 import am2.common.power.PowerNodeRegistry;
@@ -12,6 +9,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 
 public class GuiEssenceRefiner extends GuiContainer{
@@ -43,10 +42,10 @@ public class GuiEssenceRefiner extends GuiContainer{
 		//rune circle
 		mc.renderEngine.bindTexture(extras);
 
-		if (active && PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).getHighestPower(essenceExtractorInventory) >= TileEntityEssenceRefiner.TICK_REFINE_COST)
+		if (active && PowerNodeRegistry.For(Minecraft.getMinecraft().world).getHighestPower(essenceExtractorInventory) >= TileEntityEssenceRefiner.TICK_REFINE_COST)
 			this.rotation += 0.05f;
 
-		if (essenceExtractorInventory.isRefining() && PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).getHighestPower(essenceExtractorInventory) < TileEntityEssenceRefiner.TICK_REFINE_COST && AMGuiHelper.instance.getFastTicker() % 20 < 10){
+		if (essenceExtractorInventory.isRefining() && PowerNodeRegistry.For(Minecraft.getMinecraft().world).getHighestPower(essenceExtractorInventory) < TileEntityEssenceRefiner.TICK_REFINE_COST && AMGuiHelper.instance.getFastTicker() % 20 < 10){
 			GL11.glColor4f(1, 0, 0, 0.5f);
 		}else{
 			GL11.glColor4f(baseColorRed + (colorShiftRed * percentComplete), baseColorGreen + (colorShiftGreen * percentComplete), baseColorBlue + (colorShiftBlue * percentComplete), 0.5f);
