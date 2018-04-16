@@ -24,11 +24,11 @@ public class AbilityShortCircuit extends AbstractAffinityAbility {
 
 	@Override
 	public void applyTick(EntityPlayer player) {
-		if (player.isWet() && !player.worldObj.isRemote){
+		if (player.isWet() && !player.world.isRemote){
 			if (player.getRNG().nextFloat() < 0.04f) {
 				EntityExtension.For(player).deductMana(100);
-				if (player.worldObj.isRemote){
-					ArsMagica2.proxy.particleManager.BoltFromEntityToPoint(player.worldObj, player, player.posX - 2 + player.getRNG().nextDouble() * 4, player.posY + player.getEyeHeight() - 2 + player.getRNG().nextDouble() * 4, player.posZ - 2 + player.getRNG().nextDouble() * 4);
+				if (player.world.isRemote){
+					ArsMagica2.proxy.particleManager.BoltFromEntityToPoint(player.world, player, player.posX - 2 + player.getRNG().nextDouble() * 4, player.posY + player.getEyeHeight() - 2 + player.getRNG().nextDouble() * 4, player.posZ - 2 + player.getRNG().nextDouble() * 4);
 				}
 			}
 //			else{

@@ -3,6 +3,7 @@ package am2.common.items;
 import java.util.List;
 
 import am2.common.utils.EntityUtils;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,6 +14,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 
 public class ItemJournal extends ItemArsMagica{
 
@@ -35,48 +38,48 @@ public class ItemJournal extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack journal, EntityPlayer player, List<String> list, boolean par4){
-		String owner = getOwner(journal);
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+		String owner = getOwner(stack);
 		if (owner == null){
-			list.add(I18n.format("am2.tooltip.unowned"));
-			list.add(I18n.format("am2.tooltip.journalUse"));
+			tooltip.add(I18n.format("am2.tooltip.unowned"));
+			tooltip.add(I18n.format("am2.tooltip.journalUse"));
 			return;
 		}else{
-			list.add(String.format(I18n.format("am2.tooltip.journalOwner")));
-			list.add(String.format(I18n.format("am2.tooltip.journalOwner2"), owner));
+			tooltip.add(String.format(I18n.format("am2.tooltip.journalOwner")));
+			tooltip.add(String.format(I18n.format("am2.tooltip.journalOwner2"), owner));
 		}
 
 		if (owner.equals(player.getName()))
-			list.add(String.format(I18n.format("am2.tooltip.containedXP"), getXPInJournal(journal)));
+			tooltip.add(String.format(I18n.format("am2.tooltip.containedXP"), getXPInJournal(stack)));
 
 		if (owner == null || owner.equals(player.getName()))
-			list.add(I18n.format("am2.tooltip.journalUse"));
+			tooltip.add(I18n.format("am2.tooltip.journalUse"));
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack journal, World world, EntityPlayer player, EnumHand hand){
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn){
 
-		if (!player.worldObj.isRemote){
-			if (getOwner(journal) == null){
-				setOwner(journal, player);
-			}else if (!getOwner(journal).equals(player.getName())){
-			  player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.notYourJournal")));
-				return super.onItemRightClick(journal, world, player, hand);
+		if (!player.world.isRemote){
+			if (getOwner(player.getHeldItem(handIn)) == null){
+				setOwner(player.getHeldItem(handIn), player);
+			}else if (!getOwner(player.getHeldItem(handIn)).equals(player.getName())){
+			  player.sendMessage(new TextComponentString(I18n.format("am2.tooltip.notYourJournal")));
+				return super.onItemRightClick(world, player, handIn);
 			}
 
 			if (player.isSneaking()){
 				int removedXP = EntityUtils.deductXP(10, player);
-				addXPToJournal(journal, removedXP);
+				addXPToJournal(player.getHeldItem(handIn), removedXP);
 			}else{
-				int amt = Math.min(getXPInJournal(journal), 10);
+				int amt = Math.min(getXPInJournal(player.getHeldItem(handIn)), 10);
 				if (amt > 0){
 					player.addExperience(amt);
-					deductXPFromJournal(journal, amt);
+					deductXPFromJournal(player.getHeldItem(handIn), amt);
 				}
 			}
 		}
 
-		return super.onItemRightClick(journal, world, player, hand);
+		return super.onItemRightClick(world, player, handIn);
 	}
 
 	private void addXPToJournal(ItemStack journal, int amount){
