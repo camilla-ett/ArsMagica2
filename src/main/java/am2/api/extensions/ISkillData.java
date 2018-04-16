@@ -50,7 +50,7 @@ public interface ISkillData {
 				if (skill.getKey() == null)
 					continue;
 				NBTTagCompound tmp = new NBTTagCompound();
-				tmp.setString("Skill", skill.getKey().getID());
+				tmp.setString("Skill", skill.getKey().getIDString());
 				tmp.setBoolean("Unlocked", skill.getValue());
 				skillList.appendTag(tmp);
 			}
