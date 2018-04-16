@@ -3,12 +3,13 @@ package am2.api;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class SpellBookRecipes extends ShapelessOreRecipe {
 
-	public SpellBookRecipes(ItemStack result, Object[] recipe) {
-		super(result, recipe);
+	public SpellBookRecipes(ResourceLocation rs, ItemStack result, Object[] recipe) {
+		super(rs, result, recipe);
 	}
 	
 	@Override

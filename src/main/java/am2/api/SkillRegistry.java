@@ -1,12 +1,11 @@
 package am2.api;
 
-import java.util.ArrayList;
-
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
 import am2.api.skill.SkillTree;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.ArrayList;
 
 public class SkillRegistry {
 	public static void registerSkill (String ID, ResourceLocation icon, SkillPoint tier, int posX, int posY, SkillTree tree, String... parents) {
@@ -18,7 +17,7 @@ public class SkillRegistry {
 	}
 	
 	public static void registerSkill (boolean createEntry, Skill skill) {
-		GameRegistry.register(skill);
+		ArsMagicaAPI.getSkillRegistry().register(skill);
 	}
 	
 	public static void registerSkill (Skill skill) {
@@ -35,7 +34,7 @@ public class SkillRegistry {
 	}
 
 	public static Skill getSkillFromName(String str) {
-		return ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation(str));
+		return ArsMagicaAPI.getSkillRegistry().getValue(new ResourceLocation(str));
 	}
 	
 }

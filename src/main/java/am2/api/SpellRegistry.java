@@ -1,7 +1,5 @@
 package am2.api;
 
-import java.util.ArrayList;
-
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
 import am2.api.skill.SkillTree;
@@ -14,8 +12,9 @@ import am2.common.utils.NBTUtils;
 import am2.common.utils.RecipeUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.ArrayList;
 
 /**
  * Contains all spell parts, used for both registration<BR>
@@ -38,8 +37,8 @@ public class SpellRegistry {
 	 */
 	public static void registerSpellComponent (String id, ResourceLocation icon, SkillPoint tier, SpellComponent part, SkillTree tree, int posX, int posY, String... parents) {
 		id = id.toLowerCase();
-		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
-		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
+		ArsMagicaAPI.getSpellRegistry().register(part);
+		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, parents));
 	}
 	
 	/**
@@ -56,9 +55,8 @@ public class SpellRegistry {
 	 */
 	public static void registerSpellModifier (String id, ResourceLocation icon, SkillPoint tier, SpellModifier part, SkillTree tree, int posX, int posY, String... parents) {
 		id = id.toLowerCase();
-		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
-		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
-	}
+		ArsMagicaAPI.getSpellRegistry().register(part);
+		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, parents));	}
 	
 	/**
 	 * Register a spell shape
@@ -74,9 +72,8 @@ public class SpellRegistry {
 	 */
 	public static void registerSpellShape (String id, ResourceLocation icon, SkillPoint tier, SpellShape part, SkillTree tree, int posX, int posY, String... parents) {
 		id = id.toLowerCase();
-		GameRegistry.register(part, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
-		GameRegistry.register(new Skill(icon, tier, posX, posY, tree, parents), new ResourceLocation(ArsMagicaAPI.getCurrentModId(), id));
-	}
+		ArsMagicaAPI.getSpellRegistry().register(part);
+		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, parents));	}
 	
 	public static Skill getSkillFromPart(AbstractSpellPart part) {
 		return ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName());
