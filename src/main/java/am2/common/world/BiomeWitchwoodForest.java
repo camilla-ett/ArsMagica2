@@ -1,13 +1,15 @@
 package am2.common.world;
 
-import java.util.Random;
-
 import am2.ArsMagica2;
 import am2.common.entity.EntityDryad;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+
+import java.util.Random;
 
 public class BiomeWitchwoodForest extends Biome{
 
@@ -15,14 +17,16 @@ public class BiomeWitchwoodForest extends Biome{
 	private static final WitchwoodTreeHuge hugeTree = new WitchwoodTreeHuge(true);
 	private static final WitchwoodTreeSmall smallTree = new WitchwoodTreeSmall(true);
 	private static int biomeId;
+	private static BiomeDecorator decorator;
 
 	public BiomeWitchwoodForest(BiomeProperties par1){
 		super(par1);
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 5, 4, 4));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityDryad.class, 5, 4, 4));
-		this.theBiomeDecorator.treesPerChunk = 10;
-		this.theBiomeDecorator.grassPerChunk = 4;
-		this.theBiomeDecorator.flowersPerChunk = 10;
+		decorator = this.createBiomeDecorator();
+		decorator.treesPerChunk = 10;
+		decorator.grassPerChunk = 4;
+		decorator.flowersPerChunk = 10;
 		biomeId = ArsMagica2.config.getWitchwoodForestID();
 	}
 
@@ -45,14 +49,13 @@ public class BiomeWitchwoodForest extends Biome{
 	public int getSkyColorByTemp(float par1){
 		return 0x6699ff;
 	}
-	
-	
-	
+
 	@Override
-	public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_)
+	public void decorate(World worldIn, Random rand, BlockPos pos)
 	{
-	  return (WorldGenAbstractTree)(p_150567_1_.nextInt(10) == 0 ? hugeTree : smallTree);
+		this.decorator.decorate(worldIn, rand, this, pos);
 	}
+
 
 	public static int getBiomeId()
 	{
@@ -69,4 +72,10 @@ public class BiomeWitchwoodForest extends Biome{
 		}
 		return -1;
 	}
+	@Override
+	public WorldGenAbstractTree getRandomTreeFeature(Random rand)
+	{
+		return rand.nextInt(10) == 0 ? hugeTree : smallTree;
+	}
+
 }

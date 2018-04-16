@@ -1,13 +1,8 @@
 package am2.common.blocks;
 
-import java.util.List;
-
 import am2.common.defs.CreativeTabsDefs;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -27,8 +22,4 @@ public class BlockWitchwoodPlanks extends BlockAM{
 		return 0;
 	}
 
-	@Override
-	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		par3List.add(new ItemStack(this));
-	}
 }

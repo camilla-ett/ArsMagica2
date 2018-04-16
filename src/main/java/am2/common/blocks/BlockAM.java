@@ -1,7 +1,7 @@
 package am2.common.blocks;
 
 import am2.common.defs.CreativeTabsDefs;
-import am2.common.items.ItemBlockSubtypes;
+import am2.common.registry.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockAM extends Block {
 
@@ -29,8 +28,7 @@ public class BlockAM extends Block {
 	
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}
 	
@@ -46,7 +44,7 @@ public class BlockAM extends Block {
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		return getBoundingBox(blockState, worldIn, pos);
 	}
 	
