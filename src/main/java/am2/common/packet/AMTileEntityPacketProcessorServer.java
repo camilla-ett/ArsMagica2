@@ -24,14 +24,14 @@ public class AMTileEntityPacketProcessorServer {
 
 			packetID = bbis.readByte();
 			NetHandlerPlayServer srv = (NetHandlerPlayServer)event.getPacket().handler();
-			EntityPlayerMP player = srv.playerEntity;
-			World world = player.worldObj;
+			EntityPlayerMP player = srv.player;
+			World world = player.world;
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
 			AMDataReader reader = new AMDataReader(remaining, false);
 			BlockPos target = new BlockPos(reader.getInt(), reader.getInt(), reader.getInt());
 			TileEntity te = world.getTileEntity(target);
-			if (te != null && te instanceof ITileEntityPacketSync) {
+			if (te instanceof ITileEntityPacketSync) {
 				ITileEntityPacketSync sync = (ITileEntityPacketSync)te;
 				sync.confirm();
 			}

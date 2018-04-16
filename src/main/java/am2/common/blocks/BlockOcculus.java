@@ -115,12 +115,7 @@ public class BlockOcculus extends BlockContainer {
     {
         return false;
     }
-	
-	@Override
-	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-		return true;
-	}
-	
+
 	@Override
 	public boolean isFullBlock(IBlockState state) {
 		return false;

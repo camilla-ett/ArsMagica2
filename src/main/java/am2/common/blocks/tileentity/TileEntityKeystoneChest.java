@@ -49,7 +49,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 		setPrevLidAngle(getLidAngle());
 		if (numPlayersUsing > 0){
 			if (getLidAngle() == 0){
-				this.worldObj.playSound(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, this.getPos().getZ() + 0.5D, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, true);
+				this.world.playSound(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, this.getPos().getZ() + 0.5D, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F, true);
 			}
 			if (getLidAngle() < 1.0f){
 				setLidAngle(getLidAngle() + lidIncrement);
@@ -58,7 +58,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 			}
 		}else{
 			if (getLidAngle() == 1.0f){
-				this.worldObj.playSound(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, this.getPos().getZ(), SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, true);
+				this.world.playSound(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, this.getPos().getZ(), SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F, true);
 			}
 			if (getLidAngle() - lidIncrement > 0f){
 				setLidAngle(getLidAngle() - lidIncrement);
@@ -66,7 +66,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 				setLidAngle(0f);
 			}
 		}
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
+		world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 3);
 	}
 
 	@Override
@@ -86,14 +86,14 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 		}
 
 		++this.numPlayersUsing;
-		this.worldObj.addBlockEvent(pos, getBlockType(), 1, this.numPlayersUsing);
+		this.world.addBlockEvent(pos, getBlockType(), 1, this.numPlayersUsing);
 	}
 
 	@Override
 	public void closeInventory(EntityPlayer player){
-		if (this.getBlockType() != null && this.getBlockType() instanceof BlockKeystoneChest){
+		if (this.getBlockType() instanceof BlockKeystoneChest){
 			--this.numPlayersUsing;
-			this.worldObj.addBlockEvent(pos, getBlockType(), 1, this.numPlayersUsing);
+			this.world.addBlockEvent(pos, getBlockType(), 1, this.numPlayersUsing);
 		}
 	}
 
@@ -107,13 +107,13 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 	@Override
 	public ItemStack decrStackSize(int i, int j){
 		if (inventory[i] != null){
-			if (inventory[i].stackSize <= j){
+			if (inventory[i].getCount() <= j){
 				ItemStack itemstack = inventory[i];
 				inventory[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventory[i].splitStack(j);
-			if (inventory[i].stackSize == 0){
+			if (inventory[i].getCount() == 0){
 				inventory[i] = null;
 			}
 			return itemstack1;
@@ -136,8 +136,8 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
-			itemstack.stackSize = getInventoryStackLimit();
+		if (itemstack.getCount() > getInventoryStackLimit()){
+			itemstack.setCount(getInventoryStackLimit());
 		}
 	}
 
@@ -152,8 +152,8 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+	public boolean isUsableByPlayer(EntityPlayer entityplayer){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 
@@ -170,7 +170,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
-				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+				inventory[byte0] = new ItemStack(nbttagcompound1);
 			}
 		}
 		checkLootAndRead(nbttagcompound);
@@ -277,9 +277,9 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 	}
 	
 	@Override
-	protected void fillWithLoot(EntityPlayer player) {
+	public void fillWithLoot(EntityPlayer player) {
 		if (this.lootTable != null) {
-			LootTable loottable = this.worldObj.getLootTableManager().getLootTableFromLocation(this.lootTable);
+			LootTable loottable = this.world.getLootTableManager().getLootTableFromLocation(this.lootTable);
 			this.lootTable = null;
 			Random random;
 
@@ -289,7 +289,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 				random = new Random(this.lootTableSeed);
 			}
 
-			LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer) this.worldObj);
+			LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer) this.world);
 
 			if (player != null) {
 				lootcontext$builder.withLuck(player.getLuck());

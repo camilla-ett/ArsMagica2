@@ -82,13 +82,13 @@ public class FlickerOperatorMoonstoneAttractor extends AbstractFlickerFunctional
 				"RLR",
 				"AME",
 				"I T",
-				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
-				Character.valueOf('E'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)),
-				Character.valueOf('M'), new ItemStack(BlockDefs.ores, 1, BlockArsMagicaOre.EnumOreType.MOONSTONE.ordinal()),
-				Character.valueOf('I'), AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
-				Character.valueOf('T'), AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH)
+				'R', new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
+				'L', new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
+				'A', new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
+				'E', new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)),
+				'M', new ItemStack(BlockDefs.ores, 1, BlockArsMagicaOre.EnumOreType.MOONSTONE.ordinal()),
+				'I', AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
+				'T', AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH)
 		};
 	}
 	

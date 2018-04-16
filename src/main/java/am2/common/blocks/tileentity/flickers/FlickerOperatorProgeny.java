@@ -44,7 +44,7 @@ public class FlickerOperatorProgeny extends AbstractFlickerFunctionality{
 	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		HashMap<Class<? extends EntityAnimal>, Integer> entityCount = new HashMap<>();
 		int radius = 8;
-		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).getPos()).expandXyz(radius));
+		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).getPos()).expand(radius, radius, radius));
 		for (EntityAnimal creature : creatures){
 			Class<? extends EntityAnimal> clazz = creature.getClass();
 			if (!SpawnBlacklists.canProgenyAffect(clazz))
@@ -63,7 +63,7 @@ public class FlickerOperatorProgeny extends AbstractFlickerFunctionality{
 						particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.05f, 1, false));
 					}
 				}else{
-					creatures = worldObj.getEntitiesWithinAABB(clazz, new AxisAlignedBB(((TileEntity)habitat).getPos()).expandXyz(radius));
+					creatures = worldObj.getEntitiesWithinAABB(clazz, new AxisAlignedBB(((TileEntity)habitat).getPos()).expand(radius, radius, radius));
 					count = 0;
 					for (EntityAnimal animal : creatures){
 						if (!animal.isChild()){
