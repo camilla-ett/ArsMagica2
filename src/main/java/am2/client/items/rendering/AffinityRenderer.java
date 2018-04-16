@@ -25,7 +25,7 @@ public class AffinityRenderer implements ItemMeshDefinition{
 	
 	@Override
 	public ModelResourceLocation getModelLocation(ItemStack stack) {
-		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage());
+		Affinity aff = (Affinity)ArsMagicaAPI.getAffinityRegistry().getValuesCollection().toArray()[stack.getItemDamage()];
 		return new ModelResourceLocation(new ResourceLocation(aff.getRegistryName().getResourceDomain(), prefix + aff.getRegistryName().getResourcePath()), "inventory");
 	}
 	
