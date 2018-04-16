@@ -1,30 +1,25 @@
 package am2.client.items.rendering;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Stream;
-
-import com.google.common.collect.Lists;
-
 import am2.ArsMagica2;
 import am2.common.LogHelper;
 import am2.common.defs.ItemDefs;
+import com.google.common.collect.Lists;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class SpellRenderer implements ItemMeshDefinition {
 
@@ -86,7 +81,7 @@ public class SpellRenderer implements ItemMeshDefinition {
 
 	@Override
 	public ModelResourceLocation getModelLocation(ItemStack stack) {
-			return locations.get(MathHelper.clamp_int(stack.getItemDamage(), 0, locations.size() - 1));
+			return locations.get(MathHelper.clamp(stack.getItemDamage(), 0, locations.size() - 1));
 	}
 
 }

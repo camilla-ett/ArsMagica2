@@ -1,11 +1,5 @@
 package am2.client.utils;
 
-import java.util.ArrayList;
-
-import org.lwjgl.util.vector.Quaternion;
-
-import com.google.common.base.Optional;
-
 import am2.api.affinity.Affinity;
 import am2.api.event.RenderingItemEvent;
 import am2.client.bosses.models.ModelPlantGuardianSickle;
@@ -28,6 +22,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.lwjgl.util.vector.Quaternion;
+
+import java.util.ArrayList;
 
 public class ItemRenderer {
 	private static final ResourceLocation sickleLocation = new ResourceLocation("arsmagica2", "textures/mobs/bosses/plant_guardian.png");
@@ -57,22 +54,22 @@ public class ItemRenderer {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("arsmagica2:textures/models/bound_shield.png"));
 			GlStateManager.pushMatrix();
 			IItemPropertyGetter getter = ItemDefs.BoundShield.getPropertyGetter(new ResourceLocation("blocking"));
-			ModelUtils.renderShield(event.getStack(), getter.apply(event.getStack(), Minecraft.getMinecraft().theWorld, event.getEntity()) == 1.0f, event.getCameraTransformType(), event.getEntity());
+			ModelUtils.renderShield(event.getStack(), getter.apply(event.getStack(), Minecraft.getMinecraft().world, event.getEntity()) == 1.0f, event.getCameraTransformType(), event.getEntity());
 			GlStateManager.popMatrix();
 			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		}
 		if (event.getStack() == null || event.getStack().getItem() == null || Block.getBlockFromItem(event.getStack().getItem()) == null) return;
 		Block block = Block.getBlockFromItem(event.getStack().getItem());
 		if (!(block instanceof ITileEntityProvider)) return;
-		TileEntity te = ((ITileEntityProvider)block).createNewTileEntity(Minecraft.getMinecraft().theWorld, event.getStack().getItemDamage());
+		TileEntity te = ((ITileEntityProvider)block).createNewTileEntity(Minecraft.getMinecraft().world, event.getStack().getItemDamage());
 		if (te == null) return;
-		TileEntitySpecialRenderer<TileEntity> tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(te);
+		TileEntitySpecialRenderer<TileEntity> tesr = TileEntityRendererDispatcher.instance.getRenderer(te);
 		if (tesr == null) return;
 		GlStateManager.pushMatrix();
 		GlStateManager.disableBlend();
 		GlStateManager.color(1f, 1f, 1f);
 		GlStateManager.translate(-0.5, -0.5, -0.5);
-		TRSRTransformation transform = ModelUtils.DEFAULT_BLOCK_STATE.apply(Optional.fromNullable(event.getCameraTransformType())).orNull();
+		TRSRTransformation transform = TRSRTransformation.from(event.getEntity().getHorizontalFacing());
 		if (transform != null) {
 			GlStateManager.translate(transform.getTranslation().x, transform.getTranslation().y, transform.getTranslation().z);
 			GlStateManager.scale(transform.getScale().x, transform.getScale().y, transform.getScale().z);
@@ -81,7 +78,7 @@ public class ItemRenderer {
 //		ModelUtils.transform(ModelUtils.DEFAULT_BLOCK_STATE, event.getCameraTransformType(),
 //				event.getCameraTransformType() == TransformType.FIRST_PERSON_LEFT_HAND
 //						|| event.getCameraTransformType() == TransformType.THIRD_PERSON_LEFT_HAND);
-		tesr.renderTileEntityAt(te, 0, 0, 0, event.getStack().getItemDamage(), -10);
+		tesr.render(te, 0, 0, 0, 0, -10, 1);
 		GlStateManager.enableBlend();
 		GlStateManager.popMatrix();
 	}
