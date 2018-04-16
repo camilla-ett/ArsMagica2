@@ -31,7 +31,7 @@ public class AbilityColdBlooded extends AbstractAffinityAbility {
 	@Override
 	public void applyTick(EntityPlayer player) {
 		IAttributeInstance attribute = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.iceAffinityColdBlooded, !AffinityAbilityModifiers.instance.isOnIce(player));
+		AffinityAbilityModifiers.instance.applyOrRemoveModifier(attribute, AffinityAbilityModifiers.iceAffinityColdBlooded, AffinityAbilityModifiers.instance.isOnIce(player));
 	}
 	
 	@Override

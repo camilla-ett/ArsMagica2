@@ -45,7 +45,7 @@ public class AffinityAbilityModifiers {
 
 		applyOrRemoveModifier(attribute, natureAffinityRoots, natureDepth >= 0.5f);
 		applyOrRemoveModifier(attribute, lightningAffinitySpeed, lightningDepth >= 0.65f);
-		applyOrRemoveModifier(attribute, iceAffinityColdBlooded, iceDepth >= 0.1f && !isOnIce(ent));
+		applyOrRemoveModifier(attribute, iceAffinityColdBlooded, iceDepth >= 0.1f && isOnIce(ent));
 	}
 
 	public void applyHealthModifiers(EntityPlayer ent, float enderDepth, float waterDepth, float fireDepth, float lightningDepth){
@@ -86,10 +86,10 @@ public class AffinityAbilityModifiers {
 				for (int i2 = i1; i2 < j1 && !isOnIce; ++i2){
 					Material block = ent.world.getBlockState(new BlockPos(k1, l1, i2)).getMaterial();
 					if (block == Material.ICE || block == Material.PACKED_ICE){
-						return true;
+						return false;
 					}
 				}
 			}
 		}
-		return false;
+		return true;
 	}}

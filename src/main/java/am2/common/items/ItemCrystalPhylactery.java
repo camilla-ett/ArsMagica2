@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -111,7 +112,7 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 		String e = stack.getTagCompound().getString("SpawnClassName");
 		String s = EntityList.CLASS_TO_NAME.get(entity.getClass());
 
-		return (e != null && s != null) && e.equals(s);
+		return e.equals(s);
 	}
 
 	public boolean isFull(ItemStack stack){
@@ -135,7 +136,7 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 						//look for entity egg
 						for (Object info : EntityList.ENTITY_EGGS.values()){
 							EntityEggInfo eei = (EntityEggInfo)info;
-							Class<? extends Entity> spawnClass = EntityList.getClassFromID(EntityList.getIDFromString(eei.spawnedID));
+							Class<? extends Entity> spawnClass = ForgeRegistries.ENTITIES.getValue(eei.spawnedID).getEntityClass();
 							if (spawnClass == clazz){
 								color = eei.primaryColor;
 								found = true;

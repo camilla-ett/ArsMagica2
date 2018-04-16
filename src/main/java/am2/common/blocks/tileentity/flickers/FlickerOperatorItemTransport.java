@@ -247,8 +247,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 					TileEntityChest adjacent = InventoryUtilities.getAdjacentChest((TileEntityChest)te);
 
 					if (adjacent != null){
-						IInventory inventory = adjacent;
-						itemMoved = this.outputItem(markerType, new IInventory[]{inventory, (IInventory)te}, stack, crystalMarkerTE, new IInventory[]{source});
+						itemMoved = this.outputItem(markerType, new IInventory[]{adjacent, (IInventory)te}, stack, crystalMarkerTE, new IInventory[]{source});
 
 						if (itemMoved){
 							attuner.setOutListPosition(priority, pos + 1);

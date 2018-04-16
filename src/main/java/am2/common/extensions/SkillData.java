@@ -170,7 +170,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		ArrayList<String> out = new ArrayList<>();
 		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
-			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellShape && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
+			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode)  && part instanceof SpellShape && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(skill.getID());
 		}
 		out.sort(Comparator.naturalOrder());
@@ -182,7 +182,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		ArrayList<String> out = new ArrayList<>();
 		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
-			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellComponent && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
+			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode)  && part instanceof SpellComponent && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(skill.getID());
 		}
 		out.sort(Comparator.naturalOrder());
@@ -194,7 +194,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		ArrayList<String> out = new ArrayList<>();
 		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
-			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellModifier && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
+			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode)  && part instanceof SpellModifier && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(skill.getID());
 		}
 		out.sort(Comparator.naturalOrder());
@@ -236,7 +236,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			this.skills.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
-				Skill key = ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation(reader.getString()));
+				Skill key = ArsMagicaAPI.getSkillRegistry().getValue(new ResourceLocation(reader.getString()));
 				boolean value = reader.getBoolean();
 				if (key != null)
 					this.skills.put(key, value);
