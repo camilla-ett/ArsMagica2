@@ -162,7 +162,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 
 			if (par1DamageSource.getTrueSource() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) par1DamageSource.getTrueSource();
-				if (player.capabilities.isCreativeMode && player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == ItemDefs.woodenLeg) {
+				if (player.capabilities.isCreativeMode && !player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == ItemDefs.woodenLeg) {
 					if (!this.getWorld().isRemote)
 						this.setDead();
 					return false;

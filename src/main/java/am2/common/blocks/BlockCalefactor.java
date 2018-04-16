@@ -10,7 +10,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -115,9 +114,4 @@ public class BlockCalefactor extends BlockAMPowered{
 		return super.removedByPlayer(state, world, pos, player, willHarvest);
 	}
 	
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		return state.withProperty(FACING, facing.getOpposite());
-		//facing az egy bekért ENUM volt, ami most NORTH EAST stb. lehet, de nem nagyon tudjuk használni
-	}
 }

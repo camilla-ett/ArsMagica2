@@ -18,7 +18,7 @@ public class SlotInscriptionTable extends Slot{
 
 	@Override
 	public boolean isItemValid(ItemStack par1ItemStack){
-		if (par1ItemStack == null || par1ItemStack.getItem() == null){
+		if (par1ItemStack.isEmpty() || par1ItemStack.getItem() == null){
 			return false;
 		}
 		if (par1ItemStack.getItem() == Items.WRITTEN_BOOK && (par1ItemStack.getTagCompound() == null || !par1ItemStack.getTagCompound().getBoolean("spellFinalized")))

@@ -1,7 +1,5 @@
 package am2.common.utils;
 
-import java.util.ArrayList;
-
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.KeystoneAccessType;
 import am2.common.defs.ItemDefs;
@@ -13,6 +11,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
+
+import java.util.ArrayList;
 
 public class KeystoneUtilities {
   
@@ -87,7 +87,7 @@ public class KeystoneUtilities {
 			return true;
 
 		if (inventory.keystoneMustBeHeld()){
-			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == ItemDefs.keystone){
+			if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == ItemDefs.keystone){
 				return ((ItemKeystone)player.getHeldItemMainhand().getItem()).getKey(player.getHeldItemMainhand()) == key;
 			}
 		}else if (inventory.keystoneMustBeInActionBar()){
