@@ -51,11 +51,11 @@ public class EntityManaElemental extends EntityMob{
 
 	@Override
 	public void onUpdate(){
-		if (this.worldObj != null){
-			if (this.worldObj.isRemote){
+		if (this.world != null){
+			if (this.world.isRemote){
 			}else{
 				if (EntityExtension.For(this).getCurrentMana() <= 0){
-					this.attackEntityFrom(DamageSource.generic, 500);
+					this.attackEntityFrom(DamageSource.GENERIC, 500);
 				}
 			}
 		}
@@ -65,7 +65,7 @@ public class EntityManaElemental extends EntityMob{
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		if (getRNG().nextInt(10) == 0)
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, (Affinity.ARCANE).getID()), 0.0f);
 		super.dropFewItems(wasRecentlyHit, lootingModifier);
 	}
 	
@@ -80,9 +80,7 @@ public class EntityManaElemental extends EntityMob{
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(){
-		return AMSounds.MANA_ELEMENTAL_DEATH;
-	}
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn){ return AMSounds.MANA_ELEMENTAL_DEATH; }
 
 	@Override
 	protected SoundEvent getDeathSound(){
@@ -102,7 +100,7 @@ public class EntityManaElemental extends EntityMob{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), world, this))
 			return false;
 		return super.getCanSpawnHere();
 	}

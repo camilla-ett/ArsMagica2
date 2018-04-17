@@ -42,7 +42,7 @@ public class AffinityShiftUtils {
 			}
 			
 			if (caster instanceof EntityPlayer){
-				if (SkillData.For(caster).hasSkill(SkillDefs.AFFINITY_GAINS.getID())){
+				if (SkillData.For(caster).hasSkill(SkillDefs.AFFINITY_GAINS.getIDString())){
 					shift *= 1.1f;
 					//xp *= 0.9f;
 				}
@@ -86,7 +86,7 @@ public class AffinityShiftUtils {
 			parts.sort(Comparator.naturalOrder());
 			for (AbstractSpellPart part : parts) {
 				float __multiplier = 0.1F;
-				Skill skill = ArsMagicaAPI.getSkillRegistry().getObject(part.getRegistryName());
+				Skill skill = ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName());
 				if (skill != null) {
 					SkillPoint point = skill.getPoint();
 					if (point.getTier() > 0) {
@@ -108,7 +108,7 @@ public class AffinityShiftUtils {
 		}
 
 		ItemStack chestArmor = caster.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
-		if (chestArmor != null && ArmorHelper.isInfusionPreset(chestArmor, GenericImbuement.magicXP))
+		if (!chestArmor.isEmpty() && ArmorHelper.isInfusionPreset(chestArmor, GenericImbuement.magicXP))
 			multiplier *= 1.5f;
 		return cost * multiplier * 0.05F;
 	}

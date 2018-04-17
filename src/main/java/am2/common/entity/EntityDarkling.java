@@ -77,9 +77,4 @@ public class EntityDarkling extends EntityMob{
 		}
 		super.onUpdate();
 	}
-	
-	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
-		return EnumActionResult.PASS;
-	}
 }

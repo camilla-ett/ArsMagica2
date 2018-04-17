@@ -45,11 +45,11 @@ public class Plant extends SpellComponent{
 
 			IPlantable seed = (IPlantable)seedStack.getItem();
 
-			if (soil != null && soil.canSustainPlant(world.getBlockState(pos), world, pos, EnumFacing.UP, seed) && world.isAirBlock(pos.up())){
+			if (soil.canSustainPlant(world.getBlockState(pos), world, pos, EnumFacing.UP, seed) && world.isAirBlock(pos.up())){
 				world.setBlockState(pos.up(), seed.getPlant(world, pos));
 
-				seedStack.stackSize--;
-				if (seedStack.stackSize <= 0){
+				seedStack.shrink(1);
+				if (seedStack.getCount() <= 0){
 					inventory.setInventorySlotContents(currentSlot, null);
 					seeds.remove(currentSlot);
 					if (seeds.size() == 0) return true;
