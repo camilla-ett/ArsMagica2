@@ -1,7 +1,5 @@
 package am2;
 
-import java.io.File;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.common.CommonProxy;
@@ -10,7 +8,15 @@ import am2.common.config.AMConfig;
 import am2.common.config.SpellPartConfiguration;
 import am2.common.packet.MessageBoolean;
 import am2.common.packet.MessageCapabilities;
+import am2.common.registry.Registry;
+import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.ForgeModContainer;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -20,9 +26,12 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
+
+import java.io.File;
 
 
 @Mod(modid=ArsMagica2.MODID, version=ArsMagica2.VERSION, guiFactory=ArsMagica2.GUIFACTORY, canBeDeactivated=false, acceptedMinecraftVersions = "[1.10.2,1.11)")
@@ -75,6 +84,42 @@ public class ArsMagica2 {
 	@EventHandler
 	public void serverLoad(FMLServerStartingEvent e) {
 		e.registerServerCommand(new CommandArsMagica());
+	}
+
+	@SubscribeEvent
+	public void registerBlocks ( RegistryEvent.Register <Block> event ) {
+		for ( Block block : Registry.GetBlocksToRegister ( ) )
+			event.getRegistry ( ).register ( block );
+	}
+
+	@SubscribeEvent
+	public void registerItems ( RegistryEvent.Register <Item> event ) {
+		for ( Item item : Registry.GetItemsToRegister ( ) )
+			event.getRegistry ( ).register ( item );
+	}
+
+	@SubscribeEvent
+	public void registerPotions ( RegistryEvent.Register <Potion> event ) {
+		for ( Potion potion : Registry.GetPotionsToRegister ( ) )
+			event.getRegistry ( ).register ( potion );
+	}
+
+	@SubscribeEvent
+	public void registerBiomes ( RegistryEvent.Register <Biome> event ) {
+		for ( Biome biome : Registry.GetBiomesToRegister ( ) )
+			event.getRegistry ( ).register ( biome );
+	}
+
+	@SubscribeEvent
+	public void registerSoundEvents ( RegistryEvent.Register <SoundEvent> event ) {
+		for ( SoundEvent sound : Registry.GetSoundsToRegister ( ) )
+			event.getRegistry ( ).register ( sound );
+	}
+
+	@SubscribeEvent
+	public void registerEnchantments ( RegistryEvent.Register <Enchantment> event ) {
+		for ( Enchantment encha : Registry.GetEnchantmentsToRegister ( ) )
+			event.getRegistry ( ).register ( encha );
 	}
 	
 	public String getVersion() {

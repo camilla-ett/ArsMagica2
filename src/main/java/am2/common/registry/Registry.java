@@ -6,8 +6,6 @@ import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +16,8 @@ public class Registry {
     private static List<Block> blocksToRegister;
     private static List<SoundEvent> soundsToRegister;
     private static List<Potion> potionsToRegister;
+    private static List <Biome> biomesToRegister;
+    private static List <Enchantment> enchantmentsToRegister;
 
     public static List<Item> GetItemsToRegister() {
         if (itemsToRegister == null) itemsToRegister = new ArrayList<>();
@@ -39,34 +39,13 @@ public class Registry {
         return potionsToRegister;
     }
 
-
-    @SubscribeEvent
-    public void registerBlocks(RegistryEvent.Register<Block> event) {
-        event.getRegistry().registerAll();
+    public static List <Biome> GetBiomesToRegister ( ) {
+        if ( biomesToRegister == null ) biomesToRegister = new ArrayList <> ( );
+        return biomesToRegister;
     }
 
-    @SubscribeEvent
-    public void registerItems(RegistryEvent.Register<Item> event) {
-        event.getRegistry().registerAll();
-    }
-
-    @SubscribeEvent
-    public void registerPotions(RegistryEvent.Register<Potion> event) {
-        event.getRegistry().registerAll();
-    }
-
-    @SubscribeEvent
-    public void registerBiomes(RegistryEvent.Register<Biome> event) {
-        event.getRegistry().registerAll();
-    }
-
-    @SubscribeEvent
-    public void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
-        event.getRegistry().registerAll();
-    }
-
-    @SubscribeEvent
-    public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
-        event.getRegistry().registerAll();
+    public static List <Enchantment> GetEnchantmentsToRegister ( ) {
+        if ( enchantmentsToRegister == null ) enchantmentsToRegister = new ArrayList <> ( );
+        return enchantmentsToRegister;
     }
 }
