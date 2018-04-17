@@ -34,10 +34,10 @@ public class KeystoneUtilities {
 					else
 						combo += rune.getDisplayName() + " ";
 				}
-				player.addChatMessage(new TextComponentString(combo));
-			}else{
-				player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.noKeyPresent")));
-			}
+                player.sendMessage ( new TextComponentString ( combo ) );
+            }else{
+                player.sendMessage ( new TextComponentString ( I18n.format ( "am2.tooltip.noKeyPresent" ) ) );
+            }
 			EntityExtension.For(player).isRecoveringKeystone = false;
 			return true;
 		}else{
@@ -99,8 +99,8 @@ public class KeystoneUtilities {
 				}
 			}
 		}else{
-			for (int i = 0; i < player.inventory.mainInventory.length; ++i){
-				ItemStack stack = player.inventory.getStackInSlot(i);
+            for ( int i = 0; i < player.inventory.mainInventory.size ( ); ++i ) {
+                ItemStack stack = player.inventory.getStackInSlot(i);
 				if (stack == null || stack.getItem() != ItemDefs.keystone) continue;
 				if (((ItemKeystone)stack.getItem()).getKey(stack) == key){
 					return true;
@@ -108,12 +108,11 @@ public class KeystoneUtilities {
 			}
 		}
 
-		if (accessMode == KeystoneAccessType.USE && !player.worldObj.isRemote){
-			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.wrongKeystoneUse")));
-		}
-		else if (accessMode == KeystoneAccessType.BREAK && !player.worldObj.isRemote){
-			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.wrongKeystoneBreak")));
-		}
+        if ( accessMode == KeystoneAccessType.USE && !player.world.isRemote ) {
+            player.sendMessage ( new TextComponentString ( I18n.format ( "am2.tooltip.wrongKeystoneUse" ) ) );
+        } else if ( accessMode == KeystoneAccessType.BREAK && !player.world.isRemote ) {
+            player.sendMessage ( new TextComponentString ( I18n.format ( "am2.tooltip.wrongKeystoneBreak" ) ) );
+        }
 		return false;
 	}
 

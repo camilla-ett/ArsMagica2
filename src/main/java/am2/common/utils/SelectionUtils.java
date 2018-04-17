@@ -1,8 +1,7 @@
 package am2.common.utils;
 
-import com.mojang.authlib.GameProfile;
-
 import am2.common.LogHelper;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.server.MinecraftServer;
@@ -78,7 +77,7 @@ public class SelectionUtils {
 	
 	public static EntityPlayer getPlayersForRuneSet (int[] runes) {
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-		GameProfile[] profiles = server.getPlayerList().getAllProfiles();
+		GameProfile[] profiles = server.getPlayerList ( ).getOnlinePlayerProfiles ( );
 		if (runes.length != 4)
 			return null;
 		for (GameProfile profile : profiles) {

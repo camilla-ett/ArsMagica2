@@ -1,19 +1,15 @@
 package am2.common.utils;
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
-
 import am2.api.math.AMVector3;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
+
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MathUtilities{
 	public static Vec3d bezier(Vec3d s, Vec3d c1, Vec3d c2, Vec3d e, float t){
@@ -37,17 +33,17 @@ public class MathUtilities{
 	}
 
 	private static Vec3d calcNewVector(float scaler, Vec3d base){
-		Vec3d retValue = new Vec3d(base.xCoord, base.yCoord, base.zCoord);
+		Vec3d retValue = new Vec3d ( base.x , base.y , base.z );
 		retValue.scale(scaler);
 		return retValue;
 	}
 	
 	public static Vec3d floorToI(Vec3d old){
-		return new Vec3d((float)Math.floor(old.xCoord), (float)Math.floor(old.yCoord), (float)Math.floor(old.zCoord));
+		return new Vec3d ( (float) Math.floor ( old.x ) , (float) Math.floor ( old.y ) , (float) Math.floor ( old.z ) );
 	}
 	
 	public static Vec3d roundToI(Vec3d old){
-		return new Vec3d((float)Math.round(old.xCoord), (float)Math.round(old.yCoord), (float)Math.round(old.zCoord));
+		return new Vec3d ( (float) Math.round ( old.x ) , (float) Math.round ( old.y ) , (float) Math.round ( old.z ) );
 	}
 
 	public static Vec3d[] GetHorizontalBlocksInFrontOfCharacter(EntityLivingBase entity, int numBlocks, int x, int y, int z){
@@ -181,7 +177,7 @@ public class MathUtilities{
 		//filter by angle
 		for (int i = 0; i < distanceFilter.size(); ++i){
 			//get the current entity for the loop
-			Entity curEntity = (Entity)distanceFilter.get(i);
+			Entity curEntity = distanceFilter.get ( i );
 			if (isInFieldOfVision(curEntity, source, maxAngle, maxAngle) && source.canEntityBeSeen(curEntity)){
 				angleFilter.add(curEntity);
 			}
@@ -190,7 +186,7 @@ public class MathUtilities{
 		Entity[] array = new Entity[angleFilter.size()];
 
 		for (int t = 0; t < angleFilter.size(); t++){
-			array[t] = (Entity)angleFilter.get(t);
+			array[ t ] = angleFilter.get ( t );
 		}
 
 		return array;
@@ -219,9 +215,7 @@ public class MathUtilities{
 		float pitchFOVMax = e2.rotationPitch + Y;
 		boolean flag1 = (yawFOVMin < 0F && (rotationYawPrime >= yawFOVMin + 360F || rotationYawPrime <= yawFOVMax)) || (yawFOVMax >= 360F && (rotationYawPrime <= yawFOVMax - 360F || rotationYawPrime >= yawFOVMin)) || (yawFOVMax < 360F && yawFOVMin >= 0F && rotationYawPrime <= yawFOVMax && rotationYawPrime >= yawFOVMin);
 		boolean flag2 = (pitchFOVMin <= -180F && (rotationPitchPrime >= pitchFOVMin + 360F || rotationPitchPrime <= pitchFOVMax)) || (pitchFOVMax > 180F && (rotationPitchPrime <= pitchFOVMax - 360F || rotationPitchPrime >= pitchFOVMin)) || (pitchFOVMax < 180F && pitchFOVMin >= -180F && rotationPitchPrime <= pitchFOVMax && rotationPitchPrime >= pitchFOVMin);
-		if (flag1 && flag2 && e2.canEntityBeSeen(e1))
-			return true;
-		else return false;
+		return flag1 && flag2 && e2.canEntityBeSeen ( e1 );
 	}
 
 	public static double NormalizeRotation(double yawValue){
@@ -260,13 +254,13 @@ public class MathUtilities{
 		double d = range;
 		Vec3d vec3d = new Vec3d(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ);
 		Vec3d vec3d1 = entityplayer.getLookVec();
-		Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * d, vec3d1.yCoord * d, vec3d1.zCoord * d);
+		Vec3d vec3d2 = vec3d.addVector ( vec3d1.x * d , vec3d1.y * d , vec3d1.z * d );
 		double f1 = collideRadius;
-		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(entityplayer, entityplayer.getEntityBoundingBox().addCoord(vec3d1.xCoord * d, vec3d1.yCoord * d, vec3d1.zCoord * d).expand(f1, f1, f1));
+		List <Entity> list = world.getEntitiesWithinAABBExcludingEntity ( entityplayer , entityplayer.getEntityBoundingBox ( ).offset ( vec3d1.x * d , vec3d1.y * d , vec3d1.z * d ).expand ( f1 , f1 , f1 ) );
 
 		double d2 = 0.0D;
 		for (int i = 0; i < list.size(); i++){
-			Entity entity = (Entity)list.get(i);
+			Entity entity = list.get ( i );
 			RayTraceResult mop = world.rayTraceBlocks(
 					new Vec3d(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ),
 					new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ),
@@ -275,7 +269,7 @@ public class MathUtilities{
 				float f2 = Math.max(0.8F, entity.getCollisionBorderSize());
 				AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(f2, f2, f2);
 				RayTraceResult movingobjectposition = axisalignedbb.calculateIntercept(vec3d, vec3d2);
-				if (axisalignedbb.isVecInside(vec3d)){
+				if ( axisalignedbb.contains ( vec3d ) ) {
 					if ((0.0D < d2) || (d2 == 0.0D)){
 						pointedEntity = entity;
 						d2 = 0.0D;
@@ -337,24 +331,24 @@ public class MathUtilities{
 	}
 
 	public static int getDistanceToGround(EntityLivingBase ent, World world){
-		int yCoord = (int)(ent.posY);
+		int y = (int) ( ent.posY );
 		int distance = 0;
 
 		while (distance < 20){
-			if (world.isAirBlock(new BlockPos((int)Math.floor(ent.posX), yCoord, (int)Math.floor(ent.posZ)))){
+			if ( world.isAirBlock ( new BlockPos ( (int) Math.floor ( ent.posX ) , y , (int) Math.floor ( ent.posZ ) ) ) ) {
 				break;
 			}
-			if (world.isAirBlock(new BlockPos((int)Math.ceil(ent.posX), yCoord, (int)Math.floor(ent.posZ)))){
+			if ( world.isAirBlock ( new BlockPos ( (int) Math.ceil ( ent.posX ) , y , (int) Math.floor ( ent.posZ ) ) ) ) {
 				break;
 			}
-			if (world.isAirBlock(new BlockPos((int)Math.floor(ent.posX), yCoord, (int)Math.ceil(ent.posZ)))){
+			if ( world.isAirBlock ( new BlockPos ( (int) Math.floor ( ent.posX ) , y , (int) Math.ceil ( ent.posZ ) ) ) ) {
 				break;
 			}
-			if (world.isAirBlock(new BlockPos((int)Math.ceil(ent.posX), yCoord, (int)Math.ceil(ent.posZ)))){
+			if ( world.isAirBlock ( new BlockPos ( (int) Math.ceil ( ent.posX ) , y , (int) Math.ceil ( ent.posZ ) ) ) ) {
 				break;
 			}
 			distance++;
-			yCoord--;
+			y--;
 		}
 
 		return distance;
