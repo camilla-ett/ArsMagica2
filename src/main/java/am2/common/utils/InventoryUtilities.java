@@ -17,12 +17,12 @@ public class InventoryUtilities{
 	public static int decrementStackQuantity(IInventory inventory, int slotIndex, int quantity){
 		int deducted = 0;
 		ItemStack stack = inventory.getStackInSlot(slotIndex);
-		if (stack != null){
-			if (stack.stackSize < quantity)
-				quantity = stack.stackSize;
-			stack.stackSize -= quantity;
+		if (!stack.isEmpty()){
+			if (stack.getCount() < quantity)
+				quantity = stack.getCount();
+			stack.shrink(quantity);
 			deducted = quantity;
-			if (stack.stackSize <= 0){
+			if (stack.getCount() <= 0){
 				inventory.setInventorySlotContents(slotIndex, null);
 			} else {
 				inventory.setInventorySlotContents(slotIndex, stack);
@@ -32,13 +32,13 @@ public class InventoryUtilities{
 	}
 
 	public static boolean mergeIntoInventory(IInventory inventory, ItemStack toMerge){
-		return mergeIntoInventory(inventory, toMerge, toMerge.stackSize);
+		return mergeIntoInventory(inventory, toMerge, toMerge.getCount());
 	}
 
 	public static boolean mergeIntoInventory(IInventory inventory, ItemStack toMerge, int quantity){
 
-		if (quantity > toMerge.stackSize)
-			quantity = toMerge.stackSize;
+		if (quantity > toMerge.getCount())
+			quantity = toMerge.getCount();
 
 		int qty = quantity;
 		int emptySlot = -1;
@@ -46,56 +46,56 @@ public class InventoryUtilities{
 			if (!inventory.isItemValidForSlot(i, toMerge))
 				continue;
 			ItemStack inventoryStack = inventory.getStackInSlot(i);
-			if (inventoryStack == null){
+			if (!inventoryStack.isEmpty()){
 				if (emptySlot == -1)
 					emptySlot = i;
 				continue;
 			}
 			if (compareItemStacks(inventoryStack, toMerge, true, false, true, true)){
-				if (inventoryStack.stackSize == inventoryStack.getMaxStackSize())
+				if (inventoryStack.getCount() == inventoryStack.getMaxStackSize())
 					continue;
-				if (inventoryStack.getMaxStackSize() - inventoryStack.stackSize >= qty){
-					inventoryStack.stackSize += qty;
-					toMerge.stackSize -= qty;
+				if (inventoryStack.getMaxStackSize() - inventoryStack.getCount() >= qty){
+					inventoryStack.grow(qty);
+					toMerge.shrink(qty);
 					return true;
 				}else{
-					qty -= (inventoryStack.getMaxStackSize() - inventoryStack.stackSize);
-					inventoryStack.stackSize = inventoryStack.getMaxStackSize();
+					qty -= (inventoryStack.getMaxStackSize() - inventoryStack.getCount());
+					inventoryStack.setCount(inventoryStack.getMaxStackSize());
 				}
 			}
 		}
 
 		if (qty > 0 && emptySlot > -1){
 			ItemStack temp = toMerge.copy();
-			temp.stackSize = qty;
+			temp.setCount(qty);
 			inventory.setInventorySlotContents(emptySlot, temp);
-			toMerge.stackSize -= qty;
+			toMerge.shrink(qty);
 			return true;
 		}
 
-		toMerge.stackSize = qty;
+		toMerge.setCount(qty);
 
 		return false;
 	}
 
 	public static boolean mergeIntoInventory(IInventory inventory, ItemStack toMerge, int quantity, EnumFacing side){
 		if (inventory instanceof ISidedInventory){
-			ItemStack stack = toMerge.splitStack(Math.min(toMerge.stackSize, quantity));
+			ItemStack stack = toMerge.splitStack(Math.min(toMerge.getCount(), quantity));
 			ISidedInventory sidedInventory = (ISidedInventory)inventory;
 			int[] slots = sidedInventory.getSlotsForFace(side);
 			boolean flag = false;
 
-			for (int i = 0; i < slots.length && stack != null && stack.stackSize > 0; ++i){
+			for (int i = 0; i < slots.length && !stack.isEmpty() && stack.getCount() > 0; ++i){
 				//For each slot that can be accessed from this side
 				ItemStack prvStack = sidedInventory.getStackInSlot(slots[i]);
 				if (InventoryUtilities.canInsertItemToInventory(sidedInventory, stack, slots[i], side)){
 					//if the items can be inserted into the current slot
-					if (prvStack == null){
+					if (!prvStack.isEmpty()){
 						//if the stack in the slot is null then get the max value that can be moved and transfer the stack to the inventory
 						int max = Math.min(stack.getMaxStackSize(), sidedInventory.getInventoryStackLimit());
-						if (max >= stack.stackSize){
+						if (max >= stack.getCount()){
 							sidedInventory.setInventorySlotContents(slots[i], stack.copy());
-							stack.stackSize = 0;
+							stack.setCount(0);
 							flag = true;
 						}else{
 							sidedInventory.setInventorySlotContents(slots[i], stack.splitStack(max));
@@ -105,17 +105,17 @@ public class InventoryUtilities{
 						//if the stack in the slot can be merged with the stack we are trying to move get the max items that can exist in the slot
 						//and insert as many as will fit from the stack we are trying to move
 						int max = Math.min(stack.getMaxStackSize(), sidedInventory.getInventoryStackLimit());
-						if (max > prvStack.stackSize){
-							int qty = Math.min(stack.stackSize, max - prvStack.stackSize);
-							prvStack.stackSize += qty;
-							stack.stackSize -= qty;
+						if (max > prvStack.getCount()){
+							int qty = Math.min(stack.getCount(), max - prvStack.getCount());
+							prvStack.grow(qty);
+							stack.shrink(qty);
 							flag = qty > 0;
 						}
 					}
 				}
 			}
 
-			toMerge.stackSize = toMerge.stackSize + stack.stackSize;
+			toMerge.setCount((toMerge.getCount() + stack.getCount()));
 			return flag;
 		}else{
 			return mergeIntoInventory(inventory, toMerge, quantity);
@@ -128,10 +128,10 @@ public class InventoryUtilities{
 			for (int i = 0; i < handler.getSlots(); i++) {
 				ItemStack itemStack = handler.extractItem(i, quantity, true);
 				if (compareItemStacks(itemStack, search, true, false, true, true)) {
-					if (search.stackSize <= 0){
+					if (search.getCount() <= 0){
 						return true;
 					}else{
-						quantity -= handler.extractItem(i, quantity, false).stackSize;
+						quantity -= handler.extractItem(i, quantity, false).getCount();
 						if (quantity <= 0){
 							return true;
 						}
@@ -141,15 +141,15 @@ public class InventoryUtilities{
 		}
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack inventoryStack = inventory.getStackInSlot(i);
-			if (inventoryStack == null) continue;
+			if (!inventoryStack.isEmpty()) continue;
 			if (compareItemStacks(inventoryStack, search, true, false, true, true)){
-				if (search.stackSize <= 0){
+				if (search.getCount() <= 0){
 					inventory.setInventorySlotContents(i, null);
 					return true;
 				}else{
 					quantity -= decrementStackQuantity(inventory, i, quantity);
 					if (quantity <= 0){
-						if (inventory.getStackInSlot(i) != null && inventory.getStackInSlot(i).stackSize <= 0){
+						if (!inventory.getStackInSlot(i).isEmpty() && inventory.getStackInSlot(i).getCount() <= 0){
 							inventory.setInventorySlotContents(i, null);
 						}
 						return true;
@@ -164,9 +164,9 @@ public class InventoryUtilities{
 		int qtyFound = 0;
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack inventoryStack = inventory.getStackInSlot(i);
-			if (inventoryStack == null) continue;
+			if (!inventoryStack.isEmpty()) continue;
 			if (compareItemStacks(inventoryStack, search, true, false, true, true)){
-				qtyFound += inventoryStack.stackSize;
+				qtyFound += inventoryStack.getCount();
 				if (qtyFound >= quantity)
 					return true;
 			}
@@ -182,10 +182,10 @@ public class InventoryUtilities{
 
 			for (int i = 0; i < slots.length; i++){
 				ItemStack inventoryStack = inventory.getStackInSlot(slots[i]);
-				if (inventoryStack == null)
+				if (!inventoryStack.isEmpty())
 					continue;
 				else if (compareItemStacks(inventoryStack, search, true, false, true, true)){
-					qtyFound += inventoryStack.stackSize;
+					qtyFound += inventoryStack.getCount();
 					if (qtyFound >= quantity)
 						return true;
 				}
@@ -200,7 +200,7 @@ public class InventoryUtilities{
 	public static int getFirstBlockInInventory(IInventory inventory){
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack inventoryStack = inventory.getStackInSlot(i);
-			if (inventoryStack == null) continue;
+			if (!inventoryStack.isEmpty()) continue;
 			if (inventoryStack.getItem() instanceof ItemBlock)
 				return i;
 		}
@@ -210,7 +210,7 @@ public class InventoryUtilities{
 	public static boolean isInventoryFull(IInventory inventory){
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack inventoryStack = inventory.getStackInSlot(i);
-			if (inventoryStack == null) return false;
+			if (!inventoryStack.isEmpty()) return false;
 		}
 		return true;
 	}
@@ -220,7 +220,7 @@ public class InventoryUtilities{
 	 */
 	public static boolean canMergeHappen(IInventory source, IInventory dest){
 		for (int i = 0; i < source.getSizeInventory(); ++i){
-			if (source.getStackInSlot(i) == null) continue;
+			if (!source.getStackInSlot(i).isEmpty()) continue;
 			if (inventoryHasRoomFor(dest, source.getStackInSlot(i))){
 				return true;
 			}
@@ -231,21 +231,21 @@ public class InventoryUtilities{
 	public static boolean isInventoryEmpty(IInventory inventory){
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack inventoryStack = inventory.getStackInSlot(i);
-			if (inventoryStack != null) return false;
+			if (!inventoryStack.isEmpty()) return false;
 		}
 		return true;
 	}
 
 	public static boolean inventoryHasRoomFor(IInventory inventory, ItemStack stack){
-		return inventoryHasRoomFor(inventory, stack, stack.stackSize);
+		return inventoryHasRoomFor(inventory, stack, stack.getCount());
 	}
 
 	public static boolean inventoryHasRoomFor(IInventory inventory, ItemStack stack, int qty){
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack invStack = inventory.getStackInSlot(i);
-			if (invStack == null)
+			if (!invStack.isEmpty())
 				return true;
-			if (compareItemStacks(invStack, stack, true, false, true, true) && invStack.getMaxStackSize() - invStack.stackSize >= qty)
+			if (compareItemStacks(invStack, stack, true, false, true, true) && invStack.getMaxStackSize() - invStack.getCount() >= qty)
 				return true;
 		}
 		return false;
@@ -258,9 +258,9 @@ public class InventoryUtilities{
 
 			for (int i = 0; i < slots.length; i++){
 				ItemStack invStack = inventory.getStackInSlot(slots[i]);
-				if (invStack == null)
+				if (!invStack.isEmpty())
 					return true;
-				if (compareItemStacks(invStack, stack, true, false, true, true) && invStack.getMaxStackSize() - invStack.stackSize >= qty)
+				if (compareItemStacks(invStack, stack, true, false, true, true) && invStack.getMaxStackSize() - invStack.getCount() >= qty)
 					return true;
 			}
 
@@ -287,7 +287,7 @@ public class InventoryUtilities{
 	public static int getInventorySlotIndexFor(IInventory inventory, Item item, int metadata){
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack stack = inventory.getStackInSlot(i);
-			if (stack != null && stack.getItem() == item && (stack.getItemDamage() == metadata || metadata == Short.MAX_VALUE))
+			if (!stack.isEmpty() && stack.getItem() == item && (stack.getItemDamage() == metadata || metadata == Short.MAX_VALUE))
 				return i;
 		}
 		return -1;
@@ -296,7 +296,7 @@ public class InventoryUtilities{
 	public static int getInventorySlotIndexFor(IInventory inventory, ItemStack search){
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack stack = inventory.getStackInSlot(i);
-			if (stack != null && compareItemStacks(stack, search, false, false, true, true))
+			if (!stack.isEmpty() && compareItemStacks(stack, search, false, false, true, true))
 				return i;
 		}
 		return -1;
@@ -316,8 +316,8 @@ public class InventoryUtilities{
 		int totalCount = 0;
 		for (int i = 0; i < inventory.getSizeInventory(); ++i){
 			ItemStack invStack = inventory.getStackInSlot(i);
-			if (invStack != null && compareItemStacks(invStack, stack, true, false, true, true))
-				totalCount += invStack.stackSize;
+			if (!invStack.isEmpty() && compareItemStacks(invStack, stack, true, false, true, true))
+				totalCount += invStack.getCount();
 		}
 
 		return totalCount;
@@ -331,8 +331,8 @@ public class InventoryUtilities{
 
 			for (int i = 0; i < slots.length; i++){
 				ItemStack invStack = inventory.getStackInSlot(slots[i]);
-				if (invStack != null && compareItemStacks(invStack, stack, true, false, true, true))
-					totalCount += invStack.stackSize;
+				if (!invStack.isEmpty() && compareItemStacks(invStack, stack, true, false, true, true))
+					totalCount += invStack.getCount();
 			}
 
 			return totalCount;
@@ -342,7 +342,7 @@ public class InventoryUtilities{
 	}
 
 	public static boolean canInsertItemToInventory(IInventory inventory, ItemStack itemStack, int slot, EnumFacing side){
-		return !inventory.isItemValidForSlot(slot, itemStack) ? false : !(inventory instanceof ISidedInventory) || ((ISidedInventory)inventory).canInsertItem(slot, itemStack, side);
+		return inventory.isItemValidForSlot(slot, itemStack) && (!(inventory instanceof ISidedInventory) || ((ISidedInventory) inventory).canInsertItem(slot, itemStack, side));
 	}
 
 	private static boolean canExtractItemFromInventory(IInventory inventory, ItemStack itemStack, int slot, EnumFacing side){
@@ -352,7 +352,7 @@ public class InventoryUtilities{
 	public static GetFirstStackStartingFromSlotResult getFirstStackStartingFromSlot(IInventory inventory, ItemStack itemStack, int slot) {
 		for (int i = slot; i < inventory.getSizeInventory(); i++){
 			itemStack = inventory.getStackInSlot(i);
-			if (itemStack != null){
+			if (!itemStack.isEmpty()){
 				return new GetFirstStackStartingFromSlotResult(i, itemStack);
 			}
 		}
@@ -365,7 +365,7 @@ public class InventoryUtilities{
 			IItemHandler handler = ((TileEntity) inventory).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 			for (int i = slot; i < handler.getSlots(); i++) {
 				itemStack = handler.extractItem(i, 1, true);
-				if (itemStack != null) {
+				if (!itemStack.isEmpty()) {
 					return new GetFirstStackStartingFromSlotResult(i, itemStack);
 				}
 			}
@@ -377,7 +377,7 @@ public class InventoryUtilities{
 
 			for (int i = slot; i < slots.length; i++){
 				itemStack = inventory.getStackInSlot(slots[i]);
-				if (itemStack != null && canExtractItemFromInventory(sidedInventory, itemStack, slots[i], side)){
+				if (!itemStack.isEmpty() && canExtractItemFromInventory(sidedInventory, itemStack, slots[i], side)){
 					return new GetFirstStackStartingFromSlotResult(i, itemStack);
 				}
 			}
@@ -404,7 +404,7 @@ public class InventoryUtilities{
 	}
 
 	public static ItemStack replaceItem(ItemStack originalStack, Item newItem){
-		ItemStack stack = new ItemStack(newItem, originalStack.stackSize, originalStack.getItemDamage());
+		ItemStack stack = new ItemStack(newItem, originalStack.getCount(), originalStack.getItemDamage());
 		if (originalStack.hasTagCompound())
 			stack.setTagCompound(originalStack.getTagCompound());
 		return stack;
@@ -423,12 +423,9 @@ public class InventoryUtilities{
 			return false;
 		}
 
-		if (matchStackSize && a.stackSize != b.stackSize)
+		if (matchStackSize && a.getCount() != b.getCount())
 			return false;
 
-		if (matchNBT && !ItemStack.areItemStackTagsEqual(a, b))
-			return false;
-
-		return true;
+		return !matchNBT || ItemStack.areItemStackTagsEqual(a, b);
 	}
 }

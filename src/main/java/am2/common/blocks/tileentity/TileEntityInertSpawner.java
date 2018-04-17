@@ -1,14 +1,10 @@
 package am2.common.blocks.tileentity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemCrystalPhylactery;
 import am2.common.power.PowerNodeRegistry;
 import am2.common.power.PowerTypes;
+import com.google.common.collect.Lists;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +16,9 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedInventory{
 
@@ -47,6 +46,11 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 	@Override
 	public int getSizeInventory(){
 		return 1;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return false;
 	}
 
 	@Override
@@ -81,8 +85,8 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		phylactery = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
-			itemstack.stackSize = getInventoryStackLimit();
+		if (itemstack != null && itemstack.getItemDamage() > getInventoryStackLimit()){
+			itemstack.setCount(getInventoryStackLimit());
 		}
 
 	}
@@ -98,8 +102,8 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+	public boolean isUsableByPlayer(EntityPlayer entityplayer){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 
@@ -136,7 +140,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 						this.getStackInSlot(0) == null &&
 						stack != null &&
 						stack.getItem() == ItemDefs.crystalPhylactery &&
-						stack.stackSize == 1 &&
+						stack.getCount() == 1 &&
 						((ItemCrystalPhylactery)stack.getItem()).isFull(stack);
 	}
 
@@ -178,7 +182,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 
 		if (nbttagcompound.hasKey("phylactery")){
 			NBTTagCompound phy = nbttagcompound.getCompoundTag("phylactery");
-			phylactery = ItemStack.loadItemStackFromNBT(phy);
+			phylactery = new ItemStack(phy);
 		}
 
 		this.powerConsumed = nbttagcompound.getFloat("powerConsumed");
@@ -188,9 +192,9 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 	public void update(){
 		super.update();
 
-		if (!worldObj.isRemote && phylactery != null && phylactery.getItem() instanceof ItemCrystalPhylactery && ((ItemCrystalPhylactery)phylactery.getItem()).isFull(phylactery) && worldObj.isBlockIndirectlyGettingPowered(pos) == 0){
+		if (!world.isRemote && phylactery != null && phylactery.getItem() instanceof ItemCrystalPhylactery && ((ItemCrystalPhylactery)phylactery.getItem()).isFull(phylactery) && world.isBlockIndirectlyGettingPowered(pos) == 0){
 			if (this.powerConsumed < TileEntityInertSpawner.SUMMON_REQ){
-				this.powerConsumed += PowerNodeRegistry.For(worldObj).consumePower(
+				this.powerConsumed += PowerNodeRegistry.For(world).consumePower(
 						this,
 						PowerTypes.DARK,
 						Math.min(this.getCapacity(), TileEntityInertSpawner.SUMMON_REQ - this.powerConsumed)
@@ -201,11 +205,11 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 				if (item.isFull(phylactery)){
 					String clazzName = item.getSpawnClass(phylactery);
 					if (clazzName != null){
-						Class<?> clazz = (Class<?>)EntityList.NAME_TO_CLASS.get(clazzName);
+						Class<?> clazz = (Class<?>)EntityList.getClassFromName(clazzName);
 						if (clazz != null){
 							EntityLiving entity = null;
 							try{
-								entity = (EntityLiving)clazz.getConstructor(World.class).newInstance(worldObj);
+								entity = (EntityLiving)clazz.getConstructor(World.class).newInstance(world);
 							}catch (Throwable t){
 								t.printStackTrace();
 								return;
@@ -213,7 +217,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 							if (entity == null)
 								return;
 							setEntityPosition(entity);
-							worldObj.spawnEntityInWorld(entity);
+							world.spawnEntity(entity);
 						}
 					}
 				}
@@ -223,7 +227,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 
 	private void setEntityPosition(EntityLiving e){
 		for (EnumFacing dir : EnumFacing.values()){
-			if (worldObj.isAirBlock(pos.offset(dir))){
+			if (world.isAirBlock(pos.offset(dir))){
 				e.setPosition(pos.offset(dir).getX(), pos.offset(dir).getY(), pos.offset(dir).getZ());
 				return;
 			}

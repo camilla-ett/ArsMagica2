@@ -1,11 +1,8 @@
 package am2.common.blocks.tileentity.flickers;
 
-import java.util.ArrayList;
-
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
-import am2.api.flickers.IFlickerController;
 import am2.api.flickers.AbstractFlickerFunctionality;
+import am2.api.flickers.IFlickerController;
 import am2.api.math.AMVector3;
 import am2.common.blocks.BlockArsMagicaOre;
 import am2.common.defs.BlockDefs;
@@ -16,6 +13,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class FlickerOperatorMoonstoneAttractor extends AbstractFlickerFunctionality{
 	
@@ -82,13 +81,13 @@ public class FlickerOperatorMoonstoneAttractor extends AbstractFlickerFunctional
 				"RLR",
 				"AME",
 				"I T",
-				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
-				Character.valueOf('E'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)),
-				Character.valueOf('M'), new ItemStack(BlockDefs.ores, 1, BlockArsMagicaOre.EnumOreType.MOONSTONE.ordinal()),
-				Character.valueOf('I'), AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
-				Character.valueOf('T'), AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH)
+				'R', new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
+				'L', new ItemStack(ItemDefs.flickerJar, 1, Affinity.LIGHTNING.getID()),
+				'A', new ItemStack(ItemDefs.flickerJar, 1, Affinity.ARCANE.getID()),
+				'E', new ItemStack(ItemDefs.flickerJar, 1, Affinity.EARTH.getID()),
+				'M', new ItemStack(BlockDefs.ores, 1, BlockArsMagicaOre.EnumOreType.MOONSTONE.ordinal()),
+				'I', AffinityShiftUtils.getEssenceForAffinity(Affinity.AIR),
+				'T', AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH)
 		};
 	}
 	

@@ -1,13 +1,13 @@
 package am2.common.blocks;
 
 import am2.common.defs.CreativeTabsDefs;
+import am2.common.registry.Registry;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockAMFlower extends BlockBush{
 
@@ -19,8 +19,8 @@ public class BlockAMFlower extends BlockBush{
 
 	public BlockAMFlower registerAndName(ResourceLocation loc){
 		setUnlocalizedName(loc.toString());
-		GameRegistry.register(this, loc);
-		GameRegistry.register(new ItemBlock(this), loc);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemBlock(this));
 		return this;
 	}
 

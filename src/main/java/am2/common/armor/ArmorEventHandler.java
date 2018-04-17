@@ -1,7 +1,5 @@
 package am2.common.armor;
 
-import org.lwjgl.input.Keyboard;
-
 import am2.ArsMagica2;
 import am2.api.extensions.IAffinityData;
 import am2.api.items.armor.ArmorImbuement;
@@ -30,6 +28,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
 
 public class ArmorEventHandler{
 
@@ -37,7 +36,7 @@ public class ArmorEventHandler{
 	public void onEntityLiving(LivingUpdateEvent event){
 		if (!(event.getEntityLiving() instanceof EntityPlayer))
 			return;
-		if (!event.getEntityLiving().worldObj.isRemote)
+		if (!event.getEntityLiving().world.isRemote)
 			ArmorHelper.HandleArmorInfusion((EntityPlayer) event.getEntityLiving());
 		doInfusions(ImbuementApplicationTypes.ON_TICK, event, (EntityPlayer)event.getEntityLiving());
 	}
@@ -68,8 +67,8 @@ public class ArmorEventHandler{
 
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event){
-		if (event.getSource().getEntity() instanceof EntityPlayer)
-			doXPInfusion((EntityPlayer)event.getSource().getEntity(), 1, Math.min(20, event.getEntityLiving().getMaxHealth()));
+		if (event.getSource().getTrueSource() instanceof EntityPlayer)
+			doXPInfusion((EntityPlayer)event.getSource().getTrueSource(), 1, Math.min(20, event.getEntityLiving().getMaxHealth()));
 
 		if (!(event.getEntityLiving() instanceof EntityPlayer))
 			return;
@@ -86,7 +85,7 @@ public class ArmorEventHandler{
 			for (ArmorImbuement inf : infusions){
 				if (inf.getApplicationTypes().contains(type)){
 					if (inf.canApply(player)){
-						if (inf.applyEffect(player, player.worldObj, player.getItemStackFromSlot(slot), type, event)){
+						if (inf.applyEffect(player, player.world, player.getItemStackFromSlot(slot), type, event)){
 							if (inf.getCooldown() > 0){
 								if (props.getCooldown(inf.getRegistryName().toString()) < inf.getCooldown()){
 									props.addCooldown(inf.getRegistryName().toString(), inf.getCooldown());
@@ -102,7 +101,7 @@ public class ArmorEventHandler{
 	}
 
 	private void doXPInfusion(EntityPlayer player, float xpMin, float xpMax){
-		float amt = (float)((player.worldObj.rand.nextFloat() * xpMin + (xpMax - xpMin)) * ArsMagica2.config.getArmorXPInfusionFactor());
+		float amt = (float)((player.world.rand.nextFloat() * xpMin + (xpMax - xpMin)) * ArsMagica2.config.getArmorXPInfusionFactor());
 		ArmorHelper.addXPToArmor(amt, player);
 	}
 	
@@ -140,7 +139,7 @@ public class ArmorEventHandler{
 				event.getToolTip().add(I18n.format("am2.tooltip.shiftForDetails"));
 			}
 		}else if (stack.getItem() instanceof ItemBlock){
-			if (((ItemBlock)stack.getItem()).block == BlockDefs.manaBattery){
+			if (((ItemBlock)stack.getItem()).getBlock() == BlockDefs.manaBattery){
 				if (stack.hasTagCompound()){
 					NBTTagList list = stack.getTagCompound().getTagList("Lore", Constants.NBT.TAG_COMPOUND);
 					if (list != null){

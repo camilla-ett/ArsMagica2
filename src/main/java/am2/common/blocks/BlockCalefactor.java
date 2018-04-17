@@ -10,7 +10,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -52,8 +51,7 @@ public class BlockCalefactor extends BlockAMPowered{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 
 		if (HandleSpecialItems(worldIn, playerIn, pos)){
 			return true;
@@ -62,7 +60,7 @@ public class BlockCalefactor extends BlockAMPowered{
 			if (KeystoneUtilities.HandleKeystoneRecovery(playerIn, ((IKeystoneLockable<?>)worldIn.getTileEntity(pos))))
 				return true;
 			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable<?>)worldIn.getTileEntity(pos), playerIn, KeystoneAccessType.USE)){
-				super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+				super.onBlockActivated(worldIn, pos, state,  playerIn, hand, facing, hitX, hitY, hitZ);
 				FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_CALEFACTOR, worldIn, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
@@ -86,14 +84,14 @@ public class BlockCalefactor extends BlockAMPowered{
 			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 			do{
-				if (itemstack.stackSize <= 0){
+				if (itemstack.getCount() <= 0){
 					break;
 				}
 				int i1 = world.rand.nextInt(21) + 10;
-				if (i1 > itemstack.stackSize){
-					i1 = itemstack.stackSize;
+				if (i1 > itemstack.getCount()){
+					i1 = itemstack.getCount();
 				}
-				itemstack.stackSize -= i1;
+				itemstack.shrink(i1);
 				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 				newItem.setTagCompound(itemstack.getTagCompound());
 				EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
@@ -101,7 +99,7 @@ public class BlockCalefactor extends BlockAMPowered{
 				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-				world.spawnEntityInWorld(entityitem);
+				world.spawnEntity(entityitem);
 			}while (true);
 		}
 		super.breakBlock(world, pos, state);
@@ -116,8 +114,4 @@ public class BlockCalefactor extends BlockAMPowered{
 		return super.removedByPlayer(state, world, pos, player, willHarvest);
 	}
 	
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getStateFromMeta(meta).withProperty(FACING, facing.getOpposite());
-	}
 }

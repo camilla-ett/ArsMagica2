@@ -1,10 +1,9 @@
 package am2.common.blocks.tileentity.flickers;
 
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
-import am2.api.flickers.IFlickerController;
 import am2.api.flickers.AbstractFlickerFunctionality;
+import am2.api.flickers.IFlickerController;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
 import am2.client.particles.ParticleFloatUpward;
@@ -138,9 +137,9 @@ public class FlickerOperatorLight extends AbstractFlickerFunctionality{
 				"ISI",
 				"F L",
 				"ISI",
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)),
+				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.FIRE.getID()),
 				Character.valueOf('S'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.LIGHTNING.getID()),
 				Character.valueOf('I'), ItemDefs.liquidEssenceBottle
 
 		};

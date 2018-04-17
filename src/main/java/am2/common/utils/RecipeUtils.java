@@ -1,9 +1,5 @@
 package am2.common.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import am2.api.SpellRegistry;
 import am2.api.event.SpellRecipeItemsEvent;
 import am2.api.spell.AbstractSpellPart;
@@ -22,6 +18,10 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class RecipeUtils {
 //	public static ItemStack parsePotionMeta(String potionDefinition){
@@ -61,7 +61,7 @@ public class RecipeUtils {
 	
 	public static IRecipe getRecipeFor(ItemStack item){
 
-		if (item == null || item.getItem() == null) return null;
+		if (item.isEmpty() || item.getItem() == null) return null;
 
 		try{
 			List<IRecipe> list = CraftingManager.getInstance().getRecipeList();

@@ -13,24 +13,28 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill> implements IForgeRegi
 	private String[] parents;
 	private ResourceLocation icon;
 	private SkillPoint point;
+	private int ID;
 	
-	public Skill(ResourceLocation icon, SkillPoint point, int posX, int posY, SkillTree tree, String... string) {
+	public Skill(ResourceLocation icon, SkillPoint point, int posX, int posY, SkillTree tree, int ID, String... string) {
 		this.posX = posX;
 		this.posY = posY;
 		this.tree = tree;
 		this.parents = string;
 		this.icon = icon;
 		this.point = point;
+		this.ID = ID;
 	}
 	
-	public Skill(String string, ResourceLocation icon, SkillPoint point, int posX, int posY, SkillTree tree, String... strings) {
-		this(icon, point, posX, posY, tree, strings);
+	public Skill(String string, ResourceLocation icon, SkillPoint point, int posX, int posY, SkillTree tree, int ID, String... strings) {
+		this(icon, point, posX, posY, tree, ID, strings);
 		this.setRegistryName(new ResourceLocation(ArsMagicaAPI.getCurrentModId(), string));
 	}
 
-	public String getID() {
+	public String getIDString() {
 		return getRegistryName().toString();
 	}
+
+	public int getID() { return this.ID; }
 	
 	public int getPosX() {
 		return posX;
@@ -53,7 +57,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill> implements IForgeRegi
 	}
 	
 	public void writeToNBT (NBTTagCompound tag) {
-		tag.setString("ID", getID());
+		tag.setString("ID", getIDString());
 	}
 	
 	public SkillPoint getPoint() {
@@ -62,14 +66,14 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill> implements IForgeRegi
 	
 	@Override
 	public String toString() {
-		return getID();
+		return getIDString();
 	}
 	
 	public String getName() {
-		return I18n.format("skill." + getID() + ".name");
+		return I18n.format("skill." + getIDString() + ".name");
 	}
 	
 	public String getOcculusDesc() {
-		return I18n.format("skill." + getID() + ".occulusdesc");
+		return I18n.format("skill." + getIDString() + ".occulusdesc");
 	}
 }

@@ -34,7 +34,7 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 			return false;
 		}
 
-		if (player.getHeldItemMainhand() != null && (player.getHeldItemMainhand().getItem() == ItemDefs.spellStaffMagitech || player.getHeldItemMainhand().getItem() == ItemDefs.crystalWrench)){
+		if (!player.getHeldItemMainhand().isEmpty()&& (player.getHeldItemMainhand().getItem() == ItemDefs.spellStaffMagitech || player.getHeldItemMainhand().getItem() == ItemDefs.crystalWrench)){
 			return true;
 		}
 
@@ -46,8 +46,8 @@ public abstract class BlockAMPowered extends BlockAMContainer{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
 		
 		if (HandleSpecialItems(worldIn, playerIn, pos))
 			return false;

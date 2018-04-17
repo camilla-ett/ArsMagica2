@@ -1,18 +1,17 @@
 package am2.common.blocks;
 
 import am2.common.items.ItemBlockOreBlock;
+import am2.common.registry.Registry;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockArsMagicaBlock extends BlockAM {
 	
@@ -55,8 +54,8 @@ public class BlockArsMagicaBlock extends BlockAM {
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockOreBlock(this), rl);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemBlockOreBlock(this));
 		return this;
 	}
 	

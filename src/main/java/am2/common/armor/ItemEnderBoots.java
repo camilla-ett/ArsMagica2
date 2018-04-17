@@ -1,13 +1,15 @@
 package am2.common.armor;
 
-import java.util.List;
-
 import am2.common.extensions.EntityExtension;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemEnderBoots extends AMArmor{
 
@@ -27,8 +29,8 @@ public class ItemEnderBoots extends AMArmor{
 	}
 
 	@Override
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.format("am2.tooltip.ender_boots"));
-		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+		tooltip.add(I18n.format("am2.tooltip.ender_boots"));
+		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 }

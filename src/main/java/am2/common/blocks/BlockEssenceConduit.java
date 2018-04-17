@@ -5,10 +5,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockEssenceConduit extends BlockAMPowered{
@@ -20,11 +18,6 @@ public class BlockEssenceConduit extends BlockAMPowered{
 		setHardness(3.0f);
 		setBlockBounds(0.125f, 0.0f, 0.125f, 0.875f, 1.0f, 0.875f);
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
-	}
-	
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getStateFromMeta(meta).withProperty(FACING, facing.getOpposite());
 	}
 
 	@Override

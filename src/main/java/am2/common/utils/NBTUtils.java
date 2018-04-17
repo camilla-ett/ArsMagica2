@@ -32,9 +32,9 @@ public class NBTUtils {
 	}
 	
 	public static void writeVecToNBT(Vec3d vec, NBTTagCompound nbt) {
-		nbt.setDouble("X", vec.xCoord);
-		nbt.setDouble("Y", vec.yCoord);
-		nbt.setDouble("Z", vec.zCoord);
+		nbt.setDouble("X", vec.x);
+		nbt.setDouble("Y", vec.y);
+		nbt.setDouble("Z", vec.z);
 	}
 	
 	public static void writeBlockPosToNBT(BlockPos pos, NBTTagCompound nbt) {
@@ -52,13 +52,11 @@ public class NBTUtils {
 	}
 	
 	public static Vec3d readVecFromNBT(NBTTagCompound nbt) {
-		Vec3d vec = new Vec3d(nbt.getDouble("X"), nbt.getDouble("Y"), nbt.getDouble("Z"));
-		return vec;
+		return new Vec3d(nbt.getDouble("X"), nbt.getDouble("Y"), nbt.getDouble("Z"));
 	}
 	
 	public static BlockPos readBlockPosFromNBT(NBTTagCompound nbt) {
-		BlockPos pos = new BlockPos(nbt.getInteger("X"), nbt.getInteger("Y"), nbt.getInteger("Z"));
-		return pos;
+		return new BlockPos(nbt.getInteger("X"), nbt.getInteger("Y"), nbt.getInteger("Z"));
 	}
 	
 	public static Object getValueAt (NBTTagCompound baseTag, String tagName) {
@@ -83,9 +81,8 @@ public class NBTUtils {
 	public static NBTTagCompound addTag (NBTTagCompound upper, String name) {
 		if (upper == null) throw new IllegalStateException("Base Tag must exist");
 		NBTTagCompound newTag = new NBTTagCompound();
-		if (upper.getCompoundTag(name) != null) {
-			newTag = upper.getCompoundTag(name);
-		}
+		upper.getCompoundTag(name);
+		newTag = upper.getCompoundTag(name);
 		upper.setTag(name, newTag);
 		return newTag;		
 	}
@@ -99,9 +96,8 @@ public class NBTUtils {
 	public static NBTTagList addList (NBTTagCompound upper, int type, String name) {
 		if (upper == null) throw new IllegalStateException("Base Tag must exist");
 		NBTTagList newTag = new NBTTagList();
-		if (upper.getTagList(name, type) != null) {
-			newTag = upper.getTagList(name, type);
-		}
+		upper.getTagList(name, type);
+		newTag = upper.getTagList(name, type);
 		upper.setTag(name, newTag);
 		return newTag;
 	}
@@ -117,13 +113,10 @@ public class NBTUtils {
 		for (String key : container.getKeySet()) {
 			NBTBase tag = container.getTag(key);
 			NBTBase checkTag = check.getTag(key);
-			if (tag == null)
-				continue;
-			if (checkTag == null) return false;
 			if (tag instanceof NBTTagCompound && checkTag instanceof NBTTagCompound)
-				match &= contains((NBTTagCompound)tag, (NBTTagCompound) checkTag);
+				match = contains((NBTTagCompound) tag, (NBTTagCompound) checkTag);
 			else
-				match &= tag.equals(checkTag);
+				match = tag.equals(checkTag);
 			if (!match)
 				break;
 		}
@@ -135,9 +128,9 @@ public class NBTUtils {
 		ItemStack[] array = new ItemStack[list.tagCount()];
 		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound tmp = list.getCompoundTagAt(i);
-			ItemStack is = ItemStack.loadItemStackFromNBT(tmp);
-			if (is != null)
-				is.stackSize = tmp.getInteger("ActualStackSize");
+			ItemStack is = new ItemStack(tmp);
+			if (!is.isEmpty())
+				is.setCount(tmp.getInteger("ActualStackSize"));
 			array[tmp.getInteger("ID")] = is;
 		}
 		return array;
@@ -148,7 +141,7 @@ public class NBTUtils {
 		for (int i = 0; i < recipeData.length; i++) {
 			NBTTagCompound tmp = new NBTTagCompound();
 			tmp.setInteger("ID", i);
-			tmp.setInteger("ActualStackSize", recipeData[i].stackSize);
+			tmp.setInteger("ActualStackSize", recipeData[i].getCount());
 			recipeData[i].writeToNBT(tmp);
 			list.appendTag(tmp);
 		}

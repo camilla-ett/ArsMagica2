@@ -121,7 +121,7 @@ public class EntitySpellProjectile extends Entity {
 				this.setDead();
 			RayTraceResult mop = world.rayTraceBlocks(new Vec3d(posX, posY, posZ),new Vec3d(posX + motionX, posY + motionY, posZ + motionZ));
 			if (mop != null && mop.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
-				if (world.getBlockState(mop.getBlockPos()).getBlock().isBlockSolid(world, mop.getBlockPos(), mop.sideHit) || targetWater()) {
+				if (world.getBlockState(mop.getBlockPos()).getBlock().isNormalCube(world.getBlockState(mop.getBlockPos())) || targetWater()) {
 					world.getBlockState(mop.getBlockPos()).getBlock().onEntityCollidedWithBlock(world, mop.getBlockPos(), world.getBlockState(mop.getBlockPos()), this);
 					if (getBounces() > 0) {
 						bounce(mop.sideHit);

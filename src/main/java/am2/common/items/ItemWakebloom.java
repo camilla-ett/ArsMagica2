@@ -21,33 +21,32 @@ public class ItemWakebloom extends ItemBlock{
 	
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
-			EnumHand hand){
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn){
 		RayTraceResult mop = this.rayTrace(worldIn, playerIn, true);
 
 		if (mop == null){
-			return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
+			return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
 		}else{
 			if (mop.typeOfHit == Type.BLOCK){
 
 				if (!worldIn.canMineBlockBody(playerIn, mop.getBlockPos())){
-					return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
+					return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
 				}
 
-				if (!playerIn.canPlayerEdit(mop.getBlockPos(), mop.sideHit, itemStackIn)){
-					return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
+				if (!playerIn.canPlayerEdit(mop.getBlockPos(), mop.sideHit, playerIn.getHeldItem(handIn))){
+					return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
 				}
 
 				if (worldIn.getBlockState(mop.getBlockPos()) == Blocks.FLOWING_WATER.getDefaultState() || worldIn.getBlockState(mop.getBlockPos()) == Blocks.WATER.getDefaultState()){
 					worldIn.setBlockState(mop.getBlockPos().up(), BlockDefs.wakebloom.getDefaultState());
 
 					if (!playerIn.capabilities.isCreativeMode){
-						--itemStackIn.stackSize;
+						playerIn.getHeldItem(handIn).shrink(1);
 					}
 				}
 			}
 
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 		}
 	}
 

@@ -37,34 +37,33 @@ public class ItemCrystalWrench extends ItemArsMagicaRotated{
 	}
 	
 	@Override
-	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-			EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand){
+	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand){
 		TileEntity te = world.getTileEntity(pos);
 
-		if (!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
+		if (!player.getHeldItem(hand).hasTagCompound())
+			player.getHeldItem(hand).setTagCompound(new NBTTagCompound());
 
-		int cMode = getMode(stack);
-		if (te != null && !(te instanceof IPowerNode || te instanceof TileEntityParticleEmitter) && cMode == MODE_DISCONNECT){
-			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.wrongWrenchMode")));
+		int cMode = getMode(player.getHeldItem(hand));
+		if (!(te instanceof IPowerNode || te instanceof TileEntityParticleEmitter) && cMode == MODE_DISCONNECT){
+			player.sendMessage(new TextComponentString(I18n.format("am2.tooltip.wrongWrenchMode")));
 			return EnumActionResult.FAIL;
 		}
 
-		if (te != null && te instanceof IPowerNode){
+		if (te instanceof IPowerNode){
 			if (cMode == MODE_DISCONNECT){
 				doDisconnect((IPowerNode<?>)te, world, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ, player);
 				return EnumActionResult.FAIL;
 			}
 
-			if (stack.getTagCompound().hasKey(KEY_PAIRLOC)){
-				doPairNodes(world, pos, stack, player, hitX, hitY, hitZ, te);
+			if (player.getHeldItem(hand).getTagCompound().hasKey(KEY_PAIRLOC)){
+				doPairNodes(world, pos, player.getHeldItem(hand), player, hitX, hitY, hitZ, te);
 			}else{
-				storePairLocation(world, te, stack, player, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ);
+				storePairLocation(world, te, player.getHeldItem(hand), player, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ);
 			}
-		}else if (te != null && te instanceof TileEntityCrystalMarker && stack.getTagCompound() != null && stack.getTagCompound().hasKey(HAB_PAIRLOC)){
-			handleCMPair(stack, world, player, te, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ);
+		}else if (te instanceof TileEntityCrystalMarker && player.getHeldItem(hand).getTagCompound() != null && player.getHeldItem(hand).getTagCompound().hasKey(HAB_PAIRLOC)){
+			handleCMPair(player.getHeldItem(hand), world, player, te, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ);
 		}else if (player.isSneaking()){
-			handleModeChanges(stack);
+			handleModeChanges(player.getHeldItem(hand));
 
 		}
 		return EnumActionResult.PASS;
@@ -108,8 +107,8 @@ public class ItemCrystalWrench extends ItemArsMagicaRotated{
 	private void doPairNodes(World world, BlockPos pos, ItemStack stack, EntityPlayer player, double hitX, double hitY, double hitZ, TileEntity te){
 		AMVector3 source = AMVector3.readFromNBT(stack.getTagCompound().getCompoundTag(KEY_PAIRLOC));
 		TileEntity sourceTE = world.getTileEntity(source.toBlockPos());
-		if (sourceTE != null && sourceTE instanceof IPowerNode && !world.isRemote){
-			player.addChatMessage(new TextComponentString(PowerNodeRegistry.For(world).tryPairNodes((IPowerNode<?>)sourceTE, (IPowerNode<?>)te)));
+		if (sourceTE instanceof IPowerNode && !world.isRemote){
+			player.sendMessage(new TextComponentString(PowerNodeRegistry.For(world).tryPairNodes((IPowerNode<?>)sourceTE, (IPowerNode<?>)te)));
 		}else if (world.isRemote){
 			spawnLinkParticles(world, pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ);
 		}
@@ -120,9 +119,9 @@ public class ItemCrystalWrench extends ItemArsMagicaRotated{
 	private void doDisconnect(IPowerNode<?> node, World world, double hitX, double hitY, double hitZ, EntityPlayer player){
 		PowerNodeRegistry.For(world).tryDisconnectAllNodes(node);
 		if (world.isRemote){
-			spawnLinkParticles(player.worldObj, hitX, hitY, hitZ, true);
+			spawnLinkParticles(player.world, hitX, hitY, hitZ, true);
 		}else{
-			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.disconnectPower")));
+			player.sendMessage(new TextComponentString(I18n.format("am2.tooltip.disconnectPower")));
 		}
 	}
 

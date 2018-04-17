@@ -1,14 +1,13 @@
 package am2.common.blocks.tileentity.flickers;
 
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.flickers.IFlickerController;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.common.defs.ItemDefs;
 import am2.common.utils.AffinityShiftUtils;
-import am2.api.flickers.AbstractFlickerFunctionality;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.init.Items;
@@ -115,9 +114,9 @@ public class FlickerOperatorNaturesBounty extends AbstractFlickerFunctionality{
 				Character.valueOf('B'), new ItemStack(Items.DYE, 1, 15),
 				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
 				Character.valueOf('N'), AffinityShiftUtils.getEssenceForAffinity(Affinity.NATURE),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER))
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.LIFE.getID()),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.NATURE.getID()),
+				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.WATER.getID())
 
 		};
 	}

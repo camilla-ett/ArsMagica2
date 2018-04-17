@@ -1,9 +1,5 @@
 package am2.common.blocks.tileentity;
 
-import java.util.UUID;
-
-import com.google.common.collect.Lists;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
 import am2.api.blocks.IKeystoneLockable;
@@ -16,6 +12,7 @@ import am2.common.power.PowerTypes;
 import am2.common.spell.component.Summon;
 import am2.common.utils.DummyEntityPlayer;
 import am2.common.utils.EntityUtils;
+import com.google.common.collect.Lists;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +25,8 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.Constants;
+
+import java.util.UUID;
 
 public class TileEntitySummoner extends TileEntityAMPower implements IInventory, IKeystoneLockable<TileEntitySummoner>{
 
@@ -49,7 +48,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	}
 
 	private boolean isRedstonePowered(){
-		return this.worldObj.isBlockIndirectlyGettingPowered(pos) > 0;
+		return this.world.isBlockIndirectlyGettingPowered(pos) > 0;
 	}
 
 	@Override
@@ -60,22 +59,22 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 		summonCooldown--;
 		if (summonCooldown < 0) summonCooldown = 0;
 
-		if (!worldObj.isRemote && summonCooldown == 0 && prevSummonCooldown > 0){
-			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+		if (!world.isRemote && summonCooldown == 0 && prevSummonCooldown > 0){
+			world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 2);
 		}
 
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			EntityLiving ent = getSummonedCreature();
 			if (ent == null){
 				summonEntityID = -1;
 			}
 			if (isRedstonePowered() && inventory[SUMMON_SLOT] != null){
-				if (PowerNodeRegistry.For(this.worldObj).checkPower(this, maintainCost)){
+				if (PowerNodeRegistry.For(this.world).checkPower(this, maintainCost)){
 					if (ent == null && canSummon()){
 						summonCreature();
 					}else{
 						if (ent != null){
-							PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), maintainCost);
+							PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(this.world).getHighestPowerType(this), maintainCost);
 						}
 					}
 				}else{
@@ -84,7 +83,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 			}else{
 				if (ent != null){
 					unsummonCreature();
-					PowerNodeRegistry.For(this.worldObj).insertPower(this, PowerTypes.NEUTRAL, summonCost / 2);
+					PowerNodeRegistry.For(this.world).insertPower(this, PowerTypes.NEUTRAL, summonCost / 2);
 				}
 			}
 		}
@@ -101,9 +100,9 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	}
 
 	public boolean canSummon(){
-		if (this.worldObj == null)
+		if (this.world == null)
 			return false;
-		return summonCooldown == 0 && PowerNodeRegistry.For(this.worldObj).checkPower(this, getSummonCost() + powerPadding);
+		return summonCooldown == 0 && PowerNodeRegistry.For(this.world).checkPower(this, getSummonCost() + powerPadding);
 	}
 
 	public boolean hasSummon(){
@@ -111,42 +110,47 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	}
 
 	private void summonCreature(){
-		if (worldObj.isRemote || this.summonEntityID != -1) return;
+		if (world.isRemote || this.summonEntityID != -1) return;
 		if (dummyCaster == null){
-			dummyCaster = new DummyEntityPlayer(worldObj);
+			dummyCaster = new DummyEntityPlayer(world);
 		}
 		//FIXME
 		SpellData data = new SpellData(new ItemStack(ItemDefs.spell), Lists.newArrayList(), UUID.randomUUID(), new NBTTagCompound());
 		data.getStoredData().setString("SummonType", inventory[SUMMON_SLOT].getTagCompound().getString("SpawnClassName"));
-		EntityLiving summon = ((Summon)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2:summon"))).summonCreature(data, dummyCaster, dummyCaster, worldObj, pos.getX(), pos.getY() + 1, pos.getZ());
+		EntityLiving summon = ((Summon)ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation("arsmagica2:summon"))).summonCreature(data, dummyCaster, dummyCaster, world, pos.getX(), pos.getY() + 1, pos.getZ());
 		if (summon != null){
 			if (summon instanceof EntityCreature)
 				EntityUtils.setGuardSpawnLocation((EntityCreature)summon, pos.getX(), pos.getY(), pos.getZ());
 			this.summonEntityID = summon.getEntityId();
-			PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), summonCost);
+			PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(this.world).getHighestPowerType(this), summonCost);
 			this.summonCooldown = TileEntitySummoner.maxSummonCooldown;
 			EntityUtils.setTileSpawned(summon, this);
-			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+			world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 2);
 		}
 	}
 
 	private void unsummonCreature(){
-		if (worldObj.isRemote) return;
+		if (world.isRemote) return;
 		EntityLiving ent = getSummonedCreature();
 		if (ent == null) return;
 		ent.attackEntityFrom(DamageSources.unsummon, 1000000);
 		this.summonEntityID = -1;
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+		world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 2);
 	}
 
 	private EntityLiving getSummonedCreature(){
 		if (this.summonEntityID == -1) return null;
-		return (EntityLiving)worldObj.getEntityByID(this.summonEntityID);
+		return (EntityLiving)world.getEntityByID(this.summonEntityID);
 	}
 
 	@Override
 	public int getSizeInventory(){
 		return 7;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return false;
 	}
 
 	@Override
@@ -177,13 +181,13 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	@Override
 	public ItemStack decrStackSize(int i, int j){
 		if (inventory[i] != null){
-			if (inventory[i].stackSize <= j){
+			if (inventory[i].getCount() <= j){
 				ItemStack itemstack = inventory[i];
 				inventory[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventory[i].splitStack(j);
-			if (inventory[i].stackSize == 0){
+			if (inventory[i].getCount() == 0){
 				inventory[i] = null;
 			}
 			return itemstack1;
@@ -206,8 +210,8 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
-			itemstack.stackSize = getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()){
+			itemstack.setCount(getInventoryStackLimit());
 		}
 	}
 
@@ -227,8 +231,8 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+	public boolean isUsableByPlayer(EntityPlayer entityplayer){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSqToCenter(pos) <= 64D;
@@ -258,7 +262,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
-				inventory[byte0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+				inventory[byte0] = new ItemStack(nbttagcompound1);
 			}
 		}
 	}

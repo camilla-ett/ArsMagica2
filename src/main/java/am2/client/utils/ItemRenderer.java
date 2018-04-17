@@ -58,7 +58,7 @@ public class ItemRenderer {
 			GlStateManager.popMatrix();
 			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		}
-		if (event.getStack() == null || event.getStack().getItem() == null || Block.getBlockFromItem(event.getStack().getItem()) == null) return;
+		if (event.getStack().isEmpty()  || event.getStack().getItem() == null|| Block.getBlockFromItem(event.getStack().getItem()) == null) return;
 		Block block = Block.getBlockFromItem(event.getStack().getItem());
 		if (!(block instanceof ITileEntityProvider)) return;
 		TileEntity te = ((ITileEntityProvider)block).createNewTileEntity(Minecraft.getMinecraft().world, event.getStack().getItemDamage());

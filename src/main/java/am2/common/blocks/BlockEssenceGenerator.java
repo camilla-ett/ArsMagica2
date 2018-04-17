@@ -1,9 +1,5 @@
 package am2.common.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import am2.ArsMagica2;
 import am2.common.blocks.tileentity.TileEntityBlackAurem;
 import am2.common.blocks.tileentity.TileEntityCelestialPrism;
@@ -27,6 +23,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class BlockEssenceGenerator extends BlockAMPowered{
 
@@ -104,12 +104,12 @@ public class BlockEssenceGenerator extends BlockAMPowered{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,  EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (HandleSpecialItems(worldIn, playerIn, pos))
 			return true;
 		if (worldIn.getBlockState(pos).getBlock() == BlockDefs.obelisk)
 			FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_OBELISK, worldIn, pos.getX(), pos.getY(), pos.getZ());
-		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
 	}
 
 	@Override

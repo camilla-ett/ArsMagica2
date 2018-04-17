@@ -1,11 +1,9 @@
 package am2.common.blocks;
 
-import java.util.List;
-import java.util.Random;
-
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemBlockOre;
 import am2.common.items.ItemOre;
+import am2.common.registry.Registry;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -18,7 +16,8 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.Random;
 
 public class BlockArsMagicaOre extends BlockAM {
 	
@@ -87,8 +86,8 @@ public class BlockArsMagicaOre extends BlockAM {
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockOre(this), rl);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemBlockOre(this));
 		return this;
 	}
 	

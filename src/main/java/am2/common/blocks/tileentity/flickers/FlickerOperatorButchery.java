@@ -1,17 +1,13 @@
 package am2.common.blocks.tileentity.flickers;
 
-import java.util.HashMap;
-import java.util.List;
-
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.flickers.IFlickerController;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.SpawnBlacklists;
-import am2.api.flickers.AbstractFlickerFunctionality;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -21,6 +17,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class FlickerOperatorButchery extends AbstractFlickerFunctionality{
 
@@ -40,7 +39,7 @@ public class FlickerOperatorButchery extends AbstractFlickerFunctionality{
 	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		HashMap<Class<?>, Integer> entityCount = new HashMap<>();
 		int radius = 6;
-		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).getPos()).expandXyz(radius));
+		List<EntityAnimal> creatures = worldObj.getEntitiesWithinAABB(EntityAnimal.class, new AxisAlignedBB(((TileEntity)habitat).getPos()).expand(radius, radius, radius));
 		for (EntityAnimal creature : creatures){
 			Class<? extends EntityAnimal> clazz = creature.getClass();
 			if (!SpawnBlacklists.canButcheryAffect(clazz))
@@ -59,7 +58,7 @@ public class FlickerOperatorButchery extends AbstractFlickerFunctionality{
 						particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.05f, 1, false));
 					}
 				}else{
-					creature.attackEntityFrom(DamageSource.generic, 500);
+					creature.attackEntityFrom(DamageSource.GENERIC, 500);
 				}
 				return true;
 			}
@@ -95,9 +94,9 @@ public class FlickerOperatorButchery extends AbstractFlickerFunctionality{
 				Character.valueOf('P'), new ItemStack(Items.PORKCHOP),
 				Character.valueOf('B'), new ItemStack(Items.BEEF),
 				Character.valueOf('C'), new ItemStack(Items.CHICKEN),
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)),
+				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.FIRE.getID()),
 				Character.valueOf('G'), new ItemStack(Items.GOLDEN_SWORD),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.LIFE.getID()),
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()),
 				Character.valueOf('E'), new ItemStack(ItemDefs.evilBook)
 		};
