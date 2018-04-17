@@ -1,45 +1,15 @@
 package am2.common.defs;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-
 import am2.common.LogHelper;
-import am2.common.buffs.BuffEffect;
-import am2.common.buffs.BuffEffectAgility;
-import am2.common.buffs.BuffEffectAstralDistortion;
-import am2.common.buffs.BuffEffectBurnoutReduction;
-import am2.common.buffs.BuffEffectCharmed;
-import am2.common.buffs.BuffEffectClarity;
-import am2.common.buffs.BuffEffectEntangled;
-import am2.common.buffs.BuffEffectFlight;
-import am2.common.buffs.BuffEffectFrostSlowed;
-import am2.common.buffs.BuffEffectFury;
-import am2.common.buffs.BuffEffectGravityWell;
-import am2.common.buffs.BuffEffectHaste;
-import am2.common.buffs.BuffEffectIllumination;
-import am2.common.buffs.BuffEffectInstantMana;
-import am2.common.buffs.BuffEffectLeap;
-import am2.common.buffs.BuffEffectLevitation;
-import am2.common.buffs.BuffEffectMagicShield;
-import am2.common.buffs.BuffEffectManaRegen;
-import am2.common.buffs.BuffEffectRegeneration;
-import am2.common.buffs.BuffEffectScrambleSynapses;
-import am2.common.buffs.BuffEffectShield;
-import am2.common.buffs.BuffEffectShrink;
-import am2.common.buffs.BuffEffectSilence;
-import am2.common.buffs.BuffEffectSlowfall;
-import am2.common.buffs.BuffEffectSpellReflect;
-import am2.common.buffs.BuffEffectSwiftSwim;
-import am2.common.buffs.BuffEffectTemporalAnchor;
-import am2.common.buffs.BuffEffectTrueSight;
-import am2.common.buffs.BuffEffectWaterBreathing;
-import am2.common.buffs.BuffEffectWateryGrave;
-import am2.common.buffs.BuffMaxManaIncrease;
+import am2.common.buffs.*;
+import am2.common.registry.Registry;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 public class PotionEffectsDefs {
 	
@@ -113,7 +83,7 @@ public class PotionEffectsDefs {
 	
 	public static Potion createPotion(ResourceLocation loc, boolean isBad, int color, int posX, int posY, Class<? extends BuffEffect> clazz) {
 		Potion potion = new AMPotion(isBad, color).setIconIndex(posX, posY).setPotionName(loc.toString());
-		GameRegistry.register(potion, loc);
+		Registry.GetPotionsToRegister().add(potion);
 		classForId.put(potion, clazz);
 		return potion;
 	}

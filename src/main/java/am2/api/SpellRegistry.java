@@ -35,10 +35,10 @@ public class SpellRegistry {
 	 * @param posY : Position in the tree
 	 * @param parents : Skills that need to be unlocked before this one (occulus only)
 	 */
-	public static void registerSpellComponent (String id, ResourceLocation icon, SkillPoint tier, SpellComponent part, SkillTree tree, int posX, int posY, String... parents) {
+	public static void registerSpellComponent (String id, ResourceLocation icon, SkillPoint tier, SpellComponent part, SkillTree tree, int posX, int posY, int ID, String... parents) {
 		id = id.toLowerCase();
 		ArsMagicaAPI.getSpellRegistry().register(part);
-		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, parents));
+		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, ID, parents));
 	}
 	
 	/**
@@ -53,10 +53,10 @@ public class SpellRegistry {
 	 * @param posY : Position in the tree
 	 * @param parents : Skills that need to be unlocked before this one (occulus only)
 	 */
-	public static void registerSpellModifier (String id, ResourceLocation icon, SkillPoint tier, SpellModifier part, SkillTree tree, int posX, int posY, String... parents) {
+	public static void registerSpellModifier (String id, ResourceLocation icon, SkillPoint tier, SpellModifier part, SkillTree tree, int posX, int posY, int ID,String... parents) {
 		id = id.toLowerCase();
 		ArsMagicaAPI.getSpellRegistry().register(part);
-		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, parents));	}
+		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, ID, parents));	}
 	
 	/**
 	 * Register a spell shape
@@ -70,10 +70,10 @@ public class SpellRegistry {
 	 * @param posY : Position in the tree
 	 * @param parents : Skills that need to be unlocked before this one (occulus only)
 	 */
-	public static void registerSpellShape (String id, ResourceLocation icon, SkillPoint tier, SpellShape part, SkillTree tree, int posX, int posY, String... parents) {
+	public static void registerSpellShape (String id, ResourceLocation icon, SkillPoint tier, SpellShape part, SkillTree tree, int posX, int posY, int ID, String... parents) {
 		id = id.toLowerCase();
 		ArsMagicaAPI.getSpellRegistry().register(part);
-		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, parents));	}
+		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, ID, parents));	}
 	
 	public static Skill getSkillFromPart(AbstractSpellPart part) {
 		return ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName());

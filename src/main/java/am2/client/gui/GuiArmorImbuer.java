@@ -139,7 +139,7 @@ public class GuiArmorImbuer extends GuiContainer{
 					buttonNext.visible = false;
 					buttonPrev.visible = false;
 				}
-				if (offset <= 0) 
+				if (offset <= 0)
 					buttonPrev.enabled = false;
 				else
 					buttonPrev.enabled = true;

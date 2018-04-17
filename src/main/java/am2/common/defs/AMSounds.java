@@ -1,8 +1,8 @@
 package am2.common.defs;
 
+import am2.common.registry.Registry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class AMSounds {
 	
@@ -82,6 +82,8 @@ public class AMSounds {
 	public static final SoundEvent MOO_HIT = register("arsmagica2:mob.moo.hit");
 	
 	private static SoundEvent register(String str) {
-		return GameRegistry.register(new SoundEvent(new ResourceLocation(str)).setRegistryName(new ResourceLocation(str)));
+		SoundEvent no_u = new SoundEvent(new ResourceLocation(str)).setRegistryName(new ResourceLocation(str));
+		Registry.GetSoundsToRegister().add(no_u);
+		return no_u;
 	}
 }

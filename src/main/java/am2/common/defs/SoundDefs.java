@@ -1,13 +1,12 @@
 package am2.common.defs;
 
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.event.SpellSoundMapEvent;
+import am2.common.registry.Registry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.Map;
 
@@ -79,13 +78,13 @@ public class SoundDefs {
 		register(CAST_NONE);
 		register(CAST_WATER);
 
-		GameRegistry.register(RUNE_CAST, new ResourceLocation(ArsMagica2.MODID, "spell.rune.cast"));
-		GameRegistry.register(CONTINGENCY, new ResourceLocation(ArsMagica2.MODID, "spell.contingency.contingency"));
-		GameRegistry.register(BINDING_CAST, new ResourceLocation(ArsMagica2.MODID, "spell.binding.cast"));
+		register(RUNE_CAST);
+		register(CONTINGENCY);
+		register(BINDING_CAST);
 	}
 
 	private static void register(SoundEvent event) {
-		GameRegistry.register(event);
+		Registry.GetSoundsToRegister().add(event);
 	}
 
 	public static void createSoundMaps() {

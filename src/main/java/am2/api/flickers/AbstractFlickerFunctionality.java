@@ -22,6 +22,8 @@ public abstract class AbstractFlickerFunctionality extends IForgeRegistryEntry.I
 	public abstract void RemoveOperator(World worldObj, IFlickerController<?> controller, boolean powered, Affinity[] flickers);
 
 	public abstract Object[] getRecipe();
+
+	public abstract int getID();
 	
 	public abstract ResourceLocation getTexture();
 	

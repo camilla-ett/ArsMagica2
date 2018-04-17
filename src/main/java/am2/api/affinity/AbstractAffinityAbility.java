@@ -1,7 +1,5 @@
 package am2.api.affinity;
 
-import javax.annotation.Nullable;
-
 import am2.api.event.SpellCastEvent;
 import am2.api.extensions.IAffinityData;
 import am2.common.extensions.AffinityData;
@@ -9,10 +7,12 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+
+import javax.annotation.Nullable;
 
 public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<AbstractAffinityAbility>{
 	
@@ -82,7 +82,7 @@ public abstract class AbstractAffinityAbility extends IForgeRegistryEntry.Impl<A
 	public void applyTick(EntityPlayer player) {}
 	
 	public void applyKeyPress(EntityPlayer player) {};
-	
+
 	public void applyHurt(EntityPlayer player, LivingHurtEvent event, boolean isAttacker) {}
 	
 	public void applyFall(EntityPlayer player, LivingFallEvent event) {}

@@ -9,10 +9,8 @@ import am2.common.power.PowerTypes;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.item.crafting.*;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.oredict.OreDictionary;
@@ -64,7 +62,9 @@ public class RecipeUtils {
 		if (item.isEmpty() || item.getItem() == null) return null;
 
 		try{
-			List<IRecipe> list = CraftingManager.getInstance().getRecipeList();
+		    return CraftingManager.getRecipe(item.getItem().getRegistryName());
+		    /*
+			List<IRecipe> list = CraftingManager.();
 			ArrayList<IRecipe> possibleRecipes = new ArrayList<>();
 			for (IRecipe recipe : list){
 				ItemStack output = ((IRecipe)recipe).getRecipeOutput();
@@ -81,7 +81,7 @@ public class RecipeUtils {
 					}
 				}
 				return (IRecipe)possibleRecipes.get(0);
-			}
+			}*/
 		}catch (Throwable t){
 
 		}
@@ -120,7 +120,7 @@ public class RecipeUtils {
 		}
 		
 		Object[] recipeItems = part.getRecipe();
-		SpellRecipeItemsEvent event = new SpellRecipeItemsEvent(SpellRegistry.getSkillFromPart(part).getID(), recipeItems);
+		SpellRecipeItemsEvent event = new SpellRecipeItemsEvent(SpellRegistry.getSkillFromPart(part).getIDString(), recipeItems);
 		MinecraftForge.EVENT_BUS.post(event);
 		recipeItems = event.recipeItems;
 
@@ -193,7 +193,7 @@ public class RecipeUtils {
 	}
 	
 	private static Object[] getShapedRecipeItems(ShapedRecipes recipe){
-		return recipe.recipeItems;
+		return recipe.recipeItems.toArray();
 	}
 
 	private static Object[] getShapelessRecipeItems(ShapelessRecipes recipe){
@@ -251,19 +251,19 @@ public class RecipeUtils {
 			var12.put(var13, var14);
 		}
 
-		ItemStack[] var15 = new ItemStack[var5 * var6];
+		NonNullList<Ingredient> var15 = NonNullList.create();
 
 		for (int var16 = 0; var16 < var5 * var6; ++var16){
 			char var10 = var3.charAt(var16);
 
 			if (var12.containsKey(Character.valueOf(var10))){
-				var15[var16] = ((ItemStack)var12.get(Character.valueOf(var10))).copy();
+				var15.add(var16, Ingredient.fromStacks(var12.get(Character.valueOf(var10))));
 			}else{
-				var15[var16] = null;
+				var15.add(var16, Ingredient.fromStacks(ItemStack.EMPTY));
 			}
 		}
 
-		ShapedRecipes var17 = new ShapedRecipes(var5, var6, var15, itemstack);
+		ShapedRecipes var17 = new ShapedRecipes("shapedRecipies", var5, var6, var15, itemstack);
 		recipeList.add(0, var17);
 	}
 

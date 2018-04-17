@@ -16,6 +16,8 @@ public class Registry {
 
     private static List<Item> itemsToRegister;
     private static List<Block> blocksToRegister;
+    private static List<SoundEvent> soundsToRegister;
+    private static List<Potion> potionsToRegister;
 
     public static List<Item> GetItemsToRegister() {
         if (itemsToRegister == null) itemsToRegister = new ArrayList<>();
@@ -25,6 +27,16 @@ public class Registry {
     public static List<Block> GetBlocksToRegister() {
         if (blocksToRegister == null) blocksToRegister = new ArrayList<>();
         return blocksToRegister;
+    }
+
+    public static List<SoundEvent> GetSoundsToRegister() {
+        if (soundsToRegister == null) soundsToRegister = new ArrayList<>();
+        return soundsToRegister;
+    }
+
+    public static List<Potion> GetPotionsToRegister() {
+        if (potionsToRegister == null) potionsToRegister = new ArrayList<>();
+        return potionsToRegister;
     }
 
 
