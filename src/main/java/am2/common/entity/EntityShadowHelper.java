@@ -30,11 +30,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class EntityShadowHelper extends EntityLiving{
 
 	private static final DataParameter<String> DW_MIMIC_USER = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.STRING); //who are we going to mimic (MC skin)?	
-	private static final DataParameter<Optional<ItemStack>> DW_SEARCH_ITEM = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.OPTIONAL_ITEM_STACK); //what are we currently looking for?
+	private static final DataParameter<ItemStack> DW_SEARCH_ITEM = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.ITEM_STACK); //what are we currently looking for?
 	private static final DataParameter<Integer> DW_TRANS_LOC_X = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //x-coordinate of search
 	private static final DataParameter<Integer> DW_TRANS_LOC_Y = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //y-coordinate of search
 	private static final DataParameter<Integer> DW_TRANS_LOC_Z = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //z-coordinate of search
-	private static final DataParameter<Optional<ItemStack>> DW_HELD_ITEM = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.OPTIONAL_ITEM_STACK); //current held item
+	private static final DataParameter<ItemStack> DW_HELD_ITEM = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.ITEM_STACK); //current held item
 	private static final DataParameter<Integer> DW_DROP_LOC_X = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //x-coordinate of search
 	private static final DataParameter<Integer> DW_DROP_LOC_Y = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //y-coordinate of search
 	private static final DataParameter<Integer> DW_DROP_LOC_Z = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //z-coordinate of search
@@ -92,11 +92,11 @@ public class EntityShadowHelper extends EntityLiving{
 	protected void entityInit(){
 		super.entityInit();
 		this.dataManager.register(DW_MIMIC_USER, "");
-		this.dataManager.register(DW_SEARCH_ITEM, Optional.of(new ItemStack(Items.APPLE)));
+		this.dataManager.register(DW_SEARCH_ITEM, new ItemStack(Items.APPLE));
 		this.dataManager.register(DW_TRANS_LOC_X, 0);
 		this.dataManager.register(DW_TRANS_LOC_Y, 0);
 		this.dataManager.register(DW_TRANS_LOC_Z, 0);
-		this.dataManager.register(DW_HELD_ITEM, Optional.of(new ItemStack(Items.PAPER)));
+		this.dataManager.register(DW_HELD_ITEM, new ItemStack(Items.PAPER));
 		this.dataManager.register(DW_DROP_LOC_X, 0);
 		this.dataManager.register(DW_DROP_LOC_Y, 0);
 		this.dataManager.register(DW_DROP_LOC_Z, 0);
@@ -104,7 +104,7 @@ public class EntityShadowHelper extends EntityLiving{
 
 	public void setSearchLocationAndItem(AMVector3 location, ItemStack item){
 		if (this.world.isRemote) return;
-		this.dataManager.set(DW_SEARCH_ITEM, Optional.of(item));
+		this.dataManager.set(DW_SEARCH_ITEM, item);
 		this.dataManager.set(DW_TRANS_LOC_X, (int)location.x);
 		this.dataManager.set(DW_TRANS_LOC_Y, (int)location.y);
 		this.dataManager.set(DW_TRANS_LOC_Z, (int)location.z);
@@ -124,13 +124,9 @@ public class EntityShadowHelper extends EntityLiving{
 		return new AMVector3(this.dataManager.get(DW_DROP_LOC_X), this.dataManager.get(DW_DROP_LOC_Y), this.dataManager.get(DW_DROP_LOC_Z));
 	}
 
-	public ItemStack getSearchItem(){
-		return this.dataManager.get(DW_SEARCH_ITEM).orNull();
-	}
+	public ItemStack getSearchItem(){ return this.dataManager.get(DW_SEARCH_ITEM).EMPTY; }
 
-	public void setHeldItem(ItemStack item){
-		this.dataManager.set(DW_HELD_ITEM, Optional.of(item));
-	}
+	public void setHeldItem(ItemStack item){ this.dataManager.set(DW_HELD_ITEM, item); }
 
 	public void setMimicUser(String userName){
 		this.dataManager.set(DW_MIMIC_USER, userName);
@@ -159,9 +155,7 @@ public class EntityShadowHelper extends EntityLiving{
 	}
 
 	@Override
-	public ItemStack getHeldItemMainhand(){
-		return this.dataManager.get(DW_HELD_ITEM).orNull();
-	}
+	public ItemStack getHeldItemMainhand(){ return this.dataManager.get(DW_HELD_ITEM).EMPTY; }
 
 	@Override
 	public void onUpdate(){

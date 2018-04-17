@@ -174,7 +174,7 @@ public class EntityBroom extends EntityCreature{
 	}
 	
 	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand){
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand){
 		if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == ItemDefs.spellStaffMagitech){
 			if (this.world.isRemote){
 				for (int i = 0; i < ArsMagica2.config.getGFXLevel() * 2; ++i){

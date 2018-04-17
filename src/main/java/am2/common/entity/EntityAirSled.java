@@ -60,7 +60,7 @@ public class EntityAirSled extends EntityLiving{
 	
 	
 	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
+	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
 		if (this.getControllingPassenger() != null && this.getControllingPassenger() instanceof EntityPlayer && this.getControllingPassenger() != player){
 			return EnumActionResult.SUCCESS;
 		}else{
@@ -93,34 +93,34 @@ public class EntityAirSled extends EntityLiving{
 	}
 
 	@Override
-	public void moveEntityWithHeading(float par1, float par2){
+	public void travel(float strafe, float vertical, float forward){
 		if (this.getControllingPassenger() != null){
 			this.prevRotationYaw = this.rotationYaw = this.getControllingPassenger().rotationYaw;
 			this.rotationPitch = this.getControllingPassenger().rotationPitch * 0.5F;
 			this.setRotation(this.rotationYaw, this.rotationPitch);
 			this.rotationYawHead = this.renderYawOffset = this.rotationYaw;
-			par1 = ((EntityLivingBase)this.getControllingPassenger()).moveStrafing * 0.5F;
-			par2 = ((EntityLivingBase)this.getControllingPassenger()).moveForward;
+			strafe = ((EntityLivingBase)this.getControllingPassenger()).moveStrafing * 0.5F;
+			forward = ((EntityLivingBase)this.getControllingPassenger()).moveForward;
 
-			if (par2 <= 0.0F){
-				par2 *= 0.25F;
+			if (forward <= 0.0F){
+				forward *= 0.25F;
 			}
 
 			this.stepHeight = 1.0F;
 			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
 			if (!this.world.isRemote){
-				par2 *= 0.06f;
-				if (par1 != 0){
+				forward *= 0.06f;
+				if (strafe != 0){
 					float f4 = MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F);
 					float f5 = MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F);
-					this.motionX += (par1 * f5 - par2 * f4) * 0.06f;
-					this.motionZ += (par2 * f5 + par1 * f4) * 0.06f;
+					this.motionX += (strafe * f5 - forward * f4) * 0.06f;
+					this.motionZ += (forward * f5 + strafe * f4) * 0.06f;
 				}
 
-				this.motionX += -Math.sin(Math.toRadians(this.rotationYaw)) * par2;
-				this.motionY += -Math.sin(Math.toRadians(this.rotationPitch)) * par2;
-				this.motionZ += Math.cos(Math.toRadians(this.rotationYaw)) * par2;
+				this.motionX += -Math.sin(Math.toRadians(this.rotationYaw)) * forward;
+				this.motionY += -Math.sin(Math.toRadians(this.rotationPitch)) * forward;
+				this.motionZ += Math.cos(Math.toRadians(this.rotationYaw)) * forward;
 			}
 		}else{
 			if (!this.onGround && !this.isInWater())
