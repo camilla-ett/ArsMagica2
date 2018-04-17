@@ -225,7 +225,7 @@ public class AMIngameGUI extends Gui {
 					int sy = mana_hud.iY - 2 * parts.size() / 2;
 					for (List<AbstractSpellPart> p : parts){
 						for (AbstractSpellPart part : p) {
-							TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(SpellRegistry.getSkillFromPart(part).getID());
+							TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(SpellRegistry.getSkillFromPart(part).getIDString());
 							if (icon != null){
 								this.DrawIconAtXY(icon, "items", sx, sy, false);
 								sx += 3;

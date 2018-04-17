@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import am2.api.IBoundItem;
 import am2.common.defs.ItemDefs;
+import am2.common.registry.Registry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -70,7 +71,7 @@ public class ItemBoundBow extends ItemBow implements IBoundItem {
 					if (!worldIn.isRemote) {
 						ItemArrow itemarrow = ItemDefs.BoundArrow;
 						EntityArrow entityarrow = itemarrow.createArrow(worldIn, copiedStack, entityplayer);
-						entityarrow.setAim(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw, 0.0F, f * 3.0F, 1.0F);
+						entityarrow.setPositionAndRotationDirect(entityplayer.rotationYawHead, entityplayer.rotationPitch, entityplayer.rotationYaw, 0.0F, f * 3.0F, 1, false);
 
 						if (f == 1.0F) {
 							entityarrow.setIsCritical(true);
@@ -79,7 +80,7 @@ public class ItemBoundBow extends ItemBow implements IBoundItem {
 						stack.damageItem(1, entityplayer);
 						entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
 
-						worldIn.spawnEntityInWorld(entityarrow);
+						worldIn.spawnEntity(entityarrow);
 					}
 
 					worldIn.playSound((EntityPlayer) null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
@@ -94,7 +95,7 @@ public class ItemBoundBow extends ItemBow implements IBoundItem {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
-		item.setItem(ItemDefs.spell);
+		item = new ItemStack(ItemDefs.spell);
 		return false;
 	}
 
@@ -105,7 +106,7 @@ public class ItemBoundBow extends ItemBow implements IBoundItem {
 
 	public ItemBoundBow registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		Registry.GetItemsToRegister().add(this);
 		return this;
 	}
 

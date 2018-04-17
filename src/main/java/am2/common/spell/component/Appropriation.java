@@ -279,7 +279,7 @@ public class Appropriation extends SpellComponent{
 				}
 			}else{
 
-				if (state == null || state.getBlockHardness(world, blockPos) == -1.0f){
+				if (state.getBlockHardness(world, blockPos) == -1.0f){
 					return false;
 				}
 

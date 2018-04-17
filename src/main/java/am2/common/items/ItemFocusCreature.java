@@ -19,11 +19,11 @@ public class ItemFocusCreature extends ItemFilterFocus{
 				" P ",
 				"LFT",
 				" W ",
-				Character.valueOf('P'), Items.PORKCHOP,
-				Character.valueOf('B'), Items.LEATHER,
-				Character.valueOf('F'), ItemDefs.standardFocus,
-				Character.valueOf('T'), Items.FEATHER,
-				Character.valueOf('W'), Blocks.WOOL,
+				'P', Items.PORKCHOP,
+				'B', Items.LEATHER,
+				'F', ItemDefs.standardFocus,
+				'T', Items.FEATHER,
+				'W', Blocks.WOOL,
 		};
 	}
 

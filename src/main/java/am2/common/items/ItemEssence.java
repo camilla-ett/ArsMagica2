@@ -33,6 +33,6 @@ public class ItemEssence extends ItemArsMagica {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
-		return I18n.format("item.arsmagica2:essence.name", ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage()).getLocalizedName());
+		return I18n.format("item.arsmagica2:essence.name", ((Affinity)ArsMagicaAPI.getAffinityRegistry().getValuesCollection().toArray()[(stack.getItemDamage())]).getLocalizedName());
 	}
 }

@@ -49,7 +49,7 @@ public class Grow extends SpellComponent{
 
 		IBlockState block = world.getBlockState(pos);
 
-		BonemealEvent event = new BonemealEvent(DummyEntityPlayer.fromEntityLiving(caster), world, pos, world.getBlockState(pos));
+		BonemealEvent event = new BonemealEvent(DummyEntityPlayer.fromEntityLiving(caster), world, pos, world.getBlockState(pos), caster.getActiveHand(), caster.getHeldItem(caster.getActiveHand()));
 		if (MinecraftForge.EVENT_BUS.post(event)){
 			return false;
 		}

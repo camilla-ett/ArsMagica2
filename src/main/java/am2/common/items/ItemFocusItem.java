@@ -24,11 +24,11 @@ public class ItemFocusItem extends ItemFilterFocus{
 				" C ",
 				"PFS",
 				" W ",
-				Character.valueOf('C'), Blocks.COBBLESTONE,
-				Character.valueOf('B'), Items.STONE_PICKAXE,
-				Character.valueOf('F'), ItemDefs.standardFocus,
-				Character.valueOf('T'), Items.IRON_SHOVEL,
-				Character.valueOf('W'), Blocks.CRAFTING_TABLE
+				'C', Blocks.COBBLESTONE,
+				'B', Items.STONE_PICKAXE,
+				'F', ItemDefs.standardFocus,
+				'T', Items.IRON_SHOVEL,
+				'W', Blocks.CRAFTING_TABLE
 		};
 	}
 

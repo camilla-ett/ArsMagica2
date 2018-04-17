@@ -8,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -22,7 +23,7 @@ public class ItemFlickerFocus extends ItemArsMagica{
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
-		AbstractFlickerFunctionality operator = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(meta);
+		AbstractFlickerFunctionality operator = ((AbstractFlickerFunctionality)ArsMagicaAPI.getFlickerFocusRegistry().getValuesCollection().toArray()[meta]);
 		if (operator == null)
 			return "Trash";
 		return I18n.format("item.arsmagica2:FlickerFocusPrefix", I18n.format("item.arsmagica2:" + operator.getClass().getSimpleName() + ".name"));
@@ -30,9 +31,9 @@ public class ItemFlickerFocus extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		for (AbstractFlickerFunctionality func : ArsMagicaAPI.getFlickerFocusRegistry().getValues()){
-			par3List.add(new ItemStack(this, 1, ArsMagicaAPI.getFlickerFocusRegistry().getId(func)));
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items){
+		for (AbstractFlickerFunctionality func : ArsMagicaAPI.getFlickerFocusRegistry().getValuesCollection()){
+			items.add(new ItemStack(this, 1, func.getID()));
 		}
 	}
 }

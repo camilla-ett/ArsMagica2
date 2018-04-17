@@ -38,7 +38,7 @@ public class MeltArmor extends SpellComponent{
 	@Override
 	public boolean applyEffectEntity(SpellData spell, World world, EntityLivingBase caster, Entity target){
 		if (target instanceof EntityPlayer && !world.isRemote){
-			doMeltArmor(caster, ((EntityPlayer)target).inventory.armorInventory);
+			doMeltArmor(caster, ((EntityPlayer)target).inventory.armorInventory.toArray(new ItemStack[0]));
 			return true;
 		}
 		return false;

@@ -51,10 +51,7 @@ public class Light extends SpellComponent implements IRitualInteraction{
 					RitualShapeHelper.instance.consumeShape(this, world, pos);
 					world.setBlockState(pos, BlockDefs.celestialPrism.getDefaultState());
 					PowerNodeRegistry.For(world).registerPowerNode((IPowerNode<?>)world.getTileEntity(pos));
-				}else{
-
 				}
-
 				return true;
 			}
 		}

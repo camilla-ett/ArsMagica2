@@ -3,6 +3,7 @@ package am2.common.items;
 import am2.api.IBoundItem;
 import am2.api.extensions.ISpellCaster;
 import am2.common.defs.ItemDefs;
+import am2.common.registry.Registry;
 import am2.common.spell.SpellCaster;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +30,7 @@ public class ItemBoundSword extends ItemSword implements IBoundItem {
 		ItemStack copiedStack = stack.copy();
 		ISpellCaster caster = stack.copy().getCapability(SpellCaster.INSTANCE, null);
 		if (caster != null)
-			caster.createSpellData(copiedStack).execute(attacker.worldObj, attacker, target, target.posX, target.posY, target.posZ, null);
+			caster.createSpellData(copiedStack).execute(attacker.world, attacker, target, target.posX, target.posY, target.posZ, null);
 		target.hurtResistantTime = hurtResist;
 		return true;
 	}
@@ -42,7 +43,7 @@ public class ItemBoundSword extends ItemSword implements IBoundItem {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
-		item.setItem(ItemDefs.spell);
+		item = new ItemStack(ItemDefs.spell);
 		return false;
 	}
 
@@ -53,7 +54,7 @@ public class ItemBoundSword extends ItemSword implements IBoundItem {
 
 	public ItemSword registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		Registry.GetItemsToRegister().add(this);
 		return this;
 	}
 

@@ -19,6 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.client.resources.I18n;
@@ -40,12 +41,12 @@ public class ItemCandle extends ItemArsMagica{
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("search_block")){
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!player.getHeldItem(hand).hasTagCompound() || !player.getHeldItem(hand).getTagCompound().hasKey("search_block")){
 			IBlockState block = worldIn.getBlockState(pos);
-			if (playerIn.isSneaking() && block != null && block.getBlockHardness(worldIn, pos) > 0f && worldIn.getTileEntity(pos) == null){
+			if (player.isSneaking() &&  block.getBlockHardness(worldIn, pos) > 0f && worldIn.getTileEntity(pos) == null){
 				if (!worldIn.isRemote){
-					setSearchBlock(block, stack);
+					setSearchBlock(block, player.getHeldItem(hand));
 					worldIn.setBlockToAir(pos);
 				}else{
 					AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldIn, "radiant", pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
@@ -60,8 +61,8 @@ public class ItemCandle extends ItemArsMagica{
 
 		if (!worldIn.isRemote){
 
-			if (stack.hasTagCompound() && stack.getTagCompound().hasKey("search_block")){
-				playerIn.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.candlecantplace")));
+			if (player.getHeldItem(hand).hasTagCompound() && player.getHeldItem(hand).getTagCompound().hasKey("search_block")){
+				player.sendMessage(new TextComponentString(I18n.format("am2.tooltip.candlecantplace")));
 				return EnumActionResult.PASS;
 			}
 
@@ -70,8 +71,8 @@ public class ItemCandle extends ItemArsMagica{
 			IBlockState block = worldIn.getBlockState(pos);
 			if (block.getBlock().isReplaceable(worldIn, pos)){
 				worldIn.setBlockState(pos, BlockDefs.wardingCandle.getDefaultState(), 3);
-				if (!playerIn.capabilities.isCreativeMode)
-					playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
+				if (!player.capabilities.isCreativeMode)
+					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			}
 			return EnumActionResult.PASS;
 		}
@@ -243,8 +244,8 @@ public class ItemCandle extends ItemArsMagica{
 	
 	@Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-		if (oldStack == null) return slotChanged;
-		if (newStack == null) return slotChanged;
+		if (oldStack.isEmpty()) return slotChanged;
+		if (newStack.isEmpty()) return slotChanged;
 		if (oldStack.getTagCompound() == null) return slotChanged;
 		if (newStack.getTagCompound() == null) return slotChanged;
 		if (oldStack.getTagCompound().equals(newStack.getTagCompound())) return false;
@@ -253,9 +254,9 @@ public class ItemCandle extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items){
 		ItemStack unattuned = new ItemStack(this, 1, 0);
-		par3List.add(unattuned);
+		items.add(unattuned);
 	}
 }
 

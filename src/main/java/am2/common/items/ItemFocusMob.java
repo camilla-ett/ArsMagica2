@@ -23,8 +23,8 @@ public class ItemFocusMob extends ItemFilterFocus{
 				"S",
 				"F",
 				"S",
-				Character.valueOf('S'), Items.IRON_SWORD,
-				Character.valueOf('F'), ItemDefs.standardFocus
+				'S', Items.IRON_SWORD,
+				'F', ItemDefs.standardFocus
 		};
 	}
 
