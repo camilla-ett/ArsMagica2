@@ -30,6 +30,11 @@ public class FlickerOperatorProgeny extends AbstractFlickerFunctionality{
 	public final static FlickerOperatorProgeny instance = new FlickerOperatorProgeny();
 
 	@Override
+	public int getID ( ) {
+		return FLICKERS.PROGENY.getID ( );
+	}
+
+	@Override
 	public boolean RequiresPower(){
 		return true;
 	}

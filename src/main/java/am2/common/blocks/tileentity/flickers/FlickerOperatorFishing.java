@@ -39,6 +39,11 @@ public class FlickerOperatorFishing extends AbstractFlickerFunctionality{
 	}
 
 	@Override
+	public int getID ( ) {
+		return FLICKERS.FISHING.getID ( );
+	}
+
+	@Override
 	public boolean DoOperation(World worldObj, IFlickerController<?> controller, boolean powered){
 		return DoOperation(worldObj, controller, powered, new Affinity[0]);
 	}

@@ -32,6 +32,11 @@ public class FlickerOperatorFlatLands extends AbstractFlickerFunctionality{
 	}
 
 	@Override
+	public int getID ( ) {
+		return FLICKERS.FLATLANDS.getID ( );
+	}
+
+	@Override
 	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		int searchesPerLoop = 12;
 

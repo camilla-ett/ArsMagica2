@@ -21,6 +21,11 @@ public class FlickerOperatorPackedEarth extends AbstractFlickerFunctionality{
 	public final static FlickerOperatorPackedEarth instance = new FlickerOperatorPackedEarth();
 
 	@Override
+	public int getID ( ) {
+		return FLICKERS.PACKEDEARTH.getID ( );
+	}
+
+	@Override
 	public boolean RequiresPower(){
 		return false;
 	}

@@ -23,6 +23,11 @@ public class FlickerOperatorContainment extends AbstractFlickerFunctionality{
 	
 	protected static final int BASE_RADIUS = 6;
 
+	@Override
+	public int getID ( ) {
+		return FLICKERS.CONTAINMENT.getID ( );
+	}
+
 	protected void setUtilityBlock(World world, BlockPos pos, EnumInvisibleType meta){
 
 		if (world.getBlockState(pos).getBlock() == BlockDefs.invisibleUtility){

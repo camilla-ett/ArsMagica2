@@ -24,6 +24,11 @@ public class FlickerOperatorNaturesBounty extends AbstractFlickerFunctionality{
 	public final static FlickerOperatorNaturesBounty instance = new FlickerOperatorNaturesBounty();
 
 	@Override
+	public int getID ( ) {
+		return FLICKERS.NATURESBOUNTY.getID ( );
+	}
+
+	@Override
 	public boolean RequiresPower(){
 		return false;
 	}

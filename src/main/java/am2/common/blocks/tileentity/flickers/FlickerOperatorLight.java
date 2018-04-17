@@ -27,6 +27,11 @@ public class FlickerOperatorLight extends AbstractFlickerFunctionality{
 	public final static FlickerOperatorLight instance = new FlickerOperatorLight();
 
 	@Override
+	public int getID ( ) {
+		return FLICKERS.LIGHT.getID ( );
+	}
+
+	@Override
 	public boolean RequiresPower(){
 		return false;
 	}

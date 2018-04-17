@@ -32,6 +32,11 @@ public class FlickerOperatorGentleRains extends AbstractFlickerFunctionality{
 	}
 
 	@Override
+	public int getID ( ) {
+		return FLICKERS.GENTLERAINS.getID ( );
+	}
+
+	@Override
 	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		int radius = 6;
 		int diameter = radius * 2 + 1;

@@ -17,6 +17,11 @@ public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
 	public final static FlickerOperatorInterdiction instance = new FlickerOperatorInterdiction();
 
 	@Override
+	public int getID ( ) {
+		return FLICKERS.INTERDICTION.getID ( );
+	}
+
+	@Override
 	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered, Affinity[] flickers){
 		if (worldObj.isRemote)
 			return true;
@@ -28,6 +33,7 @@ public class FlickerOperatorInterdiction extends FlickerOperatorContainment{
 				break;
 			}
 		}
+
 
 		int lastRadius = getLastRadius(habitat);
 		int calcRadius = calculateRadius(flickers);

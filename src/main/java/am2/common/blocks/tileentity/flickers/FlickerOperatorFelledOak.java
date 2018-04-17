@@ -47,6 +47,11 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 		vertRange = 30;
 	}
 
+	@Override
+	public int getID ( ) {
+		return FLICKERS.FELLEDOAK.getID ( );
+	}
+
 	void destroyTree(World world, BlockPos pos, IBlockState state){
 		for (int xPos = pos.getX() - 1; xPos <= pos.getX() + 1; xPos++){
 			for (int yPos = pos.getY(); yPos <= pos.getY() + 1; yPos++){
@@ -314,7 +319,6 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 		dist = Math.abs(origin.getZ() - bp.getZ());
 		if (dist > horizRange / 2) return false;
 		dist = Math.abs(origin.getY() - bp.getY());
-		if (dist > vertRange / 2)  return false;
-		return true;
+		return dist <= vertRange / 2;
 	}
 }

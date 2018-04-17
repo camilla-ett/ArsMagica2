@@ -102,6 +102,11 @@ public class FlickerOperatorButchery extends AbstractFlickerFunctionality{
 		};
 	}
 
+    @Override
+    public int getID ( ) {
+        return FLICKERS.BUTCHERY.getID ( );
+    }
+
 	@Override
 	public ResourceLocation getTexture() {
 		return new ResourceLocation("arsmagica2", "FlickerOperatorButchery");

@@ -17,6 +17,11 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 
 public class FlickerOperatorMoonstoneAttractor extends AbstractFlickerFunctionality{
+
+	@Override
+	public int getID ( ) {
+		return FLICKERS.MOONSTONEATTRACTOR.getID ( );
+	}
 	
 	public final static FlickerOperatorMoonstoneAttractor instance = new FlickerOperatorMoonstoneAttractor();
 
