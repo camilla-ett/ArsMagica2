@@ -1,7 +1,5 @@
 package am2.common.blocks;
 
-import java.util.Random;
-
 import am2.ArsMagica2;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.KeystoneAccessType;
@@ -11,6 +9,7 @@ import am2.common.defs.BlockDefs;
 import am2.common.defs.IDDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemKeystoneDoor;
+import am2.common.registry.Registry;
 import am2.common.utils.KeystoneUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -30,7 +29,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.Random;
 
 
 public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvider{
@@ -197,7 +197,7 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 	
 	public Block registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
-		GameRegistry.register(this, rl);
+		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}
 	

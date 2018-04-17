@@ -11,7 +11,6 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,6 +23,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -87,20 +87,20 @@ public class BlockEssenceGenerator extends BlockAMPowered{
 			drops.add(new ItemStack(BlockDefs.celestialPrism));
 		return drops;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
+	public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entity, boolean isActualState) {
 		if (this == BlockDefs.blackAurem)
 			return;
-		super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
+		super.addCollisionBoxToList(state, world, pos, entityBox, collidingBoxes, entity, isActualState);
 	}
-	
+
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		if (this == BlockDefs.blackAurem)
 			return null;
-		return super.getCollisionBoundingBox(blockState, worldIn, pos);
+		return super.getBoundingBox(state, source, pos);
 	}
 	
 	@Override
@@ -155,14 +155,14 @@ public class BlockEssenceGenerator extends BlockAMPowered{
 			float f1 = worldIn.rand.nextFloat() * 0.8F + 0.1F;
 			float f2 = worldIn.rand.nextFloat() * 0.8F + 0.1F;
 			do{
-				if (itemstack.stackSize <= 0){
+				if (itemstack.getCount() <= 0){
 					break;
 				}
 				int i1 = worldIn.rand.nextInt(21) + 10;
-				if (i1 > itemstack.stackSize){
-					i1 = itemstack.stackSize;
+				if (i1 > itemstack.getCount()){
+					i1 = itemstack.getCount();
 				}
-				itemstack.stackSize -= i1;
+				itemstack.shrink(i1);
 				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 				newItem.setTagCompound(itemstack.getTagCompound());
 				EntityItem entityitem = new EntityItem(worldIn, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
@@ -170,15 +170,11 @@ public class BlockEssenceGenerator extends BlockAMPowered{
 				entityitem.motionX = (float)worldIn.rand.nextGaussian() * f3;
 				entityitem.motionY = (float)worldIn.rand.nextGaussian() * f3 + 0.2F;
 				entityitem.motionZ = (float)worldIn.rand.nextGaussian() * f3;
-				worldIn.spawnEntityInWorld(entityitem);
+				worldIn.spawnEntity(entityitem);
 			}while (true);
 		}
 		super.breakBlock(worldIn, pos, state);
 	}
-	
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing());
-	}
+
 
 }

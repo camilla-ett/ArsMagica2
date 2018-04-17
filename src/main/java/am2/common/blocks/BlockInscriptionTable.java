@@ -5,6 +5,7 @@ import am2.common.blocks.tileentity.TileEntityInscriptionTable;
 import am2.common.defs.IDDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemInscriptionTable;
+import am2.common.registry.Registry;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
@@ -14,7 +15,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -24,7 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 	
@@ -34,7 +33,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 	public static final PropertyBool TIER_2 = PropertyBool.create("tier_2");
 	public static final PropertyBool TIER_3 = PropertyBool.create("tier_3");
 	
-	public BlockInscriptionTable(){
+	public BlockInscriptionTable() {
 		super(Material.WOOD);
 
 		//setTextureFile(AMCore.proxy.getOverrideBlockTexturePath());
@@ -43,11 +42,6 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		this.setLightLevel(0.8f);
 		this.setBlockBounds(0.0f, 0.0f, 0.0f, 1.0f, 1.3f, 1.0f);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(LEFT, false).withProperty(TIER_1, false).withProperty(TIER_2, false).withProperty(TIER_3, false));
-	}
-	
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return this.getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().rotateY());
 	}
 	
 	@Override
@@ -68,10 +62,10 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.MODEL;
 	}
-	
+
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
 		if (worldIn.isRemote){
 			return true;
 		}
@@ -92,7 +86,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 			return true;
 		
 		if (te.isInUse(playerIn)){
-			playerIn.addChatMessage(new TextComponentString("Someone else is using this."));
+			playerIn.sendMessage(new TextComponentString("Someone else is using this."));
 			return true;
 		}
 
@@ -153,21 +147,21 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 		float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 		do{
-			if (itemstack.stackSize <= 0){
+			if (itemstack.getCount() <= 0){
 				break;
 			}
 			int i1 = world.rand.nextInt(21) + 10;
-			if (i1 > itemstack.stackSize){
-				i1 = itemstack.stackSize;
+			if (i1 > itemstack.getCount()){
+				i1 = itemstack.getCount();
 			}
-			itemstack.stackSize -= i1;
+			itemstack.shrink(i1);
 			ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 			EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
 			float f3 = 0.05F;
 			entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 			entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 			entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-			world.spawnEntityInWorld(entityitem);
+			world.spawnEntity(entityitem);
 		}while (true);
 	}
 	
@@ -192,8 +186,8 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 	@Override
 	public BlockAMContainer registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemInscriptionTable(this), rl);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemInscriptionTable(this));
 		return this;
 	}
 }

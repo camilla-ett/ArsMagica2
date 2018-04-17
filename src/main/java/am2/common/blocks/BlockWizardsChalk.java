@@ -1,10 +1,8 @@
 package am2.common.blocks;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import am2.common.defs.ItemDefs;
+import am2.common.registry.Registry;
+import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
@@ -16,7 +14,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.List;
 
 public class BlockWizardsChalk extends BlockAMSpecialRender{
 	
@@ -59,7 +58,7 @@ public class BlockWizardsChalk extends BlockAMSpecialRender{
 	
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
+		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}
 }

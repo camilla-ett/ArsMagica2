@@ -1,10 +1,5 @@
 package am2.common.blocks;
 
-import java.util.List;
-import java.util.Random;
-
-import com.google.common.collect.Lists;
-
 import am2.ArsMagica2;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
@@ -12,6 +7,8 @@ import am2.client.particles.ParticlePendulum;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.CreativeTabsDefs;
 import am2.common.items.ItemBlockSubtypes;
+import am2.common.registry.Registry;
+import com.google.common.collect.Lists;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.state.BlockStateContainer;
@@ -24,7 +21,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockWitchwoodLeaves extends BlockLeaves{
 
@@ -95,8 +94,8 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 	
 	public BlockWitchwoodLeaves registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemBlockSubtypes(this));
 		return this;
 	}
 	

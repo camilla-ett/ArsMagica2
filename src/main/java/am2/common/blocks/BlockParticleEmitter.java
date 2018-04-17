@@ -9,9 +9,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -80,12 +78,7 @@ public class BlockParticleEmitter extends BlockAMContainer{
 			super.onBlockExploded(world, pos, explosion);
 	}
 	
-	
-	
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
-	}
+
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int i){
@@ -106,29 +99,23 @@ public class BlockParticleEmitter extends BlockAMContainer{
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return state.getValue(HIDDEN) ? new AxisAlignedBB(0, 0, 0, 0, 0, 0) : super.getBoundingBox(state, source, pos);
 	}
-	
+
+
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return blockState.getValue(HIDDEN) ? null : super.getCollisionBoundingBox(blockState, worldIn, pos);
-	}
-	
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote) {
 			TileEntity te = worldIn.getTileEntity(pos);
 			if (te != null && te instanceof TileEntityParticleEmitter) {
-				if (heldItem != null
-						&& heldItem.getItem() == ItemDefs.crystalWrench) {
-					if (ItemCrystalWrench.getMode(heldItem) == 0) {
+				if (!playerIn.getHeldItemMainhand().isEmpty() && playerIn.getHeldItemMainhand().getItem() == ItemDefs.crystalWrench) {
+					if (ItemCrystalWrench.getMode(playerIn.getHeldItemMainhand()) == 0) {
 						ArsMagica2.proxy.openParticleBlockGUI(worldIn, playerIn, (TileEntityParticleEmitter) te);
 					} else {
 						if (ArsMagica2.proxy.cwCopyLoc == null) {
-							playerIn.addChatMessage(new TextComponentString("Settings Copied."));
+							playerIn.sendMessage(new TextComponentString("Settings Copied."));
 							ArsMagica2.proxy.cwCopyLoc = new NBTTagCompound();
 							((TileEntityParticleEmitter) te).writeSettingsToNBT(ArsMagica2.proxy.cwCopyLoc);
 						} else {
-							playerIn.addChatMessage(new TextComponentString("Settings Applied."));
+							playerIn.sendMessage(new TextComponentString("Settings Applied."));
 							((TileEntityParticleEmitter) te).readSettingsFromNBT(ArsMagica2.proxy.cwCopyLoc);
 							((TileEntityParticleEmitter) te).syncWithServer();
 							ArsMagica2.proxy.cwCopyLoc = null;

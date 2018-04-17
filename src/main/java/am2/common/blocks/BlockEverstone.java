@@ -1,8 +1,5 @@
 package am2.common.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import am2.ArsMagica2;
 import am2.common.blocks.tileentity.TileEntityEverstone;
 import am2.common.defs.ItemDefs;
@@ -30,6 +27,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BlockEverstone extends BlockAMPowered{
 	
@@ -138,7 +138,7 @@ public class BlockEverstone extends BlockAMPowered{
 			}
 			if (everstone.getFacade() == null && block != null){
 				everstone.setFacade(block);
-				world.notifyBlockOfStateChange(pos, this);
+				world.notifyNeighborsOfStateChange(pos, this, true);
 				return true;
 			}
 		}

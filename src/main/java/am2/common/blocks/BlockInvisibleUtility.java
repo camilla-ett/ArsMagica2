@@ -1,15 +1,12 @@
 package am2.common.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import am2.ArsMagica2;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
 import am2.client.particles.ParticleFloatUpward;
 import am2.common.defs.ItemDefs;
 import am2.common.defs.PotionEffectsDefs;
+import am2.common.registry.Registry;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -27,7 +24,11 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * This is my invisible utility block.  I use it for illumination (meta 0-2), as well as invisible walls (meta 3-10).
@@ -82,10 +83,10 @@ public class BlockInvisibleUtility extends BlockAM{
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(TYPE, EnumInvisibleType.values()[meta]);
 	}
-	
-	@SuppressWarnings("incomplete-switch")
+
+	@SuppressWarnings("deprecated")
 	@Override
-	public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entity){
+	public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entity, boolean isActualState) {
 
 		if (entity == null || world == null || entity instanceof EntityPlayer) // || entity instanceof EntityBroom
 			return;
@@ -308,7 +309,7 @@ public class BlockInvisibleUtility extends BlockAM{
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
+		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}
 	

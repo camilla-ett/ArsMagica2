@@ -1,11 +1,5 @@
 package am2.common.spell.component;
 
-import java.util.EnumSet;
-import java.util.Random;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import am2.api.affinity.Affinity;
 import am2.api.blocks.IMultiblock;
 import am2.api.rituals.IRitualInteraction;
@@ -17,6 +11,7 @@ import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.EntityRiftStorage;
 import am2.common.utils.AffinityShiftUtils;
+import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -30,6 +25,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.EnumSet;
+import java.util.Random;
+import java.util.Set;
 
 public class Rift extends SpellComponent implements IRitualInteraction{
 
@@ -46,8 +45,8 @@ public class Rift extends SpellComponent implements IRitualInteraction{
 					
 					EntityItem item = new EntityItem(world);
 					item.setPosition(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
-					item.setEntityItemStack(new ItemStack(BlockDefs.inertSpawner));
-					world.spawnEntityInWorld(item);
+					item.setItem(new ItemStack(BlockDefs.inertSpawner));
+					world.spawnEntity(item);
 				}else{
 
 				}

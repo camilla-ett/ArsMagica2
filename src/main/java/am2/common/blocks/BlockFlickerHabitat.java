@@ -32,19 +32,18 @@ public class BlockFlickerHabitat extends BlockAMPowered{
 	public TileEntity createNewTileEntity(World world, int i){
 		return new TileEntityFlickerHabitat();
 	}
-	
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
-		super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
 
-		if (heldItem != null && heldItem.getItem() == ItemDefs.crystalWrench){
-			if (worldIn.isRemote){
-				playerIn.swingArm(hand);
+	@Override
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,  EnumFacing side, float hitX, float hitY, float hitZ) {
+		super.onBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ);
+
+		if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == ItemDefs.crystalWrench){
+			if (world.isRemote){
+				player.swingArm(hand);
 			}
 			return false;
 		}else{
-			FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_FLICKER_HABITAT, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			FMLNetworkHandler.openGui(player, ArsMagica2.instance, IDDefs.GUI_FLICKER_HABITAT, world, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		}
 	}
@@ -155,7 +154,7 @@ public class BlockFlickerHabitat extends BlockAMPowered{
 			entityItem.motionX = (float)worldIn.rand.nextGaussian() * force;
 			entityItem.motionY = (float)worldIn.rand.nextGaussian() * force + 0.2F;
 			entityItem.motionZ = (float)worldIn.rand.nextGaussian() * force;
-			worldIn.spawnEntityInWorld(entityItem);
+			worldIn.spawnEntity(entityItem);
 		}
 
 		if (!habitat.isUpgrade()){

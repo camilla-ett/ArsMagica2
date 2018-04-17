@@ -7,6 +7,7 @@ import am2.common.blocks.tileentity.TileEntityKeystoneDoor;
 import am2.common.defs.CreativeTabsDefs;
 import am2.common.defs.IDDefs;
 import am2.common.items.ItemBlockSubtypes;
+import am2.common.registry.Registry;
 import am2.common.utils.KeystoneUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTrapDoor;
@@ -14,7 +15,6 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -23,7 +23,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityProvider{
 
@@ -38,10 +37,9 @@ public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityP
 	public TileEntity createNewTileEntity(World world, int i){
 		return new TileEntityKeystoneDoor();
 	}
-	
+
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity te = worldIn.getTileEntity(pos);
 
 		playerIn.swingArm(hand);
@@ -53,7 +51,7 @@ public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityP
 				FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_KEYSTONE_LOCKABLE, worldIn, pos.getX(), pos.getY(), pos.getZ());
 			}else{
 				//worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_WOODEN_DOOR_OPEN, SoundCategory.BLOCKS, 1.0f, 1.0f, true);
-				return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+				return super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
 			}
 		}
 
@@ -72,8 +70,8 @@ public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityP
 	
 	public Block registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemBlockSubtypes(this));
 		return this;
 	}
 	

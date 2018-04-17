@@ -1,7 +1,6 @@
 package am2.common.blocks;
 
-import java.util.Random;
-
+import am2.common.registry.Registry;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumBlockRenderType;
@@ -9,7 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.Random;
 
 public class BlockLightDecay extends BlockAM {
 	
@@ -23,12 +23,7 @@ public class BlockLightDecay extends BlockAM {
 	public int getLightValue(IBlockState state) {
 		return 15;
 	}
-	
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return null;
-	}
-	
+
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
@@ -47,7 +42,7 @@ public class BlockLightDecay extends BlockAM {
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
+		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}
 }

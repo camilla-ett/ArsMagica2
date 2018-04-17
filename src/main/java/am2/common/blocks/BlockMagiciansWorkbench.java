@@ -11,7 +11,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -55,11 +54,6 @@ public class BlockMagiciansWorkbench extends BlockAMSpecialRenderContainer{
 	public TileEntity createNewTileEntity(World world, int i){
 		return new TileEntityMagiciansWorkbench();
 	}
-	
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
-	}
 
 	@Override
 	public boolean isOpaqueCube(IBlockState state){
@@ -70,11 +64,9 @@ public class BlockMagiciansWorkbench extends BlockAMSpecialRenderContainer{
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
-	
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
 
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te != null && te instanceof TileEntityMagiciansWorkbench){
 
@@ -83,23 +75,23 @@ public class BlockMagiciansWorkbench extends BlockAMSpecialRenderContainer{
 
 			if (KeystoneUtilities.instance.canPlayerAccess((IKeystoneLockable<?>)te, playerIn, KeystoneAccessType.USE)){
 
-				super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+				super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
 
-				if (heldItem != null && heldItem.getItem() == ItemDefs.workbenchUpgrade){
+				if (!playerIn.getHeldItemMainhand().isEmpty() && playerIn.getHeldItemMainhand().getItem() == ItemDefs.workbenchUpgrade){
 					((TileEntityMagiciansWorkbench)te).setUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT, true);
 
 					if (!worldIn.isRemote){
-						heldItem.stackSize--;
+						playerIn.getHeldItemMainhand().shrink(1);
 
-						if (heldItem.stackSize <= 0)
-							heldItem = null;
+						if (playerIn.getHeldItemMainhand().getCount() <= 0)
+							playerIn.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
 
-						playerIn.setItemStackToSlot(hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND, heldItem);
+						playerIn.setItemStackToSlot(hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND, playerIn.getHeldItemMainhand());
 					}
 					return true;
 				}else{
 					if (!worldIn.isRemote){
-						super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+						super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
 						FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_MAGICIANS_WORKBENCH, worldIn, pos.getX(), pos.getY(), pos.getZ());
 					}
 				}
@@ -142,14 +134,14 @@ public class BlockMagiciansWorkbench extends BlockAMSpecialRenderContainer{
 			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 			do{
-				if (itemstack.stackSize <= 0){
+				if (itemstack.getCount() <= 0){
 					break;
 				}
 				int i1 = world.rand.nextInt(21) + 10;
-				if (i1 > itemstack.stackSize){
-					i1 = itemstack.stackSize;
+				if (i1 > itemstack.getCount()){
+					i1 = itemstack.getCount();
 				}
-				itemstack.stackSize -= i1;
+				itemstack.shrink(i1);
 				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 				newItem.setTagCompound(itemstack.getTagCompound());
 				EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
@@ -157,7 +149,7 @@ public class BlockMagiciansWorkbench extends BlockAMSpecialRenderContainer{
 				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-				world.spawnEntityInWorld(entityitem);
+				world.spawnEntity(entityitem);
 			}while (true);
 		}
 
@@ -171,7 +163,7 @@ public class BlockMagiciansWorkbench extends BlockAMSpecialRenderContainer{
 			entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 			entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 			entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-			world.spawnEntityInWorld(entityitem);
+			world.spawnEntity(entityitem);
 		}
 		
 		super.breakBlock(world, pos, state);

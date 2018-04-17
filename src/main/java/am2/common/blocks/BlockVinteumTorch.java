@@ -1,21 +1,21 @@
 package am2.common.blocks;
 
-import java.util.Random;
-
 import am2.ArsMagica2;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.common.defs.CreativeTabsDefs;
 import am2.common.items.ItemBlockSubtypes;
+import am2.common.registry.Registry;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
 
 public class BlockVinteumTorch extends BlockTorch{
 
@@ -64,8 +64,8 @@ public class BlockVinteumTorch extends BlockTorch{
 	
 	public BlockVinteumTorch registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemBlockSubtypes(this));
 		return this;
 	}
 }

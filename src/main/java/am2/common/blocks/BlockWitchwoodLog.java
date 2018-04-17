@@ -1,19 +1,18 @@
 package am2.common.blocks;
 
-import java.util.List;
-import java.util.Random;
-
 import am2.common.defs.CreativeTabsDefs;
 import am2.common.items.ItemBlockSubtypes;
+import am2.common.registry.Registry;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.Random;
 
 public class BlockWitchwoodLog extends BlockLog{
 
@@ -46,7 +45,7 @@ public class BlockWitchwoodLog extends BlockLog{
 	}
 
 	@Override
-	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
+	public void getSubBlocks(CreativeTabs par2CreativeTabs, NonNullList<ItemStack> par3List){
 		par3List.add(new ItemStack(this));
 	}
 	
@@ -62,13 +61,13 @@ public class BlockWitchwoodLog extends BlockLog{
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(LOG_AXIS, EnumAxis.values()[MathHelper.clamp_int(meta, 0, 3)]);
+		return getDefaultState().withProperty(LOG_AXIS, EnumAxis.values()[MathHelper.clamp(meta, 0, 3)]);
 	}
 	
 	public BlockWitchwoodLog registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemBlockSubtypes(this));
 		return this;
 	}
 }

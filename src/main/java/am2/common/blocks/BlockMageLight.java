@@ -1,17 +1,14 @@
 package am2.common.blocks;
 
-import java.util.List;
-import java.util.Random;
-
 import am2.ArsMagica2;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.client.particles.ParticleGrow;
+import am2.common.registry.Registry;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -25,8 +22,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockMageLight extends BlockAMSpecialRender {
 	
@@ -83,15 +82,13 @@ public class BlockMageLight extends BlockAMSpecialRender {
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
-	
-	
+
+
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (!world.isRemote && !player.getHeldItemMainhand().isEmpty()){
 
-		if (!world.isRemote && heldItem != null){
-
-			int[] ids = OreDictionary.getOreIDs(heldItem);
+			int[] ids = OreDictionary.getOreIDs(player.getHeldItemMainhand());
 			for (int id : ids){
 				List<ItemStack> ores = OreDictionary.getOres(OreDictionary.getOreName(id));
 				for (ItemStack stack : ores){
@@ -103,7 +100,7 @@ public class BlockMageLight extends BlockAMSpecialRender {
 			}
 		}
 
-		return super.onBlockActivated(world, pos, state, player, hand, heldItem, side, hitX, hitY, hitZ);
+		return super.onBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ);
 	}
 	
 	@Override
@@ -115,21 +112,13 @@ public class BlockMageLight extends BlockAMSpecialRender {
 	public int quantityDropped(Random random){
 		return 0;
 	}
-	
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		// TODO Auto-generated method stub
-		return new AxisAlignedBB(-0.2, -0.2, -0.2, 0.2, 0.2, 0.2);
-	}
+
 	
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return new AxisAlignedBB(0.35f, 0.35f, 0.35f, 0.65f, 0.65f, 0.65f);
 	}
-	
-	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-	}
+
 	
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
@@ -139,7 +128,7 @@ public class BlockMageLight extends BlockAMSpecialRender {
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
+		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}
 	

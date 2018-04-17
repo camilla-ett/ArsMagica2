@@ -1,8 +1,5 @@
 package am2.common.blocks;
 
-import java.util.List;
-import java.util.Random;
-
 import am2.ArsMagica2;
 import am2.api.DamageSources;
 import am2.api.math.AMVector3;
@@ -13,6 +10,7 @@ import am2.common.bosses.BossSpawnHelper;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.CreativeTabsDefs;
 import am2.common.items.ItemBlockSubtypes;
+import am2.common.registry.Registry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.SoundType;
@@ -32,7 +30,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Random;
 
 public class BlockInlay extends BlockRailBase {
 
@@ -107,7 +108,7 @@ public class BlockInlay extends BlockRailBase {
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (!worldIn.isRemote)
 			this.updateState(state, worldIn, pos, blockIn);
 	}
@@ -306,16 +307,13 @@ public class BlockInlay extends BlockRailBase {
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return new AxisAlignedBB(0f, 0f, 0f, 1f, 0.01f, 1f);
 	}
-	
+
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-		return blockState.getBoundingBox(worldIn, pos);
-	}
-	
-	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
-		if (entityIn instanceof EntityMinecart) return;
-		addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
+	public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entity, boolean isActualState) {
+		if (entity instanceof EntityMinecart) return;
+		addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(world, pos));
 	}
 	
 	@Override
@@ -326,8 +324,8 @@ public class BlockInlay extends BlockRailBase {
 	
 	public BlockInlay registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemBlockSubtypes(this));
 		return this;
 	}
 }

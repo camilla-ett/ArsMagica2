@@ -3,6 +3,7 @@ package am2.common.blocks;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.CreativeTabsDefs;
 import am2.common.items.ItemBlockSubtypes;
+import am2.common.registry.Registry;
 import am2.common.world.AM2FlowerGen;
 import am2.common.world.WitchwoodTreeHuge;
 import net.minecraft.block.BlockBush;
@@ -13,14 +14,12 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import java.util.List;
 import java.util.Random;
 
 public class BlockWitchwoodSapling extends BlockBush implements IGrowable{
@@ -71,7 +70,7 @@ public class BlockWitchwoodSapling extends BlockBush implements IGrowable{
 	}
 
 	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list){
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list){
 		list.add(new ItemStack(this));
 	}
 
@@ -113,8 +112,8 @@ public class BlockWitchwoodSapling extends BlockBush implements IGrowable{
 	
 	public BlockWitchwoodSapling registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		GameRegistry.register(this, rl);
-		GameRegistry.register(new ItemBlockSubtypes(this), rl);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemBlockSubtypes(this));
 		return this;
 	}
 }

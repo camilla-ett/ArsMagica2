@@ -1,7 +1,5 @@
 package am2.common.blocks;
 
-import java.util.Random;
-
 import am2.ArsMagica2;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.items.KeystoneAccessType;
@@ -12,7 +10,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,6 +22,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+
+import java.util.Random;
 
 public class BlockSeerStone extends BlockAMPowered{
 
@@ -75,16 +74,11 @@ public class BlockSeerStone extends BlockAMPowered{
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
 		return worldIn.getBlockState(pos.offset(side.getOpposite())).isSideSolid(worldIn, pos, side);
 	}
-	
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getStateFromMeta(meta).withProperty(FACING, facing.getOpposite());
-	}
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+			EnumHand hand,  EnumFacing side, float hitX, float hitY, float hitZ) {
+		super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
 
 		TileEntity te = worldIn.getTileEntity(pos);
 		TileEntitySeerStone sste = null;
@@ -105,7 +99,7 @@ public class BlockSeerStone extends BlockAMPowered{
 		if (playerIn.isSneaking()){
 			sste.invertDetection();
 			if (worldIn.isRemote){
-				playerIn.addChatMessage(new TextComponentString("Inverting detection mode: " + ((TileEntitySeerStone)te).isInvertingDetection()));
+				playerIn.sendMessage(new TextComponentString("Inverting detection mode: " + ((TileEntitySeerStone)te).isInvertingDetection()));
 			}
 			return true;
 		}
@@ -174,14 +168,14 @@ public class BlockSeerStone extends BlockAMPowered{
 			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 			do{
-				if (itemstack.stackSize <= 0){
+				if (itemstack.getCount() <= 0){
 					break;
 				}
 				int i1 = world.rand.nextInt(21) + 10;
-				if (i1 > itemstack.stackSize){
-					i1 = itemstack.stackSize;
+				if (i1 > itemstack.getCount()){
+					i1 = itemstack.getCount();
 				}
-				itemstack.stackSize -= i1;
+				itemstack.shrink(i1);
 				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 				newItem.setTagCompound(itemstack.getTagCompound());
 				EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
@@ -189,7 +183,7 @@ public class BlockSeerStone extends BlockAMPowered{
 				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-				world.spawnEntityInWorld(entityitem);
+				world.spawnEntity(entityitem);
 			}while (true);
 		}
 		super.breakBlock(world, pos, state);

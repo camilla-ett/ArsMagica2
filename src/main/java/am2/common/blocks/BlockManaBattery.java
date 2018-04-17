@@ -1,8 +1,5 @@
 package am2.common.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import am2.ArsMagica2;
 import am2.common.blocks.tileentity.TileEntityManaBattery;
 import am2.common.power.PowerNodeRegistry;
@@ -12,20 +9,19 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BlockManaBattery extends BlockAMPowered{
 
@@ -35,17 +31,17 @@ public class BlockManaBattery extends BlockAMPowered{
 		this.setResistance(2.0f);
 	}
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
-		if (!super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ))
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (!super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ))
 			return true;
 
 		if (!worldIn.isRemote){
 			TileEntityManaBattery te = getTileEntity(worldIn, pos);
 			if (te != null){
 				if (ArsMagica2.config.colourblindMode()){
-					playerIn.addChatMessage(new TextComponentString(String.format("Charge Level: %.2f %% [%s]", PowerNodeRegistry.For(worldIn).getPower(te, te.getPowerType()) / te.getCapacity() * 100, getColorNameFromPowerType(te.getPowerType()))));
+					playerIn.sendMessage(new TextComponentString(String.format("Charge Level: %.2f %% [%s]", PowerNodeRegistry.For(worldIn).getPower(te, te.getPowerType()) / te.getCapacity() * 100, getColorNameFromPowerType(te.getPowerType()))));
 				}else{
-					playerIn.addChatMessage(new TextComponentString(String.format("Charge Level: %s%.2f \u00A7f%%", te.getPowerType().getChatColor(), PowerNodeRegistry.For(worldIn).getPower(te, te.getPowerType()) / te.getCapacity() * 100)));
+					playerIn.sendMessage(new TextComponentString(String.format("Charge Level: %s%.2f \u00A7f%%", te.getPowerType().getChatColor(), PowerNodeRegistry.For(worldIn).getPower(te, te.getPowerType()) / te.getCapacity() * 100)));
 				}
 			}
 		}
@@ -133,7 +129,7 @@ public class BlockManaBattery extends BlockAMPowered{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
+	public void getSubBlocks(CreativeTabs par2CreativeTabs, NonNullList<ItemStack> par3List){
 		ItemStack stack = new ItemStack(this);
 
 		par3List.add(stack);
@@ -179,12 +175,7 @@ public class BlockManaBattery extends BlockAMPowered{
     {
         return false;
     }
-	
-	@Override
-	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-		return true;
-	}
-	
+
 	@Override
 	public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return true;

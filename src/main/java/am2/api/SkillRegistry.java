@@ -8,12 +8,12 @@ import net.minecraft.util.ResourceLocation;
 import java.util.ArrayList;
 
 public class SkillRegistry {
-	public static void registerSkill (String ID, ResourceLocation icon, SkillPoint tier, int posX, int posY, SkillTree tree, String... parents) {
-		registerSkill(new Skill(icon, tier, posX, posY, tree, parents).setRegistryName(ArsMagicaAPI.getCurrentModId(), ID.toLowerCase()));
+	public static void registerSkill (String stringID, ResourceLocation icon, SkillPoint tier, int posX, int posY, SkillTree tree, int ID, String... parents) {
+		registerSkill(new Skill(icon, tier, posX, posY, tree, ID, parents).setRegistryName(ArsMagicaAPI.getCurrentModId(), stringID.toLowerCase()));
 	}
 	
-	public static void registerSkill (boolean createEntry, String ID, ResourceLocation icon, SkillPoint tier, int posX, int posY, SkillTree tree, String... parents) {
-		registerSkill(createEntry, new Skill(icon, tier, posX, posY, tree, parents).setRegistryName(ArsMagicaAPI.getCurrentModId(), ID.toLowerCase()));
+	public static void registerSkill (boolean createEntry, String stringID, ResourceLocation icon, SkillPoint tier, int posX, int posY, SkillTree tree, int ID, String... parents) {
+		registerSkill(createEntry, new Skill(icon, tier, posX, posY, tree, ID, parents).setRegistryName(ArsMagicaAPI.getCurrentModId(), stringID.toLowerCase()));
 	}
 	
 	public static void registerSkill (boolean createEntry, Skill skill) {

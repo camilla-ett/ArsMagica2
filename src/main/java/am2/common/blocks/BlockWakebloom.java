@@ -1,6 +1,7 @@
 package am2.common.blocks;
 
 import am2.common.items.ItemWakebloom;
+import am2.common.registry.Registry;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
@@ -8,7 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockWakebloom extends BlockAMFlower{
 
@@ -34,8 +34,8 @@ public class BlockWakebloom extends BlockAMFlower{
 	@Override
 	public BlockAMFlower registerAndName(ResourceLocation loc) {
 		setUnlocalizedName(loc.toString());
-		GameRegistry.register(this, loc);
-		GameRegistry.register(new ItemWakebloom(this), loc);
+		Registry.GetBlocksToRegister().add(this);
+		Registry.GetItemsToRegister().add(new ItemWakebloom(this));
 		return this;
 	}
 }

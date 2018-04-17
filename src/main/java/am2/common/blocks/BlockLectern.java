@@ -8,7 +8,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreenBook;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,8 +18,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.GameType;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -41,7 +40,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		TileEntityLectern te = getTileEntity(world, pos);
 		if (te == null){
 			return true;
@@ -58,21 +57,21 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 					entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 					entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 					entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-					world.spawnEntityInWorld(entityitem);
+					world.spawnEntity(entityitem);
 					te.setStack(null);
 				}
 			}else{
 				if (te.getStack().getItem() == Items.WRITTEN_BOOK && world.isRemote && player == ArsMagica2.proxy.getLocalPlayer())
 					openBook(player, te);
 				else
-					te.getStack().getItem().onItemRightClick(te.getStack(), world, player, hand);
+					te.getStack().getItem().onItemRightClick(world, player, hand);
 				return true;
 			}
 		}else{
 			if (player.getHeldItem(hand) != null){
 				if (te.setStack(player.getHeldItem(hand).copy())){
-					player.getHeldItem(hand).stackSize--;
-					if (player.getHeldItem(hand).stackSize <= 0){
+					player.getHeldItem(hand).shrink(1);
+					if (player.getHeldItem(hand).getCount() <= 0){
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 					}
 				}
@@ -106,7 +105,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 				entityitem.motionX = (float)world.rand.nextGaussian() * f3;
 				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
-				world.spawnEntityInWorld(entityitem);
+				world.spawnEntity(entityitem);
 			}
 		}		
 		super.breakBlock(world, pos, state);
@@ -133,10 +132,6 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(FACING, EnumFacing.values()[meta + 2]);
 	}
-	
-	@Override
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getStateFromMeta(meta).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
-	}
+
 
 }
