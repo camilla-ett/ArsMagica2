@@ -85,7 +85,7 @@ public class BlockAstralBarrier extends BlockAMPowered{
 				}
 				int i1 = world.rand.nextInt(21) + 10;
 				if (i1 > itemstack.getCount()){
-					i1 = itemstack.getItemDamage();
+					i1 = itemstack.getCount();
 				}
 				itemstack.shrink(i1);
 				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
