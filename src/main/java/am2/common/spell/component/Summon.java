@@ -1,11 +1,5 @@
 package am2.common.spell.component;
 
-import java.util.EnumSet;
-import java.util.Random;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import am2.api.affinity.Affinity;
 import am2.api.extensions.ISpellCaster;
 import am2.api.spell.Operation;
@@ -19,12 +13,9 @@ import am2.common.items.ItemCrystalPhylactery;
 import am2.common.items.ItemOre;
 import am2.common.power.PowerTypes;
 import am2.common.utils.EntityUtils;
+import com.google.common.collect.Sets;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.*;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityWitherSkeleton;
 import net.minecraft.entity.passive.EntityHorse;
@@ -37,6 +28,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+
+import java.util.EnumSet;
+import java.util.Random;
+import java.util.Set;
 
 public class Summon extends SpellComponent{
 	
@@ -104,29 +99,29 @@ public class Summon extends SpellComponent{
 		String s = spell.getStoredData().getString("SummonType");
 		if (s == null || s == "")
 			s = "Skeleton"; //default!  default!  default!
-		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
-		return clazz;
+        Class <? extends Entity> clazz = EntityList.getClassFromName ( s );
+        return clazz;
 	}
 	
 	public Class<? extends Entity> getSummonType(ISpellCaster spell){
 		String s = spell.getCommonStoredData().getString("SummonType");
 		if (s == null || s == "")
 			s = "Skeleton"; //default!  default!  default!
-		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
-		return clazz;
+        Class <? extends Entity> clazz = EntityList.getClassFromName ( s );
+        return clazz;
 	}
 
 
 	public void setSummonType(NBTTagCompound stack, String s){
-		Class<? extends Entity> clazz = (Class<? extends Entity>)EntityList.NAME_TO_CLASS.get(s);
-		setSummonType(stack, clazz);
+        Class <? extends Entity> clazz = EntityList.getClassFromName ( s );
+        setSummonType(stack, clazz);
 	}
 
 	public void setSummonType(NBTTagCompound stack, Class<? extends Entity> clazz){
 		clazz = checkForSpecialSpawns(stack, clazz);
 
-		String s = (String)EntityList.CLASS_TO_NAME.get(clazz);
-		if (s == null)
+        String s = EntityList.getTranslationName ( ( EntityList.getKey ( clazz ) ) );
+        if (s == null)
 			s = "";
 
 		stack.setString("SpawnClassName", s);
@@ -155,8 +150,8 @@ public class Summon extends SpellComponent{
 				}
 			}else{
 				if (caster instanceof EntityPlayer){
-					((EntityPlayer)caster).sendMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
-				}
+                    caster.sendMessage ( new TextComponentString ( I18n.format ( "am2.tooltip.noMoreSummons" ) ) );
+                }
 			}
 		}
 
@@ -176,8 +171,8 @@ public class Summon extends SpellComponent{
 				}
 			}else{
 				if (caster instanceof EntityPlayer){
-					((EntityPlayer)caster).sendMessage(new TextComponentString(I18n.format("am2.tooltip.noMoreSummons")));
-				}
+                    caster.sendMessage ( new TextComponentString ( I18n.format ( "am2.tooltip.noMoreSummons" ) ) );
+                }
 			}
 		}
 
