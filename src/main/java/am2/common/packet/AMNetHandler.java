@@ -123,11 +123,11 @@ public class AMNetHandler{
 //	}
 
 	public void syncWorldName(EntityPlayerMP player, String name){
-		sendPacketToClientPlayer((EntityPlayerMP)player, AMPacketIDs.SYNC_WORLD_NAME, new AMDataWriter().add(name).generate());
+		sendPacketToClientPlayer ( player , AMPacketIDs.SYNC_WORLD_NAME , new AMDataWriter ( ).add ( name ).generate ( ) );
 	}
 
 	public void syncLoginData(EntityPlayerMP player, byte[] data){
-		sendPacketToClientPlayer((EntityPlayerMP)player, AMPacketIDs.PLAYER_LOGIN_DATA, data);
+		sendPacketToClientPlayer ( player , AMPacketIDs.PLAYER_LOGIN_DATA , data );
 	}
 
 	public void sendShapeGroupChangePacket(int newCastingMode, int entityid){
@@ -136,12 +136,12 @@ public class AMNetHandler{
 	}
 
 	public <T extends EntityLivingBase & IArsMagicaBoss> void sendActionUpdateToAllAround(T boss){
-		if (boss.worldObj != null && !boss.worldObj.isRemote){
+		if ( boss.world != null && !boss.world.isRemote ) {
 			AMDataWriter writer = new AMDataWriter();
 			writer.add(boss.getEntityId());
 			writer.add(boss.getCurrentAction().ordinal());
 
-			sendPacketToAllClientsNear(boss.worldObj.provider.getDimension(), boss.posX, boss.posY, boss.posZ, 64, AMPacketIDs.ENTITY_ACTION_UPDATE, writer.generate());
+			sendPacketToAllClientsNear ( boss.world.provider.getDimension ( ) , boss.posX , boss.posY , boss.posZ , 64 , AMPacketIDs.ENTITY_ACTION_UPDATE , writer.generate ( ) );
 		}
 	}
 
@@ -174,7 +174,7 @@ public class AMNetHandler{
 		AMDataWriter writer = new AMDataWriter();
 		writer.add(hecate.posX).add(hecate.posY).add(hecate.posZ);
 
-		sendPacketToAllClientsNear(hecate.worldObj.provider.getDimension(), hecate.posX, hecate.posY, hecate.posZ, 32, AMPacketIDs.HECATE_DEATH, writer.generate());
+		sendPacketToAllClientsNear ( hecate.world.provider.getDimension ( ) , hecate.posX , hecate.posY , hecate.posZ , 32 , AMPacketIDs.HECATE_DEATH , writer.generate ( ) );
 	}
 
 	public void syncPowerPaths(IPowerNode<?> node, EntityPlayerMP player){
@@ -211,9 +211,9 @@ public class AMNetHandler{
 	public void sendPowerRequestToServer(Vec3d location){
 		AMDataWriter writer = new AMDataWriter();
 		writer.add((byte)1);
-		writer.add((float)location.xCoord);
-		writer.add((float)location.yCoord);
-		writer.add((float)location.zCoord);
+		writer.add ( (float) location.x );
+		writer.add ( (float) location.y );
+		writer.add ( (float) location.z );
 
 		sendPacketToServer(AMPacketIDs.REQUEST_PWR_PATHS, writer.generate());
 	}

@@ -260,7 +260,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			if (this.entity instanceof EntityPlayer) {
 				MinecraftForge.EVENT_BUS.post(new PlayerMagicLevelChangeEvent((EntityPlayer) this.entity, currentLevel));
 				if (this.currentLevel < currentLevel)
-					this.entity.worldObj.playSound(null, this.entity.posX, this.entity.posY, this.entity.posZ, SoundEvents.ENTITY_PLAYER_LEVELUP, this.entity.getSoundCategory(), 0.75F, 1.0F);
+					this.entity.world.playSound ( null , this.entity.posX , this.entity.posY , this.entity.posZ , SoundEvents.ENTITY_PLAYER_LEVELUP , this.entity.getSoundCategory ( ) , 0.75F , 1.0F );
 			}
 			this.currentLevel = currentLevel;
 		}
@@ -434,12 +434,12 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public int getMaxSummons() {
-		return this.entity instanceof EntityPlayer && SkillData.For(this.entity).hasSkill(SkillDefs.EXTRA_SUMMONS.getID()) ? 2 : 3;
+		return this.entity instanceof EntityPlayer && SkillData.For ( this.entity ).hasSkill ( SkillDefs.EXTRA_SUMMONS.getIDString ( ) ) ? 2 : 3;
 	}
 
 	@Override
 	public boolean addSummon(EntityCreature entityliving) {
-		if (!this.entity.worldObj.isRemote) {
+		if ( !this.entity.world.isRemote ) {
 			this.summon_ent_ids.add(entityliving.getEntityId());
 			this.setCurrentSummons(this.getCurrentSummons() + 1);
 		}
@@ -459,7 +459,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.setCurrentSummons(this.summon_ent_ids.size());
 		for (int i = 0; i < this.summon_ent_ids.size(); ++i) {
 			int id = this.summon_ent_ids.get(i);
-			Entity e = this.entity.worldObj.getEntityByID(id);
+			Entity e = this.entity.world.getEntityByID ( id );
 			if (e == null || !(e instanceof EntityLivingBase) || EntityUtils.getOwner((EntityLivingBase) e) != this.entity.getEntityId()) {
 				this.summon_ent_ids.remove(i);
 				i--;
@@ -473,7 +473,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		if (this.getCurrentSummons() == 0) {
 			return false;
 		}
-		if (!this.entity.worldObj.isRemote) {
+		if ( !this.entity.world.isRemote ) {
 			this.setCurrentSummons(this.getCurrentSummons() - 1);
 		}
 		return true;
@@ -486,7 +486,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			this.manaLinks.add(mle);
 		else
 			this.manaLinks.remove(mle);
-		if (!this.entity.worldObj.isRemote)
+		if ( !this.entity.world.isRemote )
 			AMNetHandler.INSTANCE.sendPacketToAllClientsNear(entity.dimension, entity.posX, entity.posY, entity.posZ, 32, AMPacketIDs.MANA_LINK_UPDATE, this.getManaLinkUpdate());
 
 	}
@@ -499,7 +499,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.setCurrentMana(this.getCurrentMana() - manaCost);
 		if (leftOver > 0) {
 			for (ManaLinkEntry entry : this.manaLinks) {
-				leftOver -= entry.deductMana(this.entity.worldObj, this.entity, leftOver);
+				leftOver -= entry.deductMana ( this.entity.world , this.entity , leftOver );
 				if (leftOver <= 0)
 					break;
 			}
@@ -511,7 +511,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		Iterator<ManaLinkEntry> it = this.manaLinks.iterator();
 		while (it.hasNext()) {
 			ManaLinkEntry entry = it.next();
-			Entity e = this.entity.worldObj.getEntityByID(entry.entityID);
+			Entity e = this.entity.world.getEntityByID ( entry.entityID );
 			if (e == null)
 				it.remove();
 		}
@@ -521,7 +521,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public float getBonusCurrentMana() {
 		float bonus = 0;
 		for (ManaLinkEntry entry : this.manaLinks) {
-			bonus += entry.getAdditionalCurrentMana(this.entity.worldObj, this.entity);
+			bonus += entry.getAdditionalCurrentMana ( this.entity.world , this.entity );
 		}
 		return bonus;
 	}
@@ -530,7 +530,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 	public float getBonusMaxMana() {
 		float bonus = 0;
 		for (ManaLinkEntry entry : this.manaLinks) {
-			bonus += entry.getAdditionalMaxMana(this.entity.worldObj, this.entity);
+			bonus += entry.getAdditionalMaxMana ( this.entity.world , this.entity );
 		}
 		return bonus;
 	}
@@ -546,11 +546,11 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 
 	@Override
 	public void spawnManaLinkParticles() {
-		if (this.entity.worldObj != null && this.entity.worldObj.isRemote) {
+		if ( this.entity.world != null && this.entity.world.isRemote ) {
 			for (ManaLinkEntry entry : this.manaLinks) {
-				Entity e = this.entity.worldObj.getEntityByID(entry.entityID);
-				if (e != null && e.getDistanceSqToEntity(this.entity) < entry.range && e.ticksExisted % 90 == 0) {
-					AMLineArc arc = (AMLineArc) ArsMagica2.proxy.particleManager.spawn(this.entity.worldObj, "textures/blocks/oreblockbluetopaz.png", e, this.entity);
+				Entity e = this.entity.world.getEntityByID ( entry.entityID );
+				if ( e != null && e.getDistanceSq ( this.entity ) < entry.range && e.ticksExisted % 90 == 0 ) {
+					AMLineArc arc = (AMLineArc) ArsMagica2.proxy.particleManager.spawn ( this.entity.world , "textures/blocks/oreblockbluetopaz.png" , e , this.entity );
 					if (arc != null) {
 						arc.setIgnoreAge(false);
 						arc.setRBGColorF(0.17f, 0.88f, 0.88f);
@@ -558,127 +558,6 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 				}
 			}
 		}
-	}
-
-	private class ManaLinkEntry {
-		private final int entityID;
-		private final int range;
-
-		private ManaLinkEntry(int entityID, int range) {
-			this.entityID = entityID;
-			this.range = range * range;
-		}
-
-		private EntityLivingBase getEntity(World world) {
-			Entity e = world.getEntityByID(this.entityID);
-			if (e == null || !(e instanceof EntityLivingBase))
-				return null;
-			return (EntityLivingBase) e;
-		}
-
-		private float getAdditionalCurrentMana(World world, Entity host) {
-			EntityLivingBase e = this.getEntity(world);
-			if (e == null || e.getDistanceSqToEntity(host) > this.range)
-				return 0;
-			return For(e).getCurrentMana();
-		}
-
-		private float getAdditionalMaxMana(World world, Entity host) {
-			EntityLivingBase e = this.getEntity(world);
-			if (e == null || e.getDistanceSqToEntity(host) > this.range)
-				return 0;
-			return For(e).getMaxMana();
-		}
-
-		public float deductMana(World world, Entity host, float amt) {
-			EntityLivingBase e = this.getEntity(world);
-			if (e == null || e.getDistanceSqToEntity(host) > this.range)
-				return 0;
-			amt = Math.min(For(e).getCurrentMana(), amt);
-			For(e).deductMana(amt);
-			return amt;
-		}
-
-		@Override
-		public int hashCode() {
-			return this.entityID;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			return obj instanceof ManaLinkEntry && ((ManaLinkEntry) obj).entityID == this.entityID;
-		}
-	}
-
-	@Override
-	public boolean shouldReverseInput() {
-		return this.getFlipRotation() > 0 || this.entity.isPotionActive(PotionEffectsDefs.SCRAMBLE_SYNAPSES);
-	}
-
-	@Override
-	public boolean getIsFlipped() {
-		return this.isInverted();
-	}
-
-	@Override
-	public float getFlipRotation() {
-		return this.flipRotation;
-	}
-
-	@Override
-	public float getPrevFlipRotation() {
-		return this.prevFlipRotation;
-	}
-
-	@Override
-	public void setFlipRotation(float rot) {
-		if (this.flipRotation != rot) {
-			this.addSyncCode(SYNC_FLIP_ROTATION);
-			this.flipRotation = rot;
-		}
-	}
-
-	@Override
-	public void setPrevFlipRotation(float rot) {
-		if (this.prevFlipRotation != rot) {
-			this.addSyncCode(SYNC_FLIP_ROTATION);
-			this.prevFlipRotation = rot;
-		}
-	}
-
-	@Override
-	public float getShrinkPct() {
-		return this.shrinkPercentage;
-	}
-
-	@Override
-	public float getPrevShrinkPct() {
-		return this.prevShrinkPercentage;
-	}
-
-	@Override
-	public void setTKDistance(float TK_Distance) {
-		if (this.TKDistance != TK_Distance) {
-			this.addSyncCode(SYNC_TK_DISTANCE);
-			this.TKDistance = TK_Distance;
-		}
-	}
-
-	@Override
-	public void addToTKDistance(float toAdd) {
-		this.setTKDistance(this.getTKDistance() + toAdd);
-	}
-
-	@Override
-	public float getTKDistance() {
-		return this.TKDistance;
-	}
-
-	@Override
-	public void syncTKDistance() {
-		AMDataWriter writer = new AMDataWriter();
-		writer.add(this.getTKDistance());
-		AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.TK_DISTANCE_SYNC, writer.generate());
 	}
 
 	@Override
@@ -714,17 +593,17 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 						regenTicks *= 0.5;
 					}
 
-					if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_3.getID())) {
+					if ( SkillData.For ( player ).hasSkill ( SkillDefs.MANA_REGEN_3.getIDString ( ) ) ) {
 						regenTicks *= 0.7f;
-					} else if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_2.getID())) {
+					} else if ( SkillData.For ( player ).hasSkill ( SkillDefs.MANA_REGEN_2.getIDString ( ) ) ) {
 						regenTicks *= 0.85f;
-					} else if (SkillData.For(player).hasSkill(SkillDefs.MANA_REGEN_1.getID())) {
+					} else if ( SkillData.For ( player ).hasSkill ( SkillDefs.MANA_REGEN_1.getIDString ( ) ) ) {
 						regenTicks *= 0.95f;
 					}
 
 					int numArmorPieces = 0;
 					for (int i = 0; i < 4; ++i) {
-						ItemStack stack = player.inventory.armorInventory[i];
+						ItemStack stack = player.inventory.armorInventory.get ( 0 );
 						if (ImbuementRegistry.instance.isImbuementPresent(stack, GenericImbuement.manaRegen))
 							numArmorPieces++;
 					}
@@ -741,7 +620,7 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			float overloadMana = this.getCurrentMana() - this.getMaxMana();
 			float toRemove = Math.max(overloadMana * 0.002f, 1.0f);
 			this.deductMana(toRemove);
-			if (this.entity instanceof EntityPlayer && SkillData.For(this.entity).hasSkill(SkillDefs.SHIELD_OVERLOAD.getID())) {
+			if ( this.entity instanceof EntityPlayer && SkillData.For ( this.entity ).hasSkill ( SkillDefs.SHIELD_OVERLOAD.getIDString ( ) ) ) {
 				this.addMagicShieldingCapped(toRemove / 500F);
 			}
 		}
@@ -758,8 +637,8 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 			if (this.entity instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) this.entity;
 				for (int i = 0; i < 4; ++i) {
-					ItemStack stack = player.inventory.armorInventory[i];
-					if (stack == null) continue;
+					ItemStack stack = player.inventory.armorInventory.get ( i );
+					if ( stack.isEmpty ( ) ) continue;
 					if (ImbuementRegistry.instance.isImbuementPresent(stack, GenericImbuement.burnoutReduction))
 						numArmorPieces++;
 				}
@@ -772,6 +651,92 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 				this.setCurrentBurnout(0);
 			}
 		}
+	}
+
+	@Override
+	public boolean shouldReverseInput ( ) {
+		return this.getFlipRotation ( ) > 0 || this.entity.isPotionActive ( PotionEffectsDefs.SCRAMBLE_SYNAPSES );
+	}
+
+	@Override
+	public boolean getIsFlipped ( ) {
+		return this.isInverted ( );
+	}
+
+	@Override
+	public float getFlipRotation ( ) {
+		return this.flipRotation;
+	}
+
+	@Override
+	public float getPrevFlipRotation ( ) {
+		return this.prevFlipRotation;
+	}
+
+	@Override
+	public void setFlipRotation ( float rot ) {
+		if ( this.flipRotation != rot ) {
+			this.addSyncCode ( SYNC_FLIP_ROTATION );
+			this.flipRotation = rot;
+		}
+	}
+
+	@Override
+	public void setPrevFlipRotation ( float rot ) {
+		if ( this.prevFlipRotation != rot ) {
+			this.addSyncCode ( SYNC_FLIP_ROTATION );
+			this.prevFlipRotation = rot;
+		}
+	}
+
+	@Override
+	public float getShrinkPct ( ) {
+		return this.shrinkPercentage;
+	}
+
+	@Override
+	public float getPrevShrinkPct ( ) {
+		return this.prevShrinkPercentage;
+	}
+
+	@Override
+	public void setTKDistance ( float TK_Distance ) {
+		if ( this.TKDistance != TK_Distance ) {
+			this.addSyncCode ( SYNC_TK_DISTANCE );
+			this.TKDistance = TK_Distance;
+		}
+	}
+
+	@Override
+	public void addToTKDistance ( float toAdd ) {
+		this.setTKDistance ( this.getTKDistance ( ) + toAdd );
+	}
+
+	@Override
+	public float getTKDistance ( ) {
+		return this.TKDistance;
+	}
+
+	@Override
+	public void syncTKDistance ( ) {
+		AMDataWriter writer = new AMDataWriter ( );
+		writer.add ( this.getTKDistance ( ) );
+		AMNetHandler.INSTANCE.sendPacketToServer ( AMPacketIDs.TK_DISTANCE_SYNC , writer.generate ( ) );
+	}
+
+	public void flipTick ( ) {
+		//this.setInverted(true);
+		boolean flipped = this.getIsFlipped ( );
+
+		ItemStack boots = ( (EntityPlayer) this.entity ).inventory.armorInventory.get ( 0 );
+		if ( !boots.isEmpty ( ) || boots.getItem ( ) != ItemDefs.enderBoots )
+			this.setInverted ( false );
+
+		this.setPrevFlipRotation ( this.getFlipRotation ( ) );
+		if ( flipped && this.getFlipRotation ( ) < 180 )
+			this.setFlipRotation ( this.getFlipRotation ( ) + 15 );
+		else if ( !flipped && this.getFlipRotation ( ) > 0 )
+			this.setFlipRotation ( this.getFlipRotation ( ) - 15 );
 	}
 
 	private byte[] getManaLinkUpdate() {
@@ -830,19 +795,54 @@ public class EntityExtension implements IEntityExtension, ICapabilityProvider, I
 		this.ent = ent;
 	}
 
-	public void flipTick() {
-		//this.setInverted(true);
-		boolean flipped = this.getIsFlipped();
+	private class ManaLinkEntry {
+		private final int entityID;
+		private final int range;
 
-		ItemStack boots = ((EntityPlayer) this.entity).inventory.armorInventory[0];
-		if (boots == null || boots.getItem() != ItemDefs.enderBoots)
-			this.setInverted(false);
+		private ManaLinkEntry ( int entityID , int range ) {
+			this.entityID = entityID;
+			this.range = range * range;
+		}
 
-		this.setPrevFlipRotation(this.getFlipRotation());
-		if (flipped && this.getFlipRotation() < 180)
-			this.setFlipRotation(this.getFlipRotation() + 15);
-		else if (!flipped && this.getFlipRotation() > 0)
-			this.setFlipRotation(this.getFlipRotation() - 15);
+		private EntityLivingBase getEntity ( World world ) {
+			Entity e = world.getEntityByID ( this.entityID );
+			if ( e == null || !( e instanceof EntityLivingBase ) )
+				return null;
+			return (EntityLivingBase) e;
+		}
+
+		private float getAdditionalCurrentMana ( World world , Entity host ) {
+			EntityLivingBase e = this.getEntity ( world );
+			if ( e == null || e.getDistanceSq ( host ) > this.range )
+				return 0;
+			return For ( e ).getCurrentMana ( );
+		}
+
+		private float getAdditionalMaxMana ( World world , Entity host ) {
+			EntityLivingBase e = this.getEntity ( world );
+			if ( e == null || e.getDistanceSq ( host ) > this.range )
+				return 0;
+			return For ( e ).getMaxMana ( );
+		}
+
+		public float deductMana ( World world , Entity host , float amt ) {
+			EntityLivingBase e = this.getEntity ( world );
+			if ( e == null || e.getDistanceSq ( host ) > this.range )
+				return 0;
+			amt = Math.min ( For ( e ).getCurrentMana ( ) , amt );
+			For ( e ).deductMana ( amt );
+			return amt;
+		}
+
+		@Override
+		public int hashCode ( ) {
+			return this.entityID;
+		}
+
+		@Override
+		public boolean equals ( Object obj ) {
+			return obj instanceof ManaLinkEntry && ( (ManaLinkEntry) obj ).entityID == this.entityID;
+		}
 	}
 
 	public void setShrinkPct(float shrinkPct) {

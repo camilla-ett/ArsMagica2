@@ -1,10 +1,5 @@
 package am2.common.extensions;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.SkillPointRegistry;
@@ -30,6 +25,11 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySerializable<NBTBase> {
 	
@@ -76,8 +76,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		Skill skill = SkillRegistry.getSkillFromName(name);
 		
 		for (CompendiumEntry entry : CompendiumCategory.getAllEntries()) {
-			if (ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName()) != null) {
-				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName());
+			if ( ArsMagicaAPI.getSpellRegistry ( ).getValue ( skill.getRegistryName ( ) ) != null ) {
+				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry ( ).getValue ( skill.getRegistryName ( ) );
 				for (Object obj : entry.getObjects()) {
 					if (obj == part) {
 						ArcaneCompendium.For(this.player).unlockEntry(entry.getID());
@@ -171,7 +171,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
 			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode)  && part instanceof SpellShape && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
-				out.add(skill.getID());
+				out.add ( skill.getIDString ( ) );
 		}
 		out.sort(Comparator.naturalOrder());
 		return out;
@@ -183,7 +183,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
 			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode)  && part instanceof SpellComponent && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
-				out.add(skill.getID());
+				out.add ( skill.getIDString ( ) );
 		}
 		out.sort(Comparator.naturalOrder());
 		return out;
@@ -195,7 +195,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
 			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
 			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode)  && part instanceof SpellModifier && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
-				out.add(skill.getID());
+				out.add ( skill.getIDString ( ) );
 		}
 		out.sort(Comparator.naturalOrder());
 		return out;

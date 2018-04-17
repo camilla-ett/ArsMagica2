@@ -42,11 +42,11 @@ public abstract class AStar<T>{
 		 * <code>0</code> Object are the same.
 		 * <code>bigger than 0</code> This object is bigger
 		 * than o.
-		 * @see Comparable#compareTo()
+		 * @see Comparable#()
 		 */
 		@Override
 		public int compareTo(Path o){
-			Path p = (Path)o;
+			Path p = o;
 			return (int)(f - p.f);
 		}
 

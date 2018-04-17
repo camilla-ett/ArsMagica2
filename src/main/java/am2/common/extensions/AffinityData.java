@@ -1,16 +1,11 @@
 package am2.common.extensions;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import com.google.common.collect.Maps;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.common.packet.AMDataReader;
 import am2.common.packet.AMDataWriter;
+import com.google.common.collect.Maps;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
@@ -21,6 +16,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabilitySerializable<NBTBase> {
 	public static final ResourceLocation ID = new ResourceLocation("arsmagica2:AffinityData");
@@ -256,8 +255,8 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 			this.depths.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
-				Affinity key = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(reader.getString()));
-				double value = reader.getDouble();
+                Affinity key = ArsMagicaAPI.getAffinityRegistry ( ).getValue ( new ResourceLocation ( reader.getString ( ) ) );
+                double value = reader.getDouble();
 				if (key != null)
 					this.depths.put(key, value);
 			}
