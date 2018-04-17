@@ -1,8 +1,5 @@
 package am2.common.entity;
 
-import java.util.List;
-
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.common.defs.ItemDefs;
 import am2.common.defs.LootTablesArsMagica;
@@ -12,16 +9,8 @@ import am2.common.extensions.EntityExtension;
 import am2.common.utils.NPCSpells;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -36,11 +25,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.List;
+
 public class EntityDarkMage extends EntityMob{
 
-	private static ItemStack diminishedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
-	private static ItemStack normalHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
-	private static ItemStack augmentedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
+    private static ItemStack diminishedHeldItem = new ItemStack ( ItemDefs.affinityTome , 1 , Affinity.NONE.getID ( ) );
+    private static ItemStack normalHeldItem = new ItemStack ( ItemDefs.affinityTome , 1 , Affinity.NONE.getID ( ) );
+    private static ItemStack augmentedHeldItem = new ItemStack ( ItemDefs.affinityTome , 1 , Affinity.NONE.getID ( ) );
 
 	public static final DataParameter<Integer> MAGE_SKIN = EntityDataManager.createKey(EntityDarkMage.class, DataSerializers.VARINT);
 	public static final DataParameter<Integer> MAGE_BOOK = EntityDataManager.createKey(EntityDarkMage.class, DataSerializers.VARINT);
@@ -154,9 +145,9 @@ public class EntityDarkMage extends EntityMob{
 	}
 
 	private int getAverageNearbyPlayerMagicLevel(){
-		if (this.worldObj == null) return 0;
-		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.posX - 250, 0, this.posZ - 250, this.posX + 250, 250, this.posZ + 250));
-		if (players.size() == 0) return 0;
+        if ( this.world == null ) return 0;
+        List <EntityPlayer> players = world.getEntitiesWithinAABB ( EntityPlayer.class , new AxisAlignedBB ( this.posX - 250 , 0 , this.posZ - 250 , this.posX + 250 , 250 , this.posZ + 250 ) );
+        if (players.size() == 0) return 0;
 		int avgLvl = 0;
 		for (EntityPlayer player : players){
 			avgLvl += EntityExtension.For(player).getCurrentLevel();
@@ -166,8 +157,8 @@ public class EntityDarkMage extends EntityMob{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), worldObj, this))
-			return false;
+        if ( !SpawnBlacklists.entityCanSpawnHere ( getPosition ( ) , world , this ) )
+            return false;
 		if (getAverageNearbyPlayerMagicLevel() < 8){
 			return false;
 		}

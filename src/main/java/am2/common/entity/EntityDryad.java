@@ -1,19 +1,13 @@
 package am2.common.entity;
 
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleOrbitEntity;
 import am2.common.bosses.BossSpawnHelper;
 import am2.common.defs.ItemDefs;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -83,14 +77,14 @@ public class EntityDryad extends EntityCreature{
 		int i = rand.nextInt(1);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)), 0.0f);
-		}
+            this.entityDropItem ( new ItemStack ( ItemDefs.essence , 1 , Affinity.EARTH.getID ( ) ) , 0.0f );
+        }
 
 		i = rand.nextInt(10);
 
 		if (i == 3){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)), 0.0f);
-		}
+            this.entityDropItem ( new ItemStack ( ItemDefs.essence , 1 , Affinity.LIFE.getID ( ) ) , 0.0f );
+        }
 	}
 
 	@Override
@@ -108,5 +102,4 @@ public class EntityDryad extends EntityCreature{
 		return super.getCanSpawnHere();
 	}
 
-	;
 }

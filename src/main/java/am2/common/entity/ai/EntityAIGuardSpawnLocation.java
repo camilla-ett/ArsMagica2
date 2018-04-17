@@ -23,8 +23,8 @@ public class EntityAIGuardSpawnLocation extends EntityAIBase{
 
 	public EntityAIGuardSpawnLocation(EntityCreature par1EntityMob, float moveSpeed, float minDist, float maxDist, AMVector3 spawn){
 		theGuard = par1EntityMob;
-		theWorld = par1EntityMob.worldObj;
-		this.moveSpeed = moveSpeed;
+        theWorld = par1EntityMob.world;
+        this.moveSpeed = moveSpeed;
 		guardPathfinder = par1EntityMob.getNavigator();
 		this.minDist = minDist;
 		this.maxDist = maxDist;
@@ -43,19 +43,15 @@ public class EntityAIGuardSpawnLocation extends EntityAIBase{
 	 */
 	@Override
 	public boolean shouldExecute(){
-		if (getDistanceSqToSpawnXZ() < minDist * minDist){
-			return false;
-		}else{
-			return true;
-		}
-	}
+        return !( getDistanceSqToSpawnXZ ( ) < minDist * minDist );
+    }
 
 	/**
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean continueExecuting(){
-		return !guardPathfinder.noPath() && getDistanceSqToSpawnXZ() > maxDist * maxDist;
+    public boolean shouldContinueExecuting ( ) {
+        return !guardPathfinder.noPath() && getDistanceSqToSpawnXZ() > maxDist * maxDist;
 	}
 
 	/**
@@ -72,8 +68,8 @@ public class EntityAIGuardSpawnLocation extends EntityAIBase{
 	 */
 	@Override
 	public void resetTask(){
-		guardPathfinder.clearPathEntity();
-		theGuard.setPathPriority(PathNodeType.WATER, -1.0F);
+        guardPathfinder.clearPath ( );
+        theGuard.setPathPriority(PathNodeType.WATER, -1.0F);
 	}
 
 	/**
@@ -106,8 +102,8 @@ public class EntityAIGuardSpawnLocation extends EntityAIBase{
 				IBlockState otherBlock = theWorld.getBlockState(pos.add(l, 1, i1));
 				if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.theWorld.isSideSolid(pos, EnumFacing.UP) && !otherBlock.isBlockNormalCube()){
 					this.theGuard.setLocationAndAngles((double)((float)(pos.getX() + l) + 0.5F), (double)pos.getY(), (double)((float)(pos.getZ() + i1) + 0.5F), this.theGuard.rotationYaw, this.theGuard.rotationPitch);
-					this.guardPathfinder.clearPathEntity();
-					return;
+                    this.guardPathfinder.clearPath ( );
+                    return;
 				}
 			}
 		}

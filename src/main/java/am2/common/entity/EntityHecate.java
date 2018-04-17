@@ -1,9 +1,6 @@
 package am2.common.entity;
 
-import java.util.List;
-
 import am2.ArsMagica2;
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
@@ -14,15 +11,7 @@ import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.packet.AMNetHandler;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIFleeSun;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityGolem;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
@@ -36,6 +25,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class EntityHecate extends EntityZombie{
 
@@ -138,8 +129,8 @@ public class EntityHecate extends EntityZombie{
 		if (this.motionY < 0)
 			this.motionY *= 0.79999f;
 
-		if (this.worldObj != null){
-			if (this.worldObj.isRemote){
+		if ( this.world != null ) {
+			if ( this.world.isRemote ) {
 				if (!this.getFlag(5) && this.ticksExisted % 3 == 0){
 					spawnLivingParticles();
 				}else if (!hasSpawnedInvisParticles){
@@ -151,7 +142,7 @@ public class EntityHecate extends EntityZombie{
 				updateArmRotations();
 				updateForwardRotation();
 			}
-			if (this.worldObj.getDifficulty() == EnumDifficulty.HARD && this.getAttackTarget() != null && this.invisibilityCooldown == 0){
+			if ( this.world.getDifficulty ( ) == EnumDifficulty.HARD && this.getAttackTarget ( ) != null && this.invisibilityCooldown == 0 ) {
 				this.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("invisibility"), 60, 2));
 				this.invisibilityCooldown = 600;
 			}
@@ -161,12 +152,12 @@ public class EntityHecate extends EntityZombie{
 
 	@Override
 	public void onLivingUpdate(){
-		if (this.worldObj.isDaytime() && !this.worldObj.isRemote && !this.isDead){
-			float f = this.getBrightness(1.0F);
+		if ( this.world.isDaytime ( ) && !this.world.isRemote && !this.isDead ) {
+			float f = this.getBrightness ( );
 
-			if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.worldObj.canBlockSeeSky(getPosition())){
+			if ( f > 0.5F && this.rand.nextFloat ( ) * 30.0F < ( f - 0.4F ) * 2.0F && this.world.canBlockSeeSky ( getPosition ( ) ) ) {
 				AMNetHandler.INSTANCE.sendHecateDeathToAllAround(this);
-				this.attackEntityFrom(DamageSource.onFire, 5000);
+				this.attackEntityFrom ( DamageSource.ON_FIRE , 5000 );
 			}
 		}
 		super.onLivingUpdate();
@@ -174,7 +165,7 @@ public class EntityHecate extends EntityZombie{
 
 	private void spawnInvisibilityParticles(){
 		/*for (int i = 0; i < 50; ++i){
-			ArsMagicaParticle effect = ParticleManager.spawn(this.worldObj, "hr_smoke", this.posX + rand.nextDouble(), this.posY + 1, this.posZ);
+			ArsMagicaParticle effect = ParticleManager.spawn(this.world, "hr_smoke", this.posX + rand.nextDouble(), this.posY + 1, this.posZ);
 			if (effect != null){
 				effect.setMaxAge(20);
 				effect.setIgnoreMaxAge(false);
@@ -201,7 +192,7 @@ public class EntityHecate extends EntityZombie{
 				yPos += 0.3;
 			}
 
-			AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke",
+			AMParticle effect = (AMParticle) ArsMagica2.proxy.particleManager.spawn ( world , "smoke" ,
 					this.posX + ((rand.nextFloat() * 0.2) - 0.1f),
 					yPos,
 					this.posZ + ((rand.nextFloat() * 0.4) - 0.2f));
@@ -235,7 +226,7 @@ public class EntityHecate extends EntityZombie{
 	@Override
 	protected void dropFewItems(boolean bool, int looting){
 		if (getRNG().nextInt(10) == 5)
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)), 0.0f);
+			this.entityDropItem ( new ItemStack ( ItemDefs.essence , 1 , Affinity.ENDER.getID ( ) ) , 0.0f );
 	}
 
 	@Override
@@ -244,7 +235,7 @@ public class EntityHecate extends EntityZombie{
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(){
+	protected SoundEvent getHurtSound ( DamageSource source ) {
 		return AMSounds.HECATE_HIT;
 	}
 
@@ -259,8 +250,8 @@ public class EntityHecate extends EntityZombie{
 	}
 
 	private int getAverageNearbyPlayerMagicLevel(){
-		if (this.worldObj == null) return 0;
-		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(250, 250, 250));
+		if ( this.world == null ) return 0;
+		List <EntityPlayer> players = world.getEntitiesWithinAABB ( EntityPlayer.class , this.getEntityBoundingBox ( ).expand ( 250 , 250 , 250 ) );
 		if (players.size() == 0) return 0;
 		int avgLvl = 0;
 		for (EntityPlayer player : players){
@@ -271,7 +262,7 @@ public class EntityHecate extends EntityZombie{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), worldObj, this))
+		if ( !SpawnBlacklists.entityCanSpawnHere ( this.getPosition ( ) , world , this ) )
 			return false;
 		if (getAverageNearbyPlayerMagicLevel() < 20){
 			return false;

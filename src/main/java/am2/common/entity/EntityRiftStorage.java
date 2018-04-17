@@ -6,16 +6,13 @@ import am2.common.extensions.RiftStorage;
 import am2.common.utils.NBTUtils;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityRiftStorage extends EntityLiving {
@@ -59,20 +56,16 @@ public class EntityRiftStorage extends EntityLiving {
 	}
 	
 	@Override
-	protected boolean processInteract(EntityPlayer player, EnumHand hand, ItemStack stack) {
+	protected boolean processInteract ( EntityPlayer player , EnumHand hand ) {
 		if (player.isSneaking()){
 			this.setTicksToLive(this.ticksExisted + 20);
-			return super.processInteract(player, hand, stack);
+			return super.processInteract ( player , hand );
 		}
 		RiftStorage.For(player).setAccessLevel(getStorageLevel());
-		player.openGui(ArsMagica2.instance, IDDefs.GUI_RIFT, worldObj, (int)posX, (int)posY, (int)posZ);
-		return super.processInteract(player, hand, stack);
+		player.openGui ( ArsMagica2.instance , IDDefs.GUI_RIFT , player.world , (int) posX , (int) posY , (int) posZ );
+		return super.processInteract ( player , hand );
 	}
-	
-	@Override
-	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
-		return super.applyPlayerInteraction(player, vec, stack, hand);
-	}
+
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {

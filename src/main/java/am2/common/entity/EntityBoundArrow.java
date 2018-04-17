@@ -1,11 +1,8 @@
 package am2.common.entity;
 
-import javax.annotation.Nullable;
-
-import com.google.common.base.Optional;
-
 import am2.api.spell.SpellData;
 import am2.common.defs.ItemDefs;
+import com.google.common.base.Optional;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -13,6 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class EntityBoundArrow extends EntityArrow {
 	
@@ -41,8 +40,8 @@ public class EntityBoundArrow extends EntityArrow {
 		SpellData stack = dataManager.get(SPELL_STACK).orNull();
 		if (stack == null || !(shootingEntity instanceof EntityPlayer))
 			return;
-		stack.execute(worldObj, (EntityLivingBase) shootingEntity, living, living.posX, living.posY, living.posZ, null);
-	}
+        stack.execute ( world , (EntityLivingBase) shootingEntity , living , living.posX , living.posY , living.posZ , null );
+    }
 	
 	@Override
 	protected ItemStack getArrowStack() {

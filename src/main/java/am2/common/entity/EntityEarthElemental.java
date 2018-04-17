@@ -1,17 +1,11 @@
 package am2.common.entity;
 
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
@@ -62,8 +56,8 @@ public class EntityEarthElemental extends EntityMob{
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(){
-		return SoundEvents.ENTITY_IRONGOLEM_HURT;
+    protected SoundEvent getHurtSound ( DamageSource source ) {
+        return SoundEvents.ENTITY_IRONGOLEM_HURT;
 	}
 
 	@Override
@@ -82,8 +76,8 @@ public class EntityEarthElemental extends EntityMob{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(getPosition(), worldObj, this))
-			return false;
+        if ( !SpawnBlacklists.entityCanSpawnHere ( getPosition ( ) , world , this ) )
+            return false;
 		return super.getCanSpawnHere();
 	}
 }
