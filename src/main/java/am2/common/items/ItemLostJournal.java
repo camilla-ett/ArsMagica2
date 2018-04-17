@@ -1,19 +1,16 @@
 package am2.common.items;
 
-import java.util.List;
-
 import am2.client.gui.AMGuiHelper;
 import am2.common.lore.Story;
 import am2.common.lore.StoryManager;
+import am2.common.registry.Registry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemWritableBook;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -66,11 +63,11 @@ public class ItemLostJournal extends ItemWritableBook{
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult <ItemStack> onItemRightClick ( World worldIn , EntityPlayer playerIn , EnumHand handIn ) {
 		if (worldIn.isRemote){
-			AMGuiHelper.OpenBookGUI(itemStackIn);
+			AMGuiHelper.OpenBookGUI ( playerIn.getHeldItemMainhand ( ) );
 		}
-		return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
+		return new ActionResult <> ( EnumActionResult.SUCCESS , playerIn.getHeldItemMainhand ( ) );
 	}
 
 	@Override
@@ -83,7 +80,7 @@ public class ItemLostJournal extends ItemWritableBook{
 			int meta = sCount << 16;
 			for (short i = 0; i < s.getNumParts(); ++i){
 				meta = sCount + i;
-				ItemStack stack = new ItemStack(item, 1, meta);
+				ItemStack stack = new ItemStack ( this , 1 , meta );
 				stack.setTagCompound(new NBTTagCompound());
 				s.WritePartToNBT(stack.getTagCompound(), i);
 				stack.getTagCompound().setString("title", s.getTitle());
@@ -94,7 +91,7 @@ public class ItemLostJournal extends ItemWritableBook{
 	
 	public ItemLostJournal registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		Registry.GetItemsToRegister ( ).add ( this );
 		return this;
 	}
 }

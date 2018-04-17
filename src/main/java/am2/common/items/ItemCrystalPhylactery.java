@@ -1,24 +1,26 @@
 package am2.common.items;
 
-import java.util.HashMap;
-import java.util.List;
-
 import am2.common.utils.EntityUtils;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityList.EntityEggInfo;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.List;
 
 public class ItemCrystalPhylactery extends ItemArsMagica{
 
@@ -39,8 +41,8 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		if (par1ItemStack.hasTagCompound()){
+    public void addInformation ( ItemStack par1ItemStack , @Nullable World world , List <String> par3List , ITooltipFlag par4 ) {
+        if (par1ItemStack.hasTagCompound()){
 			String className = par1ItemStack.getTagCompound().getString("SpawnClassName");
 			par3List.add(I18n.format("am2.tooltip.phyEss", I18n.format("entity." + className + ".name")));
 			float pct = par1ItemStack.getTagCompound().getFloat("PercentFilled");
@@ -97,8 +99,8 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 
-		String s = EntityList.CLASS_TO_NAME.get(clazz);
-		if (s != null)
+        String s = EntityList.getTranslationName ( EntityList.getKey ( clazz ) );
+        if (s != null)
 			stack.getTagCompound().setString("SpawnClassName", s);
 	}
 
@@ -110,7 +112,7 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 			return true;
 
 		String e = stack.getTagCompound().getString("SpawnClassName");
-		String s = EntityList.CLASS_TO_NAME.get(entity.getClass());
+        String s = EntityList.getEntityString ( entity );
 
 		return e.equals(s);
 	}
@@ -126,8 +128,9 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 	}
 	
 	public void getSpawnableEntities(World world){
-		for (Class<? extends Entity> clazz : EntityList.CLASS_TO_NAME.keySet()){
-			if (EntityCreature.class.isAssignableFrom(clazz)){
+        for ( ResourceLocation claz : EntityList.getEntityNameList ( ) ) {
+            Class <? extends Entity> clazz = EntityList.getClass ( claz );
+            if (EntityCreature.class.isAssignableFrom(clazz)){
 				try{
 					EntityCreature temp = (EntityCreature)clazz.getConstructor(World.class).newInstance(world);
 					if (EntityUtils.isAIEnabled(temp) && temp.isNonBoss()){
@@ -147,8 +150,8 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 							//no spawn egg...pick random color?
 							color = world.rand.nextInt();
 						}
-						this.spawnableEntities.put(EntityList.CLASS_TO_NAME.get(clazz), color);
-					}
+                        this.spawnableEntities.put ( EntityList.getTranslationName ( EntityList.getKey ( clazz ) ) , color );
+                    }
 				}catch (Throwable e){
 					//e.printStackTrace();
 				}
@@ -158,8 +161,8 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		par3List.add(new ItemStack(this));
+    public void getSubItems ( CreativeTabs par2CreativeTabs , NonNullList <ItemStack> par3List ) {
+        par3List.add(new ItemStack(this));
 		for (String s : this.spawnableEntities.keySet()){
 			if (s == null)
 				continue;
