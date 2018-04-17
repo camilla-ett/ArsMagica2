@@ -1,12 +1,13 @@
 package am2.common.config;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import am2.api.ArsMagicaAPI;
+import am2.api.skill.Skill;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class SpellPartConfiguration extends Configuration{
 	
@@ -48,7 +49,7 @@ public class SpellPartConfiguration extends Configuration{
 		for (String disabled : disabled) {
 			ResourceLocation rl = new ResourceLocation(disabled);
 			if (!disabled.contains(":")) rl = new ResourceLocation("arsmagica2:" + disabled);
-			intArray.add(ArsMagicaAPI.getSkillRegistry().getId(rl));
+			intArray.add(ArsMagicaAPI.getSkillRegistry().getValue(rl).getID());
 		}
 		int[] ret = new int[intArray.size()];
 		for (int i = 0; i < intArray.size(); i++) {
@@ -61,7 +62,7 @@ public class SpellPartConfiguration extends Configuration{
 	public void disableAllSkillsIn(int[] disabledSkills) {
 		disabled.clear();
 		for (int i : disabledSkills) {
-			ResourceLocation rl = ArsMagicaAPI.getSkillRegistry().getObjectById(i).getRegistryName();
+			ResourceLocation rl = ((Skill)(ArsMagicaAPI.getSkillRegistry().getValuesCollection().toArray()[(i)])).getRegistryName();
 			String name = rl.toString();
 			if (name.startsWith("arsmagica2:")) name = rl.getResourcePath();
 			disabled.add(name);

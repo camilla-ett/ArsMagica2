@@ -45,7 +45,7 @@ public abstract class AM2Container extends Container{
 				}
 			}else if (!stackHeld.isEmpty()){
 				adjustGhostSlot(slot, mouseButton, clickTypeIn);
-				slot.onPickupFromSlot(player, playerInv.getItemStack());
+				slot.onTake(player, playerInv.getItemStack());
 			}else if (slot.isItemValid(stackHeld)){
 				if (InventoryUtilities.canStacksMerge(stackSlot, stackHeld)){
 					adjustGhostSlot(slot, mouseButton, clickTypeIn);
@@ -129,7 +129,7 @@ public abstract class AM2Container extends Container{
 				return null;
 			}
 
-			slot.onPickupFromSlot(player, stackInSlot);
+			slot.onTake(player, stackInSlot);
 		}
 		return originalStack;
 	}

@@ -1,13 +1,11 @@
 package am2.common.container;
 
-import java.util.HashMap;
-
 import am2.common.container.slot.SlotRuneOnly;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemKeystone;
+import am2.common.items.ItemKeystone.KeystoneCombination;
 import am2.common.items.ItemRune;
 import am2.common.items.ItemRuneBag;
-import am2.common.items.ItemKeystone.KeystoneCombination;
 import am2.common.packet.AMDataWriter;
 import am2.common.packet.AMNetHandler;
 import am2.common.packet.AMPacketIDs;
@@ -19,6 +17,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import java.util.HashMap;
 
 public class ContainerKeystone extends Container{
 	private final ItemStack keystoneStack;
@@ -114,7 +114,7 @@ public class ContainerKeystone extends Container{
 	@Override
 	public void onContainerClosed(EntityPlayer entityplayer){
 
-		World world = entityplayer.worldObj;
+		World world = entityplayer.world;
 
 		if (!world.isRemote){
 			ItemStack keyStoneItemStack = keystoneStack;
@@ -135,7 +135,7 @@ public class ContainerKeystone extends Container{
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer){
-		return keyStoneInventory.isUseableByPlayer(entityplayer);
+		return keyStoneInventory.isUsableByPlayer(entityplayer);
 	}
 
 	@Override
@@ -155,8 +155,8 @@ public class ContainerKeystone extends Container{
 
 							runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
 							runeSlot.onSlotChanged();
-							itemstack1.stackSize--;
-							if (itemstack1.stackSize == 0){
+							itemstack1.shrink(1);
+							if (itemstack1.getCount() == 0){
 								slot.putStack(null);
 								slot.onSlotChanged();
 							}
@@ -169,8 +169,8 @@ public class ContainerKeystone extends Container{
 
 							runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
 							runeSlot.onSlotChanged();
-							itemstack1.stackSize--;
-							if (itemstack1.stackSize == 0){
+							itemstack1.shrink(1);
+							if (itemstack1.getCount() == 0){
 								slot.putStack(null);
 								slot.onSlotChanged();
 							}
@@ -190,8 +190,8 @@ public class ContainerKeystone extends Container{
 
 						runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
 						runeSlot.onSlotChanged();
-						itemstack1.stackSize--;
-						if (itemstack1.stackSize == 0){
+						itemstack1.shrink(1);
+						if (itemstack1.getCount() == 0){
 							slot.putStack(null);
 							slot.onSlotChanged();
 						}
@@ -210,8 +210,8 @@ public class ContainerKeystone extends Container{
 
 						runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
 						runeSlot.onSlotChanged();
-						itemstack1.stackSize--;
-						if (itemstack1.stackSize == 0){
+						itemstack1.shrink(1);
+						if (itemstack1.getCount() == 0){
 							slot.putStack(null);
 							slot.onSlotChanged();
 						}
@@ -224,12 +224,12 @@ public class ContainerKeystone extends Container{
 			}else if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_END, false)){
 				return null;
 			}
-			if (itemstack1.stackSize == 0){
+			if (itemstack1.getCount() == 0){
 				slot.putStack(null);
 			}else{
 				slot.onSlotChanged();
 			}
-			if (itemstack1.stackSize != itemstack.stackSize){
+			if (itemstack1.getCount() != itemstack.getCount()){
 				slot.onSlotChange(itemstack1, itemstack);
 			}else{
 				return null;
@@ -272,7 +272,7 @@ public class ContainerKeystone extends Container{
 
 		if (!inventoryContainsAllMetas(combo.metas)) return false;
 
-		if (player.worldObj.isRemote){
+		if (player.world.isRemote){
 			AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.SET_KEYSTONE_COMBO, new AMDataWriter().add(comboIndex).generate());
 			return true;
 		}

@@ -1,9 +1,5 @@
 package am2.common.container;
 
-import java.util.HashMap;
-
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
 import am2.common.blocks.tileentity.TileEntityMagiciansWorkbench;
 import am2.common.blocks.tileentity.TileEntityMagiciansWorkbench.RememberedRecipe;
 import am2.common.container.slot.AM2Container;
@@ -21,6 +17,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+
+import java.util.HashMap;
 
 public class ContainerMagiciansWorkbench extends AM2Container{
 
@@ -39,7 +38,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 		workbenchInventory = tileEntity;
 		workbenchInventory.openInventory(playerInventory.player);
 
-		world = playerInventory.player.worldObj;
+		world = playerInventory.player.world;
 
 		INVENTORY_STORAGE_START = tileEntity.getStorageStart() - 3;
 		if (tileEntity.getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT))
@@ -131,14 +130,14 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 
 	@Override
 	public void onCraftMatrixChanged(IInventory par1iInventory){
-		this.workbenchInventory.firstCraftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.firstCraftMatrix, world));
+		this.workbenchInventory.firstCraftResult.setInventorySlotContents(0, CraftingManager.findMatchingRecipe(this.firstCraftMatrix, world).getRecipeOutput());
 		if (!initializing){
 			for (int i = 0; i < 9; ++i){
 				workbenchInventory.setInventorySlotContents(i, firstCraftMatrix.getStackInSlot(i));
 			}
 		}
 
-		this.workbenchInventory.secondCraftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.secondCraftMatrix, world));
+		this.workbenchInventory.secondCraftResult.setInventorySlotContents(0, CraftingManager.findMatchingRecipe(this.secondCraftMatrix, world).getRecipeOutput());
 		if (!initializing){
 			for (int i = 0; i < 9; ++i){
 				workbenchInventory.setInventorySlotContents(i + 9, secondCraftMatrix.getStackInSlot(i));
@@ -148,7 +147,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer){
-		return workbenchInventory.isUseableByPlayer(entityplayer);
+		return workbenchInventory.isUsableByPlayer(entityplayer);
 	}
 
 	@Override
@@ -192,17 +191,17 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 				return null;
 			}
 
-			if (itemstack1.stackSize == 0){
+			if (itemstack1.getCount() == 0){
 				slot.putStack((ItemStack)null);
 			}else{
 				slot.onSlotChanged();
 			}
 
-			if (itemstack1.stackSize == itemstack.stackSize){
+			if (itemstack1.getCount() == itemstack.getCount()){
 				return null;
 			}
 
-			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+			slot.onTake(par1EntityPlayer, itemstack1);
 		}
 		return itemstack;
 	}
@@ -246,7 +245,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 		for (int i = getWorkbench().getStorageStart() - 3; i < getWorkbench().getStorageStart() - 3 + getWorkbench().getStorageSize(); ++i){
 			ItemStack stack = getWorkbench().getStackInSlot(i);
 			if (stack != null && stack.isItemEqual(component))
-				matchedQty += stack.stackSize;
+				matchedQty += stack.getCount();
 			if (matchedQty >= qty)
 				return true;
 		}
@@ -268,13 +267,13 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 			Slot slot = ((Slot)this.inventorySlots.get(i));
 			ItemStack stack = slot.getStack();
 			if (stack != null && stack.isItemEqual(component)){
-				if (stack.stackSize > qtyLeft){
-					stack.stackSize -= qtyLeft;
+				if (stack.getCount() > qtyLeft){
+					stack.shrink(qtyLeft);
 					slot.putStack(stack);
 					slot.onSlotChanged();
 					return;
 				}else{
-					qtyLeft -= stack.stackSize;
+					qtyLeft -= stack.getCount();
 					slot.putStack(null);
 					slot.onSlotChanged();
 				}
