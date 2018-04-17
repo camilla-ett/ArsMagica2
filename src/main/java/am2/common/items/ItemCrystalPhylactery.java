@@ -97,7 +97,7 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 
-		String s = EntityList.CLASS_TO_NAME.get(clazz);
+		String s = EntityList.getTranslationName(EntityList.getKey(clazz));
 		if (s != null)
 			stack.getTagCompound().setString("SpawnClassName", s);
 	}
@@ -110,7 +110,7 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 			return true;
 
 		String e = stack.getTagCompound().getString("SpawnClassName");
-		String s = EntityList.CLASS_TO_NAME.get(entity.getClass());
+		String s = EntityList.getEntityString(entity);
 
 		return e.equals(s);
 	}

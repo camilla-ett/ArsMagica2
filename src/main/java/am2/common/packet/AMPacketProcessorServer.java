@@ -149,9 +149,9 @@ public class AMPacketProcessorServer{
 	private void handleKeyAbilityPress(byte[] remaining, EntityPlayerMP player) {
 		AMDataReader reader = new AMDataReader(remaining, false);
 		Entity target = player.getEntityWorld().getEntityByID(reader.getInt());
-		if (target == null || !(target instanceof EntityPlayer))
+		if (!(target instanceof EntityPlayer))
 			return;
-		AbstractAffinityAbility ability = ArsMagicaAPI.getAffinityAbilityRegistry().getObject(new ResourceLocation(reader.getString()));
+		AbstractAffinityAbility ability = ArsMagicaAPI.getAffinityAbilityRegistry().getValue(new ResourceLocation(reader.getString()));
 		if (ability != null && ability.canApply((EntityPlayer) target))
 			ability.applyKeyPress((EntityPlayer) target);
 	}
