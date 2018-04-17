@@ -1,9 +1,5 @@
 package am2.common.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import am2.common.blocks.tileentity.TileEntityAstralBarrier;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -18,6 +14,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
 public class DimensionUtilities{
 	
 	private static final HashMap<Integer, ArrayList<TileEntityAstralBarrier>> barrierMap = new HashMap<>();
@@ -26,32 +26,32 @@ public class DimensionUtilities{
 
 		if (entity instanceof EntityPlayerMP){
 			EntityPlayerMP player = (EntityPlayerMP)entity;
-			new AMTeleporter(player.mcServer.worldServerForDimension(dimension)).teleport(entity);
-		}else{
-			entity.worldObj.theProfiler.startSection("changeDimension");
-			MinecraftServer minecraftserver = FMLCommonHandler.instance().getMinecraftServerInstance();
+            new AMTeleporter ( player.mcServer.getWorld ( dimension ) ).teleport ( entity );
+        }else{
+            entity.world.profiler.startSection ( "changeDimension" );
+            MinecraftServer minecraftserver = FMLCommonHandler.instance().getMinecraftServerInstance();
 			int j = entity.dimension;
-			WorldServer worldserver = minecraftserver.worldServerForDimension(j);
-			WorldServer worldserver1 = minecraftserver.worldServerForDimension(dimension);
-			entity.dimension = dimension;
-			entity.worldObj.removeEntity(entity);
-			entity.isDead = false;
-			entity.worldObj.theProfiler.startSection("reposition");
-			minecraftserver.getPlayerList().transferEntityToWorld(entity, j, worldserver, worldserver1, new AMTeleporter(worldserver1));
-			entity.worldObj.theProfiler.endStartSection("reloading");
-			Entity e = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
+            WorldServer worldserver = minecraftserver.getWorld ( j );
+            WorldServer worldserver1 = minecraftserver.getWorld ( dimension );
+            entity.dimension = dimension;
+            entity.world.removeEntity ( entity );
+            entity.isDead = false;
+            entity.world.profiler.startSection ( "reposition" );
+            minecraftserver.getPlayerList().transferEntityToWorld(entity, j, worldserver, worldserver1, new AMTeleporter(worldserver1));
+            entity.world.profiler.endStartSection ( "reloading" );
+            Entity e = EntityList.createEntityByIDFromName ( EntityList.getKey ( entity ) , worldserver1 );
 
 			if (e != null){
 				e.readFromNBT(entity.writeToNBT(new NBTTagCompound()));
-				worldserver1.spawnEntityInWorld(e);
-			}
+                worldserver1.spawnEntity ( e );
+            }
 
 			entity.isDead = true;
-			entity.worldObj.theProfiler.endSection();
-			worldserver.resetUpdateEntityTick();
+            entity.world.profiler.endSection ( );
+            worldserver.resetUpdateEntityTick();
 			worldserver1.resetUpdateEntityTick();
-			entity.worldObj.theProfiler.endSection();
-		}
+            entity.world.profiler.endSection ( );
+        }
 	}
 	
 	public static void registerAstralBarrier(TileEntityAstralBarrier barrier) {
@@ -81,8 +81,8 @@ public class DimensionUtilities{
 			barriers = new ArrayList<>();
 			barrierMap.put(dimension, barriers);
 		}
-		AxisAlignedBB aabb = new AxisAlignedBB(pos).expandXyz(20.01); // .01 Because isVecInside is a strict inequality.
-		Iterator<TileEntityAstralBarrier> iter = barriers.iterator();
+        AxisAlignedBB aabb = new AxisAlignedBB ( pos ).expand ( 20.01 , 20.01 , 20.01 ); // .01 Because isVecInside is a strict inequality.
+        Iterator<TileEntityAstralBarrier> iter = barriers.iterator();
 		while (iter.hasNext()) {
 			TileEntityAstralBarrier barrier = iter.next();
 			if (barrier == null || barrier.getPos() == null) {
@@ -95,9 +95,9 @@ public class DimensionUtilities{
 			long barrierKey = KeystoneUtilities.instance.getKeyFromRunes(barrier.getRunesInKey());
 			if ((barrierKey != 0 && keys.contains(barrierKey)) || !barrier.IsActive())
 				continue;
-			
-			if (aabb.isVecInside(new Vec3d(barrier.getPos())))
-				return barrier;
+
+            if ( aabb.contains ( new Vec3d ( barrier.getPos ( ) ) ) )
+                return barrier;
 		}
 		//Old code
 		//check for Astral Barrier

@@ -1,13 +1,12 @@
 package am2.common.utils;
 
-import java.util.UUID;
-
+import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
-import com.mojang.authlib.GameProfile;
+import java.util.UUID;
 
 public class DummyEntityPlayer extends EntityPlayer{
 
@@ -20,7 +19,7 @@ public class DummyEntityPlayer extends EntityPlayer{
 	public static EntityPlayer fromEntityLiving(EntityLivingBase entity){
 		if (entity instanceof EntityPlayer) return (EntityPlayer)entity;
 
-		DummyEntityPlayer dep = new DummyEntityPlayer(entity.worldObj);
+		DummyEntityPlayer dep = new DummyEntityPlayer ( entity.world );
 		dep.setPosition(entity.posX, entity.posY, entity.posZ);
 		dep.setRotation(entity.rotationYaw, entity.rotationPitch);
 		dep.trackEntity = entity;
@@ -32,7 +31,7 @@ public class DummyEntityPlayer extends EntityPlayer{
 		this.setPosition(entity.posX, entity.posY, entity.posZ);
 		this.setRotation(entity.rotationYaw, entity.rotationPitch);
 		this.trackEntity = entity;
-		this.worldObj = entity.worldObj;
+		this.world = entity.world;
 	}
 
 	@Override
@@ -48,12 +47,12 @@ public class DummyEntityPlayer extends EntityPlayer{
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(int i, String s){
+	public boolean canUseCommand ( int i , String s ) {
 		return false;
 	}
 
 	@Override
-	public void addChatMessage(ITextComponent arg0){
+	public void sendMessage ( ITextComponent arg0 ) {
 	}
 
 	@Override

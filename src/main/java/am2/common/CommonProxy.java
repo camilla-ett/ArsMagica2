@@ -272,8 +272,8 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(playerTracker);
 		MinecraftForge.EVENT_BUS.register(new SpellUnlockManager());
 		SoundDefs.createSoundMaps();
-		LoreDefs.postInit();	
-		AMRecipes.addRecipes();
+		LoreDefs.postInit();
+		AMRecipes.addShapedRecipes ( );
 		for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
 			if (ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName()) == null)
 				throw new IllegalStateException("Spell Part " + part.getRegistryName() + " is missing a skill, this would cause severe problems");

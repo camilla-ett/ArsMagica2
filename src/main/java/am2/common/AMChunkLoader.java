@@ -1,8 +1,5 @@
 package am2.common;
 
-import java.util.HashMap;
-import java.util.List;
-
 import am2.ArsMagica2;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -12,6 +9,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class AMChunkLoader implements LoadingCallback{
 
@@ -48,9 +48,7 @@ public class AMChunkLoader implements LoadingCallback{
 	 * Requests a static chunk load.  This is a non-moving chunk load, and will be assumed that the specified class will exist as a tile entity
 	 *
 	 * @param clazz the class to look for
-	 * @param x     the x coordinate of the tile entity
-	 * @param y     the y coordinate of the tile entity
-	 * @param z     the z coordinate of the tile entity
+	 * @param pos   the blockpos coordinate of the tile entity
 	 * @param world The world object of the tile entity
 	 */
 	public void requestStaticChunkLoad(Class<?> clazz, BlockPos pos, World world){
