@@ -9,6 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -25,24 +26,24 @@ public class ItemFlickerJar extends ItemArsMagica{
 	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
 		String baseName = I18n.format("am2.item.flickerJar");
-		if (meta == ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE))
+		if (meta == (Affinity.NONE).getID())
 			return I18n.format("item.arsmagica2:flickerJar.name", I18n.format("am2.tooltip.empty"));
 
-		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
+		Affinity aff = (Affinity)ArsMagicaAPI.getAffinityRegistry().getValuesCollection().toArray()[(meta)];
 		baseName = I18n.format("item.arsmagica2:flickerJar.name", aff.getLocalizedName());
 
 		return baseName;
 	}
 
 	public void setFlickerJarTypeFromFlicker(ItemStack stack, EntityFlicker flick){
-		stack.setItemDamage(ArsMagicaAPI.getAffinityRegistry().getId(flick.getFlickerAffinity()));
+		stack.setItemDamage((flick.getFlickerAffinity().getID()));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items){
 		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry()){
-			par3List.add(new ItemStack(this, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)));
+			items.add(new ItemStack(this, 1, (aff.getID())));
 		}
 	}
 }

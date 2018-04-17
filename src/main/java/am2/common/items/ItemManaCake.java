@@ -1,6 +1,7 @@
 package am2.common.items;
 
 import am2.common.buffs.BuffEffectManaRegen;
+import am2.common.registry.Registry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -16,7 +17,7 @@ public class ItemManaCake extends ItemFood{
 
 	public ItemManaCake registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
-		GameRegistry.register(this, new ResourceLocation("arsmagica2", name));
+		Registry.GetItemsToRegister().add(this);
 		return this;
 	}
 	
