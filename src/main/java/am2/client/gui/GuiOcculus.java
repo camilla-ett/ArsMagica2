@@ -102,10 +102,10 @@ public class GuiOcculus extends GuiScreen {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		if (mouseButton == 0) {
-			if (hoverItem != null && !SkillData.For(player).hasSkill(hoverItem.getID())) {
+			if (hoverItem != null && !SkillData.For(player).hasSkill(hoverItem.getIDString())) {
 				ISkillData data = SkillData.For(player);
-				if (data.canLearn(hoverItem.getID())) {
-					AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.UNLOCK_OCCULUS_ENTRY, new AMDataWriter().add(hoverItem.getID()).generate());
+				if (data.canLearn(hoverItem.getIDString())) {
+					AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.UNLOCK_OCCULUS_ENTRY, new AMDataWriter().add(hoverItem.getIDString()).generate());
 				}
 			}
 			else if (this.currentTree != SkillDefs.TREE_AFFINITY)
@@ -218,14 +218,14 @@ public class GuiOcculus extends GuiScreen {
 			zLevel = 1F;
 			ISkillData data = SkillData.For(player);
 			for (Skill s : skills) {
-				if (!s.getPoint().canRender() && !data.hasSkill(s.getID()))
+				if (!s.getPoint().canRender() && !data.hasSkill(s.getIDString()))
 					continue;
 				for (String p : s.getParents()) {
 					if (p == null)
 						continue;
 		        	Skill parent = SkillRegistry.getSkillFromName(p);
 		        	if (parent == null || !skills.contains(parent)) continue;
-					if (!parent.getPoint().canRender() && !data.hasSkill(parent.getID()))
+					if (!parent.getPoint().canRender() && !data.hasSkill(parent.getIDString()))
 						continue;
 					int offsetX = calcXOffset(posX, s) + 16;
 					int offsetY = calcYOffset(posY, s) + 16;
@@ -235,8 +235,8 @@ public class GuiOcculus extends GuiScreen {
 					offsetY = MathHelper.clamp(offsetY, posY + 7, posY + 203);
 					offsetX2 = MathHelper.clamp(offsetX2, posX + 7, posX + 203);
 					offsetY2 = MathHelper.clamp(offsetY2, posY + 7, posY + 203);
-					boolean hasPrereq = data.canLearn(s.getID()) || data.hasSkill(s.getID());
-					int color = (!SkillData.For(player).hasSkill(s.getID()) ? s.getPoint().getColor() & 0x999999 : 0x00ff00);
+					boolean hasPrereq = data.canLearn(s.getIDString()) || data.hasSkill(s.getIDString());
+					int color = (!SkillData.For(player).hasSkill(s.getIDString()) ? s.getPoint().getColor() & 0x999999 : 0x00ff00);
 					if (!hasPrereq) color = 0x000000;
 					if (!(offsetX == posX + 7 || offsetX == posX + 203))
 						RenderUtils.lineThick2d(offsetX, offsetY, offsetX, offsetY2, hasPrereq ? 0 : -1, color);
@@ -246,16 +246,16 @@ public class GuiOcculus extends GuiScreen {
 			}
 			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 			for (Skill s : skills) {
-				if (!s.getPoint().canRender() && !data.hasSkill(s.getID()))
+				if (!s.getPoint().canRender() && !data.hasSkill(s.getIDString()))
 					continue;
 				GlStateManager.color(1, 1, 1, 1.0F);
 				ISkillData skillData = SkillData.For(player);
-				boolean hasPrereq = skillData.canLearn(s.getID()) || data.hasSkill(s.getID());
+				boolean hasPrereq = skillData.canLearn(s.getIDString()) || data.hasSkill(s.getIDString());
 				int offsetX = calcXOffset(posX, s);
 				int offsetY = calcYOffset(posY, s);
 				int tick = (player.ticksExisted % 80) >= 40 ? (player.ticksExisted % 40) - 20 : -(player.ticksExisted % 40) + 20;
 				float multiplier = 0.75F + tick / 80F;
-				TextureAtlasSprite sprite = SpellIconManager.INSTANCE.getSprite(s.getID());
+				TextureAtlasSprite sprite = SpellIconManager.INSTANCE.getSprite(s.getIDString());
 				if (offsetX + renderSize < posX + 7 || offsetX > posX + 203 || offsetY + renderSize < posY + 7 || offsetY > posY + 203 || sprite == null) {
 					continue;
 				}
@@ -283,10 +283,10 @@ public class GuiOcculus extends GuiScreen {
 				}
 				if (!hasPrereq)
 					GlStateManager.color(0.1F, 0.1F, 0.1F);
-				else if (!skillData.hasSkill(s.getID()))
+				else if (!skillData.hasSkill(s.getIDString()))
 					GlStateManager.color(Math.max(RenderUtils.getRed(s.getPoint().getColor()), 0.6F) * multiplier, Math.max(RenderUtils.getGreen(s.getPoint().getColor()), 0.6F) * multiplier, Math.max(RenderUtils.getBlue(s.getPoint().getColor()), 0.6F) * multiplier);
 				
-				if (ArsMagica2.disabledSkills.isSkillDisabled(s.getID()))
+				if (ArsMagica2.disabledSkills.isSkillDisabled(s.getIDString()))
 					GlStateManager.color(0.3f, 0.3f, 0.3f);
 				RenderUtils.drawBox(offsetX + xStartMod,
 						offsetY + yStartMod,
@@ -298,7 +298,7 @@ public class GuiOcculus extends GuiScreen {
 						sprite.getMaxU() - (xEndMod / renderSize * spriteXSize),
 						sprite.getMaxV() - (yEndMod / renderSize * spriteYSize));
 				GlStateManager.color(1, 1, 1, 1.0F);
-				if (ArsMagica2.disabledSkills.isSkillDisabled(s.getID())){
+				if (ArsMagica2.disabledSkills.isSkillDisabled(s.getIDString())){
 					sprite = AMGuiIcons.padlock;
 					spriteXSize = sprite.getMaxU() - sprite.getMinU();
 					spriteYSize = sprite.getMaxV() - sprite.getMinV();
@@ -343,7 +343,7 @@ public class GuiOcculus extends GuiScreen {
 				boolean flag = false;
 				zLevel = 0F;
 				for (Skill s : skills) {
-					if (!s.getPoint().canRender() && !data.hasSkill(s.getID()))
+					if (!s.getPoint().canRender() && !data.hasSkill(s.getIDString()))
 						continue;
 					int offsetX = calcXOffset(posX, s);
 					int offsetY = calcYOffset(posY, s);
@@ -355,7 +355,7 @@ public class GuiOcculus extends GuiScreen {
 					}
 					ArrayList<String> list = new ArrayList<String>();
 					list.add(s.getPoint().getChatColor().toString() + s.getName());
-					if (ArsMagica2.disabledSkills.isSkillDisabled(s.getID()))
+					if (ArsMagica2.disabledSkills.isSkillDisabled(s.getIDString()))
 						list.add(TextFormatting.DARK_RED.toString() + I18n.format("am2.gui.occulus.disabled"));
 					else if (hasPrereq)
 						list.add(TextFormatting.DARK_GRAY.toString() + s.getOcculusDesc()); 

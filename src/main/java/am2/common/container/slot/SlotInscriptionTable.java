@@ -31,17 +31,17 @@ public class SlotInscriptionTable extends Slot{
 	}
 
 	@Override
-	public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack){
+	public ItemStack onTake(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack){
 		if (par2ItemStack.getItem() == Items.WRITTEN_BOOK)
 			par2ItemStack = ((TileEntityInscriptionTable)this.inventory).writeRecipeAndDataToBook(par2ItemStack, par1EntityPlayer, "Spell Recipe");
 		else
 			((TileEntityInscriptionTable)this.inventory).clearCurrentRecipe();
-		super.onPickupFromSlot(par1EntityPlayer, par2ItemStack);
+		return super.onTake(par1EntityPlayer, par2ItemStack);
 	}
 
 	@Override
 	public void onSlotChanged(){
-		if (this.getStack() != null){
+		if (!this.getStack().isEmpty()){
 			Class<? extends Item> clazz = this.getStack().getItem().getClass();
 			if (ItemSpellBase.class.isAssignableFrom(clazz)){
 				((TileEntityInscriptionTable)this.inventory).reverseEngineerSpell(this.getStack());
@@ -54,8 +54,9 @@ public class SlotInscriptionTable extends Slot{
 	@Override
 	public void putStack(ItemStack stack){
 		if (stack != null && stack.getItem() == Items.WRITABLE_BOOK){
-			stack.setItem(Items.WRITTEN_BOOK);
-			stack.setStackDisplayName(I18n.format("am2.tooltip.unfinishedSpellRecipe"));
+			ItemStack book = new ItemStack(Items.WRITTEN_BOOK, 1);
+			book.setStackDisplayName(I18n.format("am2.tooltip.unfinishedSpellRecipe"));
+			this.inventory.setInventorySlotContents(0, book);
 		}
 		super.putStack(stack);
 	}

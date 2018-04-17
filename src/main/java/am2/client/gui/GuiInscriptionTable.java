@@ -532,7 +532,7 @@ public class GuiInscriptionTable extends GuiContainer{
 	private boolean drawIcon(AbstractSpellPart part, boolean allowDarken){
 
 		boolean hovering = false;
-		TextureAtlasSprite shapeIcon = SpellIconManager.INSTANCE.getSprite(SpellRegistry.getSkillFromPart(part).getID());
+		TextureAtlasSprite shapeIcon = SpellIconManager.INSTANCE.getSprite(SpellRegistry.getSkillFromPart(part).getIDString());
 
 		if (shapeIcon == null)
 			return false;

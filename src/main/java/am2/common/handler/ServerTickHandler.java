@@ -1,8 +1,5 @@
 package am2.common.handler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import am2.ArsMagica2;
 import am2.common.bosses.BossSpawnHelper;
 import am2.common.defs.ItemDefs;
@@ -22,6 +19,9 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class ServerTickHandler{
 
 	private boolean firstTick = true;
@@ -37,7 +37,7 @@ public class ServerTickHandler{
 		}
 
 		if (firstTick){
-			ItemDefs.crystalPhylactery.getSpawnableEntities(FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0]);
+			ItemDefs.crystalPhylactery.getSpawnableEntities(FMLCommonHandler.instance().getMinecraftServerInstance().worlds[0]);
 			firstTick = false;
 		}
 
