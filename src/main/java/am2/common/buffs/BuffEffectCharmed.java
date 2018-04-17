@@ -1,7 +1,5 @@
 package am2.common.buffs;
 
-import java.util.UUID;
-
 import am2.common.defs.PotionEffectsDefs;
 import am2.common.utils.EntityUtils;
 import net.minecraft.entity.EntityCreature;
@@ -9,6 +7,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.UUID;
 
 public class BuffEffectCharmed extends BuffEffect{
 
@@ -52,7 +52,7 @@ public class BuffEffectCharmed extends BuffEffect{
 	@Override
 	public void readCustomNBT(NBTTagCompound nbt) {
 		try {
-			charmer = (EntityLivingBase) FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0].getEntityFromUuid(UUID.fromString(nbt.getString("Charmer")));
+			charmer = (EntityLivingBase) FMLCommonHandler.instance().getMinecraftServerInstance().worlds[0].getEntityFromUuid(UUID.fromString(nbt.getString("Charmer")));
 		} catch (Throwable t) {
 		}
 	}
