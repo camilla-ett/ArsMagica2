@@ -347,20 +347,20 @@ public class CommonProxy implements IGuiHandler{
 	public void registerInfusions(){
 		DamageReductionImbuement.registerAll();
 		GenericImbuement.registerAll();
-		ImbuementRegistry.instance.registerImbuement(new Dispelling());
-		ImbuementRegistry.instance.registerImbuement(new FallProtection());
-		ImbuementRegistry.instance.registerImbuement(new FireProtection());
-		ImbuementRegistry.instance.registerImbuement(new Freedom());
-		ImbuementRegistry.instance.registerImbuement(new Healing());
-		ImbuementRegistry.instance.registerImbuement(new HungerBoost());
-		ImbuementRegistry.instance.registerImbuement(new JumpBoost());
-		ImbuementRegistry.instance.registerImbuement(new LifeSaving());
-		ImbuementRegistry.instance.registerImbuement(new Lightstep());
-		ImbuementRegistry.instance.registerImbuement(new MiningSpeed());
-		ImbuementRegistry.instance.registerImbuement(new Recoil());
-		ImbuementRegistry.instance.registerImbuement(new SwimSpeed());
-		ImbuementRegistry.instance.registerImbuement(new WaterBreathing());
-		ImbuementRegistry.instance.registerImbuement(new WaterWalking());
+		ImbuementRegistry.instance.registerImbuement ( new Dispelling ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_dispell" ) );
+		ImbuementRegistry.instance.registerImbuement ( new FallProtection ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_fallProt" ) );
+		ImbuementRegistry.instance.registerImbuement ( new FireProtection ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_fireProt" ) );
+		ImbuementRegistry.instance.registerImbuement ( new Freedom ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_freedom" ) );
+		ImbuementRegistry.instance.registerImbuement ( new Healing ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_healing" ) );
+		ImbuementRegistry.instance.registerImbuement ( new HungerBoost ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_hungerboost" ) );
+		ImbuementRegistry.instance.registerImbuement ( new JumpBoost ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_jumpboost" ) );
+		ImbuementRegistry.instance.registerImbuement ( new LifeSaving ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_saving" ) );
+		ImbuementRegistry.instance.registerImbuement ( new Lightstep ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_lightstep" ) );
+		ImbuementRegistry.instance.registerImbuement ( new MiningSpeed ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_miningspeed" ) );
+		ImbuementRegistry.instance.registerImbuement ( new Recoil ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_recoil" ) );
+		ImbuementRegistry.instance.registerImbuement ( new SwimSpeed ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_swimspeed" ) );
+		ImbuementRegistry.instance.registerImbuement ( new WaterBreathing ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_waterbreathing" ) );
+		ImbuementRegistry.instance.registerImbuement ( new WaterWalking ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_waterwalking" ) );
 	}
 
 	public void flashManaBar() {}

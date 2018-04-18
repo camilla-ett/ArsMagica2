@@ -37,7 +37,7 @@ public class GenericImbuement extends ArmorImbuement{
 		this.id = id;
 		this.tier = tier;
 		this.validSlots = validSlots;
-		this.setRegistryName(ArsMagica2.MODID, "gi_" +id );
+		this.setRegistryName ( ArsMagica2.MODID , "armorInf_gi_" + id );
 	}
 
 	public static void registerAll(){

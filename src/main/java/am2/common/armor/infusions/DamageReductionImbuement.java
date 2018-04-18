@@ -23,8 +23,8 @@ public class DamageReductionImbuement extends ArmorImbuement{
 		this.id = id;
 		this.dmgType = dmgType;
 		this.tier = tier;
-		this.setRegistryName(ArsMagica2.MODID, id + "_" + dmgType);
-	}
+        this.setRegistryName ( ArsMagica2.MODID , "armorInf_" + id + "_" + dmgType );
+    }
 
 	public static void registerAll(){
 
