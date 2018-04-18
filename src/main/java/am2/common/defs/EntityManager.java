@@ -16,6 +16,8 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
+import java.util.Set;
+
 public class EntityManager {
 	
 	public static final EntityManager instance = new EntityManager();
@@ -143,8 +145,8 @@ public class EntityManager {
 
 		initSpawnsForBiomeTypes(earthElementals, EnumCreatureType.MONSTER, new Type[]{Type.HILLS, Type.MOUNTAIN}, new Type[]{Type.MUSHROOM});
 		initSpawnsForBiomeTypes(fireElementals, EnumCreatureType.MONSTER, new Type[]{Type.NETHER}, new Type[]{Type.MUSHROOM});
-		
-		initSpawnsForBiomeTypes(flickers, EnumCreatureType.AMBIENT, (Type[])Type.getAll().toArray(), new Type[0]);
+
+        initSpawnsForBiomeTypes ( flickers , EnumCreatureType.AMBIENT , Type.getAll ( ).toArray ( new Type[ 0 ] ) , new Type[ 0 ] );
 
 	}
 
@@ -154,8 +156,9 @@ public class EntityManager {
 			return;
 		}
 		for (Type type : types){
-			initSpawnsForBiomes((Biome[])BiomeDictionary.getBiomes(type).toArray(), spawnListEntry, creatureType, exclusions);
-		}
+            Set <Biome> biomes = BiomeDictionary.getBiomes ( type );
+            initSpawnsForBiomes ( biomes.toArray ( new Biome[ biomes.size ( ) ] ) , spawnListEntry , creatureType , exclusions );
+        }
 	}
 
 	private void initSpawnsForBiomes(Biome[] biomes, SpawnListEntry spawnListEntry, EnumCreatureType creatureType, Type[] exclusions){
@@ -169,7 +172,7 @@ public class EntityManager {
 
 	private boolean biomeIsExcluded(Biome biome, Type[] exclusions){
 
-		Type biomeTypes[] = (Type[])BiomeDictionary.getTypes(biome).toArray();
+        Type biomeTypes[] = BiomeDictionary.getTypes ( biome ).toArray ( new Type[ 0 ] );
 
 		for (Type exclusion : exclusions){
 			for (Type biomeType : biomeTypes){

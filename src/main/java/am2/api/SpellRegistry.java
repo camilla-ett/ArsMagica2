@@ -1,5 +1,6 @@
 package am2.api;
 
+import am2.ArsMagica2;
 import am2.api.skill.Skill;
 import am2.api.skill.SkillPoint;
 import am2.api.skill.SkillTree;
@@ -37,8 +38,8 @@ public class SpellRegistry {
 	 */
 	public static void registerSpellComponent (String id, ResourceLocation icon, SkillPoint tier, SpellComponent part, SkillTree tree, int posX, int posY, int ID, String... parents) {
 		id = id.toLowerCase();
-		ArsMagicaAPI.getSpellRegistry().register(part);
-		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, ID, parents));
+		ArsMagicaAPI.getSpellRegistry ( ).register ( part.setRegistryName ( ArsMagica2.MODID , "spellcomp_" + id ) );
+		ArsMagicaAPI.getSkillRegistry ( ).register ( new Skill ( icon , tier , posX , posY , tree , ID , parents ).setRegistryName ( ArsMagica2.MODID , "skill_" + id ) );
 	}
 	
 	/**
@@ -55,8 +56,9 @@ public class SpellRegistry {
 	 */
 	public static void registerSpellModifier (String id, ResourceLocation icon, SkillPoint tier, SpellModifier part, SkillTree tree, int posX, int posY, int ID,String... parents) {
 		id = id.toLowerCase();
-		ArsMagicaAPI.getSpellRegistry().register(part);
-		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, ID, parents));	}
+		ArsMagicaAPI.getSpellRegistry ( ).register ( part.setRegistryName ( ArsMagica2.MODID , "spellModifier_" + id ) );
+		ArsMagicaAPI.getSkillRegistry ( ).register ( new Skill ( icon , tier , posX , posY , tree , ID , parents ).setRegistryName ( ArsMagica2.MODID , "skill_" + id ) );
+	}
 	
 	/**
 	 * Register a spell shape
@@ -72,8 +74,9 @@ public class SpellRegistry {
 	 */
 	public static void registerSpellShape (String id, ResourceLocation icon, SkillPoint tier, SpellShape part, SkillTree tree, int posX, int posY, int ID, String... parents) {
 		id = id.toLowerCase();
-		ArsMagicaAPI.getSpellRegistry().register(part);
-		ArsMagicaAPI.getSkillRegistry().register(new Skill(icon, tier, posX, posY, tree, ID, parents));	}
+		ArsMagicaAPI.getSpellRegistry ( ).register ( part.setRegistryName ( ArsMagica2.MODID , "spellpart_" + id ) );
+		ArsMagicaAPI.getSkillRegistry ( ).register ( new Skill ( icon , tier , posX , posY , tree , ID , parents ).setRegistryName ( ArsMagica2.MODID , "skill_" + id ) );
+	}
 	
 	public static Skill getSkillFromPart(AbstractSpellPart part) {
 		return ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName());
@@ -87,7 +90,7 @@ public class SpellRegistry {
 				if (!match) continue;
 				for (int i = 0; i < convRecipe.size(); i++) {
 					match &= OreDictionary.itemMatches(convRecipe.get(i), currentAddedItems.get(i), false);
-					match &= convRecipe.get(i).getTagCompound() == null ? true : (currentAddedItems.get(i).getTagCompound() == null ? false : NBTUtils.contains(convRecipe.get(i).getTagCompound(), currentAddedItems.get(i).getTagCompound()));
+					match &= convRecipe.get ( i ).getTagCompound ( ) == null || ( currentAddedItems.get ( i ).getTagCompound ( ) != null && NBTUtils.contains ( convRecipe.get ( i ).getTagCompound ( ) , currentAddedItems.get ( i ).getTagCompound ( ) ) );
 					if (!match) break;
 				}
 				if (!match) LogHelper.debug("Part doesn't match %s", data.getRegistryName().toString());

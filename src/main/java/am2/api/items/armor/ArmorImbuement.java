@@ -1,5 +1,6 @@
 package am2.api.items.armor;
 
+import am2.ArsMagica2;
 import am2.common.extensions.AffinityData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -16,8 +17,12 @@ import java.util.EnumSet;
 public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbuement> implements IForgeRegistryEntry<ArmorImbuement> {
 	
 	public abstract String getID();
-	
-	/**
+
+    public ArmorImbuement reg ( ) {
+        return this.setRegistryName ( ArsMagica2.MODID , "armorimbuement_" + getID ( ) );
+    }
+
+    /**
 	 * Gets the tier for this infusion
 	 */
 	public abstract ImbuementTiers getTier();
@@ -46,11 +51,10 @@ public abstract class ArmorImbuement extends IForgeRegistryEntry.Impl<ArmorImbue
 	public boolean canApply(EntityPlayer player) {
 		if (canApplyOnCooldown())
 			return true;
-		if (AffinityData.For(player).getCooldown(this.getRegistryName().toString()) == 0) return true;
-		return false;
-	}
-	
-	/**
+        return AffinityData.For ( player ).getCooldown ( this.getRegistryName ( ).toString ( ) ) == 0;
+    }
+
+    /**
 	 * Gets all armor slots that this effect can be applied to
 	 */
 	public abstract EntityEquipmentSlot[] getValidSlots();

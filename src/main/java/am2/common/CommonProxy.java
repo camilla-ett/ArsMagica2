@@ -191,8 +191,11 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(new FlickerEvents());
 		MinecraftForge.EVENT_BUS.register(new ShrinkHandler());
 		MinecraftForge.EVENT_BUS.register(new EventManager());
-		
-		registerInfusions();
+
+        items = new ItemDefs ( );
+        blocks = new BlockDefs ( );
+
+        registerInfusions();
 		registerFlickerOperators();
 				
 		GameRegistry.registerTileEntity(TileEntityOcculus.class, "TileEntityOcculus");
@@ -231,6 +234,7 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntitySummoner.class, "TileEntitySummoner");
 		GameRegistry.registerTileEntity(TileEntityManaDrain.class, "TileEntityManaDrain");
 
+
 		worldGen = new AM2WorldDecorator();
 		SoundDefs.registerSounds();
 		GameRegistry.registerWorldGenerator(worldGen, 0);
@@ -242,11 +246,9 @@ public class CommonProxy implements IGuiHandler{
 		SpellDefs.init();
 		PotionEffectsDefs.init();
 		NPCSpells.instance.toString();
-		items = new ItemDefs();
-		ItemDefs.initEnchantedItems();
-		blocks = new BlockDefs();
-		blocks.preInit();
-		new CreativeTabsDefs();
+
+
+        new CreativeTabsDefs();
 		initOreDict();
 		new LootTablesArsMagica();
 
@@ -257,18 +259,20 @@ public class CommonProxy implements IGuiHandler{
 		CapabilityManager.INSTANCE.register(IArcaneCompendium.class, new IArcaneCompendium.Storage(), new IArcaneCompendium.Factory());
 		CapabilityManager.INSTANCE.register(ISpellCaster.class, new ISpellCaster.Storage(), () -> null);
 	}
-	
+
 	public void init() {
-		if (ArsMagica2.config.getEnableWitchwoodForest()){
-			BiomeDictionary.addTypes(BiomeWitchwoodForest.instance, Type.FOREST, Type.MAGICAL);
-			BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(BiomeWitchwoodForest.instance, 6));
-			int id = (BiomeWitchwoodForest.getBiomeId() != -1) ? BiomeWitchwoodForest.getBiomeId() : BiomeWitchwoodForest.getNextFreeBiomeId();
-			Biome.registerBiome(id, BiomeWitchwoodForest.instance.getBiomeName(), BiomeWitchwoodForest.instance);
-		}
-	}
-	
-	public void postInit() {
-		playerTracker.postInit();
+        blocks.preInit ( );
+        ItemDefs.initEnchantedItems ( );
+    }
+
+    public void postInit ( ) {
+        if ( ArsMagica2.config.getEnableWitchwoodForest ( ) ) {
+            BiomeDictionary.addTypes ( BiomeWitchwoodForest.instance , Type.FOREST , Type.MAGICAL );
+            BiomeManager.addBiome ( BiomeType.COOL , new BiomeEntry ( BiomeWitchwoodForest.instance , 6 ) );
+            int id = ( BiomeWitchwoodForest.getBiomeId ( ) != -1 ) ? BiomeWitchwoodForest.getBiomeId ( ) : BiomeWitchwoodForest.getNextFreeBiomeId ( );
+            Biome.registerBiome ( id , BiomeWitchwoodForest.instance.getBiomeName ( ) , BiomeWitchwoodForest.instance );
+        }
+        playerTracker.postInit();
 		MinecraftForge.EVENT_BUS.register(playerTracker);
 		MinecraftForge.EVENT_BUS.register(new SpellUnlockManager());
 		SoundDefs.createSoundMaps();
@@ -347,21 +351,21 @@ public class CommonProxy implements IGuiHandler{
 	public void registerInfusions(){
 		DamageReductionImbuement.registerAll();
 		GenericImbuement.registerAll();
-		ImbuementRegistry.instance.registerImbuement ( new Dispelling ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_dispell" ) );
-		ImbuementRegistry.instance.registerImbuement ( new FallProtection ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_fallProt" ) );
-		ImbuementRegistry.instance.registerImbuement ( new FireProtection ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_fireProt" ) );
-		ImbuementRegistry.instance.registerImbuement ( new Freedom ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_freedom" ) );
-		ImbuementRegistry.instance.registerImbuement ( new Healing ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_healing" ) );
-		ImbuementRegistry.instance.registerImbuement ( new HungerBoost ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_hungerboost" ) );
-		ImbuementRegistry.instance.registerImbuement ( new JumpBoost ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_jumpboost" ) );
-		ImbuementRegistry.instance.registerImbuement ( new LifeSaving ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_saving" ) );
-		ImbuementRegistry.instance.registerImbuement ( new Lightstep ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_lightstep" ) );
-		ImbuementRegistry.instance.registerImbuement ( new MiningSpeed ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_miningspeed" ) );
-		ImbuementRegistry.instance.registerImbuement ( new Recoil ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_recoil" ) );
-		ImbuementRegistry.instance.registerImbuement ( new SwimSpeed ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_swimspeed" ) );
-		ImbuementRegistry.instance.registerImbuement ( new WaterBreathing ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_waterbreathing" ) );
-		ImbuementRegistry.instance.registerImbuement ( new WaterWalking ( ).setRegistryName ( ArsMagica2.MODID , "armorInf_waterwalking" ) );
-	}
+        ImbuementRegistry.instance.registerImbuement ( new Dispelling ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new FallProtection ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new FireProtection ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new Freedom ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new Healing ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new HungerBoost ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new JumpBoost ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new LifeSaving ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new Lightstep ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new MiningSpeed ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new Recoil ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new SwimSpeed ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new WaterBreathing ( ).reg ( ) );
+        ImbuementRegistry.instance.registerImbuement ( new WaterWalking ( ).reg ( ) );
+    }
 
 	public void flashManaBar() {}
 	
@@ -380,20 +384,20 @@ public class CommonProxy implements IGuiHandler{
 	}
 	
 	private void registerFlickerOperators(){
-		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).registerAll(FlickerOperatorItemTransport.instance,
-																				  FlickerOperatorButchery.instance,
-																				  FlickerOperatorContainment.instance,
-																				  FlickerOperatorFelledOak.instance,
-																				  FlickerOperatorFlatLands.instance,
-																				  FlickerOperatorGentleRains.instance,
-																				  FlickerOperatorInterdiction.instance,
-																				  FlickerOperatorLight.instance,
-																				  FlickerOperatorMoonstoneAttractor.instance,
-																				  FlickerOperatorNaturesBounty.instance,
-																				  FlickerOperatorPackedEarth.instance,
-																				  FlickerOperatorProgeny.instance,
-																				  FlickerOperatorFishing.instance);
-	}
+        GameRegistry.findRegistry ( AbstractFlickerFunctionality.class ).registerAll ( FlickerOperatorItemTransport.instance.setRegistryName ( ArsMagica2.MODID , "flicker_itemTransport" ) ,
+                FlickerOperatorButchery.instance.setRegistryName ( ArsMagica2.MODID , "flicker_butchery" ) ,
+                FlickerOperatorContainment.instance.setRegistryName ( ArsMagica2.MODID , "flicker_containment" ) ,
+                FlickerOperatorFelledOak.instance.setRegistryName ( ArsMagica2.MODID , "flicker_felledOak" ) ,
+                FlickerOperatorFlatLands.instance.setRegistryName ( ArsMagica2.MODID , "flicker_flatLands" ) ,
+                FlickerOperatorGentleRains.instance.setRegistryName ( ArsMagica2.MODID , "flicker_gentleRains" ) ,
+                FlickerOperatorInterdiction.instance.setRegistryName ( ArsMagica2.MODID , "flicker_interdiction" ) ,
+                FlickerOperatorLight.instance.setRegistryName ( ArsMagica2.MODID , "flicker_light" ) ,
+                FlickerOperatorMoonstoneAttractor.instance.setRegistryName ( ArsMagica2.MODID , "flicker_moonstoneAttractor" ) ,
+                FlickerOperatorNaturesBounty.instance.setRegistryName ( ArsMagica2.MODID , "flicker_naturesBounty" ) ,
+                FlickerOperatorPackedEarth.instance.setRegistryName ( ArsMagica2.MODID , "flicker_packedEarth" ) ,
+                FlickerOperatorProgeny.instance.setRegistryName ( ArsMagica2.MODID , "flicker_progeny" ) ,
+                FlickerOperatorFishing.instance.setRegistryName ( ArsMagica2.MODID , "flicker_fishing" ) );
+    }
 	
 	public AM2WorldDecorator getWorldGenerator() {
 		return worldGen;

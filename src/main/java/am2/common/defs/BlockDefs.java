@@ -1,8 +1,5 @@
 package am2.common.defs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.math.AMVector3;
 import am2.client.blocks.colorizers.CrystalMarkerColorizer;
@@ -10,63 +7,7 @@ import am2.client.blocks.colorizers.FlickerHabitatColorizer;
 import am2.client.blocks.colorizers.ManaBatteryColorizer;
 import am2.client.blocks.colorizers.MonoColorizer;
 import am2.client.items.rendering.IgnoreMetadataRenderer;
-import am2.common.blocks.BlockAM;
-import am2.common.blocks.BlockAMFlower;
-import am2.common.blocks.BlockArcaneDeconstructor;
-import am2.common.blocks.BlockArcaneReconstructor;
-import am2.common.blocks.BlockArmorInfuser;
-import am2.common.blocks.BlockArsMagicaBlock;
-import am2.common.blocks.BlockArsMagicaOre;
-import am2.common.blocks.BlockAstralBarrier;
-import am2.common.blocks.BlockBrokenPowerLink;
-import am2.common.blocks.BlockCalefactor;
-import am2.common.blocks.BlockCandle;
-import am2.common.blocks.BlockCraftingAltar;
-import am2.common.blocks.BlockCrystalMarker;
-import am2.common.blocks.BlockDesertNova;
-import am2.common.blocks.BlockEffigy;
-import am2.common.blocks.BlockEssenceConduit;
-import am2.common.blocks.BlockEssenceGenerator;
-import am2.common.blocks.BlockEssenceRefiner;
-import am2.common.blocks.BlockEverstone;
-import am2.common.blocks.BlockFlickerHabitat;
-import am2.common.blocks.BlockFlickerLure;
-import am2.common.blocks.BlockFrost;
-import am2.common.blocks.BlockGroundRuneSpell;
-import am2.common.blocks.BlockIllusionBlock;
-import am2.common.blocks.BlockInertSpawner;
-import am2.common.blocks.BlockInlay;
-import am2.common.blocks.BlockInscriptionTable;
-import am2.common.blocks.BlockInvisibleUtility;
-import am2.common.blocks.BlockKeystoneChest;
-import am2.common.blocks.BlockKeystoneDoor;
-import am2.common.blocks.BlockKeystoneReceptacle;
-import am2.common.blocks.BlockKeystoneTrapdoor;
-import am2.common.blocks.BlockLectern;
-import am2.common.blocks.BlockLightDecay;
-import am2.common.blocks.BlockMageLight;
-import am2.common.blocks.BlockMagicWall;
-import am2.common.blocks.BlockMagiciansWorkbench;
-import am2.common.blocks.BlockManaBattery;
-import am2.common.blocks.BlockManaDrain;
-import am2.common.blocks.BlockOcculus;
-import am2.common.blocks.BlockOtherworldAura;
-import am2.common.blocks.BlockParticleEmitter;
-import am2.common.blocks.BlockSeerStone;
-import am2.common.blocks.BlockSlipstreamGenerator;
-import am2.common.blocks.BlockSpellSealedDoor;
-import am2.common.blocks.BlockSummoner;
-import am2.common.blocks.BlockTarmaRoot;
-import am2.common.blocks.BlockVinteumTorch;
-import am2.common.blocks.BlockWakebloom;
-import am2.common.blocks.BlockWitchwoodLeaves;
-import am2.common.blocks.BlockWitchwoodLog;
-import am2.common.blocks.BlockWitchwoodPlanks;
-import am2.common.blocks.BlockWitchwoodSapling;
-import am2.common.blocks.BlockWitchwoodSlabsDouble;
-import am2.common.blocks.BlockWitchwoodSlabsSimple;
-import am2.common.blocks.BlockWitchwoodStairs;
-import am2.common.blocks.BlockWizardsChalk;
+import am2.common.blocks.*;
 import am2.common.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.common.registry.Registry;
 import am2.common.utils.KeystoneUtilities;
@@ -75,7 +16,6 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -85,7 +25,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSlab;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -98,6 +37,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BlockDefs {
 	
@@ -129,10 +71,10 @@ public class BlockDefs {
 	public static final Block witchwoodLog = new BlockWitchwoodLog().registerAndName(new ResourceLocation("arsmagica2:witchwood_log"));
 	public static final Block essenceConduit = new BlockEssenceConduit().registerAndName(new ResourceLocation("arsmagica2:essence_conduit"));
 	public static final Block redstoneInlay = new BlockInlay(BlockInlay.TYPE_REDSTONE).registerAndName(new ResourceLocation("arsmagica2:redstone_inlay"));
-	public static final Block ironInlay = new BlockInlay(BlockInlay.TYPE_IRON).registerAndName(new ResourceLocation("arsmagica2:iron_inlay"));;
-	public static final Block goldInlay = new BlockInlay(BlockInlay.TYPE_GOLD).registerAndName(new ResourceLocation("arsmagica2:gold_inlay"));;
-	public static final Block vinteumTorch = new BlockVinteumTorch().registerAndName(new ResourceLocation("arsmagica2:vinteum_torch"));
-	public static final Block keystoneRecepticle = new BlockKeystoneReceptacle().registerAndName(new ResourceLocation("arsmagica2:keystone_recepticle"));
+    public static final Block ironInlay = new BlockInlay ( BlockInlay.TYPE_IRON ).registerAndName ( new ResourceLocation ( "arsmagica2:iron_inlay" ) );
+    public static final Block goldInlay = new BlockInlay ( BlockInlay.TYPE_GOLD ).registerAndName ( new ResourceLocation ( "arsmagica2:gold_inlay" ) );
+    public static final Block vinteumTorch = new BlockVinteumTorch ( ).registerAndName ( new ResourceLocation ( "arsmagica2:vinteum_torch" ) );
+    public static final Block keystoneRecepticle = new BlockKeystoneReceptacle().registerAndName(new ResourceLocation("arsmagica2:keystone_recepticle"));
 	public static final Block keystoneDoor = new BlockKeystoneDoor().registerAndName(new ResourceLocation("arsmagica2:keystone_door"));
 	public static final Block keystoneTrapdoor = new BlockKeystoneTrapdoor().registerAndName(new ResourceLocation("arsmagica2:keystone_trapdoor"));
 	public static final Block keystoneChest = new BlockKeystoneChest().registerAndName(new ResourceLocation("arsmagica2:keystone_chest"));
@@ -187,21 +129,6 @@ public class BlockDefs {
 	
 	@SideOnly(Side.CLIENT)
 	public void preInitClient() {
-		Block blockliquid_essence = GameRegistry.findRegistry(Block.class).getValue(new ResourceLocation("arsmagica2:liquid_essence"));
-		Item itemliquid_essence = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("arsmagica2:liquid_essence"));
-		ModelBakery.registerItemVariants(itemliquid_essence, new ModelResourceLocation(new ResourceLocation("arsmagica2:liquid_essence"), liquid_essence.getName()));
-		ModelLoader.setCustomMeshDefinition(itemliquid_essence, stack -> new ModelResourceLocation(new ResourceLocation("arsmagica2:liquid_essence"), liquid_essence.getName()));
-		
-		ModelLoader.setCustomStateMapper(iceEffigy, new StateMap.Builder().ignore(BlockEffigy.PROGRESS).build());
-		ModelLoader.setCustomStateMapper(lightningEffigy, new StateMap.Builder().ignore(BlockEffigy.PROGRESS).build());
-		
-		ModelLoader.setCustomStateMapper(blockliquid_essence, new StateMapperBase() {
-			
-			@Override
-			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-				return new ModelResourceLocation(new ResourceLocation("arsmagica2:liquid_essence"), liquid_essence.getName());
-			}
-		});
 	}
 	
 	
@@ -209,8 +136,9 @@ public class BlockDefs {
 	public static void initClient () {
 		IForgeRegistry<Item> items = GameRegistry.findRegistry(Item.class);
 		RenderItem renderer = Minecraft.getMinecraft().getRenderItem();
-		
-		//Utility Blocks
+
+
+        //Utility Blocks
 		registerTexture(frost);
 		registerTexture(invisibleLight);
 		registerTexture(invisibleUtility);
@@ -300,9 +228,28 @@ public class BlockDefs {
 			renderer.getItemModelMesher().register(ore, i, oreLoc);
 			renderer.getItemModelMesher().register(block, i, blockLoc);
 		}
-	}
-	
-	@SideOnly(Side.CLIENT)
+        registerEssences ( );
+    }
+
+    private static void registerEssences ( ) {
+        Block blockliquid_essence = GameRegistry.findRegistry ( Block.class ).getValue ( new ResourceLocation ( "arsmagica2:liquid_essence" ) );
+        Item itemliquid_essence = GameRegistry.findRegistry ( Item.class ).getValue ( new ResourceLocation ( "arsmagica2:liquid_essence" ) );
+        ModelBakery.registerItemVariants ( itemliquid_essence , new ModelResourceLocation ( new ResourceLocation ( "arsmagica2:liquid_essence" ) , liquid_essence.getName ( ) ) );
+        ModelLoader.setCustomMeshDefinition ( itemliquid_essence , stack -> new ModelResourceLocation ( new ResourceLocation ( "arsmagica2:liquid_essence" ) , liquid_essence.getName ( ) ) );
+
+        ModelLoader.setCustomStateMapper ( iceEffigy , new StateMap.Builder ( ).ignore ( BlockEffigy.PROGRESS ).build ( ) );
+        ModelLoader.setCustomStateMapper ( lightningEffigy , new StateMap.Builder ( ).ignore ( BlockEffigy.PROGRESS ).build ( ) );
+
+        ModelLoader.setCustomStateMapper ( blockliquid_essence , new StateMapperBase ( ) {
+
+            @Override
+            protected ModelResourceLocation getModelResourceLocation ( IBlockState state ) {
+                return new ModelResourceLocation ( new ResourceLocation ( "arsmagica2:liquid_essence" ) , liquid_essence.getName ( ) );
+            }
+        } );
+    }
+
+    @SideOnly(Side.CLIENT)
 	private static void registerTexture(Block block) {
 		ResourceLocation loc = block.getRegistryName();
 		Item item = GameRegistry.findRegistry(Item.class).getValue(loc);

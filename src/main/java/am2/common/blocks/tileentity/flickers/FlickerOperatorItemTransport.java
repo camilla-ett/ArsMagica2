@@ -1,6 +1,5 @@
 package am2.common.blocks.tileentity.flickers;
 
-import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.flickers.IFlickerController;
@@ -28,10 +27,6 @@ import java.util.HashMap;
 public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 	private static final float BASE_POWERED_ACTIVATION_TIME = 10.0f;
 	private static final float TIME_DISCOUNT_PERCENTAGE = 0.33f;
-
-	public FlickerOperatorItemTransport ( ) {
-		this.setRegistryName ( ArsMagica2.MODID , "flicker_itemTransport" );
-	}
 
 	@Override
 	public int getID ( ) {
