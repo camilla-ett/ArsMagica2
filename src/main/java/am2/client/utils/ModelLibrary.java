@@ -3,12 +3,7 @@ package am2.client.utils;
 import am2.client.bosses.models.ModelPlantGuardianSickle;
 import am2.client.bosses.models.ModelWinterGuardianArm;
 import am2.client.entity.models.ModelBroom;
-import am2.client.models.ModelAirGuardianHoverball;
-import am2.client.models.ModelArcaneGuardianSpellBook;
-import am2.client.models.ModelCandle;
-import am2.client.models.ModelEarthGuardianChest;
-import am2.client.models.ModelFireGuardianEars;
-import am2.client.models.ModelWaterGuardianOrbs;
+import am2.client.models.*;
 import am2.common.entity.EntityBroom;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,7 +15,7 @@ public class ModelLibrary{
 	public static final ModelLibrary instance = new ModelLibrary();
 
 	private ModelLibrary(){
-		dummyBroom = new EntityBroom(Minecraft.getMinecraft().theWorld);
+		dummyBroom = new EntityBroom(Minecraft.getMinecraft().world);
 		sickle.setNoSpin();
 
 		dummyArcaneSpellbook = new ModelArcaneGuardianSpellBook();

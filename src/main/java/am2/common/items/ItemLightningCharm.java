@@ -1,9 +1,9 @@
 package am2.common.items;
 
-import java.util.List;
-
 import am2.api.math.AMVector3;
 import am2.common.utils.MathUtilities;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,10 +13,12 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemLightningCharm extends ItemArsMagica{
 
@@ -43,10 +45,10 @@ public class ItemLightningCharm extends ItemArsMagica{
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, EnumHand hand){
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer par3EntityPlayer, EnumHand handIn) {
 		if (par3EntityPlayer.isSneaking())
-			toggleActive(par1ItemStack);
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, par1ItemStack);
+			toggleActive(par3EntityPlayer.getHeldItem(handIn));
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, par3EntityPlayer.getHeldItem(handIn));
 	}
 
 	private void attractItems(World world, Entity ent){
@@ -94,8 +96,8 @@ public class ItemLightningCharm extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.format("am2.tooltip.lightning_charm"));
-		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		tooltip.add(I18n.format("am2.tooltip.lightning_charm"));
+		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 }

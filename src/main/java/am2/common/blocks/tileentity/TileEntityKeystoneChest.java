@@ -24,6 +24,7 @@ import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.common.util.Constants;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class TileEntityKeystoneChest extends TileEntityLockableLoot implements IInventory, ITickable, IKeystoneLockable<TileEntityKeystoneChest>{
@@ -278,7 +279,9 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 
 	@Override
 	protected NonNullList<ItemStack> getItems() {
-		return (NonNullList<ItemStack>)NonNullList.from(inventory);
+		NonNullList<ItemStack> items = NonNullList.create();
+		items.addAll(Arrays.asList(inventory));
+		return items;
 	}
 
 	@Override

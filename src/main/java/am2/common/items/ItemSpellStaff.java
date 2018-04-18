@@ -1,7 +1,5 @@
 package am2.common.items;
 
-import java.util.List;
-
 import am2.api.power.IPowerNode;
 import am2.common.defs.SkillDefs;
 import am2.common.extensions.SkillData;
@@ -24,6 +22,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ItemSpellStaff extends ItemArsMagica{
 
@@ -146,8 +146,7 @@ public class ItemSpellStaff extends ItemArsMagica{
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (isMagiTechStaff()){
 			return EnumActionResult.SUCCESS;
 		}
@@ -156,8 +155,7 @@ public class ItemSpellStaff extends ItemArsMagica{
 	}
 	
 	@Override
-	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-			EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand){
+	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
 		if (isMagiTechStaff()){
 			if (!world.isRemote){
 				TileEntity te = world.getTileEntity(pos);
@@ -168,7 +166,7 @@ public class ItemSpellStaff extends ItemArsMagica{
 						List<PowerTypes> types = ((IPowerNode<?>)te).getValidPowerTypes();
 						for (PowerTypes type : types){
 							float power = PowerNodeRegistry.For(world).getPower((IPowerNode<?>)te, type);
-							player.addChatMessage(
+							player.sendMessage(
 									new TextComponentString(String.format(I18n.format("am2.tooltip.det_eth"),
 											type.getChatColor(), type.name(), String.format("%.2f", power))));
 						}
@@ -208,7 +206,7 @@ public class ItemSpellStaff extends ItemArsMagica{
 			EntityPlayerSP player = (EntityPlayerSP)entity;
 			ItemStack usingItem = player.getActiveItemStack();
 			if (usingItem != null && usingItem.getItem() == this){
-				if (SkillData.For(player).hasSkill(SkillDefs.SPELL_MOTION.getID())){
+				if (SkillData.For(player).hasSkill(SkillDefs.SPELL_MOTION.getIDString())){
 					player.movementInput.moveForward *= 2.5F;
 					player.movementInput.moveStrafe *= 2.5F;
 				}
