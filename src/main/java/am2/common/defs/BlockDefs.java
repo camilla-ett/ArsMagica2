@@ -43,7 +43,7 @@ import java.util.HashMap;
 
 public class BlockDefs {
 	
-	public static final Block manaBattery = new BlockManaBattery().registerAndName(new ResourceLocation("arsmagica2:mana_battery"));
+	public static final Block manaBattery = (new BlockManaBattery().registerAndName(new ResourceLocation("arsmagica2:mana_battery")));
 	public static final BlockFrost frost = new BlockFrost().registerAndName(new ResourceLocation("arsmagica2:frost"));
 	public static final BlockOcculus occulus = new BlockOcculus().registerAndName(new ResourceLocation("arsmagica2:occulus"));
 	public static final BlockAM magicWall = new BlockMagicWall().registerAndName(new ResourceLocation("arsmagica2:magic_wall"));
@@ -115,14 +115,11 @@ public class BlockDefs {
 		FluidRegistry.addBucketForFluid(liquid_essence);
 
 		liquid_essence = FluidRegistry.getFluid(BlockDefs.liquid_essence.getName());
-		Block blockliquid_essence = new BlockFluidClassic(liquid_essence, Material.WATER).setUnlocalizedName("arsmagica2:fluid_block_liquid_essence");
-		Item itemliquid_essence = new ItemBlock(blockliquid_essence);
+		Block blockliquid_essence = new BlockFluidClassic(liquid_essence, Material.WATER).setUnlocalizedName("arsmagica2:fluid_block_liquid_essence").setRegistryName("arsmagica2:fluid_block_liquid_essence");
+		Item itemliquid_essence = new ItemBlock(blockliquid_essence).setUnlocalizedName("arsmagica2:fluid_block_liquid_essence").setRegistryName("arsmagica2:fluid_block_liquid_essence");
 
 
 		Registry.GetBlocksToRegister().add(blockliquid_essence);
-		Registry.GetBlocksToRegister().add(witchwoodSingleSlab);
-		Registry.GetBlocksToRegister().add(witchwoodDoubleSlab);
-
 		Registry.GetItemsToRegister().add(itemliquid_essence);
 		Registry.GetItemsToRegister().add(new ItemSlab(witchwoodSingleSlab, witchwoodSingleSlab, witchwoodDoubleSlab));
 	}

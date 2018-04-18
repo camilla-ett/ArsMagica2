@@ -34,6 +34,7 @@ public class BlockWakebloom extends BlockAMFlower{
 	@Override
 	public BlockAMFlower registerAndName(ResourceLocation loc) {
 		setUnlocalizedName(loc.toString());
+		this.setRegistryName(loc);
 		Registry.GetBlocksToRegister().add(this);
 		Registry.GetItemsToRegister().add(new ItemWakebloom(this));
 		return this;

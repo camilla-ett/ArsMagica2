@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemBoundPickaxe extends ItemPickaxe implements IBoundItem {
 
@@ -54,6 +53,7 @@ public class ItemBoundPickaxe extends ItemPickaxe implements IBoundItem {
 
 	public ItemPickaxe registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
+		this.setRegistryName(new ResourceLocation("arsmagica2", name));
 		Registry.GetItemsToRegister().add(this);
 		return this;
 	}

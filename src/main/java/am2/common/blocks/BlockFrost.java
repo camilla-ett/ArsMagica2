@@ -1,6 +1,5 @@
 package am2.common.blocks;
 
-import am2.common.registry.Registry;
 import net.minecraft.block.BlockIce;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -10,6 +9,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
+
+import static am2.common.registry.Registry.GetBlocksToRegister;
+import static am2.common.registry.Registry.GetItemsToRegister;
 
 public class BlockFrost extends BlockIce {
 	
@@ -26,9 +28,10 @@ public class BlockFrost extends BlockIce {
 	}
 
 	public BlockFrost registerAndName(ResourceLocation rl) {
-		this.setUnlocalizedName(rl.toString());
-		Registry.GetBlocksToRegister().add(this);
-		Registry.GetItemsToRegister().add(new ItemBlock(this));
-		return this;
-	}
+        this.setRegistryName(rl);
+        this.setUnlocalizedName(rl.toString());
+        GetBlocksToRegister().add(this);
+        GetItemsToRegister().add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
+        return this;
+    }
 }

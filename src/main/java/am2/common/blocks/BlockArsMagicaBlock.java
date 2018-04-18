@@ -54,6 +54,7 @@ public class BlockArsMagicaBlock extends BlockAM {
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
+		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
 		Registry.GetItemsToRegister().add(new ItemBlockOreBlock(this));
 		return this;

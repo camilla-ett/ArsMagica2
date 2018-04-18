@@ -19,6 +19,7 @@ public class BlockWitchwoodStairs extends BlockStairs{
 
 	public BlockStairs registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
+		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
 		Registry.GetItemsToRegister().add(new ItemBlockSubtypes(this));
 		return this;

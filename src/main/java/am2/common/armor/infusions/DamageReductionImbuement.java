@@ -1,6 +1,5 @@
 package am2.common.armor.infusions;
 
-import am2.ArsMagica2;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
@@ -23,7 +22,6 @@ public class DamageReductionImbuement extends ArmorImbuement{
 		this.id = id;
 		this.dmgType = dmgType;
 		this.tier = tier;
-        this.setRegistryName ( ArsMagica2.MODID , "armorInf_" + id + "_" + dmgType );
     }
 
 	public static void registerAll(){

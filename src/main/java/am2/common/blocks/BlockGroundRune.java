@@ -146,6 +146,7 @@ public abstract class BlockGroundRune extends BlockAMContainer{
 	@Override
 	public BlockAMContainer registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
+		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}

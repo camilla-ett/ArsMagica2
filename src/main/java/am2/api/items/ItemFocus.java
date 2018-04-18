@@ -18,6 +18,7 @@ public abstract class ItemFocus extends Item{
 	public abstract String getInGameName();
 	
 	public ItemFocus registerAndName(String name) {
+		this.setRegistryName(new ResourceLocation("arsmagica2", name));
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
 		Registry.GetItemsToRegister().add(this);
 		return this;

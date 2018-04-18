@@ -11,7 +11,6 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemBoundHoe extends ItemHoe implements IBoundItem {
 
@@ -52,6 +51,7 @@ public class ItemBoundHoe extends ItemHoe implements IBoundItem {
 
 	public ItemHoe registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
+		this.setRegistryName(new ResourceLocation("arsmagica2", name));
 		Registry.GetItemsToRegister().add(this);
 		return this;
 	}

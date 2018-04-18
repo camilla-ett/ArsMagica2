@@ -91,6 +91,7 @@ public class ItemLostJournal extends ItemWritableBook{
 	
 	public ItemLostJournal registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
+		this.setRegistryName(new ResourceLocation("arsmagica2", name));
 		Registry.GetItemsToRegister ( ).add ( this );
 		return this;
 	}

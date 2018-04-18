@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemBoundSword extends ItemSword implements IBoundItem {
 
@@ -54,6 +53,7 @@ public class ItemBoundSword extends ItemSword implements IBoundItem {
 
 	public ItemSword registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
+		this.setRegistryName(new ResourceLocation("arsmagica2", name));
 		Registry.GetItemsToRegister().add(this);
 		return this;
 	}

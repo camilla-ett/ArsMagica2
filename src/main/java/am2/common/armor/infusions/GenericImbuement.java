@@ -1,6 +1,5 @@
 package am2.common.armor.infusions;
 
-import am2.ArsMagica2;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
@@ -37,7 +36,6 @@ public class GenericImbuement extends ArmorImbuement{
 		this.id = id;
 		this.tier = tier;
 		this.validSlots = validSlots;
-		this.setRegistryName ( ArsMagica2.MODID , "armorinf_gi_" + id );
 	}
 
 	public static void registerAll(){

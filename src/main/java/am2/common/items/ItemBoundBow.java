@@ -1,7 +1,5 @@
 package am2.common.items;
 
-import javax.annotation.Nullable;
-
 import am2.api.IBoundItem;
 import am2.common.defs.ItemDefs;
 import am2.common.registry.Registry;
@@ -17,9 +15,10 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 
 public class ItemBoundBow extends ItemBow implements IBoundItem {
 
@@ -106,6 +105,7 @@ public class ItemBoundBow extends ItemBow implements IBoundItem {
 
 	public ItemBoundBow registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
+		this.setRegistryName(new ResourceLocation("arsmagica2", name));
 		Registry.GetItemsToRegister().add(this);
 		return this;
 	}

@@ -5,7 +5,6 @@ import am2.common.blocks.tileentity.TileEntityOcculus;
 import am2.common.defs.CreativeTabsDefs;
 import am2.common.defs.IDDefs;
 import am2.common.extensions.EntityExtension;
-import am2.common.registry.Registry;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -21,6 +20,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import static am2.common.registry.Registry.GetBlocksToRegister;
+import static am2.common.registry.Registry.GetItemsToRegister;
 
 public class BlockOcculus extends BlockContainer {
 	
@@ -56,11 +58,12 @@ public class BlockOcculus extends BlockContainer {
 	}
 
 	public BlockOcculus registerAndName(ResourceLocation rl) {
-		this.setUnlocalizedName(rl.toString());
-		Registry.GetBlocksToRegister().add(this);
-		Registry.GetItemsToRegister().add(new ItemBlock(this));
-		return this;
-	}
+        this.setUnlocalizedName(rl.toString());
+        this.setRegistryName(rl.toString());
+        GetBlocksToRegister().add(this);
+        GetItemsToRegister().add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
+        return this;
+    }
 	
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {

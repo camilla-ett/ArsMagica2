@@ -42,6 +42,7 @@ public class BlockLightDecay extends BlockAM {
 	@Override
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
+		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}

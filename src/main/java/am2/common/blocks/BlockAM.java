@@ -28,6 +28,7 @@ public class BlockAM extends Block {
 	
 	public BlockAM registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
+		this.setRegistryName(rl.toString());
 		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}

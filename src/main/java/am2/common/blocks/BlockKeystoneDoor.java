@@ -124,6 +124,7 @@ public class BlockKeystoneDoor extends BlockDoor implements ITileEntityProvider{
 	
 	public Block registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
+		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}

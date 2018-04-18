@@ -70,6 +70,7 @@ public class BlockKeystoneTrapdoor extends BlockTrapDoor implements ITileEntityP
 	
 	public Block registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
+		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
 		Registry.GetItemsToRegister().add(new ItemBlockSubtypes(this));
 		return this;

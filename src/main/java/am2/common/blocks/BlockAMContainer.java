@@ -19,6 +19,7 @@ public abstract class BlockAMContainer extends BlockContainer {
 	
 	public BlockAMContainer registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
+		this.setRegistryName(rl.toString());
 		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}

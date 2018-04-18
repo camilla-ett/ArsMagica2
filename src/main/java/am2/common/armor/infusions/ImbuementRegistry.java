@@ -1,5 +1,6 @@
 package am2.common.armor.infusions;
 
+import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.IImbuementRegistry;
@@ -23,7 +24,7 @@ public class ImbuementRegistry implements IImbuementRegistry{
 
 	@Override
 	public void registerImbuement(ArmorImbuement imbuementInstance) {
-		ArsMagicaAPI.getArmorImbuementRegistry().register(imbuementInstance);
+		ArsMagicaAPI.getArmorImbuementRegistry().register(imbuementInstance.setRegistryName(ArsMagica2.MODID,  "imbuement_" + imbuementInstance.getID()));
 		LogHelper.info(String.format("Registered imbuement: %s", imbuementInstance.getID()));
 	}
 

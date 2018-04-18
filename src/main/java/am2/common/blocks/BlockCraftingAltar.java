@@ -2,7 +2,6 @@ package am2.common.blocks;
 
 import am2.common.blocks.tileentity.TileEntityCraftingAltar;
 import am2.common.defs.CreativeTabsDefs;
-import am2.common.registry.Registry;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
@@ -14,6 +13,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import static am2.common.registry.Registry.GetBlocksToRegister;
+import static am2.common.registry.Registry.GetItemsToRegister;
 
 public class BlockCraftingAltar extends BlockAMPowered {
 
@@ -32,8 +34,9 @@ public class BlockCraftingAltar extends BlockAMPowered {
 	
 	public BlockCraftingAltar registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.toString());
-		Registry.GetBlocksToRegister().add(this);
-		Registry.GetItemsToRegister().add(new ItemBlock(this));
+		this.setRegistryName(rl);
+		GetBlocksToRegister().add(this);
+		GetItemsToRegister().add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
 		return this;
 	}
 	

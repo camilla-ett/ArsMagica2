@@ -197,6 +197,7 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 	
 	public Block registerAndName(ResourceLocation rl) {
 		this.setUnlocalizedName(rl.getResourcePath());
+		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
 		return this;
 	}
