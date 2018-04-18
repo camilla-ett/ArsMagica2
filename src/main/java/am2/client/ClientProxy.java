@@ -194,9 +194,9 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init() {
 		super.init();
-		BlockDefs.initClient();
 		ItemDefs.initClient();
-	}
+        BlockDefs.initClient ( );
+    }
 	
 	@Override
 	public void setTrackedLocation(AMVector3 location){
