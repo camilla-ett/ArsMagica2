@@ -80,7 +80,7 @@ public class SoundDefs {
 
 		register(RUNE_CAST);
 		register(CONTINGENCY);
-		register(BINDING_CAST);0,
+		register(BINDING_CAST);
 	}
 
 	private static void register(SoundEvent event) {
