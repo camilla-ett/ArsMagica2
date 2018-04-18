@@ -36,7 +36,7 @@ public class BlockWakebloom extends BlockAMFlower{
 		setUnlocalizedName(loc.toString());
 		this.setRegistryName(loc);
 		Registry.GetBlocksToRegister().add(this);
-		Registry.GetItemsToRegister().add(new ItemWakebloom(this));
+		Registry.GetItemsToRegister().add(new ItemWakebloom(this).setRegistryName(loc));
 		return this;
 	}
 }

@@ -56,7 +56,7 @@ public class BlockArsMagicaBlock extends BlockAM {
 		this.setUnlocalizedName(rl.getResourcePath());
 		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
-		Registry.GetItemsToRegister().add(new ItemBlockOreBlock(this));
+		Registry.GetItemsToRegister().add(new ItemBlockOreBlock(this).setRegistryName(rl));
 		return this;
 	}
 	

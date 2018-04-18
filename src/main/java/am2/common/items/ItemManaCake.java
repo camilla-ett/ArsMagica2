@@ -7,7 +7,6 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemManaCake extends ItemFood{
 
@@ -17,6 +16,7 @@ public class ItemManaCake extends ItemFood{
 
 	public ItemManaCake registerAndName(String name) {
 		this.setUnlocalizedName(new ResourceLocation("arsmagica2", name).toString());
+		this.setRegistryName(new ResourceLocation("arsmagica2", name));
 		Registry.GetItemsToRegister().add(this);
 		return this;
 	}

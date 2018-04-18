@@ -80,11 +80,11 @@ public class SoundDefs {
 
 		register(RUNE_CAST);
 		register(CONTINGENCY);
-		register(BINDING_CAST);
+		register(BINDING_CAST);0,
 	}
 
 	private static void register(SoundEvent event) {
-		Registry.GetSoundsToRegister().add(event);
+		Registry.GetSoundsToRegister().add(event.setRegistryName(event.getSoundName()));
 	}
 
 	public static void createSoundMaps() {

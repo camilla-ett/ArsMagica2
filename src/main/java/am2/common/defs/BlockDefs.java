@@ -1,5 +1,6 @@
 package am2.common.defs;
 
+import am2.ArsMagica2;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.math.AMVector3;
 import am2.client.blocks.colorizers.CrystalMarkerColorizer;
@@ -121,7 +122,7 @@ public class BlockDefs {
 
 		Registry.GetBlocksToRegister().add(blockliquid_essence);
 		Registry.GetItemsToRegister().add(itemliquid_essence);
-		Registry.GetItemsToRegister().add(new ItemSlab(witchwoodSingleSlab, witchwoodSingleSlab, witchwoodDoubleSlab));
+		Registry.GetItemsToRegister().add(new ItemSlab(witchwoodSingleSlab, witchwoodSingleSlab, witchwoodDoubleSlab).setRegistryName(ArsMagica2.MODID, "witchwoodslab"));
 	}
 	
 	@SideOnly(Side.CLIENT)

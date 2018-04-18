@@ -88,7 +88,7 @@ public class BlockArsMagicaOre extends BlockAM {
 		this.setUnlocalizedName(rl.getResourcePath());
 		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
-		Registry.GetItemsToRegister().add(new ItemBlockOre(this));
+		Registry.GetItemsToRegister().add(new ItemBlockOre(this).setRegistryName(rl));
 		return this;
 	}
 	

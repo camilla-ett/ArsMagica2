@@ -45,6 +45,7 @@ public class AMArmor extends ItemArmor implements ISpecialArmor{
 
 	public AMArmor registerAndName(String name) {
 		this.setUnlocalizedName("arsmagica2:" + name);
+		this.setRegistryName("arsmagica2:" + name);
 		Registry.GetItemsToRegister().add(this);
 		return this;
 	}

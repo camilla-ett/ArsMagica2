@@ -377,7 +377,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 		this.setUnlocalizedName(rl.toString());
 		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
-		Registry.GetItemsToRegister().add(new ItemBlockCrystalMarker(this));
+		Registry.GetItemsToRegister().add(new ItemBlockCrystalMarker(this).setRegistryName(rl));
 		return this;
 	}
 }

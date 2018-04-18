@@ -188,7 +188,7 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		this.setUnlocalizedName(rl.toString());
 		this.setRegistryName(rl);
 		Registry.GetBlocksToRegister().add(this);
-		Registry.GetItemsToRegister().add(new ItemInscriptionTable(this));
+		Registry.GetItemsToRegister().add(new ItemInscriptionTable(this).setRegistryName(rl));
 		return this;
 	}
 }

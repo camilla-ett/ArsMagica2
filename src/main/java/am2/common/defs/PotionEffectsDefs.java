@@ -83,7 +83,7 @@ public class PotionEffectsDefs {
 	
 	public static Potion createPotion(ResourceLocation loc, boolean isBad, int color, int posX, int posY, Class<? extends BuffEffect> clazz) {
 		Potion potion = new AMPotion(isBad, color).setIconIndex(posX, posY).setPotionName(loc.toString());
-		Registry.GetPotionsToRegister().add(potion);
+		Registry.GetPotionsToRegister().add(potion.setRegistryName(loc));
 		classForId.put(potion, clazz);
 		return potion;
 	}
