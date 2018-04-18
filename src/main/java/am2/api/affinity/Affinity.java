@@ -38,47 +38,57 @@ public class Affinity extends IForgeRegistryEntry.Impl<Affinity> implements Comp
 	private static final ResourceLocation LIFE_LOC = new ResourceLocation("arsmagica2", "life");
 	private static final ResourceLocation ENDER_LOC = new ResourceLocation("arsmagica2", "ender");
 	
-	public static final Affinity NONE = new Affinity("none", 0xFFFFFF, 0).setDirectOpposite(NONE_LOC);
+	public static final Affinity NONE = new Affinity("none", 0xFFFFFF, 0).setDirectOpposite(NONE_LOC).setRegistryName(NONE_LOC);
 	public static final Affinity ARCANE = new Affinity("arcane", 0xb935cd, 1)
 			.setDirectOpposite(NATURE_LOC)
 			.addMajorOpposite(LIFE_LOC, EARTH_LOC, WATER_LOC, ICE_LOC)
-			.addMinorOpposite(AIR_LOC, ENDER_LOC);
+			.addMinorOpposite(AIR_LOC, ENDER_LOC)
+            .setRegistryName(ARCANE_LOC);
 	public static final Affinity WATER = new Affinity("water", 0x0b5cef, 2)
 			.setDirectOpposite(FIRE_LOC)
 			.addMajorOpposite(LIGHTNING_LOC, EARTH_LOC, ARCANE_LOC, ENDER_LOC)
-			.addMinorOpposite(AIR_LOC, ICE_LOC);
+			.addMinorOpposite(AIR_LOC, ICE_LOC)
+            .setRegistryName(WATER_LOC);
 	public static final Affinity FIRE = new Affinity("fire", 0xef260b, 3)
 			.setDirectOpposite(WATER_LOC)
 			.addMajorOpposite(AIR_LOC, ICE_LOC, NATURE_LOC, LIFE_LOC)
-			.addMinorOpposite(EARTH_LOC, LIGHTNING_LOC);
+			.addMinorOpposite(EARTH_LOC, LIGHTNING_LOC)
+	        .setRegistryName(FIRE_LOC);
 	public static final Affinity EARTH = new Affinity("earth", 0x61330b, 4)
 			.setDirectOpposite(AIR_LOC)
 			.addMajorOpposite(WATER_LOC, ARCANE_LOC, LIFE_LOC, LIGHTNING_LOC)
-			.addMinorOpposite(NATURE_LOC, FIRE_LOC);
+			.addMinorOpposite(NATURE_LOC, FIRE_LOC)
+            .setRegistryName(EARTH_LOC);
 	public static final Affinity AIR = new Affinity("air", 0x777777, 5)
 			.setDirectOpposite(EARTH_LOC)
 			.addMajorOpposite(NATURE_LOC, FIRE_LOC, ICE_LOC, ENDER_LOC)
-			.addMinorOpposite(WATER_LOC, ARCANE_LOC);
+			.addMinorOpposite(WATER_LOC, ARCANE_LOC)
+            .setRegistryName(AIR_LOC);
 	public static final Affinity LIGHTNING = new Affinity("lightning", 0xdece19, 6)
 			.setDirectOpposite(ICE_LOC)
 			.addMajorOpposite(WATER_LOC, ENDER_LOC, NATURE_LOC, EARTH_LOC)
-			.addMinorOpposite(LIFE_LOC, FIRE_LOC);
+			.addMinorOpposite(LIFE_LOC, FIRE_LOC)
+            .setRegistryName(LIGHTNING_LOC);
 	public static final Affinity ICE = new Affinity("ice", 0xd3e8fc, 7)
 			.setDirectOpposite(LIGHTNING_LOC)
 			.addMajorOpposite(LIFE_LOC, FIRE_LOC, AIR_LOC, ARCANE_LOC)
-			.addMinorOpposite(WATER_LOC, ENDER_LOC);
+			.addMinorOpposite(WATER_LOC, ENDER_LOC)
+            .setRegistryName(ICE_LOC);
 	public static final Affinity NATURE = new Affinity("nature", 0x228718, 8)
 			.setDirectOpposite(ARCANE_LOC)
 			.addMajorOpposite(AIR_LOC, ENDER_LOC, LIGHTNING_LOC, FIRE_LOC)
-			.addMinorOpposite(LIFE_LOC, EARTH_LOC);
+			.addMinorOpposite(LIFE_LOC, EARTH_LOC)
+            .setRegistryName(NATURE_LOC);
 	public static final Affinity LIFE = new Affinity("life", 0x34e122, 9)
 			.setDirectOpposite(ENDER_LOC)
 			.addMajorOpposite(ARCANE_LOC, ICE_LOC, FIRE_LOC, EARTH_LOC)
-			.addMinorOpposite(NATURE_LOC, LIGHTNING_LOC);
+			.addMinorOpposite(NATURE_LOC, LIGHTNING_LOC)
+            .setRegistryName(LIFE_LOC);
 	public static final Affinity ENDER = new Affinity("ender", 0x3f043d, 10)
 			.setDirectOpposite(LIFE_LOC)
 			.addMajorOpposite(NATURE_LOC, LIGHTNING_LOC, WATER_LOC, AIR_LOC)
-			.addMinorOpposite(ARCANE_LOC, ICE_LOC);
+			.addMinorOpposite(ARCANE_LOC, ICE_LOC)
+            .setRegistryName(ENDER_LOC);
 
 	@SubscribeEvent
 	public static void registerAffinities() {

@@ -1,7 +1,6 @@
 package am2.common.armor.infusions;
 
-import java.util.EnumSet;
-
+import am2.ArsMagica2;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
@@ -10,6 +9,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+
+import java.util.EnumSet;
 
 public class DamageReductionImbuement extends ArmorImbuement{
 
@@ -22,6 +23,7 @@ public class DamageReductionImbuement extends ArmorImbuement{
 		this.id = id;
 		this.dmgType = dmgType;
 		this.tier = tier;
+		this.setRegistryName(ArsMagica2.MODID, id + "_" + dmgType);
 	}
 
 	public static void registerAll(){

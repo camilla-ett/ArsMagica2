@@ -1,8 +1,6 @@
 package am2.common.armor.infusions;
 
-import java.util.EnumSet;
-import java.util.UUID;
-
+import am2.ArsMagica2;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.ImbuementApplicationTypes;
 import am2.api.items.armor.ImbuementTiers;
@@ -11,6 +9,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import java.util.EnumSet;
+import java.util.UUID;
 
 public class GenericImbuement extends ArmorImbuement{
 
@@ -36,6 +37,7 @@ public class GenericImbuement extends ArmorImbuement{
 		this.id = id;
 		this.tier = tier;
 		this.validSlots = validSlots;
+		this.setRegistryName(ArsMagica2.MODID, "gi_" +id );
 	}
 
 	public static void registerAll(){
