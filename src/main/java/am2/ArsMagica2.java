@@ -34,7 +34,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import java.io.File;
 
 
-@Mod(modid=ArsMagica2.MODID, version=ArsMagica2.VERSION, guiFactory=ArsMagica2.GUIFACTORY, canBeDeactivated=false, acceptedMinecraftVersions = "[1.10.2,1.11)")
+@Mod(modid=ArsMagica2.MODID, version=ArsMagica2.VERSION, guiFactory=ArsMagica2.GUIFACTORY, canBeDeactivated=false, acceptedMinecraftVersions = "[1.12.0,1.12.2]")
 public class ArsMagica2 {
 	
 	public static final String MODID = "arsmagica2";
