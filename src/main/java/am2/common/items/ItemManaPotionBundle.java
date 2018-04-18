@@ -1,9 +1,9 @@
 package am2.common.items;
 
-import java.util.List;
-
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,10 +14,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemManaPotionBundle extends ItemArsMagica{
 	public ItemManaPotionBundle(){
@@ -58,13 +61,13 @@ public class ItemManaPotionBundle extends ItemArsMagica{
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, EnumHand hand){
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer par3EntityPlayer, EnumHand hand){
 		EntityExtension props = EntityExtension.For(par3EntityPlayer);
 		if (props.getCurrentMana() < props.getMaxMana()){
 			par3EntityPlayer.setActiveHand(hand);
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, par1ItemStack);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, par3EntityPlayer.getHeldItem(hand));
 		}
-		return new ActionResult<ItemStack>(EnumActionResult.FAIL, par1ItemStack);
+		return new ActionResult<ItemStack>(EnumActionResult.FAIL, par3EntityPlayer.getHeldItem(hand));
 	}
 
 
@@ -89,7 +92,8 @@ public class ItemManaPotionBundle extends ItemArsMagica{
 
 		if (getUses(par1ItemStack.getItemDamage()) == 0){
 			giveOrDropItem(par3EntityPlayer, new ItemStack(Items.STRING));
-			if (par1ItemStack.stackSize-- == 0)
+			par1ItemStack.shrink(1);
+			if (par1ItemStack.getCount()== 0)
 				par1ItemStack = null;
 		}
 
@@ -105,7 +109,7 @@ public class ItemManaPotionBundle extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
+	public void addInformation(ItemStack par1ItemStack, @Nullable World worldIn, List<String> par3List, ITooltipFlag flagIn){
 		Item potion = getPotion(par1ItemStack.getItemDamage());
 		if (potion == ItemDefs.lesserManaPotion){
 			par3List.add("Lesser Mana Restoration");
@@ -123,12 +127,12 @@ public class ItemManaPotionBundle extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		par3List.add(new ItemStack(ItemDefs.manaPotionBundle, 1, (0 << 8) + 3));
-		par3List.add(new ItemStack(ItemDefs.manaPotionBundle, 1, (1 << 8) + 3));
-		par3List.add(new ItemStack(ItemDefs.manaPotionBundle, 1, (2 << 8) + 3));
-		par3List.add(new ItemStack(ItemDefs.manaPotionBundle, 1, (3 << 8) + 3));
-		par3List.add(new ItemStack(ItemDefs.manaPotionBundle, 1, (4 << 8) + 3));
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+		list.add(new ItemStack(ItemDefs.manaPotionBundle, 1, (0 << 8) + 3));
+		list.add(new ItemStack(ItemDefs.manaPotionBundle, 1, (1 << 8) + 3));
+		list.add(new ItemStack(ItemDefs.manaPotionBundle, 1, (2 << 8) + 3));
+		list.add(new ItemStack(ItemDefs.manaPotionBundle, 1, (3 << 8) + 3));
+		list.add(new ItemStack(ItemDefs.manaPotionBundle, 1, (4 << 8) + 3));
 	}
 
 	@Override

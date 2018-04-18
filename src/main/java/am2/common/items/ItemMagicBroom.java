@@ -4,7 +4,6 @@ import am2.api.math.AMVector3;
 import am2.common.entity.EntityBroom;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -20,7 +19,7 @@ public class ItemMagicBroom extends ItemArsMagica{
 	}
 
 	@Override
-	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand){
+	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
 		if (!world.isRemote){
 			RayTraceResult mop = this.rayTrace(world, player, true);
 			if (mop != null && mop.typeOfHit == RayTraceResult.Type.BLOCK){
@@ -29,11 +28,11 @@ public class ItemMagicBroom extends ItemArsMagica{
 					EntityBroom broom = new EntityBroom(world);
 					broom.setPosition(player.posX, player.posY, player.posZ);
 					broom.setChestLocation(new AMVector3(mop.getBlockPos()));
-					world.spawnEntityInWorld(broom);
+					world.spawnEntity(broom);
 
-					stack.stackSize--;
+					player.getHeldItem(hand).shrink(1);
 
-					if (stack.stackSize == 0){
+					if (player.getHeldItem(hand).getCount() == 0){
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 					}
 					return EnumActionResult.SUCCESS;

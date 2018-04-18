@@ -1,8 +1,7 @@
 package am2.common.items;
 
-import java.util.List;
-
 import am2.common.utils.EntityUtils;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -10,12 +9,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemJournal extends ItemArsMagica{
 
@@ -49,10 +48,9 @@ public class ItemJournal extends ItemArsMagica{
 			tooltip.add(String.format(I18n.format("am2.tooltip.journalOwner2"), owner));
 		}
 
-		if (owner.equals(player.getName()))
-			tooltip.add(String.format(I18n.format("am2.tooltip.containedXP"), getXPInJournal(stack)));
+			tooltip.add(String.format(I18n.format("am2.tooltip.containedXP"), getXPInJournal(stack))); //TODO Add Owner Check
 
-		if (owner == null || owner.equals(player.getName()))
+		if (owner.isEmpty())
 			tooltip.add(I18n.format("am2.tooltip.journalUse"));
 	}
 

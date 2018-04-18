@@ -19,11 +19,10 @@ public class ItemLiquidEssenceBottle extends ItemArsMagica{
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
-			EnumHand hand) {
-		if (!playerIn.isPotionActive(PotionEffectsDefs.MANA_BOOST))
-			playerIn.setActiveHand(hand);
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn){
+		if (!player.isPotionActive(PotionEffectsDefs.MANA_BOOST))
+			player.setActiveHand(handIn);
+		return super.onItemRightClick(world, player, handIn);
 	}
 
 	@Override

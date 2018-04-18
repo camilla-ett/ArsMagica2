@@ -1,22 +1,24 @@
 package am2.common.items;
 
-import java.util.List;
-
 import am2.ArsMagica2;
 import am2.common.container.InventoryEssenceBag;
 import am2.common.defs.IDDefs;
 import am2.common.defs.ItemDefs;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemEssenceBag extends ItemArsMagica{
 
@@ -33,16 +35,15 @@ public class ItemEssenceBag extends ItemArsMagica{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4){
-		par3List.add(I18n.format("am2.tooltip.rupees"));
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+		tooltip.add(I18n.format("am2.tooltip.rupees"));
 	}
 
-	
+
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn,
-			EnumHand hand){
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn){
 		FMLNetworkHandler.openGui(playerIn, ArsMagica2.instance, IDDefs.GUI_ESSENCE_BAG, worldIn, (int)playerIn.posX, (int)playerIn.posY, (int)playerIn.posZ);
-		return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
 	}
 
 	private ItemStack[] getMyInventory(ItemStack itemStack){
@@ -60,7 +61,7 @@ public class ItemEssenceBag extends ItemArsMagica{
 				itemStack.getTagCompound().removeTag("essencebagmeta" + i);
 				continue;
 			}else{
-				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.stackSize);
+				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.getCount());
 				itemStack.getTagCompound().setInteger("essencebagmeta" + i, stack.getItemDamage());
 			}
 		}
@@ -75,7 +76,7 @@ public class ItemEssenceBag extends ItemArsMagica{
 			if (stack == null){
 				continue;
 			}else{
-				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.stackSize);
+				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.getCount());
 				itemStack.getTagCompound().setInteger("essencebagmeta" + i, stack.getItemDamage());
 			}
 		}
