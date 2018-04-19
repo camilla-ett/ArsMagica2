@@ -134,7 +134,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	private Integer getFlagForOperator(AbstractFlickerFunctionality operator){
-		AbstractFlickerFunctionality[] asd = (AbstractFlickerFunctionality[])ArsMagicaAPI.getFlickerFocusRegistry().getValuesCollection().toArray();
+		AbstractFlickerFunctionality[] asd = ArsMagicaAPI.getFlickerFocusRegistry ( ).getValuesCollection ( ).toArray ( new AbstractFlickerFunctionality[ 0 ] );
 		for (int i = 0 ; i< asd.length; i++) {
 			if (asd[i].equals(operator)) return i;
 		}

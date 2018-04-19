@@ -1,11 +1,5 @@
 package am2.common.spell.component;
 
-import java.util.EnumSet;
-import java.util.Random;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
@@ -22,6 +16,7 @@ import am2.common.buffs.BuffEffectAstralDistortion;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
 import am2.common.defs.PotionEffectsDefs;
+import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -35,6 +30,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.EnumSet;
+import java.util.Random;
+import java.util.Set;
 
 public class AstralDistortion extends SpellComponent implements IRitualInteraction{
 
@@ -134,8 +133,8 @@ public class AstralDistortion extends SpellComponent implements IRitualInteracti
 	@Override
 	public ItemStack[] getRitualReagents(){
 		int enderMeta = 0;
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			if (aff.equals(Affinity.NONE))
+        for ( Affinity aff : ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ) ) {
+            if (aff.equals(Affinity.NONE))
 				continue;				
 			if (aff.equals(Affinity.ENDER))
 				break;

@@ -1,6 +1,5 @@
 package am2.api.compendium.pages;
 
-import am2.api.ArsMagicaAPI;
 import am2.api.blocks.IMultiblock;
 import am2.api.compendium.wrapper.StackMapWrapper;
 import am2.api.rituals.IRitualInteraction;
@@ -8,6 +7,7 @@ import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
 import am2.common.defs.ItemDefs;
 import am2.common.power.PowerTypes;
+import am2.common.utils.SpellUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -192,8 +192,8 @@ public abstract class CompendiumPage<E> {
 			}else{
 				if (stack.getItem() == ItemDefs.spell_component){
 					list.clear();
-					Skill skill = (Skill)ArsMagicaAPI.getSkillRegistry().getValuesCollection().toArray()[stack.getItemDamage()];
-					if (skill == null)
+                    Skill skill = SpellUtils.GetSkillFromID ( stack.getItemDamage ( ) );
+                    if (skill == null)
 						return;
 					list.add(skill.getName());
 				}else if (stack.getItem() == ItemDefs.etherium){

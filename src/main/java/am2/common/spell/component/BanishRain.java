@@ -1,11 +1,5 @@
 package am2.common.spell.component;
 
-import java.util.EnumSet;
-import java.util.Random;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
@@ -18,6 +12,7 @@ import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.common.defs.ItemDefs;
+import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -30,6 +25,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.EnumSet;
+import java.util.Random;
+import java.util.Set;
 
 public class BanishRain extends SpellComponent implements IRitualInteraction{
 
@@ -76,8 +75,8 @@ public class BanishRain extends SpellComponent implements IRitualInteraction{
 	@Override
 	public ItemStack[] reagents(EntityLivingBase caster){
 		int waterMeta = 0;
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			if (aff.equals(Affinity.NONE))
+        for ( Affinity aff : ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ) ) {
+            if (aff.equals(Affinity.NONE))
 				continue;				
 			if (aff.equals(Affinity.WATER))
 				break;

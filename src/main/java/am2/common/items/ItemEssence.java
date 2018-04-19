@@ -1,13 +1,11 @@
 package am2.common.items;
 
-import java.util.List;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import am2.common.utils.SpellUtils;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,8 +21,8 @@ public class ItemEssence extends ItemArsMagica {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
-			if (ArsMagicaAPI.getAffinityRegistry().getValues().get(i).equals(Affinity.NONE))
+		for ( int i = 0; i < ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ).size ( ); i++ ) {
+			if ( ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ).get ( i ).equals ( Affinity.NONE ) )
 				continue;
 			items.add(new ItemStack(this, 1, i));
 		}
@@ -33,6 +31,6 @@ public class ItemEssence extends ItemArsMagica {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
-		return I18n.format("item.arsmagica2:essence.name", ((Affinity)ArsMagicaAPI.getAffinityRegistry().getValuesCollection().toArray()[(stack.getItemDamage())]).getLocalizedName());
+		return I18n.format ( "item.arsmagica2:essence.name" , SpellUtils.GetAffinityFromID ( stack.getItemDamage ( ) ).getLocalizedName ( ) );
 	}
 }

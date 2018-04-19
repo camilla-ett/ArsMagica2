@@ -2,12 +2,12 @@ package am2.common.blocks.tileentity;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
-import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.math.AMVector3;
 import am2.common.LogHelper;
 import am2.common.blocks.tileentity.flickers.TileEntityFlickerControllerBase;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
+import am2.common.utils.SpellUtils;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -87,7 +87,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	public Affinity getSelectedAffinity(){
 		if (this.flickerJar != null){
-			return (Affinity)ArsMagicaAPI.getAffinityRegistry().getValuesCollection().toArray()[this.flickerJar.getItemDamage()];
+			return SpellUtils.GetAffinityFromID ( this.flickerJar.getItemDamage ( ) );
 		}else{
 			return null;
 		}
@@ -427,9 +427,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			return 0;
 
 		if (this.flickerJar.getItem() == ItemDefs.flickerJar)
-			return ((Affinity)(ArsMagicaAPI.getAffinityRegistry().getValuesCollection().toArray()[(this.flickerJar.getItemDamage())])).getColor();
+			return SpellUtils.GetAffinityFromID ( this.flickerJar.getItemDamage ( ) ).getColor ( );
 		else if (this.flickerJar.getItem() == ItemDefs.flickerFocus){
-			ArrayList<Affinity> affinities = Lists.newArrayList(((AbstractFlickerFunctionality)(ArsMagicaAPI.getFlickerFocusRegistry().getValuesCollection().toArray()[(MathHelper.clamp(this.flickerJar.getItemDamage(), 0, ArsMagicaAPI.getFlickerFocusRegistry().getKeys().size()))])).getMask());
+			ArrayList <Affinity> affinities = Lists.newArrayList ( ( SpellUtils.GetAbstractFlickerFunctionalityFromID ( MathHelper.clamp ( this.flickerJar.getItemDamage ( ) , 0 , ArsMagicaAPI.getFlickerFocusRegistry ( ).getKeys ( ).size ( ) ) ) ).getMask ( ) );
 
 			if (affinities.size() > 0){
 				int firstColor = affinities.get(this.colorCounter % affinities.size()).getColor();
@@ -558,7 +558,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	private void setOperatorBasedOnFlicker(){
 		if (this.flickerJar != null && this.flickerJar.getItem() == ItemDefs.flickerFocus){
-			this.setOperator((AbstractFlickerFunctionality)ArsMagicaAPI.getFlickerFocusRegistry().getValuesCollection().toArray()[(this.flickerJar.getItemDamage())]);
+			this.setOperator ( SpellUtils.GetAbstractFlickerFunctionalityFromID ( this.flickerJar.getItemDamage ( ) ) );
 		}else{
 			this.setOperator(null);
 		}

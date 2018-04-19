@@ -2,6 +2,7 @@ package am2.client.items.rendering;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.flickers.AbstractFlickerFunctionality;
+import am2.common.utils.SpellUtils;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -15,7 +16,7 @@ public class FlickerOperatorRenderer implements ItemMeshDefinition{
 	}
 	
 	public FlickerOperatorRenderer addModels(Item item) {
-		for (AbstractFlickerFunctionality func : ArsMagicaAPI.getFlickerFocusRegistry().getValues())
+		for ( AbstractFlickerFunctionality func : ArsMagicaAPI.getFlickerFocusRegistry ( ).getValuesCollection ( ) )
 			ModelBakery.registerItemVariants(item, new ModelResourceLocation(func.getTexture(), "inventory"));
 		ModelBakery.registerItemVariants(item, new ModelResourceLocation(new ResourceLocation("arsmagica2:FlickerOperatorBlank"), "inventory"));
 		return this;
@@ -23,7 +24,7 @@ public class FlickerOperatorRenderer implements ItemMeshDefinition{
 	
 	@Override
 	public ModelResourceLocation getModelLocation(ItemStack stack) {
-		AbstractFlickerFunctionality func = (AbstractFlickerFunctionality)ArsMagicaAPI.getFlickerFocusRegistry().getValuesCollection().toArray()[stack.getItemDamage()];
+		AbstractFlickerFunctionality func = SpellUtils.GetAbstractFlickerFunctionalityFromID ( stack.getItemDamage ( ) );
 		if (func == null) return new ModelResourceLocation(new ResourceLocation("arsmagica2:FlickerOperatorBlank"), "inventory");
 		return new ModelResourceLocation(func.getTexture(), "inventory");
 	}

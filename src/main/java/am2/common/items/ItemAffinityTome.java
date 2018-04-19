@@ -1,15 +1,13 @@
 package am2.common.items;
 
-import java.util.List;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.api.extensions.IAffinityData;
 import am2.common.extensions.AffinityData;
+import am2.common.utils.SpellUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -30,7 +28,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
+		for ( int i = 0; i < ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ).size ( ); i++ ) {
 			items.add(new ItemStack(this, 1, i));
 		}
 	}
@@ -43,11 +41,11 @@ public class ItemAffinityTome extends ItemArsMagica {
 		if (playerIn.getHeldItem(handIn).getItemDamage() == Affinity.NONE.getID()){
 			IAffinityData data = AffinityData.For(playerIn);
 			data.setLocked(false);
-			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()){
+			for ( Affinity aff : ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ) ) {
 				data.setAffinityDepth(aff, data.getAffinityDepth(aff) * AffinityData.MAX_DEPTH - 20);
 			}
 		}else{
-			AffinityData.For(playerIn).incrementAffinity((Affinity)ArsMagicaAPI.getAffinityRegistry().getValuesCollection().toArray()[playerIn.getHeldItem(handIn).getItemDamage()], 20);
+			AffinityData.For ( playerIn ).incrementAffinity ( SpellUtils.GetAffinityFromID ( playerIn.getHeldItem ( handIn ).getItemDamage ( ) ) , 20 );
 		}
 		playerIn.getHeldItem(handIn).shrink(1);
 
@@ -57,7 +55,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
-		Affinity aff = (Affinity)ArsMagicaAPI.getAffinityRegistry().getValuesCollection().toArray()[stack.getItemDamage()];
+		Affinity aff = SpellUtils.GetAffinityFromID ( stack.getItemDamage ( ) );
 		return I18n.format("item.arsmagica2:tome.name", aff.getLocalizedName());
 	}
 	

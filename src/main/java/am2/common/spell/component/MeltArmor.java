@@ -1,11 +1,5 @@
 package am2.common.spell.component;
 
-import java.util.EnumSet;
-import java.util.Random;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.spell.SpellComponent;
@@ -13,6 +7,7 @@ import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleHoldPosition;
+import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +17,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.EnumSet;
+import java.util.Random;
+import java.util.Set;
 
 public class MeltArmor extends SpellComponent{
 
@@ -47,8 +46,8 @@ public class MeltArmor extends SpellComponent{
 	private void doMeltArmor(EntityLivingBase caster, ItemStack[] armor){
 		double mmpsCharge = getMMPSCharge(armor);
 		for (ItemStack stack : armor){
-			if (stack == null) continue;
-			if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(mmpsNBTTagName)){
+            if ( stack.isEmpty ( ) ) continue;
+            if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(mmpsNBTTagName)){
 				stack.damageItem((int)Math.ceil(stack.getMaxDamage() * 0.25f), caster);
 			}else{
 				NBTTagCompound subCompound = (NBTTagCompound)stack.getTagCompound().getTag(mmpsNBTTagName);

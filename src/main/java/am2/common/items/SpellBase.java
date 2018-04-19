@@ -1,9 +1,5 @@
 package am2.common.items;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import am2.ArsMagica2;
 import am2.api.extensions.ISpellCaster;
 import am2.api.spell.Operation;
@@ -20,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -34,6 +29,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class SpellBase extends ItemSpellBase{
 	public SpellBase(){
@@ -66,12 +64,11 @@ public class SpellBase extends ItemSpellBase{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		if (!stack.hasTagCompound()) return;
-		
-		ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
+        if ( !stack.hasTagCompound ( ) || !stack.hasCapability ( SpellCaster.INSTANCE , null ) ) return;
 
-		tooltip.add("Mana Cost : " + caster.getManaCost(((EntityLivingBase)caster).world, (EntityLivingBase)caster));
-	}
+        ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
+        tooltip.add ( "Mana Cost : " + caster.getManaCost ( ( (EntityLivingBase) caster ).world , (EntityLivingBase) caster ) );
+    }
 
 	@Override
 	public int getMaxItemUseDuration(ItemStack par1ItemStack){
