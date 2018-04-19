@@ -1,13 +1,13 @@
 package am2.common.bosses;
 
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.api.sources.DamageSourceFrost;
 import am2.api.sources.DamageSourceLightning;
 import am2.common.bosses.ai.EntityAICastSpell;
 import am2.common.bosses.ai.EntityAIChaosWaterBolt;
 import am2.common.bosses.ai.EntityAICloneSelf;
 import am2.common.bosses.ai.EntityAISpinAttack;
-import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.packet.AMNetHandler;
@@ -238,22 +238,22 @@ public class EntityWaterGuardian extends AM2Boss {
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource par1DamageSource){
-		return AMSounds.WATER_GUARDIAN_HIT;
+		return SoundHandler.WATER_GUARDIAN_HIT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound(){
-		return AMSounds.WATER_GUARDIAN_DEATH;
+		return SoundHandler.WATER_GUARDIAN_DEATH;
 	}
 
 	@Override
 	protected SoundEvent getAmbientSound(){
-		return AMSounds.WATER_GUARDIAN_IDLE;
+		return SoundHandler.WATER_GUARDIAN_IDLE;
 	}
 
 	@Override
 	public SoundEvent getAttackSound(){
-		return AMSounds.WATER_GUARDIAN_ATTACK;
+		return SoundHandler.WATER_GUARDIAN_ATTACK;
 	}
 
 	@Override

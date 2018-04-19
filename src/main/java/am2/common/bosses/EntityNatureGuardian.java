@@ -3,13 +3,13 @@ package am2.common.bosses;
 import am2.ArsMagica2;
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.api.sources.DamageSourceFire;
 import am2.api.sources.DamageSourceFrost;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.client.particles.ParticleOrbitEntity;
 import am2.common.bosses.ai.*;
-import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.packet.AMNetHandler;
 import am2.common.utils.NPCSpells;
@@ -124,8 +124,9 @@ public class EntityNatureGuardian extends AM2Boss{
 	public ItemStack getHeldItem(EnumHand hand){
 		return null;
 	}
-	
-	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {};
+
+	public void setItemStackToSlot ( EntityEquipmentSlot slotIn , ItemStack stack ) {
+	}
 
 	@Override
 	public boolean isActionValid(BossActions action){
@@ -164,22 +165,22 @@ public class EntityNatureGuardian extends AM2Boss{
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
-		return AMSounds.NATURE_GUARDIAN_HIT;
+		return SoundHandler.NATURE_GUARDIAN_HIT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound(){
-		return AMSounds.NATURE_GUARDIAN_DEATH;
+		return SoundHandler.NATURE_GUARDIAN_DEATH;
 	}
 
 	@Override
 	protected SoundEvent getAmbientSound(){
-		return AMSounds.NATURE_GUARDIAN_IDLE;
+		return SoundHandler.NATURE_GUARDIAN_IDLE;
 	}
 
 	@Override
 	public SoundEvent getAttackSound(){
-		return AMSounds.NATURE_GUARDIAN_ATTACK;
+		return SoundHandler.NATURE_GUARDIAN_ATTACK;
 	}
 
 	@Override

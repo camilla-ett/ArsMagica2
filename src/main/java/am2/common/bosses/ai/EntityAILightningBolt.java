@@ -2,9 +2,9 @@ package am2.common.bosses.ai;
 
 import am2.ArsMagica2;
 import am2.api.DamageSources;
+import am2.api.handlers.SoundHandler;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.EntityLightningGuardian;
-import am2.common.defs.AMSounds;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundCategory;
@@ -61,7 +61,7 @@ public class EntityAILightningBolt extends AIAnimation{
 			if (guardian.getTicksInCurrentAction() == 7){
 				doStrike();
 				if (!guardian.world.isRemote)
-					guardian.world.playSound(guardian.posX, guardian.posY, guardian.posZ, AMSounds.LIGHTNING_GUARDIAN_ATTACK, SoundCategory.HOSTILE, 1.0f, (float)(0.5 + guardian.getRNG().nextDouble() * 0.5f), false);
+					guardian.world.playSound ( guardian.posX , guardian.posY , guardian.posZ , SoundHandler.LIGHTNING_GUARDIAN_ATTACK , SoundCategory.HOSTILE , 1.0f , (float) ( 0.5 + guardian.getRNG ( ).nextDouble ( ) * 0.5f ) , false );
 			}
 		}
 	}

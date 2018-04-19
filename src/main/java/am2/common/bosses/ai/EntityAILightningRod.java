@@ -2,10 +2,10 @@ package am2.common.bosses.ai;
 
 import am2.ArsMagica2;
 import am2.api.DamageSources;
+import am2.api.handlers.SoundHandler;
 import am2.api.math.AMVector3;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.EntityLightningGuardian;
-import am2.common.defs.AMSounds;
 import am2.common.extensions.EntityExtension;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -91,14 +91,14 @@ public class EntityAILightningRod extends AIAnimation{
 
 			if (ticks > 85 && ticks <= 150){
 				if (!guardian.world.isRemote && ticks % 20 == 0)
-					guardian.world.playSound(guardian.posX, guardian.posY, guardian.posZ, AMSounds.LIGHTNING_GUARDIAN_LIGHTNING_ROD_1, SoundCategory.HOSTILE, 1.0f, guardian.getRNG().nextFloat() * 0.5f + 0.5f, false);
+					guardian.world.playSound ( guardian.posX , guardian.posY , guardian.posZ , SoundHandler.LIGHTNING_GUARDIAN_LIGHTNING_ROD_1 , SoundCategory.HOSTILE , 1.0f , guardian.getRNG ( ).nextFloat ( ) * 0.5f + 0.5f , false );
 			}
 
 			if (ticks > 25 && ticks <= 85){
 				forcePosition(target, startPos.x, startPos.y + ((ticks - 25) * 0.1), startPos.z);
 				EntityExtension.For(target).setDisableGravity(true);
 				if (!guardian.world.isRemote && ticks == 30)
-					guardian.world.playSound(guardian.posX, guardian.posY, guardian.posZ, AMSounds.LIGHTNING_GUARDIAN_LIGHTNING_ROD_START, SoundCategory.HOSTILE, 1.0f, guardian.getRNG().nextFloat() * 0.5f + 0.5f, false);
+					guardian.world.playSound ( guardian.posX , guardian.posY , guardian.posZ , SoundHandler.LIGHTNING_GUARDIAN_LIGHTNING_ROD_START , SoundCategory.HOSTILE , 1.0f , guardian.getRNG ( ).nextFloat ( ) * 0.5f + 0.5f , false );
 			}else if (ticks > 85 && ticks <= 105){
 				forcePosition(target, startPos.x, startPos.y + 6, startPos.z);
 			}else if (ticks > 105 && ticks <= 150){
@@ -108,7 +108,7 @@ public class EntityAILightningRod extends AIAnimation{
 				}
 				ArsMagica2.proxy.particleManager.BoltFromEntityToEntity(guardian.world, guardian, guardian, target, 0);
 				if (!guardian.world.isRemote && ticks % 20 == 0)
-					guardian.world.playSound(guardian.posX, guardian.posY, guardian.posZ, AMSounds.LIGHTNING_GUARDIAN_IDLE, SoundCategory.HOSTILE, 1.0f, guardian.getRNG().nextFloat() * 0.5f + 0.5f, false);
+					guardian.world.playSound ( guardian.posX , guardian.posY , guardian.posZ , SoundHandler.LIGHTNING_GUARDIAN_IDLE , SoundCategory.HOSTILE , 1.0f , guardian.getRNG ( ).nextFloat ( ) * 0.5f + 0.5f , false );
 			}else if (ticks > 150 && ticks <= 158){
 				if (!hasThrown){
 					target.addVelocity(0, -3, 0);

@@ -1,9 +1,9 @@
 package am2.common.bosses.ai;
 
 import am2.api.DamageSources;
+import am2.api.handlers.SoundHandler;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.EntityLightningGuardian;
-import am2.common.defs.AMSounds;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.SoundCategory;
@@ -65,7 +65,7 @@ public class EntityAIStatic extends AIAnimation{
 			guardian.getLookHelper().setLookPositionWithEntity(guardian.getAttackTarget(), 10, 10);
 			if (guardian.getTicksInCurrentAction() == 20){
 				if (!guardian.world.isRemote)
-					guardian.world.playSound(guardian.posX, guardian.posY, guardian.posZ, AMSounds.LIGHTNING_GUARDIAN_STATIC, SoundCategory.HOSTILE, 1.0f, guardian.getRNG().nextFloat() * 0.5f + 0.5f, false);
+					guardian.world.playSound ( guardian.posX , guardian.posY , guardian.posZ , SoundHandler.LIGHTNING_GUARDIAN_STATIC , SoundCategory.HOSTILE , 1.0f , guardian.getRNG ( ).nextFloat ( ) * 0.5f + 0.5f , false );
 			}
 			if (guardian.getTicksInCurrentAction() > 66 && guardian.getTicksInCurrentAction() % 15 == 0 && guardian.getEntitySenses().canSee(guardian.getAttackTarget())){
 				doStrike();

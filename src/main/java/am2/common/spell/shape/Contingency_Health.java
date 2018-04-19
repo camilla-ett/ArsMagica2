@@ -1,12 +1,12 @@
 package am2.common.spell.shape;
 
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
-import am2.common.defs.SoundDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.items.ItemOre;
 import am2.common.spell.ContingencyType;
@@ -71,8 +71,8 @@ public class Contingency_Health extends SpellShape {
 
 	@Override
 	public SoundEvent getSoundForAffinity(Affinity affinity, SpellData stack, World world) {
-		return SoundDefs.CONTINGENCY;
-	}
+        return SoundHandler.CONTINGENCY;
+    }
 
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {

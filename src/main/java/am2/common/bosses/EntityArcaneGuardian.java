@@ -1,10 +1,10 @@
 package am2.common.bosses;
 
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.common.bosses.ai.EntityAICastSpell;
 import am2.common.bosses.ai.EntityAIDispel;
 import am2.common.bosses.ai.ISpellCastCallback;
-import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.packet.AMNetHandler;
 import am2.common.utils.NPCSpells;
@@ -221,22 +221,22 @@ public class EntityArcaneGuardian extends AM2Boss{
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
-		return AMSounds.ARCANE_GUARDIAN_HIT;
+		return SoundHandler.ARCANE_GUARDIAN_HIT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound(){
-		return AMSounds.ARCANE_GUARDIAN_DEATH;
+		return SoundHandler.ARCANE_GUARDIAN_DEATH;
 	}
 
 	@Override
 	protected SoundEvent getAmbientSound(){
-		return AMSounds.ARCANE_GUARDIAN_IDLE;
+		return SoundHandler.ARCANE_GUARDIAN_IDLE;
 	}
 
 	@Override
 	public SoundEvent getAttackSound(){
-		return AMSounds.ARCANE_GUARDIAN_SPELL;
+		return SoundHandler.ARCANE_GUARDIAN_SPELL;
 	}
 
 	@Override

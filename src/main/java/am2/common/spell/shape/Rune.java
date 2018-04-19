@@ -1,13 +1,13 @@
 package am2.common.spell.shape;
 
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.api.spell.Operation;
 import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
-import am2.common.defs.SoundDefs;
 import am2.common.spell.SpellCastResult;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.EnumDyeColor;
@@ -88,6 +88,6 @@ public class Rune extends SpellShape {
 
 	@Override
 	public SoundEvent getSoundForAffinity(Affinity affinity, SpellData stack, World world) {
-		return SoundDefs.RUNE_CAST;
-	}
+        return SoundHandler.RUNE_CAST;
+    }
 }

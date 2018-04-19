@@ -3,10 +3,10 @@ package am2.common.blocks.tileentity;
 
 import am2.ArsMagica2;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.handlers.SoundHandler;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.common.blocks.BlockCalefactor;
-import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemFocusCharge;
 import am2.common.items.ItemFocusMana;
@@ -292,7 +292,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				if (!this.world.isRemote){
 					this.smeltItem();
 				}else{
-					world.playSound(pos.getX(), pos.getY(), pos.getZ(), AMSounds.CALEFACTOR_BURN, SoundCategory.BLOCKS, 0.2f, 1.0f, true);
+					world.playSound ( pos.getX ( ) , pos.getY ( ) , pos.getZ ( ) , SoundHandler.CALEFACTOR_BURN , SoundCategory.BLOCKS , 0.2f , 1.0f , true );
 				}
 				this.timeSpentCooking = 0;
 				if (!world.isRemote){
@@ -430,7 +430,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		calefactorItemStacks = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt ( i );
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < calefactorItemStacks.length){
 				calefactorItemStacks[byte0] = new ItemStack(nbttagcompound1);

@@ -2,13 +2,13 @@ package am2.common.bosses;
 
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.api.sources.DamageSourceFrost;
 import am2.api.sources.DamageSourceLightning;
 import am2.common.bosses.ai.EntityAIDispel;
 import am2.common.bosses.ai.EntityAISmash;
 import am2.common.bosses.ai.EntityAIStrikeAttack;
 import am2.common.bosses.ai.EntityAIThrowRock;
-import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.packet.AMNetHandler;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -17,6 +17,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
+
+import static am2.api.handlers.SoundHandler.*;
 
 public class EntityEarthGuardian extends AM2Boss{
 
@@ -116,22 +118,22 @@ public class EntityEarthGuardian extends AM2Boss{
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
-		return AMSounds.EARTH_GUARDIAN_HIT;
+		return EARTH_GUARDIAN_HIT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound(){
-		return AMSounds.EARTH_GUARDIAN_DEATH;
+		return SoundHandler.EARTH_GUARDIAN_DEATH;
 	}
 
 	@Override
 	protected SoundEvent getAmbientSound(){
-		return AMSounds.EARTH_GUARDIAN_IDLE;
+		return EARTH_GUARDIAN_IDLE;
 	}
 
 	@Override
 	public SoundEvent getAttackSound(){
-		return AMSounds.EARTH_GUARDIAN_ATTACK;
+		return EARTH_GUARDIAN_ATTACK;
 	}
 
 	@Override

@@ -2,10 +2,10 @@ package am2.common.blocks.tileentity;
 
 import am2.ArsMagica2;
 import am2.api.blocks.*;
+import am2.api.handlers.SoundHandler;
 import am2.api.math.AMVector3;
 import am2.common.AMChunkLoader;
 import am2.common.blocks.BlockKeystoneReceptacle;
-import am2.common.defs.AMSounds;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.PotionEffectsDefs;
 import am2.common.power.PowerNodeRegistry;
@@ -177,7 +177,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				}
 			}
 		}else{
-			world.playSound(pos.getX(), pos.getY(), pos.getZ(), AMSounds.GATEWAY_OPEN, SoundCategory.BLOCKS, 1.0f, 1.0f, true);
+			world.playSound ( pos.getX ( ) , pos.getY ( ) , pos.getZ ( ) , SoundHandler.GATEWAY_OPEN , SoundCategory.BLOCKS , 1.0f , 1.0f , true );
 		}
 	}
 
@@ -440,7 +440,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt ( i );
 			byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = new ItemStack(nbttagcompound1);

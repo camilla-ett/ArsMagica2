@@ -1,14 +1,12 @@
 package am2.common.entity;
 
-import com.google.common.base.Optional;
-
 import am2.ArsMagica2;
+import am2.api.handlers.SoundHandler;
 import am2.api.math.AMVector3;
 import am2.client.ShadowSkinHelper;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFloatUpward;
 import am2.common.blocks.tileentity.TileEntityCraftingAltar;
-import am2.common.defs.AMSounds;
 import am2.common.entity.ai.EntityAISpellmaking;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.entity.EntityLiving;
@@ -55,7 +53,7 @@ public class EntityShadowHelper extends EntityLiving{
 		super.onDeath(par1DamageSource);
 		if (world.isRemote){
 			spawnParticles();
-			world.playSound(posX, posY, posZ, AMSounds.CRAFTING_ALTAR_CREATE_SPELL, SoundCategory.NEUTRAL, 1.0f, 1.0f, true);
+			world.playSound ( posX , posY , posZ , SoundHandler.CRAFTING_ALTAR_CREATE_SPELL , SoundCategory.NEUTRAL , 1.0f , 1.0f , true );
 		}
 	}
 
