@@ -20,7 +20,7 @@ public class ItemFocusCreature extends ItemFilterFocus{
 				"LFT",
 				" W ",
 				'P', Items.PORKCHOP,
-				'B', Items.LEATHER,
+				'l' , Items.LEATHER ,
 				'F', ItemDefs.standardFocus,
 				'T', Items.FEATHER,
 				'W', Blocks.WOOL,

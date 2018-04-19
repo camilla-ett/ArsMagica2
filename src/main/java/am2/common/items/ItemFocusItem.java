@@ -25,9 +25,9 @@ public class ItemFocusItem extends ItemFilterFocus{
 				"PFS",
 				" W ",
 				'C', Blocks.COBBLESTONE,
-				'B', Items.STONE_PICKAXE,
+				'P' , Items.STONE_PICKAXE ,
 				'F', ItemDefs.standardFocus,
-				'T', Items.IRON_SHOVEL,
+				'S' , Items.IRON_SHOVEL ,
 				'W', Blocks.CRAFTING_TABLE
 		};
 	}

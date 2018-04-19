@@ -73,7 +73,7 @@ public class AMRecipes {
                 "PDP", "OAO", "PPP",
                 'P', "plankWood",
                 'O', Blocks.OBSIDIAN,
-                'A', "arcaneAsh",
+                'A' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_ARCANEASH ) ,
                 'D', "gemDiamond");
 
         //essence conduit
@@ -86,7 +86,7 @@ public class AMRecipes {
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.summoner"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.summoner, 1), "GVG", "GOG", "OOO",
                 'G', "ingotGold",
                 'O', Blocks.OBSIDIAN,
-                'V', "dustVinteum");
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) );
 
         //Calefactor
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.calefactor"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.calefactor, 1), "L L",
@@ -95,21 +95,21 @@ public class AMRecipes {
                 'L', new ItemStack(Items.DYE, 1, 4), //lapis
                 'S', "stone",
                 'R', "dustRedstone",
-                'V', "dustVinteum");
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) );
 
         //keystone recepticle
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.keystoneRecepticle"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.keystoneRecepticle, 1), "SVS", "EPE", "SVS",
                 'P', new ItemStack(ItemDefs.essence, 1, 9),
                 'S', Blocks.STONEBRICK,
                 'E', Items.ENDER_EYE,
-                'V', "dustVinteum");
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) );
 
         //astral barrier
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.astralBarrier"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.astralBarrier, 1), "WVW", "E E", "WVW",
                 //Character.valueOf('P'), new ItemStack(ItemDefs.essence, 1, ItemDefs.essence.META_ENDER),
                 'W', Blocks.COBBLESTONE_WALL,
                 'E', Items.ENDER_EYE,
-                'V', "dustVinteum");
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) );
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.seerStone"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.seerStone, 1), " E ", "SRS",
                 'S', "stone", //stone wall
@@ -119,7 +119,7 @@ public class AMRecipes {
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.keystoneChest"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.keystoneChest), "WRW", "WVW", "WRW",
                 'W', "plankWood",
                 'R', new ItemStack(ItemDefs.rune, 1, 0),
-                'V', "dustVinteum");
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) );
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.lectern"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.lectern), "SSS", " P ",
                 'S', "slabWood",
@@ -133,14 +133,14 @@ public class AMRecipes {
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.manaDrain"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.manaDrain), "WPW", "VAV", "WBW",
                 'B', "gemBlueTopaz",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'A', new ItemStack(ItemDefs.essence, 1, Affinity.ARCANE.getID()),
                 'W', BlockDefs.magicWall,
                 'P', new ItemStack(ItemDefs.core, 1, ItemCore.META_PURE));
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.arcaneReconstructor"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.arcaneReconstructor), "SWS", "VDV", "SOS",
                 'S', "stone",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'D', "gemDiamond",
                 'W', BlockDefs.magicWall,
                 'O', Blocks.OBSIDIAN);
@@ -158,28 +158,28 @@ public class AMRecipes {
                 "SSS",
                 'C', "gemChimerite",
                 'I', "ingotIron",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', Blocks.STONEBRICK);
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.manaBattery"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.manaBattery), "IVI",
                 "VAV",
                 "IVI",
                 'I', "gemChimerite",
-                'V', "dustVinteum",
-                'A', "arcaneAsh");
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
+                'A' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_ARCANEASH ) );
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.magicWall"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.magicWall, 16, 0), "VSV",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', "stone");
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.craftingAltar"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.craftingAltar), "V",
                 "S",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', "stone");
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.vinteumTorch"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.vinteumTorch, 4), "V",
                 "S",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', "stickWood");
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.inscriptionTable"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.inscriptionTable),
@@ -204,13 +204,13 @@ public class AMRecipes {
                 "RVR",
                 "RRR",
                 'R', "dustRedstone",
-                'V', "dustVinteum");
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) );
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.ironInlay"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.ironInlay, 4, 0), "III",
                 "IVI",
                 "III",
                 'I', "ingotIron",
-                'V', "arcaneAsh");
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_ARCANEASH ) );
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.goldInlay"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.goldInlay, 4, 0), "GGG",
                 "GVG",
@@ -264,7 +264,7 @@ public class AMRecipes {
                 "DBD",
                 "IDI",
                 'I', "ingotIron",
-                'D', "dustVinteum",
+                'D' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'B', new ItemStack(BlockDefs.blocks, 1, EnumBlockType.CHIMERITE.ordinal()));
 
         //Import Gem
@@ -281,7 +281,7 @@ public class AMRecipes {
                 "GDG",
                 " G ",
                 'G', "gemBlueTopaz",
-                'D', "dyeBlue" //Lapis
+                'D' , new ItemStack ( Items.DYE , 1 , EnumDyeColor.BLUE.getMetadata ( ) ) //Lapis
         );
 
         //Final Export Gem
@@ -289,7 +289,7 @@ public class AMRecipes {
                 "GDG",
                 " G ",
                 'G', "gemBlueTopaz",
-                'D', "dyeGray" //Lapis
+                'D' , new ItemStack ( Items.DYE , 1 , EnumDyeColor.GRAY.getMetadata ( ) ) //Lapis
         );
 
         //Like Export Gem
@@ -297,7 +297,7 @@ public class AMRecipes {
                 "DED",
                 "GDG",
                 'G', "gemBlueTopaz",
-                'D', "dyeGreen", //Cactus Green
+                'D' , new ItemStack ( Items.DYE , 1 , EnumDyeColor.GREEN.getMetadata ( ) ) , //Cactus Green
                 'E', new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_OUT));
 
         //Regulate Export Gem
@@ -305,7 +305,7 @@ public class AMRecipes {
                 "DED",
                 "GDG",
                 'G', "gemBlueTopaz",
-                'D', "dyePurple", //Purple Dye
+                'D' , new ItemStack ( Items.DYE , 1 , EnumDyeColor.PURPLE.getMetadata ( ) ) , //Purple Dye
                 'E', new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_OUT));
 
         //Set Export Gem
@@ -331,7 +331,7 @@ public class AMRecipes {
                 "DSD",
                 'S', "gemSunstone",
                 'G', "gemBlueTopaz",
-                'D', "dyeRed",
+                'D' , new ItemStack ( Items.DYE , 1 , EnumDyeColor.RED.getMetadata ( ) ) ,
                 'E', new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_SET_EXPORT));
 
         //Spell Export Gem
@@ -344,15 +344,15 @@ public class AMRecipes {
                 'R', new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_REGULATE_MULTI));
 
         //Gem Conversions
-        createTier2GemConverstionRecipies(new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_LIKE_EXPORT), "dyeGreen");
-        createTier2GemConverstionRecipies(new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_REGULATE_EXPORT), "dyePurple");
+        createTier2GemConverstionRecipies ( new ItemStack ( BlockDefs.crystalMarker , 1 , BlockCrystalMarker.META_LIKE_EXPORT ) , new ItemStack ( Items.DYE , 1 , EnumDyeColor.GREEN.getMetadata ( ) ) );
+        createTier2GemConverstionRecipies ( new ItemStack ( BlockDefs.crystalMarker , 1 , BlockCrystalMarker.META_REGULATE_EXPORT ) , new ItemStack ( Items.DYE , 1 , EnumDyeColor.PURPLE.getMetadata ( ) ) );
         createTier2GemConverstionRecipies ( new ItemStack ( BlockDefs.crystalMarker , 1 , BlockCrystalMarker.META_SET_EXPORT ) , new ItemStack ( Items.DYE , 1 , EnumDyeColor.LIGHT_BLUE.getMetadata ( ) ) );
 
         //Obelisk
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.obelisk"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(BlockDefs.obelisk), "VSV",
                 "SCS",
                 "VSV",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', "stone",
                 'C', new ItemStack(Blocks.STONEBRICK, 1, 3));
 
@@ -420,25 +420,25 @@ public class AMRecipes {
                 'I', "ingotIron",
                 'A', BlockDefs.cerublossom,
                 'D', BlockDefs.desertNova,
-                'V', "dustVinteum");
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) );
 
         //spell book colors
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.spellBook"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.spellBook, 1, 0), "dyeBrown", new ItemStack(ItemDefs.spellBook, 1, OreDictionary.WILDCARD_VALUE));  //brown
-        GameRegistry.addShapedRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.spellBook , 1 , 1 ) , new ItemStack ( Items.DYE , 1 , EnumDyeColor.CYAN.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) );  //cyan
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.spellBook"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.spellBook, 1, 2), "dyeGray", new ItemStack(ItemDefs.spellBook, 1, OreDictionary.WILDCARD_VALUE));  //gray
-        GameRegistry.addShapedRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.spellBook , 1 , 3 ) , new ItemStack ( Items.DYE , 1 , EnumDyeColor.LIGHT_BLUE.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) );  //light blue
-        GameRegistry.addShapedRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.spellBook , 1 , 4 ) , new ItemStack ( Items.DYE , 1 , EnumDyeColor.WHITE.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) );  //white
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.spellBook"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.spellBook, 1, 5), "dyeBlack", new ItemStack(ItemDefs.spellBook, 1, OreDictionary.WILDCARD_VALUE));  //black
-        GameRegistry.addShapedRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.spellBook , 1 , 6 ) , new ItemStack ( Items.DYE , 1 , EnumDyeColor.ORANGE.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) );  //orange
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.spellBook"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.spellBook, 1, 7), "dyePurple", new ItemStack(ItemDefs.spellBook, 1, OreDictionary.WILDCARD_VALUE));  //purple
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.spellBook"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.spellBook, 1, 8), "dyeBlue", new ItemStack(ItemDefs.spellBook, 1, OreDictionary.WILDCARD_VALUE));  //blue
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.spellBook"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.spellBook, 1, 9), "dyeGreen", new ItemStack(ItemDefs.spellBook, 1, OreDictionary.WILDCARD_VALUE));  //green
-        GameRegistry.addShapedRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.spellBook , 1 , 10 ) , new ItemStack ( Items.DYE , 1 , EnumDyeColor.YELLOW.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) );  //yellow
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.spellBook"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.spellBook, 1, 11), "dyeRed", new ItemStack(ItemDefs.spellBook, 1, OreDictionary.WILDCARD_VALUE));  //red
-        GameRegistry.addShapedRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.spellBook , 1 , 12 ) , new ItemStack ( Items.DYE , 1 , EnumDyeColor.LIME.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) );  //lime
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.spellBook"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.spellBook, 1, 13), "dyePink", new ItemStack(ItemDefs.spellBook, 1, OreDictionary.WILDCARD_VALUE));  //pink
-        GameRegistry.addShapedRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.spellBook , 1 , 14 ) , new ItemStack ( Items.DYE , 1 , EnumDyeColor.MAGENTA.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) );  //magenta
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.spellBook"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.spellBook, 1, 15), "dyeLightGray", new ItemStack(ItemDefs.spellBook, 1, OreDictionary.WILDCARD_VALUE));  //light gray
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 0 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.BROWN.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//brown
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 1 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.CYAN.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//cyan
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 2 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.GRAY.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//gray
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 3 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.LIGHT_BLUE.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//lightblue
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 4 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.WHITE.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//white
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 5 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.BLACK.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//black
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 6 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.ORANGE.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//orange
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 7 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.PURPLE.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//purple
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 8 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.BLUE.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//blue
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 9 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.GREEN.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//green
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 10 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.YELLOW.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//yellow
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 11 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.RED.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//red
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 12 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.LIME.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//lime
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 13 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.PINK.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//pink
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 14 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.MAGENTA.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//magenta
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.spellBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.spellBook , 1 , 15 ) , Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.SILVER.getMetadata ( ) ) , new ItemStack ( ItemDefs.spellBook , 1 , OreDictionary.WILDCARD_VALUE ) ) );//lightgray
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.runeBag"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.runeBag), "LLL", "W W", "LLL",
                 'L', Items.LEATHER,
@@ -448,7 +448,7 @@ public class AMRecipes {
                 "ASA",
                 " H ",
                 'S', "stickWood",
-                'A', "arcaneAsh",
+                'A' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_ARCANEASH ) ,
                 'H', Blocks.HAY_BLOCK);
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.woodenLeg"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.woodenLeg, 1), "P",
@@ -458,13 +458,13 @@ public class AMRecipes {
                 'L', "slabWood",
                 'S', "stickWood");
 
-        GameRegistry.addShapelessRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.evilBook"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.evilBook" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.evilBook), Ingredient.fromItem(ItemDefs.woodenLeg),
                 Ingredient.fromItem(ItemDefs.arcaneCompendium));
 
-        GameRegistry.addShapelessRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.journal"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.journal), Ingredient.fromStacks(new ItemStack(ItemDefs.essence, 1, Affinity.ARCANE.getID()), new ItemStack(Items.WRITABLE_BOOK)));
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.journal" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.journal ) , Ingredient.fromStacks ( new ItemStack ( ItemDefs.essence , 1 , Affinity.ARCANE.getID ( ) ) , new ItemStack ( Items.WRITABLE_BOOK ) ) );
 
-        GameRegistry.addShapelessRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.manaPotionBundle"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.manaPotionBundle" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.manaPotionBundle, 1, 3), Ingredient.fromStacks(
                         new ItemStack(ItemDefs.lesserManaPotion, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(ItemDefs.lesserManaPotion, 1, OreDictionary.WILDCARD_VALUE),
@@ -472,7 +472,7 @@ public class AMRecipes {
                         new ItemStack(Items.STRING)
                 ));
 
-        GameRegistry.addShapelessRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.manaPotionBundle"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.manaPotionBundle" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.manaPotionBundle, 1, (1 << 8) + 3), Ingredient.fromStacks(
                         new ItemStack(ItemDefs.standardManaPotion, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(ItemDefs.standardManaPotion, 1, OreDictionary.WILDCARD_VALUE),
@@ -480,7 +480,7 @@ public class AMRecipes {
                         new ItemStack(Items.STRING)
                 ));
 
-        GameRegistry.addShapelessRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.manaPotionBundle"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.manaPotionBundle" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.manaPotionBundle, 1, (2 << 8) + 3), Ingredient.fromStacks(
                         new ItemStack(ItemDefs.greaterManaPotion, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(ItemDefs.greaterManaPotion, 1, OreDictionary.WILDCARD_VALUE),
@@ -488,7 +488,7 @@ public class AMRecipes {
                         new ItemStack(Items.STRING)
                 ));
 
-        GameRegistry.addShapelessRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.manaPotionBundle"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.manaPotionBundle" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.manaPotionBundle, 1, (3 << 8) + 3), Ingredient.fromStacks(
                         new ItemStack(ItemDefs.epicManaPotion, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(ItemDefs.epicManaPotion, 1, OreDictionary.WILDCARD_VALUE),
@@ -496,7 +496,7 @@ public class AMRecipes {
                         new ItemStack(Items.STRING)
                 ));
 
-        GameRegistry.addShapelessRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.manaPotionBundle"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.manaPotionBundle" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.manaPotionBundle, 1, (4 << 8) + 3), Ingredient.fromStacks(
                         new ItemStack(ItemDefs.legendaryManaPotion, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(ItemDefs.legendaryManaPotion, 1, OreDictionary.WILDCARD_VALUE),
@@ -505,99 +505,99 @@ public class AMRecipes {
                 ));
 
         //blank rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.blankRune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapedRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.blankRune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.blankRune, 2),
                 " S ", "SSS", "SS ",
                 'S', "cobblestone");
         //blue rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage()),
-                "dyeBlue",
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.BLUE.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //red rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.RED.getDyeDamage()),
-                "dyeRed",
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.RED.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //yellow rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.YELLOW.getDyeDamage()),
-                new ItemStack ( Items.DYE , 1 , EnumDyeColor.YELLOW.getMetadata ( ) ) ,
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.YELLOW.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //orange rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
-                new ItemStack ( Items.DYE , 1 , EnumDyeColor.ORANGE.getMetadata ( ) ) ,
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.ORANGE.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //green rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
-                "dyeGreen",
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.GREEN.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //purple rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PURPLE.getDyeDamage()),
-                "dyePurple",
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.PURPLE.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //white rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage()),
-                new ItemStack ( Items.DYE , 1 , EnumDyeColor.WHITE.getMetadata ( ) ) ,
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.WHITE.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //black rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
-                "dyeBlack",
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.BLACK.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //brown rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BROWN.getDyeDamage()),
-                "dyeBrown",
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.BROWN.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //cyan rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.CYAN.getDyeDamage()),
-                new ItemStack ( Items.DYE , 1 , EnumDyeColor.CYAN.getMetadata ( ) ) ,
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.CYAN.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //gray rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GRAY.getDyeDamage()),
-                "dyeGray",
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.GRAY.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //light blue rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.LIGHT_BLUE.getDyeDamage()),
-                new ItemStack ( Items.DYE , 1 , EnumDyeColor.LIGHT_BLUE.getMetadata ( ) ) ,
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.LIGHT_BLUE.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //light gray rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.SILVER.getDyeDamage()),
-                "dyeLightGray",
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.SILVER.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //magenta rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.MAGENTA.getDyeDamage()),
-                new ItemStack ( Items.DYE , 1 , EnumDyeColor.MAGENTA.getMetadata ( ) ) ,
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.MAGENTA.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //pink rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.PINK.getDyeDamage()),
-                "dyePink",
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.PINK.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
         //pink rune
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.rune"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.rune" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.rune, 1, EnumDyeColor.LIME.getDyeDamage()),
-                new ItemStack ( Items.DYE , 1 , EnumDyeColor.LIME.getMetadata ( ) ) ,
-                new ItemStack(ItemDefs.blankRune));
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.LIME.getMetadata ( ) ) ,
+                        new ItemStack ( ItemDefs.blankRune ) ) );
 
         //wizard chalk
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.chalk"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.chalk" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                 new ItemStack(ItemDefs.chalk, 1),
-                new ItemStack ( Items.DYE , 1 , EnumDyeColor.WHITE.getMetadata ( ) ) ,
+                Ingredient.fromStacks ( new ItemStack ( Items.DYE , 1 , EnumDyeColor.WHITE.getMetadata ( ) ) ,
                 new ItemStack(Items.CLAY_BALL),
-                "dustVinteum",
+                        new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 new ItemStack(Items.FLINT),
-                new ItemStack(Items.PAPER));
+                        new ItemStack ( Items.PAPER ) ) );
 
         //empty flicker jar
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.chalk"), new ResourceLocation(ArsMagica2.MODID, "shaped"),
@@ -734,40 +734,40 @@ public class AMRecipes {
                 "GIG",
                 'G', "ingotGold",
                 'I', "ingotIron",
-                'V', "dustVinteum");
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) );
 
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.itemOre"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM), new ItemStack(BlockDefs.cerublossom),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.itemOre" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_PURIFIED_VINTEUM ) , Ingredient.fromStacks ( new ItemStack ( BlockDefs.cerublossom ) ,
                 new ItemStack(BlockDefs.desertNova),
-                "dustVinteum",
-                "arcaneAsh");
+                new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
+                new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_ARCANEASH ) ) );
 
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.manaCake"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.manaCake, 3, 0), new ItemStack(BlockDefs.cerublossom),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.manaCake" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.manaCake , 3 , 0 ) , Ingredient.fromStacks ( new ItemStack ( BlockDefs.cerublossom ) ,
                 new ItemStack(BlockDefs.desertNova),
-                new ItemStack(Items.SUGAR),
-                "cropWheat");
+                new ItemStack ( Items.SUGAR ) ,
+                new ItemStack ( Items.WHEAT ) ) );
 
         BrewingRecipeRegistry.addRecipe(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM), new ItemStack(ItemDefs.greaterManaPotion));
         BrewingRecipeRegistry.addRecipe(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH), new ItemStack(ItemDefs.epicManaPotion));
         BrewingRecipeRegistry.addRecipe(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_PURIFIED_VINTEUM), new ItemStack(ItemDefs.legendaryManaPotion));
 
-        GameRegistry.addShapelessRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.lesserManaPotion"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.lesserManaPotion), Ingredient.fromStacks(
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.lesserManaPotion" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.lesserManaPotion ) , Ingredient.fromStacks (
                 new ItemStack(Items.WHEAT_SEEDS),
                 new ItemStack(Items.SUGAR),
                 new ItemStack(Items.POTIONITEM, 1, Short.MAX_VALUE)
         ));
 
-        GameRegistry.addShapelessRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.manaCake"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.standardManaPotion), Ingredient.fromStacks(
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.manaCake" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.standardManaPotion ) , Ingredient.fromStacks (
                 new ItemStack(Items.GUNPOWDER),
                 new ItemStack(ItemDefs.lesserManaPotion, 1, Short.MAX_VALUE)
         ));
 
 //		GameRegistry.addShapedRecipe(new ShapelessOreRecipe(new ItemStack(ItemDefs.greaterManaPotion), new Object[]{
-//				"dustVinteum",
+//				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM),
 //				new ItemStack(ItemDefs.standardManaPotion, 1, Short.MAX_VALUE)
 //		}));
 //
 //		GameRegistry.addShapedRecipe(new ShapelessOreRecipe(new ItemStack(ItemDefs.epicManaPotion), new Object[]{
-//				"arcaneAsh",
+//				new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ARCANEASH),
 //				new ItemStack(ItemDefs.greaterManaPotion, 1, Short.MAX_VALUE)
 //		}));
 //
@@ -776,9 +776,9 @@ public class AMRecipes {
 //				new ItemStack(ItemDefs.epicManaPotion, 1, Short.MAX_VALUE)
 //		});
 
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.crystalWrench"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.liquidEssenceBottle), "gemChimerite",
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.crystalWrench" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.liquidEssenceBottle ) , Ingredient.fromStacks ( new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_CHIMERITE ) ,
                 new ItemStack(BlockDefs.tarmaRoot),
-                UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, BlockDefs.liquid_essence));
+                UniversalBucket.getFilledBucket ( ForgeModContainer.getInstance ( ).universalBucket , BlockDefs.liquid_essence ) ) );
 
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.lesserFocus"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.lesserFocus), ItemDefs.lesserFocus.getRecipeItems());
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.standardFocus"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.standardFocus), ItemDefs.standardFocus.getRecipeItems());
@@ -795,19 +795,19 @@ public class AMRecipes {
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.bindingCatalyst"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_AXE), "SVS",
                 "SAS",
                 "SVS",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', "slimeball",
                 'A', Items.GOLDEN_AXE);
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.bindingCatalyst"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_PICK), "SVS",
                 "SAS",
                 "SVS",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', "slimeball",
                 'A', Items.GOLDEN_PICKAXE);
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.bindingCatalyst"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_SHOVEL), "SVS",
                 "SAS",
                 "SVS",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', "slimeball",
                 'A', Items.GOLDEN_SHOVEL);
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.bindingCatalyst"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_SWORD), "SVS",
@@ -819,19 +819,19 @@ public class AMRecipes {
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.bindingCatalyst"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_HOE), "SVS",
                 "SAS",
                 "SVS",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', "slimeball",
                 'A', Items.GOLDEN_HOE);
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.bindingCatalyst"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_BOW), "SVS",
                 "SAS",
                 "SVS",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', "slimeball",
                 'A', Items.BOW);
         GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.bindingCatalyst"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_SHIELD), "SVS",
                 "SAS",
                 "SVS",
-                'V', "dustVinteum",
+                'V' , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_VINTEUM ) ,
                 'S', "slimeball",
                 'A', Items.SHIELD);
 
@@ -850,36 +850,36 @@ public class AMRecipes {
                 'L', ItemDefs.lesserFocus,
                 'K', new ItemStack(ItemDefs.itemKeystoneDoor, 1, ItemKeystoneDoor.KEYSTONE_DOOR));
 
-        GameRegistry.addShapedRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.manaMartini" ) , new ResourceLocation ( ArsMagica2.MODID , "shaped" ) , new ItemStack ( ItemDefs.manaMartini ) , new ItemStack ( Blocks.ICE ) ,
-                "cropPotato",
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.manaMartini" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.manaMartini ) , Ingredient.fromStacks ( new ItemStack ( Blocks.ICE ) ,
+                new ItemStack ( Items.POTATO ) ,
                 new ItemStack(Items.SUGAR),
-                "stickWood",
-                new ItemStack(ItemDefs.standardManaPotion));
+                new ItemStack ( Items.STICK ) ,
+                new ItemStack ( ItemDefs.standardManaPotion ) ) );
 
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.inscriptionUpgrade"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.inscriptionUpgrade, 1, 0),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.inscriptionUpgrade" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.inscriptionUpgrade , 1 , 0 ) , Ingredient.fromStacks (
                 new ItemStack(Items.BOOK),
                 new ItemStack(Items.STRING),
                 new ItemStack(Items.FEATHER),
-                "dyeBlack"
+                new ItemStack ( Items.DYE , 1 , EnumDyeColor.BLACK.getMetadata ( ) ) )
         );
 
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.inscriptionUpgrade"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.inscriptionUpgrade, 1, 1),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.inscriptionUpgrade" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.inscriptionUpgrade , 1 , 1 ) , Ingredient.fromStacks (
                 new ItemStack(Blocks.CARPET, 1, Short.MAX_VALUE),
                 new ItemStack(Items.BOOK),
-                new ItemStack(ItemDefs.chalk)
+                new ItemStack ( ItemDefs.chalk ) )
         );
 
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.inscriptionUpgrade"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.inscriptionUpgrade, 1, 2),
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.inscriptionUpgrade" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.inscriptionUpgrade , 1 , 2 ) , Ingredient.fromStacks (
                 new ItemStack(ItemDefs.wardingCandle),
                 new ItemStack(Items.FLINT_AND_STEEL),
                 new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_ANIMALFAT),
                 new ItemStack(Items.GLASS_BOTTLE),
-                new ItemStack(Items.BOOK)
+                new ItemStack ( Items.BOOK ) )
         );
 
-        GameRegistry.addShapelessRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.wordkbenchUpgrade"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.workbenchUpgrade), Ingredient.fromStacks(new ItemStack(BlockDefs.magiciansWorkbench), new ItemStack(Blocks.CHEST), new ItemStack(Blocks.CRAFTING_TABLE), new ItemStack(Blocks.CRAFTING_TABLE), new ItemStack(Items.GOLD_INGOT)));
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.wordkbenchUpgrade" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.workbenchUpgrade ) , Ingredient.fromStacks ( new ItemStack ( BlockDefs.magiciansWorkbench ) , new ItemStack ( Blocks.CHEST ) , new ItemStack ( Blocks.CRAFTING_TABLE ) , new ItemStack ( Blocks.CRAFTING_TABLE ) , new ItemStack ( Items.GOLD_INGOT ) ) );
 
-        GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.deficitCrystal"), new ResourceLocation(ArsMagica2.MODID, "shaped"), new ItemStack(ItemDefs.deficitCrystal), new ItemStack(Items.DIAMOND), "arcaneAsh", new ItemStack(Items.ENDER_EYE));
+        GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.deficitCrystal" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , new ItemStack ( ItemDefs.deficitCrystal ) , Ingredient.fromStacks ( new ItemStack ( Items.DIAMOND ) , new ItemStack ( Items.ENDER_EYE ) , new ItemStack ( ItemDefs.itemOre , 1 , ItemOre.META_ARCANEASH ) ) );
     }
 
 
@@ -897,23 +897,23 @@ public class AMRecipes {
         GameRegistry.addShapelessRecipe(name, group, new ItemStack(storageItem.getItem(), 9, storageItem.getItemDamage()), Ingredient.fromStacks(storageBlock));
     }
 
-    private static void createTier2GemConverstionRecipies(ItemStack stack, String dyeCode) {
+    private static void createTier2GemConverstionRecipies ( ItemStack stack , ItemStack dyeCode ) {
         if (stack.getItemDamage() != BlockCrystalMarker.META_LIKE_EXPORT) {
-            GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.crystalWrench"), new ResourceLocation(ArsMagica2.MODID, "shaped"), stack, new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_LIKE_EXPORT),
-                    dyeCode);
+            GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.crystalWrench" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , stack ,
+                    Ingredient.fromStacks ( new ItemStack ( BlockDefs.crystalMarker , 1 , BlockCrystalMarker.META_LIKE_EXPORT ) , dyeCode ) );
         }
 
         if (stack.getItemDamage() != BlockCrystalMarker.META_REGULATE_EXPORT) {
-            GameRegistry.addShapedRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shaped.crystalWrench" ) ,
-                    new ResourceLocation ( ArsMagica2.MODID , "shaped" ) ,
+            GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.crystalWrench" ) ,
+                    new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) ,
                     stack ,
-                    new ItemStack ( BlockDefs.crystalMarker , 1 , BlockCrystalMarker.META_REGULATE_EXPORT ) ,
-                    dyeCode);
+                    Ingredient.fromStacks ( new ItemStack ( BlockDefs.crystalMarker , 1 , BlockCrystalMarker.META_REGULATE_EXPORT ) , dyeCode ) );
         }
 
         if (stack.getItemDamage() != BlockCrystalMarker.META_SET_EXPORT) {
-            GameRegistry.addShapedRecipe(new ResourceLocation(ArsMagica2.MODID, "shaped.crystalWrench"), new ResourceLocation(ArsMagica2.MODID, "shaped"), stack, new ItemStack(BlockDefs.crystalMarker, 1, BlockCrystalMarker.META_SET_EXPORT),
-                    dyeCode);
+            GameRegistry.addShapelessRecipe ( new ResourceLocation ( ArsMagica2.MODID , "shapeless.crystalWrench" ) , new ResourceLocation ( ArsMagica2.MODID , "shapeless" ) , stack ,
+                    Ingredient.fromStacks ( new ItemStack ( BlockDefs.crystalMarker , 1 , BlockCrystalMarker.META_SET_EXPORT ) ,
+                            dyeCode ) );
         }
     }
 }
