@@ -16,7 +16,7 @@ public class SpellBookRecipes extends ShapelessOreRecipe {
 	public ItemStack getCraftingResult(InventoryCrafting var1) {
 		NBTTagCompound tag = new NBTTagCompound();
 		for (int i = 0; i < var1.getSizeInventory(); i++) {
-			if (var1.getStackInSlot(i) != null && var1.getStackInSlot(i).getItem().equals(null)) {
+			if (!var1.getStackInSlot(i).isEmpty() && var1.getStackInSlot(i).getItem().equals(ItemStack.EMPTY)) {
 				tag = var1.getStackInSlot(i).getTagCompound();
 			}
 		}

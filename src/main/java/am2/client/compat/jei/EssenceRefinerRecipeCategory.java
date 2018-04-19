@@ -15,7 +15,7 @@ public class EssenceRefinerRecipeCategory implements IRecipeCategory<EssenceRefi
 	IDrawableStatic background;
 	
 	public EssenceRefinerRecipeCategory(IGuiHelper helpers) {
-		this.background = helpers.createDrawable(new ResourceLocation("arsmagica2:textures/gui/essenceExtractorGui.png"), 3, 25, 170, 114);
+		this.background = helpers.createDrawable(new ResourceLocation("arsmagica2:textures/gui/essenceextractorgui.png"), 3, 25, 170, 114);
 	}
 
 	@Override

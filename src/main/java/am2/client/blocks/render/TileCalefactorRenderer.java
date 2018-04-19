@@ -18,7 +18,7 @@ public class TileCalefactorRenderer extends TileEntitySpecialRenderer<TileEntity
 	public TileCalefactorRenderer(){
 		model = new ModelCalefactor();
 
-		rLoc = new ResourceLocation("arsmagica2", "textures/blocks/custom/blockCalefactor.png");
+		rLoc = new ResourceLocation("arsmagica2", "textures/blocks/custom/blockcalefactor.png");
 	}
 
 	@Override

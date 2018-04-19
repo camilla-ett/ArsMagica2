@@ -32,8 +32,8 @@ public class TileEssenceConduitRenderer extends TileEntitySpecialRenderer<TileEn
 	public TileEssenceConduitRenderer(){
 		model = new ModelEssenceConduit();
 
-		powered = new ResourceLocation("arsmagica2", "textures/blocks/custom/essenceConduit.png");
-		//unPowered = new ResourceLocation("arsmagica2", "textures/blocks/custom/essenceConduitUnpowered.png");
+		powered = new ResourceLocation("arsmagica2", "textures/blocks/custom/essenceconduit.png");
+		//unPowered = new ResourceLocation("arsmagica2", "textures/blocks/custom/essenceconduitunpowered.png");
 	}
 	
 	private void createModel() {
