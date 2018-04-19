@@ -222,7 +222,7 @@ public class ClientProxy extends CommonProxy {
 		if (dwheel == 0) return false;
 
 		ItemStack stack = Minecraft.getMinecraft().player.getHeldItemMainhand();
-		if (stack == null) return false;
+		if (stack.isEmpty()) return false;
 
 		boolean store = checkForTKMove(stack);
 		if (!store && stack.getItem() instanceof ItemSpellBook){
@@ -261,13 +261,13 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void drawPowerOnBlockHighlight(EntityPlayer player, RayTraceResult target, float partialTicks){
 		
-		if (Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD) != null &&
+		if (!Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).isEmpty() &&
 				(Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == ItemDefs.magitechGoggles)
 					|| ArmorHelper.isInfusionPreset(Minecraft.getMinecraft().player.getItemStackFromSlot(EntityEquipmentSlot.HEAD), GenericImbuement.magitechGoggleIntegration)){
 			if (target.getBlockPos() == null)
 				return;
 			TileEntity te = player.world.getTileEntity(target.getBlockPos());
-			if (te != null && te instanceof IPowerNode){
+			if (te instanceof IPowerNode){
 				ArsMagica2.proxy.setTrackedLocation(new AMVector3(target.getBlockPos()));
 			}else{
 				ArsMagica2.proxy.setTrackedLocation(AMVector3.zero());

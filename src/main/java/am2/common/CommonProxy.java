@@ -246,7 +246,6 @@ public class CommonProxy implements IGuiHandler{
 		blocks = new BlockDefs();
 		blocks.preInit();
 		new CreativeTabsDefs();
-		initOreDict();
 		new LootTablesArsMagica();
 
 		CapabilityManager.INSTANCE.register(IEntityExtension.class, new IEntityExtension.Storage(), new IEntityExtension.Factory());
@@ -259,6 +258,7 @@ public class CommonProxy implements IGuiHandler{
 
 	public void init() {
 		SoundHandler.registerSounds();
+		initOreDict();
 	}
 
 	public void postInit() {

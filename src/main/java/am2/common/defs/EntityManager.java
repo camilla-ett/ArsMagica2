@@ -27,43 +27,43 @@ public class EntityManager {
 	}
 	
 	public void registerEntities() {
-		EntityRegistry.registerModEntity(new ResourceLocation("SpellProjectile"),EntitySpellProjectile.class, "SpellProjectile", 0, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("RiftStorage"),EntityRiftStorage.class, "RiftStorage", 1, ArsMagica2.instance, 64, 2, false);
-		EntityRegistry.registerModEntity(new ResourceLocation("SpellEffect"),EntitySpellEffect.class, "SpellEffect", 2, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("ThrownRock"),EntityThrownRock.class, "ThrownRock", 3, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("BoundArrow"),EntityBoundArrow.class, "BoundArrow", 4, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("Darkling"),EntityDarkling.class, "Darkling", 5, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("DarkMage"),EntityDarkMage.class, "DarkMage", 6, ArsMagica2.instance, 64, 2, true, 0xaa00ff, 0x660066);
-		EntityRegistry.registerModEntity(new ResourceLocation("Dryad"),EntityDryad.class, "Dryad", 7, ArsMagica2.instance, 64, 2, true, 0x00ff00, 0x34e122);
-		EntityRegistry.registerModEntity(new ResourceLocation("EarthElemental"),EntityEarthElemental.class, "EarthElemental", 8, ArsMagica2.instance, 64, 2, true, 0x61330b, 0x00ff00);
-		EntityRegistry.registerModEntity(new ResourceLocation("FireElemental"),EntityFireElemental.class, "FireElemental", 9, ArsMagica2.instance, 64, 2, true, 0xef260b, 0xff0000);
-		EntityRegistry.registerModEntity(new ResourceLocation("LightMage"),EntityLightMage.class, "LightMage", 10, ArsMagica2.instance, 64, 2, true, 0xaa00ff, 0xff00ff);
-		EntityRegistry.registerModEntity(new ResourceLocation("ManaElemental"),EntityManaElemental.class, "ManaElemental", 11, ArsMagica2.instance, 64, 2, true, 0xcccccc, 0xb935cd);
-		EntityRegistry.registerModEntity(new ResourceLocation("ManaVortex"),EntityManaVortex.class, "ManaVortex", 12, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("Shockwave"),EntityShockwave.class, "Shockwave", 13, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("ThrownSickle"),EntityThrownSickle.class, "ThrownSickle", 14, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("Whirlwind"),EntityWhirlwind.class, "Whirlwind", 15, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("WinterGuardianArm"),EntityWinterGuardianArm.class, "WinterGuardianArm", 16, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"SpellProjectile"),EntitySpellProjectile.class, "SpellProjectile", 0, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"RiftStorage"),EntityRiftStorage.class, "RiftStorage", 1, ArsMagica2.instance, 64, 2, false);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"SpellEffect"),EntitySpellEffect.class, "SpellEffect", 2, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"ThrownRock"),EntityThrownRock.class, "ThrownRock", 3, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"BoundArrow"),EntityBoundArrow.class, "BoundArrow", 4, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"Darkling"),EntityDarkling.class, "Darkling", 5, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"DarkMage"),EntityDarkMage.class, "DarkMage", 6, ArsMagica2.instance, 64, 2, true, 0xaa00ff, 0x660066);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"Dryad"),EntityDryad.class, "Dryad", 7, ArsMagica2.instance, 64, 2, true, 0x00ff00, 0x34e122);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"EarthElemental"),EntityEarthElemental.class, "EarthElemental", 8, ArsMagica2.instance, 64, 2, true, 0x61330b, 0x00ff00);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"FireElemental"),EntityFireElemental.class, "FireElemental", 9, ArsMagica2.instance, 64, 2, true, 0xef260b, 0xff0000);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"LightMage"),EntityLightMage.class, "LightMage", 10, ArsMagica2.instance, 64, 2, true, 0xaa00ff, 0xff00ff);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"ManaElemental"),EntityManaElemental.class, "ManaElemental", 11, ArsMagica2.instance, 64, 2, true, 0xcccccc, 0xb935cd);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"ManaVortex"),EntityManaVortex.class, "ManaVortex", 12, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"Shockwave"),EntityShockwave.class, "Shockwave", 13, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"ThrownSickle"),EntityThrownSickle.class, "ThrownSickle", 14, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"Whirlwind"),EntityWhirlwind.class, "Whirlwind", 15, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"WinterGuardianArm"),EntityWinterGuardianArm.class, "WinterGuardianArm", 16, ArsMagica2.instance, 64, 2, true);
 		
-		EntityRegistry.registerModEntity(new ResourceLocation("AirGuardian"),EntityAirGuardian.class, "AirGuardian", 17, ArsMagica2.instance, 64, 2, true, 0xFFFFFF, 0xFFCC00);
-		EntityRegistry.registerModEntity(new ResourceLocation("ArcaneGuardian"),EntityArcaneGuardian.class, "ArcaneGuardian", 18, ArsMagica2.instance, 64, 2, true, 0x999999, 0xcc00cc);
-		EntityRegistry.registerModEntity(new ResourceLocation("EarthGuardian"),EntityEarthGuardian.class, "EarthGuardian", 19, ArsMagica2.instance, 64, 2, true, 0x663300, 0x339900);
-		EntityRegistry.registerModEntity(new ResourceLocation("EnderGuardian"),EntityEnderGuardian.class, "EnderGuardian", 20, ArsMagica2.instance, 64, 2, true, 0x000000, 0x6633);
-		EntityRegistry.registerModEntity(new ResourceLocation("FireGuardian"),EntityFireGuardian.class, "FireGuardian", 21, ArsMagica2.instance, 64, 2, true, 0xFFFFFF, 0xFF0000);
-		EntityRegistry.registerModEntity(new ResourceLocation("LifeGuardian"),EntityLifeGuardian.class, "LifeGuardian", 22, ArsMagica2.instance, 64, 2, true, 0x00E6FF, 0xFFE600);
-		EntityRegistry.registerModEntity(new ResourceLocation("LightningGuardian"),EntityLightningGuardian.class, "LightningGuardian", 23, ArsMagica2.instance, 64, 2, true, 0xFFE600, 0x00C4FF);
-		EntityRegistry.registerModEntity(new ResourceLocation("NatureGuardian"),EntityNatureGuardian.class, "NatureGuardian", 24, ArsMagica2.instance, 64, 2, true, 0x44FF00, 0x307D0F);
-		EntityRegistry.registerModEntity(new ResourceLocation("WaterGuardian"),EntityWaterGuardian.class, "WaterGuardian", 25, ArsMagica2.instance, 64, 2, true, 0x0F387D, 0x0097CE);
-		EntityRegistry.registerModEntity(new ResourceLocation("WinterGuardian"),EntityWinterGuardian.class, "WinterGuardian", 26, ArsMagica2.instance, 64, 2, true, 0x00CEBA, 0x104742);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"AirGuardian"),EntityAirGuardian.class, "AirGuardian", 17, ArsMagica2.instance, 64, 2, true, 0xFFFFFF, 0xFFCC00);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"ArcaneGuardian"),EntityArcaneGuardian.class, "ArcaneGuardian", 18, ArsMagica2.instance, 64, 2, true, 0x999999, 0xcc00cc);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"EarthGuardian"),EntityEarthGuardian.class, "EarthGuardian", 19, ArsMagica2.instance, 64, 2, true, 0x663300, 0x339900);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"EnderGuardian"),EntityEnderGuardian.class, "EnderGuardian", 20, ArsMagica2.instance, 64, 2, true, 0x000000, 0x6633);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"FireGuardian"),EntityFireGuardian.class, "FireGuardian", 21, ArsMagica2.instance, 64, 2, true, 0xFFFFFF, 0xFF0000);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"LifeGuardian"),EntityLifeGuardian.class, "LifeGuardian", 22, ArsMagica2.instance, 64, 2, true, 0x00E6FF, 0xFFE600);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"LightningGuardian"),EntityLightningGuardian.class, "LightningGuardian", 23, ArsMagica2.instance, 64, 2, true, 0xFFE600, 0x00C4FF);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"NatureGuardian"),EntityNatureGuardian.class, "NatureGuardian", 24, ArsMagica2.instance, 64, 2, true, 0x44FF00, 0x307D0F);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"WaterGuardian"),EntityWaterGuardian.class, "WaterGuardian", 25, ArsMagica2.instance, 64, 2, true, 0x0F387D, 0x0097CE);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"WinterGuardian"),EntityWinterGuardian.class, "WinterGuardian", 26, ArsMagica2.instance, 64, 2, true, 0x00CEBA, 0x104742);
 		
-		EntityRegistry.registerModEntity(new ResourceLocation("AirSled"),EntityAirSled.class, "AirSled", 27, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("Broom"),EntityBroom.class, "Broom", 28, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("WaterElemental"),EntityWaterElemental.class, "WaterElemental", 29, ArsMagica2.instance, 64, 2, true, 0x0b5cef, 0x0000ff);
-		EntityRegistry.registerModEntity(new ResourceLocation("ManaCreeper"),EntityManaCreeper.class, "ManaCreeper", 30, ArsMagica2.instance, 64, 2, true, 0x0b5cef, 0xb935cd);
-		EntityRegistry.registerModEntity(new ResourceLocation("Hecate"),EntityHecate.class, "Hecate", 31, ArsMagica2.instance, 64, 2, true, 0xef260b, 0x3f043d);
-		EntityRegistry.registerModEntity(new ResourceLocation("Flicker"),EntityFlicker.class, "Flicker", 32, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("HellCow"),EntityHellCow.class, "HellCow", 33, ArsMagica2.instance, 64, 2, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("ShadowHelper"),EntityShadowHelper.class, "ShadowHelper", 34, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"AirSled"),EntityAirSled.class, "AirSled", 27, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"Broom"),EntityBroom.class, "Broom", 28, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"WaterElemental"),EntityWaterElemental.class, "WaterElemental", 29, ArsMagica2.instance, 64, 2, true, 0x0b5cef, 0x0000ff);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"ManaCreeper"),EntityManaCreeper.class, "ManaCreeper", 30, ArsMagica2.instance, 64, 2, true, 0x0b5cef, 0xb935cd);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"Hecate"),EntityHecate.class, "Hecate", 31, ArsMagica2.instance, 64, 2, true, 0xef260b, 0x3f043d);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"Flicker"),EntityFlicker.class, "Flicker", 32, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"HellCow"),EntityHellCow.class, "HellCow", 33, ArsMagica2.instance, 64, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ArsMagica2.MODID,"ShadowHelper"),EntityShadowHelper.class, "ShadowHelper", 34, ArsMagica2.instance, 64, 2, true);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
