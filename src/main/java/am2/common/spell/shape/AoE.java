@@ -2,13 +2,13 @@ package am2.common.spell.shape;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.api.spell.Operation;
 import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.client.particles.*;
 import am2.common.defs.ItemDefs;
-import am2.common.defs.SoundDefs;
 import am2.common.entity.EntitySpellProjectile;
 import am2.common.items.ItemOre;
 import am2.common.power.PowerTypes;
@@ -210,6 +210,6 @@ public class AoE extends SpellShape {
 
 	@Override
 	public SoundEvent getSoundForAffinity(Affinity affinity, SpellData stack, World world) {
-		return SoundDefs.CAST_MAP.get(affinity);
+		return SoundHandler.CAST_MAP.get ( affinity );
 	}
 }

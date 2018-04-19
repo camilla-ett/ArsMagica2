@@ -3,9 +3,9 @@ package am2.common.bosses;
 import am2.ArsMagica2;
 import am2.api.DamageSources;
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.api.math.AMVector3;
 import am2.common.bosses.ai.*;
-import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.defs.PotionEffectsDefs;
 import net.minecraft.entity.EntityLivingBase;
@@ -97,7 +97,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 		switch (getCurrentAction()){
 		case LONG_CASTING: //roar
 			if (this.getTicksInCurrentAction() == 32)
-				world.playSound(posX, posY, posZ, AMSounds.ENDER_GUARDIAN_ROAR, SoundCategory.HOSTILE, 1.0f, 1.0f, false);
+				world.playSound ( posX , posY , posZ , SoundHandler.ENDER_GUARDIAN_ROAR , SoundCategory.HOSTILE , 1.0f , 1.0f , false );
 			break;
 		case CHARGE:
 			if (this.getTicksInCurrentAction() == 0)
@@ -107,7 +107,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 		}
 
 		if (shouldFlapWings() && wingFlapTime % (50 * this.getWingFlapSpeed()) == 0){
-			world.playSound(posX, posY, posZ, AMSounds.ENDER_GUARDIAN_FLAP, SoundCategory.HOSTILE, 1.0f, 1.0f, false);
+			world.playSound ( posX , posY , posZ , SoundHandler.ENDER_GUARDIAN_FLAP , SoundCategory.HOSTILE , 1.0f , 1.0f , false );
 		}
 	}
 
@@ -140,7 +140,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 		//Thanks but I'm not reading all the code, just fixing.
 		
 		if (par1DamageSource.getTrueSource() instanceof EntityEnderman){
-			((EntityEnderman)par1DamageSource.getTrueSource()).attackEntityFrom(DamageSources.wtfBoom, 5000);
+			par1DamageSource.getTrueSource ( ).attackEntityFrom ( DamageSources.wtfBoom , 5000 );
 			this.heal(10);
 			return false;
 		}
@@ -223,22 +223,22 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
-		return AMSounds.ENDER_GUARDIAN_HIT;
+		return SoundHandler.ENDER_GUARDIAN_HIT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound(){
-		return AMSounds.ENDER_GUARDIAN_DEATH;
+		return SoundHandler.ENDER_GUARDIAN_DEATH;
 	}
 
 	@Override
 	protected SoundEvent getAmbientSound(){
-		return AMSounds.ENDER_GUARDIAN_IDLE;
+		return SoundHandler.ENDER_GUARDIAN_IDLE;
 	}
 
 	@Override
 	public SoundEvent getAttackSound(){
-		return AMSounds.ENDER_GUARDIAN_ATTACK;
+		return SoundHandler.ENDER_GUARDIAN_ATTACK;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package am2.common.spell.shape;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.api.spell.Operation;
 import am2.api.spell.SpellData;
 import am2.api.spell.SpellModifiers;
@@ -12,7 +13,6 @@ import am2.client.particles.AMParticleDefs;
 import am2.client.particles.ParticleMoveOnHeading;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
-import am2.common.defs.SoundDefs;
 import am2.common.items.ItemOre;
 import am2.common.power.PowerTypes;
 import am2.common.spell.SpellCastResult;
@@ -177,8 +177,8 @@ public class Beam extends SpellShape {
 
 	@Override
 	public SoundEvent getSoundForAffinity(Affinity affinity, SpellData stack, World world) {
-		return SoundDefs.LOOP_MAP.get(affinity);
-	}
+        return SoundHandler.LOOP_MAP.get ( affinity );
+    }
 
 	@Override
 	public void encodeBasicData(NBTTagCompound tag, Object[] recipe) {

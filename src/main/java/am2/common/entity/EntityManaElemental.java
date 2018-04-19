@@ -1,17 +1,11 @@
 package am2.common.entity;
 
-import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
-import am2.common.defs.AMSounds;
+import am2.api.handlers.SoundHandler;
 import am2.common.defs.ItemDefs;
 import am2.common.entity.ai.EntityAIManaDrainBolt;
 import am2.common.extensions.EntityExtension;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -76,15 +70,17 @@ public class EntityManaElemental extends EntityMob{
 
 	@Override
 	protected SoundEvent getAmbientSound(){
-		return AMSounds.MANA_ELEMENTAL_IDLE;
+		return SoundHandler.MANA_ELEMENTAL_IDLE;
 	}
 
 	@Override
-	protected SoundEvent getHurtSound(DamageSource damageSourceIn){ return AMSounds.MANA_ELEMENTAL_DEATH; }
+	protected SoundEvent getHurtSound ( DamageSource damageSourceIn ) {
+		return SoundHandler.MANA_ELEMENTAL_DEATH;
+	}
 
 	@Override
 	protected SoundEvent getDeathSound(){
-		return AMSounds.MANA_ELEMENTAL_DEATH;
+		return SoundHandler.MANA_ELEMENTAL_DEATH;
 	}
 
 	private void initAI(){

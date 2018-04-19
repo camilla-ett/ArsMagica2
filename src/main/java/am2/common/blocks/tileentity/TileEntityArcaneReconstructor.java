@@ -3,11 +3,11 @@ package am2.common.blocks.tileentity;
 import am2.ArsMagica2;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.event.ReconstructorRepairEvent;
+import am2.api.handlers.SoundHandler;
 import am2.api.math.AMVector3;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
 import am2.client.particles.ParticleFloatUpward;
-import am2.common.defs.AMSounds;
 import am2.common.entity.EntityDummyCaster;
 import am2.common.items.ItemFocusCharge;
 import am2.common.items.ItemFocusMana;
@@ -294,7 +294,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 					break;
 				}
 			}
-			world.playSound(pos.getX(), pos.getY(), pos.getZ(), AMSounds.RECONSTRUCTOR_COMPLETE, SoundCategory.BLOCKS, 1.0f, 1.0f, true);
+            world.playSound ( pos.getX ( ) , pos.getY ( ) , pos.getZ ( ) , SoundHandler.RECONSTRUCTOR_COMPLETE , SoundCategory.BLOCKS , 1.0f , 1.0f , true );
 
 			return did_copy;
 		}
@@ -385,8 +385,8 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		inventory = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
-			byte byte0 = nbttagcompound1.getByte(tag);
+            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt ( i );
+            byte byte0 = nbttagcompound1.getByte(tag);
 			if (byte0 >= 0 && byte0 < inventory.length){
 				inventory[byte0] = new ItemStack(nbttagcompound1);
 			}

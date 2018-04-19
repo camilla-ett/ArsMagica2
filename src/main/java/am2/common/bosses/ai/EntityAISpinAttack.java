@@ -1,8 +1,8 @@
 package am2.common.bosses.ai;
 
+import am2.api.handlers.SoundHandler;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.IArsMagicaBoss;
-import am2.common.defs.AMSounds;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -70,7 +70,7 @@ public class EntityAISpinAttack extends EntityAIBase{
 
 		if (((IArsMagicaBoss)host).getTicksInCurrentAction() % 50 == 0){
 			if (!host.world.isRemote)
-				host.world.playSound(host.posX, host.posY, host.posZ, AMSounds.NATURE_GUARDIAN_WHIRL_LOOP, SoundCategory.HOSTILE, 1.0f, 1.0f, false);
+				host.world.playSound ( host.posX , host.posY , host.posZ , SoundHandler.NATURE_GUARDIAN_WHIRL_LOOP , SoundCategory.HOSTILE , 1.0f , 1.0f , false );
 		}
 	}
 }

@@ -2,11 +2,11 @@ package am2.common.entity;
 
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.client.particles.AMParticle;
 import am2.client.particles.ParticleFadeOut;
 import am2.client.particles.ParticleFloatUpward;
 import am2.client.particles.ParticleMoveOnHeading;
-import am2.common.defs.AMSounds;
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.packet.AMNetHandler;
@@ -236,17 +236,17 @@ public class EntityHecate extends EntityZombie{
 
 	@Override
 	protected SoundEvent getHurtSound ( DamageSource source ) {
-		return AMSounds.HECATE_HIT;
+		return SoundHandler.HECATE_HIT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound(){
-		return AMSounds.HECATE_DEATH;
+		return SoundHandler.HECATE_DEATH;
 	}
 
 	@Override
 	protected SoundEvent getAmbientSound(){
-		return AMSounds.HECATE_IDLE;
+		return SoundHandler.HECATE_IDLE;
 	}
 
 	private int getAverageNearbyPlayerMagicLevel(){

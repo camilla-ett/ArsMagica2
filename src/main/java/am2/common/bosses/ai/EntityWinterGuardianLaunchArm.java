@@ -1,8 +1,8 @@
 package am2.common.bosses.ai;
 
+import am2.api.handlers.SoundHandler;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.EntityWinterGuardian;
-import am2.common.defs.AMSounds;
 import am2.common.entity.EntityWinterGuardianArm;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -70,7 +70,7 @@ public class EntityWinterGuardianLaunchArm extends EntityAIBase{
 				if (!host.world.isRemote){
 
 					if (!host.world.isRemote)
-						host.world.playSound(host.posX, host.posY, host.posZ, AMSounds.WINTER_GUARDIAN_LAUNCH_ARM, SoundCategory.HOSTILE, 1.0f, 1.0f, false);
+						host.world.playSound ( host.posX , host.posY , host.posZ , SoundHandler.WINTER_GUARDIAN_LAUNCH_ARM , SoundCategory.HOSTILE , 1.0f , 1.0f , false );
 
 					EntityWinterGuardianArm projectile = new EntityWinterGuardianArm(host.world, host, 1.25f);
 					projectile.setThrowingEntity(host);

@@ -1,13 +1,13 @@
 package am2.common.spell.shape;
 
 import am2.api.affinity.Affinity;
+import am2.api.handlers.SoundHandler;
 import am2.api.spell.SpellData;
 import am2.api.spell.SpellManager;
 import am2.api.spell.SpellModifiers;
 import am2.api.spell.SpellShape;
 import am2.common.defs.BlockDefs;
 import am2.common.defs.ItemDefs;
-import am2.common.defs.SoundDefs;
 import am2.common.items.ItemOre;
 import am2.common.spell.SpellCastResult;
 import am2.common.utils.AffinityShiftUtils;
@@ -77,6 +77,6 @@ public class Channel extends SpellShape {
 
 	@Override
 	public SoundEvent getSoundForAffinity(Affinity affinity, SpellData stack, World world) {
-		return SoundDefs.LOOP_MAP.get(affinity);
-	}
+        return SoundHandler.LOOP_MAP.get ( affinity );
+    }
 }

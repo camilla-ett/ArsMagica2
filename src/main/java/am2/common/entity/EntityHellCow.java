@@ -1,17 +1,11 @@
 package am2.common.entity;
 
-import am2.common.defs.AMSounds;
+import am2.api.handlers.SoundHandler;
 import am2.common.defs.ItemDefs;
 import am2.common.defs.LootTablesArsMagica;
 import am2.common.entity.ai.EntityAIManaDrainBolt;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
@@ -57,17 +51,17 @@ public class EntityHellCow extends EntityMob{
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn){
-		return AMSounds.MOO_HIT;
+		return SoundHandler.MOO_HIT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound(){
-		return AMSounds.MOO_DEATH;
+		return SoundHandler.MOO_DEATH;
 	}
 	
 	@Override
 	protected SoundEvent getAmbientSound(){
-		return AMSounds.MOO_IDLE;
+		return SoundHandler.MOO_IDLE;
 	}
 
 	private void initAI(){

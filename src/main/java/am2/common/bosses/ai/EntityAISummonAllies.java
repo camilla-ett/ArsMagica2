@@ -1,11 +1,10 @@
 package am2.common.bosses.ai;
 
+import am2.api.handlers.SoundHandler;
 import am2.common.bosses.BossActions;
 import am2.common.bosses.EntityLifeGuardian;
-import am2.common.bosses.IArsMagicaBoss;
 import am2.common.buffs.BuffEffectMagicShield;
 import am2.common.buffs.BuffEffectShrink;
-import am2.common.defs.AMSounds;
 import am2.common.utils.EntityUtils;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -33,7 +32,7 @@ public class EntityAISummonAllies extends EntityAIBase{
 	@Override
 	public boolean shouldExecute(){
 		cooldownTicks--;
-		boolean execute = ((IArsMagicaBoss)host).getCurrentAction() != BossActions.CASTING && cooldownTicks <= 0;
+		boolean execute = host.getCurrentAction ( ) != BossActions.CASTING && cooldownTicks <= 0;
 		if (execute) hasCasted = false;
 		return execute;
 	}
@@ -45,7 +44,7 @@ public class EntityAISummonAllies extends EntityAIBase{
 
 	@Override
 	public void resetTask(){
-		((IArsMagicaBoss)host).setCurrentAction(BossActions.IDLE);
+		host.setCurrentAction ( BossActions.IDLE );
 		cooldownTicks = 200;
 		hasCasted = true;
 		actionTicks = 0;
@@ -53,19 +52,19 @@ public class EntityAISummonAllies extends EntityAIBase{
 
 	@Override
 	public void updateTask(){
-		if (((IArsMagicaBoss)host).getCurrentAction() != BossActions.CASTING)
-			((IArsMagicaBoss)host).setCurrentAction(BossActions.CASTING);
+		if ( host.getCurrentAction ( ) != BossActions.CASTING )
+			host.setCurrentAction ( BossActions.CASTING );
 
 		actionTicks++;
 		if (actionTicks == 16){
 			if (!host.world.isRemote)
-				host.world.playSound(host.posX, host.posY, host.posZ, AMSounds.LIFE_GUARDIAN_SUMMON, SoundCategory.HOSTILE, 1.0f, host.getRNG().nextFloat() * 0.5f + 0.5f, false);
+				host.world.playSound ( host.posX , host.posY , host.posZ , SoundHandler.LIFE_GUARDIAN_SUMMON , SoundCategory.HOSTILE , 1.0f , host.getRNG ( ).nextFloat ( ) * 0.5f + 0.5f , false );
 			int numAllies = 3;
 			for (int i = 0; i < numAllies; ++i){
 				Class<? extends EntityCreature> summon = mobs[host.world.rand.nextInt(mobs.length)];
 				try{
 					Constructor<? extends EntityCreature> ctor = summon.getConstructor(World.class);
-					EntityCreature mob = (EntityCreature)ctor.newInstance(host.world);
+					EntityCreature mob = ctor.newInstance ( host.world );
 					mob.setPosition(host.posX + host.world.rand.nextDouble() * 2 - 1, host.posY, host.posZ + host.world.rand.nextDouble() * 2 - 1);
 					mob.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("speed"), 99999, 1));
 					mob.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("strength"), 99999, 1));
