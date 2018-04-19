@@ -51,7 +51,7 @@ public class BindingsDefs {
 		else if (SHAPE_GROUP.isPressed()){
 			EntityPlayer player = Minecraft.getMinecraft().player;
 			ItemStack curItem = player.inventory.getStackInSlot(player.inventory.currentItem);
-			if (curItem == null || (curItem.getItem() != ItemDefs.spell && curItem.getItem() != ItemDefs.spellBook && curItem.getItem() != ItemDefs.arcaneSpellbook)){
+			if (!curItem.isEmpty() || (curItem.getItem() != ItemDefs.spell && curItem.getItem() != ItemDefs.spellBook && curItem.getItem() != ItemDefs.arcaneSpellbook)){
 				return;
 			}
 			int shapeGroup;
@@ -78,7 +78,7 @@ public class BindingsDefs {
 		else if (SPELL_BOOK_NEXT.isPressed()){
 			EntityPlayer player = Minecraft.getMinecraft().player;
 			ItemStack curItem = player.getHeldItem(EnumHand.MAIN_HAND);
-			if (curItem != null && curItem.getItem() instanceof ItemSpellBook){
+			if (!curItem.isEmpty() && curItem.getItem() instanceof ItemSpellBook){
 				AMNetHandler.INSTANCE.sendPacketToServer(
 					AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT,
 					new AMDataWriter()
@@ -91,7 +91,7 @@ public class BindingsDefs {
 		else if (SPELL_BOOK_PREV.isPressed()){
 			EntityPlayer player = Minecraft.getMinecraft().player;
 			ItemStack curItem = player.getHeldItem(EnumHand.MAIN_HAND);
-			if (curItem != null && curItem.getItem() instanceof ItemSpellBook){
+			if (!curItem.isEmpty() && curItem.getItem() instanceof ItemSpellBook){
 				AMNetHandler.INSTANCE.sendPacketToServer(
 					AMPacketIDs.SPELLBOOK_CHANGE_ACTIVE_SLOT,
 					new AMDataWriter()

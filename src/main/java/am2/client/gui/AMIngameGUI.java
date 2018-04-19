@@ -95,7 +95,7 @@ public class AMIngameGUI extends Gui {
 			if (drawAMHud)
 				this.RenderMagicXP(i, j);
 			ItemStack item = this.mc.player.getHeldItem(EnumHand.MAIN_HAND);
-			if (item != null && item.getItem() instanceof ItemSpellBook) {
+			if (!item.isEmpty() && item.getItem() instanceof ItemSpellBook) {
 				this.RenderSpellBookUI(i, j, this.mc.fontRenderer, this.mc.player.getHeldItem(EnumHand.MAIN_HAND));
 			}
 			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
