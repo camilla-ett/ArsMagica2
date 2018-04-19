@@ -82,43 +82,43 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 	@Override
 	public ItemStack getStackInSlot(int slot){
 		if (slot >= inventory.length)
-			return null;
+			return ItemStack.EMPTY;
 		return inventory[slot];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j){
-		if (inventory[i] != null){
+		if (!inventory[i].isEmpty()){
 			if (inventory[i].getCount() <= j){
 				ItemStack itemstack = inventory[i];
-				inventory[i] = null;
+				inventory[i] = ItemStack.EMPTY;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventory[i].splitStack(j);
 			if (inventory[i].getCount() == 0){
-				inventory[i] = null;
+				inventory[i] = ItemStack.EMPTY;
 			}
 			return itemstack1;
 		}else{
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int i){
-		if (inventory[i] != null){
+		if (!inventory[i].isEmpty()){
 			ItemStack itemstack = inventory[i];
-			inventory[i] = null;
+			inventory[i] = ItemStack.EMPTY;
 			return itemstack;
 		}else{
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
-		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()){
+		if (!itemstack.isEmpty() && itemstack.getCount() > getInventoryStackLimit()){
 			itemstack.setCount(getInventoryStackLimit());
 		}
 	}
@@ -171,7 +171,7 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 		super.writeToNBT(nbttagcompound);
 		NBTTagList nbttaglist = new NBTTagList();
 		for (int i = 0; i < inventory.length; i++){
-			if (inventory[i] != null){
+			if (!inventory[i].isEmpty()){
 				String tag = String.format("ArrayIndex", i);
 				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 				nbttagcompound1.setByte(tag, (byte)i);

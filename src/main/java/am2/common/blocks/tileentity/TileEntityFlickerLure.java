@@ -65,27 +65,27 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 				else if (westTile != null && westTile instanceof IInventory)
 					inventory = (IInventory) westTile;
 				if (inventory != null) {
-					ItemStack jar = null;
+					ItemStack jar = ItemStack.EMPTY;
 					for (int i = 0; i < inventory.getSizeInventory(); i++) {
-						ItemStack is = inventory.getStackInSlot(i);
-						if (is == null || is.getItem() != ItemDefs.flickerJar || is.getItemDamage() != Affinity.NONE.getID()) continue;
-						is.shrink(1);
-						if (is.getCount() <= 0)
-							is = null;
-						inventory.setInventorySlotContents(i, is);
+						ItemStack item = inventory.getStackInSlot(i);
+						if (item.isEmpty() || item.getItem() != ItemDefs.flickerJar || item.getItemDamage() != Affinity.NONE.getID()) continue;
+						item.shrink(1);
+						if (item.getCount() <= 0)
+							item = ItemStack.EMPTY;
+						inventory.setInventorySlotContents(i, item);
 						jar = new ItemStack(ItemDefs.flickerJar, 1, 0);
 						ItemDefs.flickerJar.setFlickerJarTypeFromFlicker(jar, flicker);
 						break;
 					}
-					if (jar != null) {
+					if (!jar.isEmpty()) {
 						boolean placed = false;
 						for (int i = 0; i < inventory.getSizeInventory(); i++) {
-							ItemStack is = inventory.getStackInSlot(i);
-							if (is == null) {
+							ItemStack item = inventory.getStackInSlot(i);
+							if (item.isEmpty()) {
 								inventory.setInventorySlotContents(i, jar);
 								placed = true;
-							} else if (is.isItemEqual(jar) && is.getItemDamage() < 64) {
-								is.grow(1);
+							} else if (item.isItemEqual(jar) && item.getItemDamage() < 64) {
+								item.grow(1);
 								placed = true;
 							}
 							if (placed) break;

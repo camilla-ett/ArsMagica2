@@ -236,7 +236,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	private boolean queueRepairableItem(){
-		if (inventory[SLOT_ACTIVE] != null) {
+		if (!inventory[SLOT_ACTIVE].isEmpty()) {
 			if (!active) {
 				this.active = true;
 				if (!world.isRemote)
@@ -247,7 +247,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		for (int i = 4; i < 10; ++i){
 			if (itemStackIsValid(inventory[i])){
 				inventory[SLOT_ACTIVE] = inventory[i].copy();
-				inventory[i] = null;
+				inventory[i] = ItemStack.EMPTY;
 				this.active = true;
 				if (!world.isRemote)
 					world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 2);
@@ -261,7 +261,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	private boolean itemStackIsValid(ItemStack stack){
-		return stack != null && !(stack.getItem() instanceof ItemBlock) && stack.getItem().isRepairable();
+		return !stack.isEmpty() && !(stack.getItem() instanceof ItemBlock) && stack.getItem().isRepairable();
 	}
 
 	private EntityLiving getDummyEntity(){
@@ -271,7 +271,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	}
 
 	private boolean performRepair(){
-		if (inventory[SLOT_ACTIVE] == null) return false;
+		if (inventory[SLOT_ACTIVE].isEmpty()) return false;
 
 		ReconstructorRepairEvent event = new ReconstructorRepairEvent(inventory[SLOT_ACTIVE]);
 		if (MinecraftForge.EVENT_BUS.post(event)){
@@ -285,10 +285,10 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		}else{
 			boolean did_copy = false;
 			for (int i = 10; i < 16; ++i){
-				if (inventory[i] == null){
+				if (inventory[i].isEmpty()){
 					if (!world.isRemote){
 						inventory[i] = inventory[SLOT_ACTIVE].copy();
-						inventory[SLOT_ACTIVE] = null;
+						inventory[SLOT_ACTIVE] = ItemStack.EMPTY;
 					}
 					did_copy = true;
 					break;
@@ -313,44 +313,44 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 	@Override
 	public ItemStack getStackInSlot(int var1){
 		if (var1 >= inventory.length){
-			return null;
+			return ItemStack.EMPTY;
 		}
 		return inventory[var1];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j){
-		if (inventory[i] != null){
+		if (!inventory[i].isEmpty()){
 			if (inventory[i].getCount() <= j){
 				ItemStack itemstack = inventory[i];
-				inventory[i] = null;
+				inventory[i] = ItemStack.EMPTY;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventory[i].splitStack(j);
 			if (inventory[i].getCount() == 0){
-				inventory[i] = null;
+				inventory[i] = ItemStack.EMPTY;
 			}
 			return itemstack1;
 		}else{
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int i){
-		if (inventory[i] != null){
+		if (!inventory[i].isEmpty()){
 			ItemStack itemstack = inventory[i];
-			inventory[i] = null;
+			inventory[i] = ItemStack.EMPTY;
 			return itemstack;
 		}else{
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
-		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()){
+		if (!itemstack.isEmpty() && itemstack.getCount() > getInventoryStackLimit()){
 			itemstack.setCount(getInventoryStackLimit());
 		}
 	}
@@ -400,7 +400,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 		super.writeToNBT(nbttagcompound);
 		NBTTagList nbttaglist = new NBTTagList();
 		for (int i = 0; i < inventory.length; i++){
-			if (inventory[i] != null){
+			if (!inventory[i].isEmpty()){
 				String tag = String.format("ArrayIndex", i);
 				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 				nbttagcompound1.setByte(tag, (byte)i);

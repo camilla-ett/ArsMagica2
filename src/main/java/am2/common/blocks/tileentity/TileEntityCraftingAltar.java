@@ -97,8 +97,8 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private int maxEffects;
 	private boolean dirty = false;
 
-	private ItemStack addedPhylactery = null;
-	private ItemStack addedBindingCatalyst = null;
+	private ItemStack addedPhylactery = ItemStack.EMPTY;
+	private ItemStack addedBindingCatalyst = ItemStack.EMPTY;
 
 	private ItemStack[] spellGuide;
 	private int[] outputCombo;
@@ -478,7 +478,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			for (EntityItem item : components){
 				if (item.isDead) continue;
 				ItemStack entityItemStack = item.getItem();
-				if (stack != null && compareItemStacks(stack, entityItemStack)){
+				if (!stack.isEmpty() && compareItemStacks(stack, entityItemStack)){
 					if (!world.isRemote){
 						updateCurrentRecipe(item);
 						item.setDead();
@@ -528,7 +528,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 						lectern.setNeedsBook(true);
 					}
 				}else{
-					lectern.setTooltipStack(null);
+					lectern.setTooltipStack(ItemStack.EMPTY);
 				}
 				if (spellGuideIsWithinStructurePower()){
 					lectern.setOverpowered(false);
@@ -539,7 +539,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				if (isCrafting){
 					lectern.setNeedsBook(true);
 				}
-				lectern.setTooltipStack(null);
+				lectern.setTooltipStack(ItemStack.EMPTY);
 			}
 		}
 	}
@@ -571,7 +571,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 	private void updatePowerRequestData(){
 		ItemStack stack = getNextPlannedItem();
-		if (stack != null && stack.getItem().equals(ItemDefs.etherium)){
+		if (!stack.isEmpty() && stack.getItem().equals(ItemDefs.etherium)){
 			if (switchIsOn()){
 				int flags = stack.getItemDamage();
 				setPowerRequests();
@@ -890,13 +890,13 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 		altarCompound.setTag("currentAddedItems", currentAddedItemsList);
 
-		if (addedPhylactery != null){
+		if (!addedPhylactery.isEmpty()){
 			NBTTagCompound phylactery = new NBTTagCompound();
 			addedPhylactery.writeToNBT(phylactery);
 			altarCompound.setTag("phylactery", phylactery);
 		}
 
-		if (addedBindingCatalyst != null){
+		if (!addedBindingCatalyst.isEmpty()){
 			NBTTagCompound catalyst = new NBTTagCompound();
 			addedBindingCatalyst.writeToNBT(catalyst);
 			altarCompound.setTag("catalyst", catalyst);
@@ -959,7 +959,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			if (addedItem == null)
 				continue;
 			ItemStack stack = new ItemStack(addedItem);
-			if (stack == null)
+			if (stack.isEmpty())
 				continue;
 			this.allAddedItems.add(stack);
 		}
@@ -970,7 +970,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 			if (addedItem == null)
 				continue;
 			ItemStack stack = new ItemStack(addedItem);
-			if (stack == null)
+			if (stack.isEmpty())
 				continue;
 			this.currentAddedItems.add(stack);
 		}

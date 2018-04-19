@@ -96,7 +96,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 		if (this.filterItems != null){
 			for (int i = 0; i < this.filterItems.length; i++){
-				if (this.filterItems[i] != null){
+				if (!this.filterItems[i].isEmpty()){
 					retVar = true;
 					break;
 				}
@@ -117,7 +117,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 		if (stack != null && this.hasFilterItems()){
 			for (int i = 0; i < this.filterItems.length; i++){
-				if (this.filterItems[i] != null && InventoryUtilities.compareItemStacks(this.filterItems[i], stack, true, false, true, true)){
+				if (!this.filterItems[i].isEmpty() && InventoryUtilities.compareItemStacks(this.filterItems[i], stack, true, false, true, true)){
 					retVal = true;
 					break;
 				}
@@ -132,7 +132,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 		if (this.hasFilterItems()){
 			for (int i = 0; i < this.filterItems.length; i++){
-				if (this.filterItems[i] != null && InventoryUtilities.compareItemStacks(this.filterItems[i], stack, true, false, true, true)){
+				if (!this.filterItems[i].isEmpty() && InventoryUtilities.compareItemStacks(this.filterItems[i], stack, true, false, true, true)){
 					totalCount += this.filterItems[i].getCount();
 				}
 			}
@@ -171,7 +171,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 			NBTTagList filterItemsList = new NBTTagList();
 
 			for (int i = 0; i < this.getSizeInventory(); i++){
-				if (this.filterItems[i] != null){
+				if (!this.filterItems[i].isEmpty()){
 					String tag = String.format("ArrayIndex", i);
 					NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 					nbttagcompound1.setByte(tag, (byte)i);
@@ -289,44 +289,44 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	@Override
 	public ItemStack getStackInSlot(int i){
 		if (i > FILTER_SIZE){
-			return null;
+			return ItemStack.EMPTY;
 		}
 		return this.filterItems[i];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j){
-		if (this.filterItems[i] != null){
+		if (!this.filterItems[i].isEmpty()){
 			if (this.filterItems[i].getCount() <= j){
 				ItemStack itemstack = this.filterItems[i];
-				this.filterItems[i] = null;
+				this.filterItems[i] = ItemStack.EMPTY;
 				return itemstack;
 			}
 			ItemStack itemstack1 = this.filterItems[i].splitStack(j);
 			if (this.filterItems[i].getCount() == 0){
-				this.filterItems[i] = null;
+				this.filterItems[i] = ItemStack.EMPTY;
 			}
 			return itemstack1;
 		}else{
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int i){
-		if (this.filterItems[i] != null){
+		if (!this.filterItems[i].isEmpty()){
 			ItemStack itemstack = this.filterItems[i];
-			this.filterItems[i] = null;
+			this.filterItems[i] = ItemStack.EMPTY;
 			return itemstack;
 		}else{
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		this.filterItems[i] = itemstack;
-		if (itemstack != null && itemstack.getCount() > this.getInventoryStackLimit()){
+		if (!itemstack.isEmpty() && itemstack.getCount() > this.getInventoryStackLimit()){
 			itemstack.setCount(this.getInventoryStackLimit());
 		}
 	}

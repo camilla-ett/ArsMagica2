@@ -423,7 +423,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	public int getCrystalColor(){
-		if (this.flickerJar == null)
+		if (this.flickerJar.isEmpty())
 			return 0;
 
 		if (this.flickerJar.getItem() == ItemDefs.flickerJar)
@@ -478,7 +478,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	@Override
 	public ItemStack getStackInSlot(int i){
-		if (i <= this.getSizeInventory() && this.flickerJar != null){
+		if (i <= this.getSizeInventory() && !this.flickerJar.isEmpty()){
 			return this.flickerJar;
 		}
 
@@ -487,28 +487,28 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	@Override
 	public ItemStack decrStackSize(int i, int j){
-		if (i <= this.getSizeInventory() && this.flickerJar != null){
+		if (i <= this.getSizeInventory() && !this.flickerJar.isEmpty()){
 			ItemStack jar = this.flickerJar;
-			this.flickerJar = null;
+			this.flickerJar = ItemStack.EMPTY;
 			return jar;
 		}
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int i){
-		if (i <= this.getSizeInventory() && this.flickerJar != null){
+		if (i <= this.getSizeInventory() && !this.flickerJar.isEmpty()){
 			ItemStack jar = this.flickerJar;
-			this.flickerJar = null;
+			this.flickerJar = ItemStack.EMPTY;
 			return jar;
 		}
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		this.flickerJar = itemstack;
-		if (itemstack != itemstack.EMPTY && itemstack.getCount() > this.getInventoryStackLimit()){
+		if (!itemstack.isEmpty() && itemstack.getCount() > this.getInventoryStackLimit()){
 			itemstack.setCount(this.getInventoryStackLimit());
 		}
 
@@ -557,7 +557,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	}
 
 	private void setOperatorBasedOnFlicker(){
-		if (this.flickerJar != null && this.flickerJar.getItem() == ItemDefs.flickerFocus){
+		if (!this.flickerJar.isEmpty() && this.flickerJar.getItem() == ItemDefs.flickerFocus){
 			this.setOperator((AbstractFlickerFunctionality)ArsMagicaAPI.getFlickerFocusRegistry().getValuesCollection().toArray()[(this.flickerJar.getItemDamage())]);
 		}else{
 			this.setOperator(null);

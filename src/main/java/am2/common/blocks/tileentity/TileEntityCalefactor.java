@@ -118,7 +118,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	public ItemStack getItemBeingCooked(){
-		if (calefactorItemStacks[0] != null){
+		if (!calefactorItemStacks[0].isEmpty()){
 			return calefactorItemStacks[0];
 		}
 		return null;
@@ -130,7 +130,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		}else{
 			ItemStack var1 = FurnaceRecipes.instance().getSmeltingResult(this.calefactorItemStacks[0]);
 			if (var1 == null) return false;
-			if (this.calefactorItemStacks[1] == null) return true;
+			if (this.calefactorItemStacks[1].isEmpty()) return true;
 			if (!this.calefactorItemStacks[1].isItemEqual(var1)) return false;
 			int result = calefactorItemStacks[1].getCount() + var1.getCount();
 			return (result <= getInventoryStackLimit() && result <= var1.getMaxStackSize());
@@ -160,7 +160,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 			if (doSmelt){
 
-				if (this.calefactorItemStacks[1] == null){
+				if (this.calefactorItemStacks[1].isEmpty()){
 					this.calefactorItemStacks[1] = smeltStack.copy();
 				}else if (this.calefactorItemStacks[1].isItemEqual(smeltStack)){
 					calefactorItemStacks[1].grow(smeltStack.getCount());
@@ -170,7 +170,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				}
 
 				if (Math.random() <= 0.25){
-					if (calefactorItemStacks[5] == null){
+					if (calefactorItemStacks[5].isEmpty()){
 						calefactorItemStacks[5] = new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM);
 					}else{
 						calefactorItemStacks[5].grow(1);
@@ -184,7 +184,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 			this.calefactorItemStacks[0].shrink(1);
 
 			if (this.calefactorItemStacks[0].getCount() <= 0){
-				this.calefactorItemStacks[0] = null;
+				this.calefactorItemStacks[0] = ItemStack.EMPTY;
 			}
 		}
 	}
@@ -198,7 +198,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				if (rdr.getByte() == 1){
 					this.calefactorItemStacks[0] = rdr.getItemStack();
 				}else{
-					this.calefactorItemStacks[0] = null;
+					this.calefactorItemStacks[0] = ItemStack.EMPTY;
 				}
 				break;
 			default:
@@ -214,7 +214,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		writer.add(PKT_PRG_UPDATE);
 		writer.add(isCooking ? (byte)1 : (byte)0);
 		writer.add(this.calefactorItemStacks[0] != null ? (byte)1 : (byte)0);
-		if (this.calefactorItemStacks[0] != null)
+		if (!this.calefactorItemStacks[0].isEmpty())
 			writer.add(this.calefactorItemStacks[0]);
 
 		AMNetHandler.INSTANCE.sendCalefactorCookUpdate(this, writer.generate());
@@ -343,7 +343,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	private int numFociOfType(Class<?> type){
 		int count = 0;
 		for (int i = 2; i < getSizeInventory(); ++i){
-			if (calefactorItemStacks[i] != null && type.isInstance(calefactorItemStacks[i].getItem())){
+			if (!calefactorItemStacks[i].isEmpty() && type.isInstance(calefactorItemStacks[i].getItem())){
 				count++;
 			}
 		}
@@ -370,37 +370,37 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 
 	@Override
 	public ItemStack decrStackSize(int i, int j){
-		if (calefactorItemStacks[i] != null){
+		if (!calefactorItemStacks[i].isEmpty()){
 			if (calefactorItemStacks[i].getCount() <= j){
 				ItemStack itemstack = calefactorItemStacks[i];
-				calefactorItemStacks[i] = null;
+				calefactorItemStacks[i] = ItemStack.EMPTY;
 				return itemstack;
 			}
 			ItemStack itemstack1 = calefactorItemStacks[i].splitStack(j);
 			if (calefactorItemStacks[i].getCount() == 0){
-				calefactorItemStacks[i] = null;
+				calefactorItemStacks[i] = ItemStack.EMPTY;
 			}
 			return itemstack1;
 		}else{
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int i){
-		if (calefactorItemStacks[i] != null){
+		if (!calefactorItemStacks[i].isEmpty()){
 			ItemStack itemstack = calefactorItemStacks[i];
-			calefactorItemStacks[i] = null;
+			calefactorItemStacks[i] = ItemStack.EMPTY;
 			return itemstack;
 		}else{
-			return null;
+			return ItemStack.EMPTY;
 		}
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		calefactorItemStacks[i] = itemstack;
-		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()){
+		if (!itemstack.isEmpty() && itemstack.getCount() > getInventoryStackLimit()){
 			itemstack.setCount(getInventoryStackLimit());
 		}
 	}
@@ -443,7 +443,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 		super.writeToNBT(nbttagcompound);
 		NBTTagList nbttaglist = new NBTTagList();
 		for (int i = 0; i < calefactorItemStacks.length; i++){
-			if (calefactorItemStacks[i] != null){
+			if (!calefactorItemStacks[i].isEmpty()){
 				String tag = String.format("ArrayIndex", i);
 				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 				nbttagcompound1.setByte(tag, (byte)i);
