@@ -21,12 +21,12 @@ public class ItemEssence extends ItemArsMagica {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for ( int i = 0; i < ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ).size ( ); i++ ) {
-			if ( ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ).get ( i ).equals ( Affinity.NONE ) )
-				continue;
-			items.add(new ItemStack(this, 1, i));
-		}
-	}
+        for ( Affinity aff : ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ) ) {
+            if ( aff == Affinity.NONE )
+                continue;
+            items.add ( new ItemStack ( this , 1 , aff.getID ( ) ) );
+        }
+    }
 	
 	@Override
 	@SideOnly(Side.CLIENT)
