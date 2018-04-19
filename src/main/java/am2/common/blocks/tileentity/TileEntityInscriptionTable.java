@@ -52,13 +52,13 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class TileEntityInscriptionTable extends TileEntity implements IItemHandler, ITickable, ITileEntityAMBase {
+public class TileEntityInscriptionTable extends TileEntity implements IItemHandlerModifiable, ITickable, ITileEntityAMBase {
 
 	private ItemStack inscriptionTableItemStacks[];
 	private final ArrayList<AbstractSpellPart> currentRecipe;
@@ -904,7 +904,12 @@ public class TileEntityInscriptionTable extends TileEntity implements IItemHandl
 		return this.writeToNBT(new NBTTagCompound());
 	}
 
-	static class ValueComparator implements Comparator<Affinity>{
+    @Override
+    public void setStackInSlot ( int slot , @Nonnull ItemStack stack ) {
+        this.inscriptionTableItemStacks[ slot ] = stack;
+    }
+
+    static class ValueComparator implements Comparator <Affinity> {
 
 		Map<Affinity, Integer> base;
 
