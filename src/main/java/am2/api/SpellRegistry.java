@@ -39,7 +39,7 @@ public class SpellRegistry {
 	public static void registerSpellComponent (String id, ResourceLocation icon, SkillPoint tier, SpellComponent part, SkillTree tree, int posX, int posY, int ID, String... parents) {
 		id = id.toLowerCase();
 		ArsMagicaAPI.getSpellRegistry ( ).register ( part.setRegistryName ( ArsMagica2.MODID , "spellcomp_" + id ) );
-		ArsMagicaAPI.getSkillRegistry ( ).register ( new Skill ( icon , tier , posX , posY , tree , ID , parents ).setRegistryName ( ArsMagica2.MODID , "skill_" + id ) );
+		ArsMagicaAPI.getSkillRegistry ( ).register ( new Skill ( icon , tier , posX , posY , tree , ID , parents ).setRegistryName ( ArsMagica2.MODID , "spellcomp_" + id ) );
 	}
 	
 	/**
@@ -56,8 +56,8 @@ public class SpellRegistry {
 	 */
 	public static void registerSpellModifier (String id, ResourceLocation icon, SkillPoint tier, SpellModifier part, SkillTree tree, int posX, int posY, int ID,String... parents) {
 		id = id.toLowerCase();
-		ArsMagicaAPI.getSpellRegistry ( ).register ( part.setRegistryName ( ArsMagica2.MODID , "spellModifier_" + id ) );
-		ArsMagicaAPI.getSkillRegistry ( ).register ( new Skill ( icon , tier , posX , posY , tree , ID , parents ).setRegistryName ( ArsMagica2.MODID , "skill_" + id ) );
+		ArsMagicaAPI.getSpellRegistry ( ).register ( part.setRegistryName ( ArsMagica2.MODID , "spellmodifier_" + id ) );
+		ArsMagicaAPI.getSkillRegistry ( ).register ( new Skill ( icon , tier , posX , posY , tree , ID , parents ).setRegistryName ( ArsMagica2.MODID , "spellmodifier_" + id ) );
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class SpellRegistry {
 	public static void registerSpellShape (String id, ResourceLocation icon, SkillPoint tier, SpellShape part, SkillTree tree, int posX, int posY, int ID, String... parents) {
 		id = id.toLowerCase();
 		ArsMagicaAPI.getSpellRegistry ( ).register ( part.setRegistryName ( ArsMagica2.MODID , "spellpart_" + id ) );
-		ArsMagicaAPI.getSkillRegistry ( ).register ( new Skill ( icon , tier , posX , posY , tree , ID , parents ).setRegistryName ( ArsMagica2.MODID , "skill_" + id ) );
+		ArsMagicaAPI.getSkillRegistry ( ).register ( new Skill ( icon , tier , posX , posY , tree , ID , parents ).setRegistryName ( ArsMagica2.MODID , "spellpart_" + id ) );
 	}
 	
 	public static Skill getSkillFromPart(AbstractSpellPart part) {

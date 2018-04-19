@@ -80,7 +80,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 	}
 
 	public Affinity getFlickerAffinity(){
-		return (Affinity)ArsMagicaAPI.getAffinityRegistry().getEntries().toArray()[dataManager.get(WATCHER_FLICKERTYPE)];
+		return ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ).toArray ( new Affinity[ 0 ] )[ dataManager.get ( WATCHER_FLICKERTYPE ) ];
 	}
 
 	@Override

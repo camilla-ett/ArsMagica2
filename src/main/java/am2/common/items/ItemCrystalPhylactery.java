@@ -1,5 +1,6 @@
 package am2.common.items;
 
+import am2.common.LogHelper;
 import am2.common.utils.EntityUtils;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -130,32 +131,34 @@ public class ItemCrystalPhylactery extends ItemArsMagica{
 	public void getSpawnableEntities(World world){
         for ( ResourceLocation claz : EntityList.getEntityNameList ( ) ) {
             Class <? extends Entity> clazz = EntityList.getClass ( claz );
-            if (EntityCreature.class.isAssignableFrom(clazz)){
-				try{
-					EntityCreature temp = (EntityCreature)clazz.getConstructor(World.class).newInstance(world);
-					if (EntityUtils.isAIEnabled(temp) && temp.isNonBoss()){
-						int color = 0;
-						boolean found = false;
-						//look for entity egg
-						for (Object info : EntityList.ENTITY_EGGS.values()){
-							EntityEggInfo eei = (EntityEggInfo)info;
-							Class<? extends Entity> spawnClass = ForgeRegistries.ENTITIES.getValue(eei.spawnedID).getEntityClass();
-							if (spawnClass == clazz){
-								color = eei.primaryColor;
-								found = true;
-								break;
-							}
-						}
-						if (!found){
-							//no spawn egg...pick random color?
-							color = world.rand.nextInt();
-						}
-                        this.spawnableEntities.put ( EntityList.getTranslationName ( EntityList.getKey ( clazz ) ) , color );
+            LogHelper.info ( "Getting Entity of: " + claz + " / Found: " + clazz );
+            if ( clazz != null && clazz.isInstance ( EntityLiving.class ) ) //Cannot check for EntityLiving
+                if (EntityCreature.class.isAssignableFrom(clazz)){
+                    try{
+                        EntityCreature temp = (EntityCreature)clazz.getConstructor(World.class).newInstance(world);
+                        if (EntityUtils.isAIEnabled(temp) && temp.isNonBoss()){
+                            int color = 0;
+                            boolean found = false;
+                            //look for entity egg
+                            for (Object info : EntityList.ENTITY_EGGS.values()){
+                                EntityEggInfo eei = (EntityEggInfo)info;
+                                Class<? extends Entity> spawnClass = ForgeRegistries.ENTITIES.getValue(eei.spawnedID).getEntityClass();
+                                if (spawnClass == clazz){
+                                    color = eei.primaryColor;
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found){
+                                //no spawn egg...pick random color?
+                                color = world.rand.nextInt();
+                            }
+                            this.spawnableEntities.put ( EntityList.getTranslationName ( EntityList.getKey ( clazz ) ) , color );
+                        }
+                    }catch (Throwable e){
+                        //e.printStackTrace();
                     }
-				}catch (Throwable e){
-					//e.printStackTrace();
-				}
-			}
+                }
 		}
 	}
 
