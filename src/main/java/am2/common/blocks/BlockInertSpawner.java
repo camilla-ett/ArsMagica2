@@ -51,7 +51,7 @@ public class BlockInertSpawner extends BlockAMPowered{
 			return;
 
 		//if the habitat has a flicker throw it on the ground
-		if (spawner.getStackInSlot(0) != null){
+		if (!spawner.getStackInSlot(0).isEmpty()){
 			ItemStack stack = spawner.getStackInSlot(0);
 
 			float offsetX = world.rand.nextFloat() * 0.8F + 0.1F;

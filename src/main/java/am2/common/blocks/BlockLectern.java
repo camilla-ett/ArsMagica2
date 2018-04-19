@@ -58,7 +58,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 					entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 					entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 					world.spawnEntity(entityitem);
-					te.setStack(null);
+					te.setStack(ItemStack.EMPTY);
 				}
 			}else{
 				if (te.getStack().getItem() == Items.WRITTEN_BOOK && world.isRemote && player == ArsMagica2.proxy.getLocalPlayer())
@@ -68,11 +68,11 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 				return true;
 			}
 		}else{
-			if (player.getHeldItem(hand) != null){
+			if (!player.getHeldItem(hand).isEmpty()){
 				if (te.setStack(player.getHeldItem(hand).copy())){
 					player.getHeldItem(hand).shrink(1);
 					if (player.getHeldItem(hand).getCount() <= 0){
-						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+						player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
 					}
 				}
 			}

@@ -127,13 +127,13 @@ public class BlockMagiciansWorkbench extends BlockAMSpecialRenderContainer{
 
 		for (int l = 0; l < workbench.getSizeInventory() - 3; l++){
 			ItemStack itemstack = workbench.getStackInSlot(l);
-			if (itemstack == null){
+			if (itemstack.isEmpty()){
 				continue;
 			}
 			float f = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
-			do{
+			do {
 				if (itemstack.getCount() <= 0){
 					break;
 				}
@@ -150,7 +150,7 @@ public class BlockMagiciansWorkbench extends BlockAMSpecialRenderContainer{
 				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 				world.spawnEntity(entityitem);
-			}while (true);
+			} while (true);
 		}
 
 		if(workbench.getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT)){

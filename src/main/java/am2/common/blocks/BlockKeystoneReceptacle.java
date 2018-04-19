@@ -83,7 +83,7 @@ public class BlockKeystoneReceptacle extends BlockAMPowered{
 			if (receptacle.canActivate()){
 				long key = 0;
 				ItemStack rightClickItem = playerIn.getHeldItemMainhand();
-				if (rightClickItem != null && rightClickItem.getItem() instanceof ItemKeystone){
+				if (!rightClickItem.isEmpty() && rightClickItem.getItem() instanceof ItemKeystone){
 					key = ((ItemKeystone)rightClickItem.getItem()).getKey(rightClickItem);
 				}
 				receptacle.setActive(key);
