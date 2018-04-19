@@ -68,7 +68,7 @@ public class GuiButtonCompendiumTab extends GuiButton{
 		if (this.visible){
 			boolean isMousedOver = par2 >= this.x && par3 >= this.y && par2 < this.x + this.width && par3 < this.y + this.height;
 			GL11.glColor4f(0.6f, 0.6f, 0.6f, 1.0f);
-			par1Minecraft.renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumIndexGui.png"));
+			par1Minecraft.renderEngine.bindTexture(new ResourceLocation("arsmagica2", "textures/gui/arcanecompendiumindexgui.png"));
 
 			if (isMousedOver || isActive){
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
