@@ -86,7 +86,7 @@ public class BlockManaBattery extends BlockAMPowered{
 		ItemStack stack = new ItemStack(this, 1);
 		drops.add(stack);
 		TileEntity te = world.getTileEntity(pos);
-		if (te instanceof TileEntityManaBattery && stack != null){
+		if (te instanceof TileEntityManaBattery && !stack.isEmpty()){
 			if (PowerNodeRegistry.For((World)world).getPower((TileEntityManaBattery)te, ((TileEntityManaBattery) te).getPowerType()) != 0.0F){
 				stack.setTagCompound(new NBTTagCompound());
 				stack.getTagCompound().setFloat("mana_battery_charge", PowerNodeRegistry.For((World)world).getPower((TileEntityManaBattery)te, ((TileEntityManaBattery) te).getPowerType()));

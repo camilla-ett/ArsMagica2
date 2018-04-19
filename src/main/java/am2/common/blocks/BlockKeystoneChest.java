@@ -112,13 +112,13 @@ public class BlockKeystoneChest extends BlockAMSpecialRenderContainer{
 
 			for (int l = 0; l < receptacle.getSizeInventory() - 3; l++){
 				ItemStack itemstack = receptacle.getStackInSlot(l);
-				if (itemstack == null){
+				if (itemstack.isEmpty()){
 					continue;
 				}
 				float f = world.rand.nextFloat() * 0.8F + 0.1F;
 				float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 				float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
-				do{
+				do {
 					if (itemstack.getCount() <= 0){
 						break;
 					}
@@ -135,7 +135,7 @@ public class BlockKeystoneChest extends BlockAMSpecialRenderContainer{
 					entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 					entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 					world.spawnEntity(entityitem);
-				}while (true);
+				} while (true);
 			}
 			super.breakBlock(world, pos, state);
 		}

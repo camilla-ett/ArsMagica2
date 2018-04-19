@@ -84,13 +84,13 @@ public class BlockSummoner extends BlockAMPowered{
 		if (summoner == null) return;
 		for (int l = 0; l < summoner.getSizeInventory() - 3; l++){
 			ItemStack itemstack = summoner.getStackInSlot(l);
-			if (itemstack == null){
+			if (itemstack.isEmpty()){
 				continue;
 			}
 			float f = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
-			do{
+			do {
 				if (itemstack.getCount() <= 0){
 					break;
 				}
@@ -109,7 +109,7 @@ public class BlockSummoner extends BlockAMPowered{
 				entityitem.motionY = (float)world.rand.nextGaussian() * f3 + 0.2F;
 				entityitem.motionZ = (float)world.rand.nextGaussian() * f3;
 				world.spawnEntity(entityitem);
-			}while (true);
+			} while (true);
 		}
 		super.breakBlock(world, pos, state);
 	}
