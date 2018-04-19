@@ -47,7 +47,6 @@ public class ArsMagica2 {
 		Affinity.registerAffinities();
 		if (!FluidRegistry.isUniversalBucketEnabled())
 			FluidRegistry.enableUniversalBucket();
-		ForgeModContainer.replaceVanillaBucketModel = true;
 	}
 
 	@EventHandler
