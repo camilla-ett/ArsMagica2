@@ -177,7 +177,6 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new AMIngameGUI());
 		
 		ArsMagica2.config.clientInit();
-		new AMSounds();
 		EntityManager.instance.registerRenderers();
 		blocks.preInitClient();
 		

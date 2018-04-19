@@ -5,6 +5,7 @@ import am2.api.ArsMagicaAPI;
 import am2.api.blocks.IKeystoneLockable;
 import am2.api.extensions.*;
 import am2.api.flickers.AbstractFlickerFunctionality;
+import am2.api.handlers.SoundHandler;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
 import am2.api.spell.AbstractSpellPart;
@@ -231,7 +232,6 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.registerTileEntity(TileEntityManaDrain.class, "TileEntityManaDrain");
 
 		worldGen = new AM2WorldDecorator();
-		SoundDefs.registerSounds();
 		GameRegistry.registerWorldGenerator(worldGen, 0);
 		MinecraftForge.EVENT_BUS.register(FuelHandler.class);
 		EntityManager.instance.registerEntities();
@@ -258,13 +258,14 @@ public class CommonProxy implements IGuiHandler{
 	}
 
 	public void init() {
+		SoundHandler.registerSounds();
 	}
 
 	public void postInit() {
 		playerTracker.postInit();
 		MinecraftForge.EVENT_BUS.register(playerTracker);
 		MinecraftForge.EVENT_BUS.register(new SpellUnlockManager());
-		SoundDefs.createSoundMaps();
+		SoundHandler.createSoundMaps();
 		LoreDefs.postInit();
 		AMRecipes.addShapedRecipes ( );
 		for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
