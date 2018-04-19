@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiInertSpawner extends GuiContainer{
 
-	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/FlickerHabitat.png");
+	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/flickerhabitat.png");
 
 	public GuiInertSpawner(EntityPlayer player, TileEntityInertSpawner tileEntityFlickerHabitat){
 		super(new ContainerInertSpawner(player, tileEntityFlickerHabitat));

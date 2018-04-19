@@ -19,7 +19,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class GuiFlickerHabitat extends GuiContainer{
 
-	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/FlickerHabitat.png");
+	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/flickerhabitat.png");
 	private final TileEntityFlickerHabitat flickerHabitat;
 
 	public GuiFlickerHabitat(EntityPlayer player, TileEntityFlickerHabitat tileEntityFlickerHabitat){

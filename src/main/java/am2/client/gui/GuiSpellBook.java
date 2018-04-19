@@ -17,8 +17,8 @@ public class GuiSpellBook extends GuiContainer{
 
 	private int bookActiveSlot;
 
-	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/spellBookGui.png");
-	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", "textures/gui/spellBookGui_2.png");
+	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/spellbookgui.png");
+	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", "textures/gui/spellbookgui_2.png");
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j){
@@ -41,7 +41,7 @@ public class GuiSpellBook extends GuiContainer{
 	protected void drawGuiContainerForegroundLayer(int par1, int par2){
 		for (int i = 0; i < 8; ++i){
 			ItemStack stack = spellBookInventory.getStackInSlot(i);
-			if (stack == null){
+			if (stack.isEmpty()){
 				continue;
 			}
 			String[] nameParts = stack.getDisplayName().split(" ");

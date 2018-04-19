@@ -56,7 +56,7 @@ public class AMIngameGUI extends Gui {
 	private static final short MANA_BAR_FLASH_SLOT = 4;
 //	private final PotionEffectDurationComparator durationComparator = new PotionEffectDurationComparator();
 
-//	private static final ResourceLocation inv_top = new ResourceLocation("arsmagica2", "textures/gui/Inventory_Top.png");
+//	private static final ResourceLocation inv_top = new ResourceLocation("arsmagica2", "textures/gui/inventory_top.png");
 	private static final ResourceLocation mc_gui = new ResourceLocation("textures/gui/icons.png");
 	private static final ResourceLocation spellbook_ui = new ResourceLocation("arsmagica2", "textures/gui/spellbook_ui.png");
 //	private static final ResourceLocation inventory = new ResourceLocation("textures/gui/container/inventory.png");
@@ -73,7 +73,7 @@ public class AMIngameGUI extends Gui {
 			return;
 		if (this.mc.currentScreen instanceof GuiHudCustomization || this.mc.inGameHasFocus) {
 			ItemStack ci = Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND);
-			boolean drawAMHud = !ArsMagica2.config.showHudMinimally() || (ci != null && (ci.getItem() == ItemDefs.spellBook || ci.getItem() == ItemDefs.spell || ci.getItem() == ItemDefs.arcaneSpellbook || ci.getItem() instanceof IBoundItem));
+			boolean drawAMHud = !ArsMagica2.config.showHudMinimally() || (!ci.isEmpty() && (ci.getItem() == ItemDefs.spellBook || ci.getItem() == ItemDefs.spell || ci.getItem() == ItemDefs.arcaneSpellbook || ci.getItem() instanceof IBoundItem));
 			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
 			int i = scaledresolution.getScaledWidth();
 			int j = scaledresolution.getScaledHeight();
@@ -144,7 +144,7 @@ public class AMIngameGUI extends Gui {
 		for (int n = 0; n < 8; ++n){
 			float IIconX = spellUI_x + 1.5f + n * 12.9f;
 			ItemStack stackItem = activeScrolls[n];
-			if (stackItem == null){
+			if (stackItem.isEmpty()){
 				continue;
 			}
 			GlStateManager.pushMatrix();
@@ -216,9 +216,9 @@ public class AMIngameGUI extends Gui {
 				GlStateManager.color(1f, 0.0f, 0.0f);
 			ItemStack curItem = Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND);
 			//TODO Spell Groups
-			if (curItem != null && (curItem.getItem() == ItemDefs.spell || curItem.getItem() == ItemDefs.spellBook || curItem.getItem() == ItemDefs.arcaneSpellbook)){
+			if (!curItem.isEmpty() && (curItem.getItem() == ItemDefs.spell || curItem.getItem() == ItemDefs.spellBook || curItem.getItem() == ItemDefs.arcaneSpellbook)){
 				ItemStack spellStack = curItem.getItem() == ItemDefs.spell ? curItem : ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
-				if (spellStack != null && spellStack.hasCapability(SpellCaster.INSTANCE, null)) {
+				if (!spellStack.isEmpty() && spellStack.hasCapability(SpellCaster.INSTANCE, null)) {
 					ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
 					List<List<AbstractSpellPart>> parts = caster.getShapeGroups().get(caster.getCurrentShapeGroup());//SpellUtils.getShapeGroupParts(spellStack);
 					int sx = mana_hud.iX - 2 * parts.size() / 2;
@@ -269,10 +269,10 @@ public class AMIngameGUI extends Gui {
 			GlStateManager.enableBlend();
 			String spellcost = "";
 			ItemStack curItem = Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND);
-			if (curItem != null && (curItem.getItem() == ItemDefs.spell
+			if (curItem.isEmpty() && (curItem.getItem() == ItemDefs.spell
 					|| curItem.getItem() == ItemDefs.spellBook || curItem.getItem() == ItemDefs.arcaneSpellbook)){
 				ItemStack spellStack = curItem.getItem() == ItemDefs.spell ? curItem : ((ItemSpellBook)curItem.getItem()).GetActiveItemStack(curItem);
-				if (spellStack != null) {
+				if (!spellStack.isEmpty()) {
 					ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
 					if (caster != null) {
 						float manaCost = caster.getManaCost(Minecraft.getMinecraft().world, Minecraft.getMinecraft().player);

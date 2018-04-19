@@ -45,7 +45,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 
 	ISkillData sk;
 
-	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/ArcaneCompendiumIndexGui.png");
+	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/arcanecompendiumindexgui.png");
 
 	public GuiCompendiumIndex(){
 		categories = CompendiumCategory.getCategories();

@@ -27,8 +27,8 @@ import java.util.ArrayList;
 
 public class GuiKeystone extends GuiContainer{
 
-	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/keystone_GUI.png");
-	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", "textures/gui/spellBookGui_2.png");
+	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/keystone_gui.png");
+	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", "textures/gui/spellbookgui_2.png");
 
 	private GuiTextField combinationName;
 	private GuiStatedImageButton addCombination;

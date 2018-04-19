@@ -12,8 +12,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiEssenceBag extends GuiContainer{
 
-	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/essenceBagGUI.png");
-	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", "textures/gui/spellBookGui_2.png");
+	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/essencebaggui.png");
+	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", "textures/gui/spellbookgui_2.png");
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j){

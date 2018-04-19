@@ -38,7 +38,7 @@ import java.util.List;
 
 public class GuiInscriptionTable extends GuiContainer{
 
-	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/inscriptionTableGui.png");
+	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/inscriptiontablegui.png");
 
 	private final EntityPlayer usingPlayer;
 

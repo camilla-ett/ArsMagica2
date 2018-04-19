@@ -25,7 +25,7 @@ public class ObeliskFuelHelper implements IObeliskFuelHelper{
 
 	@Override
 	public int getFuelBurnTime(ItemStack stack){
-		if (stack == null)
+		if (stack.isEmpty())
 			return 0;
 
 		for (Function<ItemStack, Integer> possibleFuel : validFuels){

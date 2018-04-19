@@ -25,8 +25,8 @@ public class GuiEssenceRefiner extends GuiContainer{
 	private final float colorShiftGreen = -0.84705f; // (-216 G)
 	private final float colorShiftBlue = -0.29803f; //(-76 B)
 
-	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/essenceExtractorGui.png");
-	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", "textures/gui/essenceExtractorGui_2.png");
+	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/essenceextractorgui.png");
+	private static final ResourceLocation extras = new ResourceLocation("arsmagica2", "textures/gui/essenceextractorgui_2.png");
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j){
