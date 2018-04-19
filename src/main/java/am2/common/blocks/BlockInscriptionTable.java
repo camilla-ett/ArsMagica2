@@ -126,9 +126,9 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		}
 
 		if (!world.isRemote && !state.getValue(LEFT)){
-			for (int l = 0; l < insc.getSizeInventory(); l++){
-				ItemStack itemstack = insc.getStackInSlot(l);
-				if (itemstack.isEmpty()){
+            for ( int l = 0; l < insc.getSlots ( ); l++ ) {
+                ItemStack itemstack = insc.getStackInSlot(l);
+				if (itemstack.isEmpty ()){
 					continue;
 				}
 				this.spawnItemOnBreak(world, pos, itemstack);

@@ -85,8 +85,8 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	@Override
 	public void init(EntityPlayer entity) {
 		HashMap<Affinity, Double> map = new HashMap<>();
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues())
-			map.put(aff, 0D);
+        for ( Affinity aff : ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ) )
+            map.put(aff, 0D);
 	}
 	
 	@Override

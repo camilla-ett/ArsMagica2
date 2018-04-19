@@ -1,7 +1,7 @@
 package am2.common.config;
 
 import am2.api.ArsMagicaAPI;
-import am2.api.skill.Skill;
+import am2.common.utils.SpellUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -62,7 +62,7 @@ public class SpellPartConfiguration extends Configuration{
 	public void disableAllSkillsIn(int[] disabledSkills) {
 		disabled.clear();
 		for (int i : disabledSkills) {
-			ResourceLocation rl = ((Skill)(ArsMagicaAPI.getSkillRegistry().getValuesCollection().toArray()[(i)])).getRegistryName();
+			ResourceLocation rl = ( SpellUtils.GetSkillFromID ( i ) ).getRegistryName ( );
 			String name = rl.toString();
 			if (name.startsWith("arsmagica2:")) name = rl.getResourcePath();
 			disabled.add(name);

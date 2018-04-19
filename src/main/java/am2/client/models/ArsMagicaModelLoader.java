@@ -1,32 +1,13 @@
 package am2.client.models;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
-import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-
 import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.client.items.rendering.SpellModel;
 import am2.common.utils.ModelUtils;
+import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -40,6 +21,15 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class ArsMagicaModelLoader implements ICustomModelLoader {
 	
@@ -82,8 +72,8 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 	
 	@SubscribeEvent
 	public void preStitch(TextureStitchEvent.Pre e) {
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
-			e.getMap().registerSprite(new ResourceLocation(aff.getRegistryName().getResourceDomain(), "blocks/runes/rune_" + aff.getRegistryName().getResourcePath()));
+        for ( Affinity aff : ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ) ) {
+            e.getMap().registerSprite(new ResourceLocation(aff.getRegistryName().getResourceDomain(), "blocks/runes/rune_" + aff.getRegistryName().getResourcePath()));
 			sprites.put(aff, e.getMap().registerSprite(new ResourceLocation("arsmagica2", "items/particles/" + aff.getName().toLowerCase() + "_hand")));
 		}
 		registerParticle(e.getMap(), "arcane");

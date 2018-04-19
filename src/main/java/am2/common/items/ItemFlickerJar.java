@@ -1,14 +1,12 @@
 package am2.common.items;
 
-import java.util.List;
-
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import am2.common.entity.EntityFlicker;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import am2.common.utils.SpellUtils;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,7 +27,7 @@ public class ItemFlickerJar extends ItemArsMagica{
 		if (meta == (Affinity.NONE).getID())
 			return I18n.format("item.arsmagica2:flickerJar.name", I18n.format("am2.tooltip.empty"));
 
-		Affinity aff = (Affinity)ArsMagicaAPI.getAffinityRegistry().getValuesCollection().toArray()[(meta)];
+		Affinity aff = SpellUtils.GetAffinityFromID ( meta );
 		baseName = I18n.format("item.arsmagica2:flickerJar.name", aff.getLocalizedName());
 
 		return baseName;

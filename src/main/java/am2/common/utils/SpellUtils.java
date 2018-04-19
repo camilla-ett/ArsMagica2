@@ -1,21 +1,13 @@
 package am2.common.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.SpellRegistry;
+import am2.api.affinity.Affinity;
 import am2.api.extensions.ISpellCaster;
-import am2.api.spell.AbstractSpellPart;
-import am2.api.spell.Operation;
-import am2.api.spell.SpellComponent;
-import am2.api.spell.SpellData;
-import am2.api.spell.SpellModifier;
-import am2.api.spell.SpellModifiers;
-import am2.api.spell.SpellShape;
+import am2.api.flickers.AbstractFlickerFunctionality;
+import am2.api.skill.Skill;
+import am2.api.spell.*;
 import am2.common.armor.ArmorHelper;
 import am2.common.armor.ArsMagicaArmorMaterial;
 import am2.common.defs.ItemDefs;
@@ -24,6 +16,7 @@ import am2.common.entity.EntityDarkMage;
 import am2.common.entity.EntityLightMage;
 import am2.common.extensions.EntityExtension;
 import am2.common.spell.SpellCaster;
+import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragon;
@@ -43,6 +36,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpellUtils {
 	
@@ -215,10 +211,31 @@ public class SpellUtils {
 			return Lists.newArrayList();
 		}
 	}
-	
-	
-	public static KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> decode(NBTTagCompound toDecode) {
-		if (toDecode == null)
+
+    public static Skill GetSkillFromID ( int id ) {
+        for ( Skill skill : ArsMagicaAPI.getSkillRegistry ( ).getValuesCollection ( ) ) {
+            if ( skill.getID ( ) == id ) return skill;
+        }
+        return null;
+    }
+
+    public static Affinity GetAffinityFromID ( int id ) {
+        for ( Affinity affinity : ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ) ) {
+            if ( affinity.getID ( ) == id ) return affinity;
+        }
+        return null;
+    }
+
+    public static AbstractFlickerFunctionality GetAbstractFlickerFunctionalityFromID ( int id ) {
+        for ( AbstractFlickerFunctionality affinity : ArsMagicaAPI.getFlickerFocusRegistry ( ).getValuesCollection ( ) ) {
+            if ( affinity.getID ( ) == id ) return affinity;
+        }
+        return null;
+    }
+
+
+    public static KeyValuePair <ArrayList <AbstractSpellPart>, NBTTagCompound> decode ( NBTTagCompound toDecode ) {
+        if (toDecode == null)
 			return null;
 		try {
 			ArrayList<AbstractSpellPart> parts = new ArrayList<>();

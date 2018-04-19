@@ -375,14 +375,14 @@ public class GuiOcculus extends GuiScreen {
 		} else {
 			boolean isShiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 			RenderUtils.drawBox(posX + 7, posY + 7, 196, 196, zLevel, 0, 0, 1, 1);
-			int affNum = ArsMagicaAPI.getAffinityRegistry().getValues().size() - 1;
+			int affNum = ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ).size ( ) - 1;
 			int portion = 360 / affNum;
 			int currentID = 0;
 			int cX = posX + xSize/2;
 			int cY = posY + ySize/2;
 			//float finalPercentage = AffinityData.For(player).getAffinityDepth(SkillDefs.NONE) * 100;
 			ArrayList<String> drawString = new ArrayList<>();
-			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			for ( Affinity aff : ArsMagicaAPI.getAffinityRegistry ( ).getValuesCollection ( ) ) {
 				if (aff == Affinity.NONE)
 					continue;
 				double depth = AffinityData.For(player).getAffinityDepth(aff);

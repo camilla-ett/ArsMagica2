@@ -35,7 +35,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -53,11 +52,13 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.oredict.OreDictionary;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
-public class TileEntityInscriptionTable extends TileEntity implements IInventory, ITickable, ITileEntityAMBase {
+public class TileEntityInscriptionTable extends TileEntity implements IItemHandlerModifiable, ITickable, ITileEntityAMBase {
 
 	private ItemStack inscriptionTableItemStacks[];
 	private final ArrayList<AbstractSpellPart> currentRecipe;
@@ -79,9 +80,9 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	private static final byte MAKE_SPELL = 0x2;
 	private static final byte RESET_NAME = 0x4;
 
-	public TileEntityInscriptionTable(){
-		this.inscriptionTableItemStacks = new ItemStack[this.getSizeInventory()];
-		this.currentPlayerUsing = null;
+    public TileEntityInscriptionTable ( ) {
+        this.inscriptionTableItemStacks = new ItemStack[ this.getSlots ( ) ];
+        this.currentPlayerUsing = null;
 		this.currentSpellName = "";
 		this.currentRecipe = new ArrayList<>();
 		this.shapeGroups = new ArrayList<>();
@@ -89,6 +90,9 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		for (int i = 0; i < MAX_STAGE_GROUPS; ++i){
 			this.shapeGroups.add(new ArrayList<>());
 		}
+
+        for ( int slot = 0; slot < this.getSlots ( ); slot++ )
+            this.insertItem ( slot , ItemStack.EMPTY , false );
 
 		this.modifierCount = new HashMap<>();
 		this.resetModifierCount();
@@ -98,14 +102,10 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return this.currentRecipe;
 	}
 
-	@Override
-	public int getSizeInventory(){
-		return 4;
-	}
 
 	@Override
-	public boolean isEmpty() {
-		return false;
+    public int getSlots ( ) {
+        return 4;
 	}
 
 	@Override
@@ -113,48 +113,45 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return this.inscriptionTableItemStacks[i];
 	}
 
-	@Override
-	public ItemStack decrStackSize(int i, int j){
-		if (this.inscriptionTableItemStacks[i] != null){
-			if (this.inscriptionTableItemStacks[i].getCount() <= j){
-				ItemStack itemstack = this.inscriptionTableItemStacks[i];
-				this.inscriptionTableItemStacks[i] = null;
-				return itemstack;
-			}
-			ItemStack itemstack1 = this.inscriptionTableItemStacks[i].splitStack(j);
-			if (this.inscriptionTableItemStacks[i].getCount() == 0){
-				this.inscriptionTableItemStacks[i] = null;
-			}
-			return itemstack1;
-		}else{
-			return null;
-		}
-	}
+    @Nonnull
+    @Override
+    public ItemStack insertItem ( int slot , @Nonnull ItemStack stack , boolean simulate ) {
+        ItemStack slotItem = this.inscriptionTableItemStacks[ slot ];
+        if ( slotItem == null ) {
+            this.inscriptionTableItemStacks[ slot ] = stack;
+            return ItemStack.EMPTY;
+        }
+        int stackNum = stack.getCount ( ) + slotItem.getCount ( );
+        if ( stackNum > 64 ) {
+            slotItem.setCount ( 64 );
+            if ( !simulate ) this.inscriptionTableItemStacks[ slot ] = slotItem;
+            stack.setCount ( stackNum % 64 );
+            return stack;
+        } else {
+            slotItem.setCount ( stackNum );
+            if ( !simulate ) this.inscriptionTableItemStacks[ slot ] = slotItem;
+            return ItemStack.EMPTY;
+        }
+    }
+
+    @Nonnull
+    @Override
+    public ItemStack extractItem ( int slot , int amount , boolean simulate ) {
+        ItemStack slotItem = this.inscriptionTableItemStacks[ slot ];
+        if ( slotItem.getCount ( ) - amount == 0 ) {
+            if ( !simulate ) this.inscriptionTableItemStacks[ slot ] = ItemStack.EMPTY;
+            return slotItem;
+        } else {
+            slotItem.setCount ( slotItem.getCount ( ) - amount );
+            if ( !simulate ) this.inscriptionTableItemStacks[ slot ] = slotItem;
+            slotItem.setCount ( amount );
+            return slotItem;
+        }
+    }
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack){
-		this.inscriptionTableItemStacks[i] = itemstack;
-		if (itemstack != null && itemstack.getCount() > this.getInventoryStackLimit()){
-			itemstack.setCount(this.getInventoryStackLimit());
-		}
-	}
-
-	@Override
-	public String getName(){
-		return "Inscription Table";
-	}
-
-	@Override
-	public int getInventoryStackLimit(){
-		return 64;
-	}
-
-	@Override
-	public boolean isUsableByPlayer(EntityPlayer entityplayer){
-		if (this.world.getTileEntity(this.pos) != this){
-			return false;
-		}
-		return entityplayer.getDistanceSqToCenter(this.pos) <= 64D;
+    public int getSlotLimit ( int slot ) {
+        return 64;
 	}
 
 	public boolean isInUse(EntityPlayer player){
@@ -304,24 +301,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		}
 	}
 
-	@Override
-	public void openInventory(EntityPlayer player){
-	}
-
-	@Override
-	public void closeInventory(EntityPlayer player){
-	}
-
-	@Override
-	public ItemStack removeStackFromSlot(int i){
-		if (this.inscriptionTableItemStacks[i] != null){
-			ItemStack itemstack = this.inscriptionTableItemStacks[i];
-			this.inscriptionTableItemStacks[i] = null;
-			return itemstack;
-		}else{
-			return null;
-		}
-	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound){
@@ -332,8 +311,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 	private void parseTagCompound(NBTTagCompound par1NBTTagCompound){
 		NBTTagList nbttaglist = par1NBTTagCompound.getTagList("InscriptionTableInventory", Constants.NBT.TAG_COMPOUND);
-		this.inscriptionTableItemStacks = new ItemStack[this.getSizeInventory()];
-		for (int i = 0; i < nbttaglist.tagCount(); i++){
+        this.inscriptionTableItemStacks = new ItemStack[ this.getSlots ( ) ];
+        for (int i = 0; i < nbttaglist.tagCount(); i++){
 			String tag = String.format("ArrayIndex", i);
 			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte byte0 = nbttagcompound1.getByte(tag);
@@ -400,18 +379,9 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return par1NBTTagCompound;
 	}
 
-	@Override
-	public boolean hasCustomName(){
-		return false;
-	}
-	
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return false;
-	}
 
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack){
+    @Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		return false;
 	}
 
@@ -436,8 +406,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			this.currentRecipe.clear();
 			int partLength = rdr.getInt();
 			for (int i = 0; i < partLength; ++i){
-				Skill part = (Skill)ArsMagicaAPI.getSkillRegistry().getValuesCollection().toArray()[(rdr.getInt())];
-				AbstractSpellPart spellPart = ArsMagicaAPI.getSpellRegistry().getValue(part.getRegistryName());
+                Skill part = SpellUtils.GetSkillFromID ( rdr.getInt ( ) );
+                AbstractSpellPart spellPart = ArsMagicaAPI.getSpellRegistry().getValue(part.getRegistryName());
 				if (spellPart != null)
 					this.currentRecipe.add(spellPart);
 			}
@@ -448,8 +418,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				ArrayList<AbstractSpellPart> group = new ArrayList<>();
 				int[] partData = rdr.getIntArray();
 				for (int n : partData){
-					Skill part = (Skill)ArsMagicaAPI.getSkillRegistry().getValuesCollection().toArray()[(n)];
-					AbstractSpellPart spellPart = ArsMagicaAPI.getSpellRegistry().getValue(part.getRegistryName());
+                    Skill part = SpellUtils.GetSkillFromID ( n );
+                    AbstractSpellPart spellPart = ArsMagicaAPI.getSpellRegistry().getValue(part.getRegistryName());
 					if (spellPart != null)
 						group.add(spellPart);
 				}
@@ -695,13 +665,13 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 			allRecipeItems.addAll(this.currentRecipe);
 			for (AbstractSpellPart part : allRecipeItems){
-				
-				if (part == null){
+
+                if (part == null){
 					LogHelper.error("Unable to write recipe to book.  Recipe part is null!");
 					return bookstack;
 				}
-				
-				Object[] recipeItems = part.getRecipe();
+
+                Object[] recipeItems = part.getRecipe();
 				SpellRecipeItemsEvent event = new SpellRecipeItemsEvent(SpellRegistry.getSkillFromPart(part).getIDString(), recipeItems);
 				MinecraftForge.EVENT_BUS.post(event);
 				recipeItems = event.recipeItems;
@@ -826,8 +796,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			}
 			pages.addAll(Story.splitStoryPartIntoPages(sb.toString()));
 			Story.WritePartToNBT(bookstack.getTagCompound(), pages);
-	
-			bookstack = Story.finalizeStory(bookstack, title, player.getName());
+
+            bookstack = Story.finalizeStory(bookstack, title, player.getName());
 
 			ItemStack[] recipeData = new ItemStack[componentRecipeList.size()];
 			int idx = 0;
@@ -934,7 +904,12 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return this.writeToNBT(new NBTTagCompound());
 	}
 
-	static class ValueComparator implements Comparator<Affinity>{
+    @Override
+    public void setStackInSlot ( int slot , @Nonnull ItemStack stack ) {
+        this.inscriptionTableItemStacks[ slot ] = stack;
+    }
+
+    static class ValueComparator implements Comparator <Affinity> {
 
 		Map<Affinity, Integer> base;
 
@@ -1030,30 +1005,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TextComponentString(this.getName());
-	}
+        return new TextComponentString ( this.getDisplayName ( ).getFormattedText ( ) );
+    }
 
-	@Override
-	public int getField(int id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setField(int id, int value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getFieldCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
-	}
 }
