@@ -30,8 +30,8 @@ public class SpellIconManager {
 			if (skill.getIcon() != null)
 				sprites.put(skill.getIDString(), e.getMap().registerSprite(skill.getIcon()));
 		}
-		sprites.put("CasterRuneSide", e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/CasterRuneSide")));
-		sprites.put("RuneStone", e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/RuneStone")));
+		sprites.put("CasterRuneSide", e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/casterruneside")));
+		sprites.put("RuneStone", e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/runestone")));
 	}
 	
 	public TextureAtlasSprite getSprite(String name) {

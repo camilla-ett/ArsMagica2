@@ -105,8 +105,8 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/celestial_prism"));
 		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/crystalmarker"));
 		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/habitat"));
-		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/essenceCrystal"));
-		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/Arcane_Reconstructor"));
+		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/essencecrystal"));
+		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/custom/arcane_reconstructor"));
 		e.getMap().registerSprite(new ResourceLocation("arsmagica2:blocks/everstone"));
 	}
 	
