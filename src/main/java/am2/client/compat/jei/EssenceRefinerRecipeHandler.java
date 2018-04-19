@@ -11,7 +11,6 @@ public class EssenceRefinerRecipeHandler implements IRecipeHandler<RecipeArsMagi
 		return RecipeArsMagica.class;
 	}
 
-	@Override
 	public String getRecipeCategoryUid() {
 		return "am2.essence_refiner";
 	}

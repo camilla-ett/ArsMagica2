@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import am2.api.recipes.RecipeArsMagica;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fluids.FluidStack;
@@ -18,22 +19,18 @@ public class EssenceRefinerRecipeWrapper implements IRecipeWrapper {
 		this.recipe = recipe;
 	}
 	
-	@Override
 	public List<?> getInputs() {
 		return Lists.newArrayList(recipe.getRecipeItems());
 	}
 
-	@Override
 	public List<?> getOutputs() {
 		return Lists.newArrayList(recipe.getOutput());
 	}
 
-	@Override
 	public List<FluidStack> getFluidInputs() {
 		return ImmutableList.of();
 	}
 
-	@Override
 	public List<FluidStack> getFluidOutputs() {
 		return ImmutableList.of();
 	}
@@ -43,7 +40,6 @@ public class EssenceRefinerRecipeWrapper implements IRecipeWrapper {
 		
 	}
 
-	@Override
 	public void drawAnimations(Minecraft minecraft, int recipeWidth, int recipeHeight) {
 		
 	}
@@ -56,6 +52,12 @@ public class EssenceRefinerRecipeWrapper implements IRecipeWrapper {
 	@Override
 	public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
 		return false;
+	}
+
+	@Override
+	public void getIngredients(IIngredients ingredients) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
