@@ -2,12 +2,14 @@ package am2.common.registry;
 
 import am2.ArsMagica2;
 import am2.common.LogHelper;
+import am2.common.world.BiomeWitchwoodForest;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -87,6 +89,7 @@ public class Registry {
     public static void registerBiomes ( RegistryEvent.Register <Biome> event ) {
         for ( Biome biome : Registry.GetBiomesToRegister ( ) )
             event.getRegistry ( ).register ( biome );
+        RegisterCustomBiomes ( );
     }
 
     @SubscribeEvent
@@ -101,5 +104,11 @@ public class Registry {
     public void registerEnchantments ( RegistryEvent.Register <Enchantment> event ) {
         for ( Enchantment encha : Registry.GetEnchantmentsToRegister ( ) )
             event.getRegistry ( ).register ( encha );
+    }
+
+    private static void RegisterCustomBiomes ( ) {
+        if ( ArsMagica2.config.getEnableWitchwoodForest ( ) ) {
+            BiomeDictionary.addTypes ( GameRegistry.findRegistry ( Biome.class ).getValue ( BiomeWitchwoodForest.REGISTRY.getNameForObject ( BiomeWitchwoodForest.instance ) ) , BiomeDictionary.Type.FOREST , BiomeDictionary.Type.MAGICAL );
+        }
     }
 }

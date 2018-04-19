@@ -91,7 +91,7 @@ public class FlickerOperatorButchery extends AbstractFlickerFunctionality{
 				"PBC",
 				"FGL",
 				"RER",
-				Character.valueOf('P'), new ItemStack(Items.PORKCHOP),
+				'P' , new ItemStack ( Items.PORKCHOP ) ,
 				Character.valueOf('B'), new ItemStack(Items.BEEF),
 				Character.valueOf('C'), new ItemStack(Items.CHICKEN),
 				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.FIRE.getID()),
