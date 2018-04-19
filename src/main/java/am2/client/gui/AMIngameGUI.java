@@ -58,7 +58,7 @@ public class AMIngameGUI extends Gui {
 
 //	private static final ResourceLocation inv_top = new ResourceLocation("arsmagica2", "textures/gui/inventory_top.png");
 	private static final ResourceLocation mc_gui = new ResourceLocation("textures/gui/icons.png");
-	private static final ResourceLocation spellbook_ui = new ResourceLocation("arsmagica2", "textures/gui/spellbook_ui.png");
+	private static final ResourceLocation spellbook_ui = new ResourceLocation(ArsMagica2.MODID, "textures/gui/spellbook_ui.png");
 //	private static final ResourceLocation inventory = new ResourceLocation("textures/gui/container/inventory.png");
 
 	public AMIngameGUI(){
