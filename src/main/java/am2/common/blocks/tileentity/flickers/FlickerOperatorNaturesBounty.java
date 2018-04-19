@@ -116,12 +116,12 @@ public class FlickerOperatorNaturesBounty extends AbstractFlickerFunctionality{
 				"BAB",
 				"LNW",
 				"BGB",
-				Character.valueOf('B'), new ItemStack(Items.DYE, 1, 15),
-				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
-				Character.valueOf('N'), AffinityShiftUtils.getEssenceForAffinity(Affinity.NATURE),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.LIFE.getID()),
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.NATURE.getID()),
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.WATER.getID())
+				'B' , new ItemStack ( Items.DYE , 1 , 15 ) ,
+				'G' , new ItemStack ( ItemDefs.rune , 1 , EnumDyeColor.GREEN.getDyeDamage ( ) ) ,
+				'N' , AffinityShiftUtils.getEssenceForAffinity ( Affinity.NATURE ) ,
+				'L' , new ItemStack ( ItemDefs.flickerJar , 1 , Affinity.LIFE.getID ( ) ) ,
+				'A' , new ItemStack ( ItemDefs.flickerJar , 1 , Affinity.NATURE.getID ( ) ) ,
+				'W' , new ItemStack ( ItemDefs.flickerJar , 1 , Affinity.WATER.getID ( ) )
 
 		};
 	}

@@ -118,10 +118,10 @@ public class FlickerOperatorProgeny extends AbstractFlickerFunctionality{
 				"ELE",
 				"EFE",
 				"EWE",
-				Character.valueOf('E'), Items.EGG,
-				Character.valueOf('L'), AffinityShiftUtils.getEssenceForAffinity(Affinity.LIFE),
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.LIFE.getID()),
-				Character.valueOf('W'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage())
+                'E' , Items.EGG ,
+                'L' , AffinityShiftUtils.getEssenceForAffinity ( Affinity.LIFE ) ,
+                'F' , new ItemStack ( ItemDefs.flickerJar , 1 , Affinity.LIFE.getID ( ) ) ,
+                'W' , new ItemStack ( ItemDefs.rune , 1 , EnumDyeColor.WHITE.getDyeDamage ( ) )
 
 		};
 	}

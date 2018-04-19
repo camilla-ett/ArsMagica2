@@ -98,10 +98,10 @@ public class FlickerOperatorPackedEarth extends AbstractFlickerFunctionality{
 				"DDD",
 				"RFR",
 				" E ",
-				Character.valueOf('D'), Blocks.DIRT,
-				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
-				Character.valueOf('E'), AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH),
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.EARTH.getID())
+                'D' , Blocks.DIRT ,
+                'R' , new ItemStack ( ItemDefs.rune , 1 , EnumDyeColor.BLACK.getDyeDamage ( ) ) ,
+                'E' , AffinityShiftUtils.getEssenceForAffinity ( Affinity.EARTH ) ,
+                'F' , new ItemStack ( ItemDefs.flickerJar , 1 , Affinity.EARTH.getID ( ) )
 
 		};
 	}

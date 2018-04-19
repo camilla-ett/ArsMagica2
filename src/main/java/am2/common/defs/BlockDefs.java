@@ -8,6 +8,7 @@ import am2.client.blocks.colorizers.FlickerHabitatColorizer;
 import am2.client.blocks.colorizers.ManaBatteryColorizer;
 import am2.client.blocks.colorizers.MonoColorizer;
 import am2.client.items.rendering.IgnoreMetadataRenderer;
+import am2.common.LogHelper;
 import am2.common.blocks.*;
 import am2.common.blocks.tileentity.TileEntityKeystoneRecepticle;
 import am2.common.registry.Registry;
@@ -24,7 +25,6 @@ import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSlab;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -109,23 +109,28 @@ public class BlockDefs {
 	
 	public static HashMap<Integer, ArrayList<AMVector3>> KeystonePortalLocations = new HashMap<>();
 	public static Fluid liquid_essence = new Fluid("liquid_essence", new ResourceLocation("arsmagica2", "blocks/liquidEssenceStill"), new ResourceLocation("arsmagica2", "blocks/liquidEssenceFlowing")).setRarity(EnumRarity.RARE).setLuminosity(7);
-	
-	
-	public void preInit () {
-		FluidRegistry.registerFluid(liquid_essence);
-		FluidRegistry.addBucketForFluid(liquid_essence);
-
-		liquid_essence = FluidRegistry.getFluid(BlockDefs.liquid_essence.getName());
-		Block blockliquid_essence = new BlockFluidClassic(liquid_essence, Material.WATER).setUnlocalizedName("arsmagica2:fluid_block_liquid_essence").setRegistryName("arsmagica2:fluid_block_liquid_essence");
-		Item itemliquid_essence = new ItemBlock(blockliquid_essence).setUnlocalizedName("arsmagica2:fluid_block_liquid_essence").setRegistryName("arsmagica2:fluid_block_liquid_essence");
 
 
-		Registry.GetBlocksToRegister().add(blockliquid_essence);
-		Registry.GetItemsToRegister().add(itemliquid_essence);
-		Registry.GetItemsToRegister().add(new ItemSlab(witchwoodSingleSlab, witchwoodSingleSlab, witchwoodDoubleSlab).setRegistryName(ArsMagica2.MODID, "witchwoodslab"));
-	}
-	
-	@SideOnly(Side.CLIENT)
+    private static void registerEssences ( ) {
+        Block blockliquid_essence = GameRegistry.findRegistry ( Block.class ).getValue ( new ResourceLocation ( "arsmagica2:liquid_essence" ) );
+        //Item itemliquid_essence = GameRegistry.findRegistry ( Item.class ).getValue ( new ResourceLocation ( "arsmagica2:liquid_essence" ) );
+        //ModelBakery.registerItemVariants ( itemliquid_essence , new ModelResourceLocation ( new ResourceLocation ( "arsmagica2:liquid_essence" ) , liquid_essence.getName ( ) ) );
+        //ModelLoader.setCustomMeshDefinition ( itemliquid_essence , stack -> new ModelResourceLocation ( new ResourceLocation ( "arsmagica2:liquid_essence" ) , liquid_essence.getName ( ) ) );
+
+        ModelLoader.setCustomStateMapper ( iceEffigy , new StateMap.Builder ( ).ignore ( BlockEffigy.PROGRESS ).build ( ) );
+        ModelLoader.setCustomStateMapper ( lightningEffigy , new StateMap.Builder ( ).ignore ( BlockEffigy.PROGRESS ).build ( ) );
+
+        ModelLoader.setCustomStateMapper ( blockliquid_essence , new StateMapperBase ( ) {
+
+            @Override
+            protected ModelResourceLocation getModelResourceLocation ( IBlockState state ) {
+                return new ModelResourceLocation ( new ResourceLocation ( "arsmagica2:liquid_essence" ) , liquid_essence.getName ( ) );
+            }
+        } );
+
+    }
+
+    @SideOnly(Side.CLIENT)
 	public void preInitClient() {
 	}
 	
@@ -229,30 +234,30 @@ public class BlockDefs {
         registerEssences ( );
     }
 
-    private static void registerEssences ( ) {
-        Block blockliquid_essence = GameRegistry.findRegistry ( Block.class ).getValue ( new ResourceLocation ( "arsmagica2:liquid_essence" ) );
-        Item itemliquid_essence = GameRegistry.findRegistry ( Item.class ).getValue ( new ResourceLocation ( "arsmagica2:liquid_essence" ) );
-        ModelBakery.registerItemVariants ( itemliquid_essence , new ModelResourceLocation ( new ResourceLocation ( "arsmagica2:liquid_essence" ) , liquid_essence.getName ( ) ) );
-        ModelLoader.setCustomMeshDefinition ( itemliquid_essence , stack -> new ModelResourceLocation ( new ResourceLocation ( "arsmagica2:liquid_essence" ) , liquid_essence.getName ( ) ) );
-
-        ModelLoader.setCustomStateMapper ( iceEffigy , new StateMap.Builder ( ).ignore ( BlockEffigy.PROGRESS ).build ( ) );
-        ModelLoader.setCustomStateMapper ( lightningEffigy , new StateMap.Builder ( ).ignore ( BlockEffigy.PROGRESS ).build ( ) );
-
-        ModelLoader.setCustomStateMapper ( blockliquid_essence , new StateMapperBase ( ) {
-
-            @Override
-            protected ModelResourceLocation getModelResourceLocation ( IBlockState state ) {
-                return new ModelResourceLocation ( new ResourceLocation ( "arsmagica2:liquid_essence" ) , liquid_essence.getName ( ) );
-            }
-        } );
-    }
-
     @SideOnly(Side.CLIENT)
 	private static void registerTexture(Block block) {
-		ResourceLocation loc = block.getRegistryName();
-		Item item = GameRegistry.findRegistry(Item.class).getValue(loc);
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, new IgnoreMetadataRenderer(new ModelResourceLocation(loc, "inventory")));
-	}
+        LogHelper.info ( "Registering ItemTexture for Block " + block.getRegistryName ( ) );
+        ResourceLocation loc = block.getRegistryName();
+        Item item = GameRegistry.findRegistry ( Item.class ).getValue ( loc );
+        if ( item != null ) {
+            LogHelper.info ( "Searching for Item: (Block)" + loc + "/ Returned: " + item.getRegistryName ( ) );
+            Minecraft.getMinecraft ( ).getRenderItem ( ).getItemModelMesher ( ).register ( item , new IgnoreMetadataRenderer ( new ModelResourceLocation ( loc , "inventory" ) ) );
+        }
+    }
+
+    public void preInit ( ) {
+        FluidRegistry.registerFluid ( liquid_essence );
+        FluidRegistry.addBucketForFluid ( liquid_essence );
+
+        liquid_essence = FluidRegistry.getFluid ( BlockDefs.liquid_essence.getName ( ) );
+        Block blockliquid_essence = new BlockFluidClassic ( liquid_essence , Material.WATER ).setUnlocalizedName ( "arsmagica2:fluid_block_liquid_essence" ).setRegistryName ( "arsmagica2:fluid_block_liquid_essence" );
+        //Item itemliquid_essence = new ItemBlock(blockliquid_essence).setUnlocalizedName("arsmagica2:fluid_block_liquid_essence").setRegistryName("arsmagica2:fluid_block_liquid_essence");
+
+
+        Registry.GetBlocksToRegister ( ).add ( blockliquid_essence );
+        //Registry.GetItemsToRegister().add(itemliquid_essence);
+        Registry.GetItemsToRegister ( ).add ( new ItemSlab ( witchwoodSingleSlab , witchwoodSingleSlab , witchwoodDoubleSlab ).setRegistryName ( ArsMagica2.MODID , "witchwoodslab" ) );
+    }
 	
 	public void registerKeystonePortal(BlockPos pos, int dimension){
 		AMVector3 location = new AMVector3(pos);

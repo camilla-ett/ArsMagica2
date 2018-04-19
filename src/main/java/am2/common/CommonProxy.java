@@ -30,6 +30,7 @@ import am2.common.packet.AMPacketProcessorServer;
 import am2.common.power.PowerNodeCache;
 import am2.common.power.PowerNodeEntry;
 import am2.common.power.PowerTypes;
+import am2.common.registry.Registry;
 import am2.common.spell.SpellUnlockManager;
 import am2.common.trackers.ItemFrameWatcher;
 import am2.common.trackers.PlayerTracker;
@@ -48,15 +49,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.common.BiomeManager.BiomeEntry;
-import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -178,9 +175,11 @@ public class CommonProxy implements IGuiHandler{
 		enchantments = new AMEnchantments();
 		AMNetHandler.INSTANCE.init();
 		AMNetHandler.INSTANCE.registerChannels(packetProcessor);
+        RegisterWitchwoodForest ( );
 
-		MinecraftForge.EVENT_BUS.register(serverTickHandler);
-		MinecraftForge.EVENT_BUS.register(new CompendiumUnlockHandler());
+
+        MinecraftForge.EVENT_BUS.register ( serverTickHandler );
+        MinecraftForge.EVENT_BUS.register(new CompendiumUnlockHandler());
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());
 		MinecraftForge.EVENT_BUS.register(new PotionEffectHandler());
 		MinecraftForge.EVENT_BUS.register(new AffinityAbilityHelper());
@@ -266,7 +265,6 @@ public class CommonProxy implements IGuiHandler{
 		MinecraftForge.EVENT_BUS.register(playerTracker);
 		MinecraftForge.EVENT_BUS.register(new SpellUnlockManager());
 		SoundDefs.createSoundMaps();
-		RegisterWitchwoodForest();
 		LoreDefs.postInit();
 		AMRecipes.addShapedRecipes ( );
 		for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
@@ -294,13 +292,11 @@ public class CommonProxy implements IGuiHandler{
 	}
 
 	public void RegisterWitchwoodForest() {
-		if (ArsMagica2.config.getEnableWitchwoodForest()){
-			BiomeDictionary.addTypes(BiomeWitchwoodForest.instance, Type.FOREST, Type.MAGICAL);
-			BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(BiomeWitchwoodForest.instance, 6));
-			int id = (BiomeWitchwoodForest.getBiomeId() != -1) ? BiomeWitchwoodForest.getBiomeId() : BiomeWitchwoodForest.getNextFreeBiomeId();
-			Biome.registerBiome(id, BiomeWitchwoodForest.instance.getBiomeName(), BiomeWitchwoodForest.instance);
-		}
-	}
+        if ( ArsMagica2.config.getEnableWitchwoodForest ( ) ) {
+            BiomeManager.addBiome ( BiomeManager.BiomeType.COOL , new BiomeManager.BiomeEntry ( BiomeWitchwoodForest.instance , 6 ) );
+            Registry.GetBiomesToRegister ( ).add ( BiomeWitchwoodForest.instance.setRegistryName ( new ResourceLocation ( ArsMagica2.MODID , "witchwoodforest" ) ) );
+        }
+    }
 
 	public void clearDeferredDimensionTransfers(){
 		deferredDimensionTransfers.clear();

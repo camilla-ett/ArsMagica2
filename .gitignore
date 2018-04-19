@@ -47,4 +47,3 @@ MinecraftForge-License.txt
 *.launch
 build_travis.*
 build.bat
-src/main/java/am2/common/blocks/tileentity/TileEntityInertSpawner.java

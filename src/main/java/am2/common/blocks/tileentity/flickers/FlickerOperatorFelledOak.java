@@ -291,12 +291,12 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 				"NCL",
 				" OW",
 				Character.valueOf('W'), BlockDefs.witchwoodLog,
-				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.NATURE.getID()),
+                Character.valueOf ( 'O' ) , new ItemStack ( ItemDefs.rune , 1 , EnumDyeColor.GREEN.getDyeDamage ( ) ) ,
+                Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.NATURE.getID()),
 				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, Affinity.LIGHTNING.getID()),
 				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.ORANGE.getDyeDamage()),
-				Character.valueOf('G'), new ItemStack(ItemDefs.bindingCatalyst, 1, ItemBindingCatalyst.META_AXE)
-		};
+                Character.valueOf ( 'C' ) , new ItemStack ( ItemDefs.bindingCatalyst , 1 , ItemBindingCatalyst.META_AXE )
+        };
 	}
 	
 	@Override
