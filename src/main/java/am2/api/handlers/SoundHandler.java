@@ -123,6 +123,7 @@ public class SoundHandler {
 
     private static SoundEvent register(String rl){
         SoundEvent temp = new SoundEvent(new ResourceLocation(rl));
+        LogHelper.info("Adding sound to Registry: " + rl);
         Registry.GetSoundsToRegister().add(temp.setRegistryName(new ResourceLocation(rl)));
         return temp;
     }
