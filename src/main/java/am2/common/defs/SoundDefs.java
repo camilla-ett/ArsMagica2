@@ -3,6 +3,7 @@ package am2.common.defs;
 import am2.ArsMagica2;
 import am2.api.affinity.Affinity;
 import am2.api.event.SpellSoundMapEvent;
+import am2.common.LogHelper;
 import am2.common.registry.Registry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -49,9 +50,9 @@ public class SoundDefs {
 	public static SoundEvent CAST_NONE = getCastSound("none");
 	public static SoundEvent CAST_WATER = getCastSound("water");
 
-	public static SoundEvent RUNE_CAST = new SoundEvent(new ResourceLocation(ArsMagica2.MODID, "spell.rune.cast"));
-	public static SoundEvent CONTINGENCY = new SoundEvent(new ResourceLocation(ArsMagica2.MODID, "spell.contingency.cast"));
-	public static SoundEvent BINDING_CAST = new SoundEvent(new ResourceLocation(ArsMagica2.MODID, "spell.binding.cast"));
+    public static SoundEvent RUNE_CAST = new SoundEvent ( new ResourceLocation ( ArsMagica2.MODID , "spell.rune.cast" ) ).setRegistryName ( new ResourceLocation ( ArsMagica2.MODID , "spell.rune.cast" ) );
+    public static SoundEvent CONTINGENCY = new SoundEvent ( new ResourceLocation ( ArsMagica2.MODID , "spell.contingency.cast" ) ).setRegistryName ( new ResourceLocation ( ArsMagica2.MODID , "spell.contingency.cast" ) );
+    public static SoundEvent BINDING_CAST = new SoundEvent ( new ResourceLocation ( ArsMagica2.MODID , "spell.binding.cast" ) ).setRegistryName ( new ResourceLocation ( ArsMagica2.MODID , "spell.binding.cast" ) );
 
 	public static void registerSounds() {
 		register(LOOP_AIR);
@@ -84,8 +85,9 @@ public class SoundDefs {
 	}
 
 	private static void register(SoundEvent event) {
-		Registry.GetSoundsToRegister().add(event.setRegistryName(event.getSoundName()));
-	}
+        LogHelper.info ( "Adding sound to Registry: " + event.getSoundName ( ) );
+        Registry.GetSoundsToRegister ( ).add ( event ); //.setRegistryName(event.getSoundName())) Maybe this is not needed.
+    }
 
 	public static void createSoundMaps() {
 		SpellSoundMapEvent event = new SpellSoundMapEvent(new ResourceLocation(ArsMagica2.MODID, "loop"));

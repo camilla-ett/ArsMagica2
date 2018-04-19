@@ -129,11 +129,12 @@ public class ClientProxy extends CommonProxy {
 	}
 	@Override
 	public void preInit() {
-		
-		OBJLoader.INSTANCE.addDomain("arsmagica2");
-		
-		AMParticleIcons.instance.toString();
-		SpellIconManager.INSTANCE.toString();
+        super.preInit ( );
+
+        OBJLoader.INSTANCE.addDomain ( "arsmagica2" );
+
+        AMParticleIcons.instance.toString ( );
+        SpellIconManager.INSTANCE.toString();
 		
 		ClientRegistry.registerKeyBinding(BindingsDefs.ICE_BRIDGE);
 		ClientRegistry.registerKeyBinding(BindingsDefs.ENDER_TP);

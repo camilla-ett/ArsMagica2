@@ -91,8 +91,10 @@ public class Registry {
 
     @SubscribeEvent
     public static void registerSoundEvents ( RegistryEvent.Register <SoundEvent> event ) {
-        for ( SoundEvent sound : Registry.GetSoundsToRegister ( ) )
+        for ( SoundEvent sound : Registry.GetSoundsToRegister ( ) ) {
+            LogHelper.info ( "Registering Sound:" + sound.getRegistryName ( ) + "/ UnLoc: " + sound.getSoundName ( ) );
             event.getRegistry ( ).register ( sound );
+        }
     }
 
     @SubscribeEvent
