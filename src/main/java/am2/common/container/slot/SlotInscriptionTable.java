@@ -9,8 +9,9 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.SlotItemHandler;
 
-public class SlotInscriptionTable extends Slot{
+public class SlotInscriptionTable extends SlotItemHandler {
 
 	public SlotInscriptionTable(TileEntityInscriptionTable par1iInventory, int par2, int par3, int par4){
 		super(par1iInventory, par2, par3, par4);
@@ -18,7 +19,7 @@ public class SlotInscriptionTable extends Slot{
 
 	@Override
 	public boolean isItemValid(ItemStack par1ItemStack){
-		if (par1ItemStack.isEmpty() || par1ItemStack.getItem() == null){
+		if ( par1ItemStack.isEmpty() ){
 			return false;
 		}
 		if (par1ItemStack.getItem() == Items.WRITTEN_BOOK && (par1ItemStack.getTagCompound() == null || !par1ItemStack.getTagCompound().getBoolean("spellFinalized")))
@@ -53,7 +54,7 @@ public class SlotInscriptionTable extends Slot{
 	@SuppressWarnings("deprecation")
 	@Override
 	public void putStack(ItemStack stack){
-		if (stack != null && stack.getItem() == Items.WRITABLE_BOOK){
+		if (!stack.isEmpty () && stack.getItem() == Items.WRITABLE_BOOK){
 			ItemStack book = new ItemStack(Items.WRITTEN_BOOK, 1);
 			book.setStackDisplayName(I18n.format("am2.tooltip.unfinishedSpellRecipe"));
 			this.inventory.setInventorySlotContents(0, book);
