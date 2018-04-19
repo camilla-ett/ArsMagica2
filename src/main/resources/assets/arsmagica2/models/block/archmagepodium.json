@@ -2,10 +2,10 @@
 	"parent":"block/block",
 	"textures": {
 		"podium": "arsmagica2:blocks/podium",
-		"top":"arsmagica2:blocks/podiumTop",
-		"deco":"arsmagica2:blocks/podiumDeco",
-		"base":"arsmagica2:blocks/podiumBase",
-		"particle":"arsmagica2:blocks/podiumBase"
+		"top":"arsmagica2:blocks/podiumtop",
+		"deco":"arsmagica2:blocks/podiumdeco",
+		"base":"arsmagica2:blocks/podiumbase",
+		"particle":"arsmagica2:blocks/podiumbase"
 	},
 	"elements": [
 	{

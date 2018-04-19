@@ -121,7 +121,7 @@ public class CommonProxy implements IGuiHandler{
 				ItemKeystone keystone = (ItemKeystone)keystoneStack.getItem();
 
 				int runeBagSlot = InventoryUtilities.getInventorySlotIndexFor(player.inventory, ItemDefs.runeBag);
-				ItemStack runeBag = null;
+				ItemStack runeBag = ItemStack.EMPTY;
 				if (runeBagSlot > -1)
 					runeBag = player.inventory.getStackInSlot(runeBagSlot);
 
