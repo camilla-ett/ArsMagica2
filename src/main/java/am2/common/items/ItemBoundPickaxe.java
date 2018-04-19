@@ -39,7 +39,6 @@ public class ItemBoundPickaxe extends ItemPickaxe implements IBoundItem {
 		return false;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
 		item = new ItemStack(ItemDefs.spell);

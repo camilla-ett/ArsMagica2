@@ -94,7 +94,6 @@ public class RitualShapeHelper {
 		ringedCrossRitual();
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void corruptionRitual() {
 		HashMap<Integer, IBlockState> corruptionMap = new HashMap<>();
 		corruptionMap.put(0, BlockDefs.wizardChalk.getDefaultState());

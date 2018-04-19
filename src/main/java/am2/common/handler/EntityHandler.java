@@ -369,7 +369,7 @@ public class EntityHandler {
 			EntityPlayer player = (EntityPlayer) e.getSource().getTrueSource();
 			for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack stack = player.inventory.getStackInSlot(i);
-				if (stack == stack.EMPTY || stack.getItem() != ItemDefs.crystalPhylactery) continue;
+				if (stack.isEmpty() || stack.getItem() != ItemDefs.crystalPhylactery) continue;
 				if (ItemDefs.crystalPhylactery.getSpawnClass(stack) == null)
 					ItemDefs.crystalPhylactery.setSpawnClass(stack, e.getEntityLiving().getClass());
 				if (ItemDefs.crystalPhylactery.canStore(stack, (EntityLiving) e.getEntityLiving())) {

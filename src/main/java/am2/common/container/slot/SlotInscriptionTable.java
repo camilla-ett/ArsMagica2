@@ -51,7 +51,6 @@ public class SlotInscriptionTable extends SlotItemHandler {
 		super.onSlotChanged();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void putStack(ItemStack stack){
 		if (!stack.isEmpty () && stack.getItem() == Items.WRITABLE_BOOK){

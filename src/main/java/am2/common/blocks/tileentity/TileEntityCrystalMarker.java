@@ -94,7 +94,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	public boolean hasFilterItems(){
 		boolean retVar = false;
 
-		if (this.filterItems != null){
+		if (this.filterItems.length != 0){
 			for (int i = 0; i < this.filterItems.length; i++){
 				if (!this.filterItems[i].isEmpty()){
 					retVar = true;
@@ -115,7 +115,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	public boolean filterHasItem(ItemStack stack){
 		boolean retVal = false;
 
-		if (stack != null && this.hasFilterItems()){
+		if (!stack.isEmpty() && this.hasFilterItems()){
 			for (int i = 0; i < this.filterItems.length; i++){
 				if (!this.filterItems[i].isEmpty() && InventoryUtilities.compareItemStacks(this.filterItems[i], stack, true, false, true, true)){
 					retVal = true;

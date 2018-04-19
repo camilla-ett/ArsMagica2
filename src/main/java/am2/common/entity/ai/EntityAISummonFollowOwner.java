@@ -91,7 +91,6 @@ public class EntityAISummonFollowOwner extends EntityAIBase{
 	/**
 	 * Updates the task
 	 */
-	@SuppressWarnings("deprecation")
 	public void updateTask() {
 		this.theSummon.getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F,(float) this.theSummon.getVerticalFaceSpeed());
 		if (--this.field_75343_h <= 0) {
