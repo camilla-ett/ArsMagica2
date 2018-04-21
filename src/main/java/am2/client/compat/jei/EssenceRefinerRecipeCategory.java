@@ -1,5 +1,6 @@
 package am2.client.compat.jei;
 
+import am2.ArsMagica2;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableStatic;
@@ -14,6 +15,8 @@ import net.minecraft.util.ResourceLocation;
 public class EssenceRefinerRecipeCategory implements IRecipeCategory<EssenceRefinerRecipeWrapper> {
 
 	IDrawableStatic background;
+
+	public static String ID = ArsMagica2.MODID + ":essence_refiner";
 	
 	public EssenceRefinerRecipeCategory(IGuiHelper helpers) {
 		this.background = helpers.createDrawable(new ResourceLocation("arsmagica2:textures/gui/essenceextractorgui.png"), 3, 25, 170, 114);
@@ -26,7 +29,7 @@ public class EssenceRefinerRecipeCategory implements IRecipeCategory<EssenceRefi
 
 	@Override
 	public String getUid() {
-		return "am2.essence_refiner";
+		return ID;
 	}
 	
 	@Override
@@ -39,36 +42,27 @@ public class EssenceRefinerRecipeCategory implements IRecipeCategory<EssenceRefi
 		
 	}
 
-	public void drawAnimations(Minecraft minecraft) {
-		
+	@Override
+	public String getModName() {
+		return ArsMagica2.MODID;
 	}
 
-	public void setRecipe(IRecipeLayout recipeLayout, EssenceRefinerRecipeWrapper recipeWrapper) {
+	@Override
+	public void setRecipe(IRecipeLayout recipeLayout, EssenceRefinerRecipeWrapper recipeWrapper,
+			IIngredients ingredients) {
 		recipeLayout.getItemStacks().init(0, true, 76, 16);
 		recipeLayout.getItemStacks().init(1, true, 44, 48);
 		recipeLayout.getItemStacks().init(2, true, 76, 48);
 		recipeLayout.getItemStacks().init(3, true, 108, 48);
 		recipeLayout.getItemStacks().init(4, true, 76, 81);
 		recipeLayout.getItemStacks().init(5, false, 139, 84);
-		
+
 		recipeLayout.getItemStacks().set(0, (ItemStack)recipeWrapper.getInputs().get(0));
 		recipeLayout.getItemStacks().set(1, (ItemStack)recipeWrapper.getInputs().get(1));
 		recipeLayout.getItemStacks().set(2, (ItemStack)recipeWrapper.getInputs().get(2));
 		recipeLayout.getItemStacks().set(3, (ItemStack)recipeWrapper.getInputs().get(3));
 		recipeLayout.getItemStacks().set(4, (ItemStack)recipeWrapper.getInputs().get(4));
 		recipeLayout.getItemStacks().set(5, (ItemStack)recipeWrapper.getOutputs().get(0));
-	}
-
-	@Override
-	public String getModName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, EssenceRefinerRecipeWrapper recipeWrapper,
-			IIngredients ingredients) {
-		// TODO Auto-generated method stub
 		
 	}
 
