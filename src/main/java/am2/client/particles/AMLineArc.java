@@ -40,7 +40,7 @@ public class AMLineArc extends Particle{
 	public AMLineArc(World world, double x, double y, double z, double targetX, double targetY, double targetZ, String IIconName){
 		super(world, x, y, z);
 		targetPoint = new Vec3d(targetX, targetY, targetZ);
-		currentTargetPoint = new Vec3d(targetPoint.xCoord, targetPoint.yCoord, targetPoint.zCoord);
+		currentTargetPoint = new Vec3d(targetPoint.x, targetPoint.y, targetPoint.z);
 		sourcePoint = new Vec3d(x, y, z);
 		deviation = 1.0;
 		speed = 0.01f;
@@ -146,7 +146,7 @@ public class AMLineArc extends Particle{
 					targetEntity.prevPosZ + (targetEntity.posZ - targetEntity.prevPosZ) * partialTicks,
 					partialTicks, speed, deviation);
 		}else{
-			drawArcingLine(prevPosX + (posX - prevPosX) * partialTicks, prevPosY + (posY - prevPosY) * partialTicks, prevPosZ + (posZ - prevPosZ) * partialTicks, currentTargetPoint.xCoord, currentTargetPoint.yCoord, currentTargetPoint.zCoord, partialTicks, speed, deviation);
+			drawArcingLine(prevPosX + (posX - prevPosX) * partialTicks, prevPosY + (posY - prevPosY) * partialTicks, prevPosZ + (posZ - prevPosZ) * partialTicks, currentTargetPoint.x, currentTargetPoint.y, currentTargetPoint.z, partialTicks, speed, deviation);
 		}
 	}
 
@@ -171,7 +171,7 @@ public class AMLineArc extends Particle{
 
 		float time = System.nanoTime() / 10000000L;
 
-		float dist = MathHelper.sqrt_double(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+		float dist = MathHelper.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 		float blocks = Math.round(dist);
 		float length = blocks * (fxQuality / 2.0F);
 

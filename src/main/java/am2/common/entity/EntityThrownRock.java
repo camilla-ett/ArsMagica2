@@ -92,7 +92,7 @@ public class EntityThrownRock extends EntityLiving{
 	}
 
 	public void setHeading(double movementX, double movementY, double movementZ, double projectileSpeed, double projectileSpeed2){
-		float f = MathHelper.sqrt_double(movementX * movementX + movementY * movementY + movementZ * movementZ);
+		float f = MathHelper.sqrt(movementX * movementX + movementY * movementY + movementZ * movementZ);
 		movementX /= f;
 		movementY /= f;
 		movementZ /= f;
@@ -105,7 +105,7 @@ public class EntityThrownRock extends EntityLiving{
 		motionX = movementX;
 		motionY = movementY;
 		motionZ = movementZ;
-		float f1 = MathHelper.sqrt_double(movementX * movementX + movementZ * movementZ);
+		float f1 = MathHelper.sqrt(movementX * movementX + movementZ * movementZ);
 		prevRotationYaw = rotationYaw = (float)((Math.atan2(movementX, movementZ) * 180D) / Math.PI);
 		prevRotationPitch = rotationPitch = (float)((Math.atan2(movementY, f1) * 180D) / Math.PI);
 	}
@@ -138,10 +138,10 @@ public class EntityThrownRock extends EntityLiving{
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
-		if (this.target != null && this.posY > this.target.yCoord){
-			double deltaX = this.posX - target.xCoord;
-			double deltaY = this.posY - target.yCoord;
-			double deltaZ = this.posZ - target.zCoord;
+		if (this.target != null && this.posY > this.target.y){
+			double deltaX = this.posX - target.x;
+			double deltaY = this.posY - target.y;
+			double deltaZ = this.posZ - target.z;
 
 			double angle = Math.atan2(deltaZ, deltaX);
 
@@ -215,7 +215,7 @@ public class EntityThrownRock extends EntityLiving{
 		vec3d = new Vec3d(posX, posY, posZ);
 		vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 		if (movingobjectposition != null){
-			vec3d1 = new Vec3d(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+			vec3d1 = new Vec3d(movingobjectposition.hitVec.x, movingobjectposition.hitVec.y, movingobjectposition.hitVec.z);
 		}
 		Entity entity = null;
 		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
@@ -248,7 +248,7 @@ public class EntityThrownRock extends EntityLiving{
 		posX += motionX;
 		posY += motionY;
 		posZ += motionZ;
-		float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+		float f = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
 		rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / 3.1415927410125732D);
 		for (rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F){
 		}
@@ -293,7 +293,7 @@ public class EntityThrownRock extends EntityLiving{
 					if (this.target == null){
 						this.target = movingobjectposition.hitVec;
 					}
-					this.world.newExplosion(this, this.target.xCoord, this.target.yCoord, this.target.zCoord, 0.8f, false, ArsMagica2.config.moonstoneMeteorsDestroyTerrain());
+					this.world.newExplosion(this, this.target.x, this.target.y, this.target.z, 0.8f, false, ArsMagica2.config.moonstoneMeteorsDestroyTerrain());
 
 					int numOres = rand.nextInt(4) + 1;
 

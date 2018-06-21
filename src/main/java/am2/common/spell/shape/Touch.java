@@ -47,9 +47,9 @@ public class Touch extends SpellShape {
 				if (result != SpellCastResult.SUCCESS) {
 					return result;
 				}
-				return spell.execute(world, caster, target, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, null);
+				return spell.execute(world, caster, target, mop.hitVec.x, mop.hitVec.y, mop.hitVec.z, null);
 			} else {
-				SpellCastResult result = spell.applyComponentsToGround(world, caster, mop.getBlockPos(), mop.sideHit, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+				SpellCastResult result = spell.applyComponentsToGround(world, caster, mop.getBlockPos(), mop.sideHit, mop.hitVec.x, mop.hitVec.y, mop.hitVec.z);
 				if (result != SpellCastResult.SUCCESS) {
 					return result;
 				}

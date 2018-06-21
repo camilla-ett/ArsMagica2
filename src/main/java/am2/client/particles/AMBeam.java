@@ -91,7 +91,7 @@ public class AMBeam extends Particle implements IBeamParticle{
 		float deltaZ = (float)(this.posZ - this.dZ);
 
 		this.length = MathHelper.sqrt_float(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-		double hDist = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
+		double hDist = MathHelper.sqrt(deltaX * deltaX + deltaZ * deltaZ);
 		this.yaw = ((float)(Math.atan2(deltaX, deltaZ) * 180.0D / 3.141592653589793D));
 		this.pitch = ((float)(Math.atan2(deltaY, hDist) * 180.0D / 3.141592653589793D));
 

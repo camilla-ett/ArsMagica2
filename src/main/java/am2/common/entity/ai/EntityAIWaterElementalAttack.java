@@ -110,7 +110,7 @@ public class EntityAIWaterElementalAttack extends EntityAIBase{
 				double mZ = entityTarget.motionZ;
 
 				entityTarget.isAirBorne = true;
-				float var10 = MathHelper.sqrt_double(var9 * var9 + var7 * var7);
+				float var10 = MathHelper.sqrt(var9 * var9 + var7 * var7);
 				float var8 = 0.4F;
 				mX /= 2.0D;
 				mY /= 2.0D;

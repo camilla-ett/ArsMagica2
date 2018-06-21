@@ -121,7 +121,7 @@ public class EntityFireGuardian extends AM2Boss{
 				particle.setIgnoreMaxAge(false);
 			}
 		}else{
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2.5, 2.5, 2.5).addCoord(look.xCoord * 3, 0, look.zCoord * 3));
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2.5, 2.5, 2.5).addCoord(look.x * 3, 0, look.z * 3));
 			for (EntityLivingBase ent : entities){
 				if (ent == this)
 					continue;

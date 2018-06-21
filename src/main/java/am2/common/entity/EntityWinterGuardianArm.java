@@ -66,7 +66,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 	}
 
 	public void setHeading(double movementX, double movementY, double movementZ, double projectileSpeed, double projectileSpeed2){
-		float f = MathHelper.sqrt_double(movementX * movementX + movementY * movementY + movementZ * movementZ);
+		float f = MathHelper.sqrt(movementX * movementX + movementY * movementY + movementZ * movementZ);
 		movementX /= f;
 		movementY /= f;
 		movementZ /= f;
@@ -79,7 +79,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 		motionX = movementX;
 		motionY = movementY;
 		motionZ = movementZ;
-		float f1 = MathHelper.sqrt_double(movementX * movementX + movementZ * movementZ);
+		float f1 = MathHelper.sqrt(movementX * movementX + movementZ * movementZ);
 		prevRotationYaw = rotationYaw = (float)((Math.atan2(movementX, movementZ) * 180D) / Math.PI);
 		prevRotationPitch = rotationPitch = (float)((Math.atan2(movementY, f1) * 180D) / Math.PI);
 	}
@@ -137,7 +137,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 		vec3d = new Vec3d(posX, posY, posZ);
 		vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 		if (movingobjectposition != null){
-			vec3d1 = new Vec3d(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+			vec3d1 = new Vec3d(movingobjectposition.hitVec.x, movingobjectposition.hitVec.y, movingobjectposition.hitVec.z);
 		}
 		Entity entity = null;
 		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
@@ -170,7 +170,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 		posX += motionX;
 		posY += motionY;
 		posZ += motionZ;
-		float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+		float f = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
 		rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / 3.1415927410125732D);
 		for (rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F){
 		}
@@ -214,7 +214,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 			double angle = Math.atan2(deltaZ, deltaX);
 			double speed = Math.min((this.ticksExisted - halflife) / 10f, this.getProjectileSpeed());
 
-			double horizontalDistance = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
+			double horizontalDistance = MathHelper.sqrt(deltaX * deltaX + deltaZ * deltaZ);
 			float pitchRotation = (float)(-Math.atan2(deltaY, horizontalDistance));
 
 			this.motionX = -Math.cos(angle) * speed;

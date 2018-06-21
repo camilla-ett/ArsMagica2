@@ -137,7 +137,7 @@ public class PathNavigator{
 			double deltaZ = (longRangeWaypoint.z + 0.5f) - pathEntity.posZ;
 			double deltaX = (longRangeWaypoint.x + 0.5f) - pathEntity.posX;
 			double deltaY = posY - (longRangeWaypoint.y + 0.5f);
-			double horizontalDistance = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
+			double horizontalDistance = MathHelper.sqrt(deltaX * deltaX + deltaZ * deltaZ);
 
 			float radiansYaw = (float)Math.atan2(deltaZ, deltaX);
 			float radiansPitch = (float)(-Math.atan2(deltaY, horizontalDistance));

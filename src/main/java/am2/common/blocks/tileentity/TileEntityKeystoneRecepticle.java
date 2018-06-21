@@ -289,7 +289,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 			if (charge < essenceCost){
 				essenceCost = charge;
 				//get the distance that our charge *will* take us towards the next point
-				double distanceWeCanGo = MathHelper.sqrt_double(charge / 0.00175);
+				double distanceWeCanGo = MathHelper.sqrt(charge / 0.00175);
 				//get the angle between the 2 vectors
 				double deltaZ = newLocation.z - myLocation.z;
 				double deltaX = newLocation.x - myLocation.x;

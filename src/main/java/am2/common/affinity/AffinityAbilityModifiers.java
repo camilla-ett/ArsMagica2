@@ -74,12 +74,12 @@ public class AffinityAbilityModifiers {
 
 	public boolean isOnIce(EntityPlayer ent){
 		AxisAlignedBB par1AxisAlignedBB = ent.getEntityBoundingBox().expand(0.0D, -0.4000000059604645D, 0.0D).contract(0.001D);
-		int i = MathHelper.floor_double(par1AxisAlignedBB.minX);
-		int j = MathHelper.floor_double(par1AxisAlignedBB.maxX + 1.0D);
-		int k = MathHelper.floor_double(par1AxisAlignedBB.minY - 1.0D);
-		int l = MathHelper.floor_double(par1AxisAlignedBB.maxY + 1.0D);
-		int i1 = MathHelper.floor_double(par1AxisAlignedBB.minZ);
-		int j1 = MathHelper.floor_double(par1AxisAlignedBB.maxZ + 1.0D);
+		int i = MathHelper.floor(par1AxisAlignedBB.minX);
+		int j = MathHelper.floor(par1AxisAlignedBB.maxX + 1.0D);
+		int k = MathHelper.floor(par1AxisAlignedBB.minY - 1.0D);
+		int l = MathHelper.floor(par1AxisAlignedBB.maxY + 1.0D);
+		int i1 = MathHelper.floor(par1AxisAlignedBB.minZ);
+		int j1 = MathHelper.floor(par1AxisAlignedBB.maxZ + 1.0D);
 		boolean isOnIce = false;
 		for (int k1 = i; k1 < j && !isOnIce; ++k1){
 			for (int l1 = k; l1 < l && !isOnIce; ++l1){

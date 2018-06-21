@@ -100,9 +100,9 @@ public class EntityAISummonFollowOwner extends EntityAIBase{
 			if (!this.petPathfinder.tryMoveToEntityLiving(this.theOwner, this.moveSpeed * 3)) {
 				if (!this.theSummon.getLeashed()) {
 					if (this.theSummon.getDistanceSqToEntity(this.theOwner) >= 144.0D) {
-						int i = MathHelper.floor_double(this.theOwner.posX) - 2;
-						int j = MathHelper.floor_double(this.theOwner.posZ) - 2;
-						int k = MathHelper.floor_double(this.theOwner.getEntityBoundingBox().minY);
+						int i = MathHelper.floor(this.theOwner.posX) - 2;
+						int j = MathHelper.floor(this.theOwner.posZ) - 2;
+						int k = MathHelper.floor(this.theOwner.getEntityBoundingBox().minY);
 
 						for (int l = 0; l <= 4; ++l) {
 							for (int i1 = 0; i1 <= 4; ++i1) {

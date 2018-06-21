@@ -233,7 +233,7 @@ public class EntitySpellEffect extends Entity{
 				for (int j = -3; j <= 3; j++) {
 					Vec3d[] blocks = getAllBlockLocationsBetween(new Vec3d(posX + i, posY + j, posZ - radius), new Vec3d(posX + i, posY + j, posZ + radius));
 					for (Vec3d vec : blocks) {
-						spellStack.pop().applyComponentsToGround(worldObj, dummycaster, new BlockPos(vec), EnumFacing.UP, vec.xCoord + 0.5, vec.yCoord + 0.5, vec.zCoord + 0.5);
+						spellStack.pop().applyComponentsToGround(worldObj, dummycaster, new BlockPos(vec), EnumFacing.UP, vec.x + 0.5, vec.y + 0.5, vec.z + 0.5);
 					}
 				}
 			}
@@ -466,8 +466,8 @@ public class EntitySpellEffect extends Entity{
 
 					Vec3d closest = new AMLineSegment(a, b).closestPointOnLine(target);
 
-					closest = new Vec3d(closest.xCoord, 0, closest.zCoord);
-					target = new Vec3d(target.xCoord, 0, target.zCoord);
+					closest = new Vec3d(closest.x, 0, closest.z);
+					target = new Vec3d(target.x, 0, target.z);
 
 					double hDistance = closest.distanceTo(target);
 					double vDistance = Math.abs(this.posY - e.posY);
@@ -506,7 +506,7 @@ public class EntitySpellEffect extends Entity{
 	
 			Vec3d[] vecs = getAllBlockLocationsBetween(a, b);
 			for (Vec3d vec : vecs){
-				spellStack.copy().pop().applyComponentsToGround(worldObj, dummycaster, new BlockPos(vec), EnumFacing.UP, vec.xCoord + 0.5, vec.yCoord + 0.5, vec.zCoord + 0.5);
+				spellStack.copy().pop().applyComponentsToGround(worldObj, dummycaster, new BlockPos(vec), EnumFacing.UP, vec.x + 0.5, vec.y + 0.5, vec.z + 0.5);
 			}
 		}
 
@@ -516,25 +516,25 @@ public class EntitySpellEffect extends Entity{
 		a = MathUtilities.floorToI(a);
 		b = MathUtilities.floorToI(b);
 
-		double stepX = a.xCoord < b.xCoord ? 0.2f : -0.2f;
-		double stepZ = a.zCoord < b.zCoord ? 0.2f : -0.2f;
+		double stepX = a.x < b.x ? 0.2f : -0.2f;
+		double stepZ = a.z < b.z ? 0.2f : -0.2f;
 		ArrayList<Vec3d> vecList = new ArrayList<Vec3d>();
-		Vec3d curPos = new Vec3d(a.xCoord, a.yCoord, a.zCoord);
+		Vec3d curPos = new Vec3d(a.x, a.y, a.z);
 		for (int i = 0; i < this.height; ++i){
-			vecList.add(new Vec3d(curPos.xCoord, curPos.yCoord + i, curPos.zCoord));
+			vecList.add(new Vec3d(curPos.x, curPos.y + i, curPos.z));
 		}
 
 		while (stepX != 0 || stepZ != 0){
-			if ((stepX < 0 && curPos.xCoord <= b.xCoord) || (stepX > 0 && curPos.xCoord >= b.xCoord))
+			if ((stepX < 0 && curPos.x <= b.x) || (stepX > 0 && curPos.x >= b.x))
 				stepX = 0;
-			if ((stepZ < 0 && curPos.zCoord <= b.zCoord) || (stepZ > 0 && curPos.zCoord >= b.zCoord))
+			if ((stepZ < 0 && curPos.z <= b.z) || (stepZ > 0 && curPos.z >= b.z))
 				stepZ = 0;
-			curPos = new Vec3d(curPos.xCoord + stepX, curPos.yCoord, curPos.zCoord + stepZ);
+			curPos = new Vec3d(curPos.x + stepX, curPos.y, curPos.z + stepZ);
 			Vec3d tempPos = curPos.add(Vec3d.ZERO);
 			tempPos = MathUtilities.roundToI(tempPos);
 			if (!vecList.contains(tempPos)){
 				for (int i = 0; i < this.height; ++i){
-					vecList.add(new Vec3d(tempPos.xCoord, tempPos.yCoord + i, tempPos.zCoord));
+					vecList.add(new Vec3d(tempPos.x, tempPos.y + i, tempPos.z));
 				}
 			}
 		}

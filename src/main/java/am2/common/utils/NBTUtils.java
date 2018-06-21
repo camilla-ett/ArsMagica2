@@ -32,9 +32,9 @@ public class NBTUtils {
 	}
 	
 	public static void writeVecToNBT(Vec3d vec, NBTTagCompound nbt) {
-		nbt.setDouble("X", vec.xCoord);
-		nbt.setDouble("Y", vec.yCoord);
-		nbt.setDouble("Z", vec.zCoord);
+		nbt.setDouble("X", vec.x);
+		nbt.setDouble("Y", vec.y);
+		nbt.setDouble("Z", vec.z);
 	}
 	
 	public static void writeBlockPosToNBT(BlockPos pos, NBTTagCompound nbt) {

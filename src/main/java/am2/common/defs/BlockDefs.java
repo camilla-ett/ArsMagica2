@@ -177,7 +177,7 @@ public class BlockDefs {
 		GameRegistry.register(itemliquid_essence, new ResourceLocation("arsmagica2:liquid_essence"));
 		
 		GameRegistry.register(witchwoodSingleSlab, new ResourceLocation("arsmagica2:witchwood_slab"));
-		GameRegistry.register(witchwoodDoubleSlab, new ResourceLocation("arsmagica2:witchwood_slab_double"));
+		GameRegistry.register(witchwoodDoubleSlab, new ResourceLocation("arsmagica2:witchwood_slab"));
 		GameRegistry.register(new ItemSlab(witchwoodSingleSlab, witchwoodSingleSlab, witchwoodDoubleSlab), new ResourceLocation("arsmagica2:witchwood_slab"));
 	}
 	

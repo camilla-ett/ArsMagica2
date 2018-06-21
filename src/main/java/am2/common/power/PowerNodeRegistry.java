@@ -393,7 +393,7 @@ public class PowerNodeRegistry{
 	}
 
 //	private ChunkPos getChunkFromPosition(World world, BlockPos location){
-//		return new ChunkPos((int)location.xCoord >> 4, (int)location.zCoord >> 4);
+//		return new ChunkPos((int)location.x >> 4, (int)location.z >> 4);
 //	}
 
 	public void SaveChunkToNBT(ChunkPos chunk, NBTTagCompound compound){
@@ -469,16 +469,16 @@ public class PowerNodeRegistry{
 //			BlockPos te1 = new BlockPos(((TileEntity)o1).getPos());
 //			BlockPos te2 = new BlockPos(((TileEntity)o2).getPos());
 //
-//			if (te1.xCoord == te2.xCoord && te1.zCoord == te2.zCoord && te1.yCoord == te2.yCoord)
+//			if (te1.x == te2.x && te1.z == te2.z && te1.y == te2.y)
 //				return 0;
 //
-//			if (te1.xCoord > te2.xCoord){
+//			if (te1.x > te2.x){
 //				return 1;
 //			}else{
-//				if (te1.zCoord > te2.zCoord){
+//				if (te1.z > te2.z){
 //					return 1;
 //				}else{
-//					if (te1.yCoord > te2.yCoord){
+//					if (te1.y > te2.y){
 //						return 1;
 //					}else{
 //						return -1;

@@ -40,9 +40,9 @@ public class EntityShockwave extends Entity{
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
 
-		int j = MathHelper.floor_double(this.posX);
-		int i = MathHelper.floor_double(this.posY - 0.20000000298023224D);
-		int k = MathHelper.floor_double(this.posZ);
+		int j = MathHelper.floor(this.posX);
+		int i = MathHelper.floor(this.posY - 0.20000000298023224D);
+		int k = MathHelper.floor(this.posZ);
 		IBlockState l = this.world.getBlockState(new BlockPos (j, i, k));
 		if (l.getBlock() != Blocks.AIR) {
 			for (int h = 0; h < (5 * ArsMagica2.config.getGFXLevel()); ++h) {
