@@ -14,7 +14,7 @@ import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.registry.*;
+import net.minecraftforge.registries.*;
 
 public class ArsMagicaAPI {
 	
