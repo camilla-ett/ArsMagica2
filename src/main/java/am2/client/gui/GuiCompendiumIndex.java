@@ -99,7 +99,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 						}
 					}
 					if (!hasSubItems) continue;
-					GuiButtonCompendiumLink tab = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, locPage, null, sub);
+					GuiButtonCompendiumLink tab = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRenderer, locPage, null, sub);
 					tab.visible = sub.getParentsString().equals(currentCategory.getID()) && page == locPage;
 					buttonY += 12;
 					if (buttonY > posY + (ySize) - 25){
@@ -119,7 +119,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 			for (CompendiumEntry entry : sortedEntries) {
 				if (!mc.thePlayer.capabilities.isCreativeMode && entry.getRenderObject() != null && !ArcaneCompendium.For(mc.thePlayer).isUnlocked(entry.getID()))
 					continue;
-				GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRendererObj, locPage, entry, null);
+				GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRenderer, locPage, entry, null);
 				link.visible = entry.canBeDisplayed(category.getID()) && page == locPage;
 				buttonY += 12;
 				if (buttonY > posY + (ySize) - 25){
@@ -253,16 +253,16 @@ public class GuiCompendiumIndex extends GuiScreen{
 		String compendiumTitle = "\247nArcane Compendium";
 
 		int y_start_title = i1 + 20;
-		int x_start_title = l + 100 - (fontRendererObj.getStringWidth(compendiumTitle) / 2);
+		int x_start_title = l + 100 - (fontRenderer.getStringWidth(compendiumTitle) / 2);
 
 		if (page == 0)
-			fontRendererObj.drawString(compendiumTitle, x_start_title, y_start_title, 0);
+			fontRenderer.drawString(compendiumTitle, x_start_title, y_start_title, 0);
 
 		int x_start_line = l + 35;
 		int y_start_line = i1 + 35;
 
 		if (lines != null && lines.size() > page){
-			AMGuiHelper.drawCompendiumText(lines.get(page), x_start_line, y_start_line, lineWidth, 0x000000, fontRendererObj);
+			AMGuiHelper.drawCompendiumText(lines.get(page), x_start_line, y_start_line, lineWidth, 0x000000, fontRenderer);
 		}
 
 		super.drawScreen(par1, par2, par3);

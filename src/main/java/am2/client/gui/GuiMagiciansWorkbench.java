@@ -183,7 +183,7 @@ public class GuiMagiciansWorkbench extends GuiContainer{
 		int i1 = (height - ySize) / 2;
 
 		if (ttList.size() > 0){
-			drawHoveringText(ttList, mouseX - l, mouseY - i1, fontRendererObj, color);
+			drawHoveringText(ttList, mouseX - l, mouseY - i1, fontRenderer, color);
 		}
 	}
 

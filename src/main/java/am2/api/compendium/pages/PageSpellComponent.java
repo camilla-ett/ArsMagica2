@@ -102,7 +102,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		int yOffset = 10;
 		if (!modifiers.isEmpty()) {
 			String shapeName = I18n.format(element instanceof SpellModifier ? "am2.gui.modifies" :  "am2.gui.modifiedBy");
-			mc.fontRendererObj.drawString(shapeName, posX + 72 - (mc.fontRendererObj.getStringWidth(shapeName) / 2), posY, 0);
+			mc.fontRenderer.drawString(shapeName, posX + 72 - (mc.fontRenderer.getStringWidth(shapeName) / 2), posY, 0);
 			GlStateManager.color(1.0f, 1.0f, 1.0f);
 		}
 		RenderHelper.enableGUIStandardItemLighting();

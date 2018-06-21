@@ -77,7 +77,7 @@ public class PageEntity extends CompendiumPage<Entity> {
 		GlStateManager.popMatrix();
 
 		String renderString = "Click and drag to rotate";
-		mc.fontRendererObj.drawString(renderString, posX + 72 - (mc.fontRendererObj.getStringWidth(renderString) / 2), posY + 200, 0x000000);
+		mc.fontRenderer.drawString(renderString, posX + 72 - (mc.fontRenderer.getStringWidth(renderString) / 2), posY + 200, 0x000000);
 	}
 	
 	@Override

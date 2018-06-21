@@ -52,7 +52,7 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 				if (mouseY > cy && mouseY < cy + 16){
 					ArrayList<String> tooltip = new ArrayList<>();
 					tooltip.addAll(element.getTooltip(Minecraft.getMinecraft().thePlayer, false));
-					drawHoveringText(tooltip, mouseX, mouseY, mc.fontRendererObj);
+					drawHoveringText(tooltip, mouseX, mouseY, mc.fontRenderer);
 				}
 			}
 		}
@@ -107,7 +107,7 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 				int widthSq = (int)Math.ceil(Math.sqrt(recipeWidth));
 		
 				String label = "\247nShapeless";
-				mc.fontRendererObj.drawString(label, cx - (int)(mc.fontRendererObj.getStringWidth(label) / 2.5), cy - step * 3, 0x6600FF);
+				mc.fontRenderer.drawString(label, cx - (int)(mc.fontRenderer.getStringWidth(label) / 2.5), cy - step * 3, 0x6600FF);
 		
 				for (int i = 0; i < recipeWidth; ++i){
 					sx = cx - step + (step * col);
@@ -129,7 +129,7 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 			AMGuiHelper.DrawItemAtXY(element, sx, sy, this.zLevel);
 	
 			if (element.stackSize > 1)
-				mc.fontRendererObj.drawString("x" + element.stackSize, sx + 16, sy + 8, 0, false);
+				mc.fontRenderer.drawString("x" + element.stackSize, sx + 16, sy + 8, 0, false);
 	
 			if (mousex > sx && mousex < sx + 16){
 				if (mousey > sy && mousey < sy + 16){

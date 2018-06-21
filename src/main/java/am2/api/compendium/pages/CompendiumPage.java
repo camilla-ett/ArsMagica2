@@ -234,7 +234,7 @@ public abstract class CompendiumPage<E> {
 			}
 
 			FontRenderer font = stack.getItem().getFontRenderer(stack);
-			drawHoveringText(list, x, y, (font == null ? this.mc.fontRendererObj : font));
+			drawHoveringText(list, x, y, (font == null ? this.mc.fontRenderer : font));
 		}catch (Throwable t){
 		}
 	}

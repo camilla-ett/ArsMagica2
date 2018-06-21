@@ -102,7 +102,7 @@ public class RenderUtils {
 	}
 	
 	public static void drawTextInWorldAtOffset(String text, double x, double y, double z, int color){
-		FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
 		float f = 1.6F;
 		float f1 = 0.016666668F * f;
 		GL11.glPushMatrix();
