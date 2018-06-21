@@ -53,7 +53,7 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 				continue;
 			}
 
-			if (PowerNodeRegistry.For(this.worldObj).getHighestPower(this) >= 0.25f){
+			if (PowerNodeRegistry.For(this.world).getHighestPower(this) >= 0.25f){
 
 				player.motionY *= 0.5999999;
 				if (Math.abs(player.motionY) < 0.2){
@@ -72,7 +72,7 @@ public class TileEntitySlipstreamGenerator extends TileEntityAMPower{
 
 				if (worldObj.isRemote)
 					spawnParticles(player);
-				PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), 0.25f);
+				PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(this.world).getHighestPowerType(this), 0.25f);
 			}
 		}
 	}

@@ -64,7 +64,7 @@ public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker{
 					if (i == 0 && j == 0 && k == 0)
 						continue;
 
-					Block block = this.worldObj.getBlockState(pos.add(i, j, k)).getBlock();
+					Block block = this.world.getBlockState(pos.add(i, j, k)).getBlock();
 					if (block == BlockDefs.craftingAltar){
 						craftingAltarCache.add(new AMVector3(pos.add(i, j, k)));
 					}
@@ -94,7 +94,7 @@ public class TileEntityCrystalMarkerSpellExport extends TileEntityCrystalMarker{
 	}
 
 	private TileEntityCraftingAltar getCATE(AMVector3 vec){
-		TileEntity te = this.worldObj.getTileEntity(vec.toBlockPos());
+		TileEntity te = this.world.getTileEntity(vec.toBlockPos());
 		if (te != null && te instanceof TileEntityCraftingAltar)
 			return (TileEntityCraftingAltar)te;
 

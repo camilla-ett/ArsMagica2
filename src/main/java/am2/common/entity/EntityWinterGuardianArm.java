@@ -89,7 +89,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 		if (getThrowingEntity() != null){
 			if (getThrowingEntity() instanceof EntityWinterGuardian){
 				((EntityWinterGuardian)getThrowingEntity()).returnOneArm();
-			}else if (getThrowingEntity() instanceof EntityPlayer && !this.worldObj.isRemote){
+			}else if (getThrowingEntity() instanceof EntityPlayer && !this.world.isRemote){
 				if (getThrowingEntity().getHealth() <= 0){
 					PlayerTracker.storeSoulboundItemForRespawn((EntityPlayer)getThrowingEntity(), ItemDefs.winterArmEnchanted.copy());
 				}else{
@@ -285,7 +285,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 
 	private EntityLivingBase getThrowingEntity(){
 		if (throwingEntity == null){
-			throwingEntity = (EntityLivingBase)this.worldObj.getEntityByID(this.dataManager.get(THROWING_ENTITY));
+			throwingEntity = (EntityLivingBase)this.world.getEntityByID(this.dataManager.get(THROWING_ENTITY));
 		}
 		return throwingEntity;
 	}

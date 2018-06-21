@@ -49,7 +49,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 		setPrevLidAngle(getLidAngle());
 		if (numPlayersUsing > 0){
 			if (getLidAngle() == 0){
-				this.worldObj.playSound(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, this.getPos().getZ() + 0.5D, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, true);
+				this.world.playSound(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, this.getPos().getZ() + 0.5D, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F, true);
 			}
 			if (getLidAngle() < 1.0f){
 				setLidAngle(getLidAngle() + lidIncrement);
@@ -58,7 +58,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 			}
 		}else{
 			if (getLidAngle() == 1.0f){
-				this.worldObj.playSound(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, this.getPos().getZ(), SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, true);
+				this.world.playSound(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, this.getPos().getZ(), SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F, true);
 			}
 			if (getLidAngle() - lidIncrement > 0f){
 				setLidAngle(getLidAngle() - lidIncrement);
@@ -86,14 +86,14 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 		}
 
 		++this.numPlayersUsing;
-		this.worldObj.addBlockEvent(pos, getBlockType(), 1, this.numPlayersUsing);
+		this.world.addBlockEvent(pos, getBlockType(), 1, this.numPlayersUsing);
 	}
 
 	@Override
 	public void closeInventory(EntityPlayer player){
 		if (this.getBlockType() != null && this.getBlockType() instanceof BlockKeystoneChest){
 			--this.numPlayersUsing;
-			this.worldObj.addBlockEvent(pos, getBlockType(), 1, this.numPlayersUsing);
+			this.world.addBlockEvent(pos, getBlockType(), 1, this.numPlayersUsing);
 		}
 	}
 
@@ -279,7 +279,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 	@Override
 	protected void fillWithLoot(EntityPlayer player) {
 		if (this.lootTable != null) {
-			LootTable loottable = this.worldObj.getLootTableManager().getLootTableFromLocation(this.lootTable);
+			LootTable loottable = this.world.getLootTableManager().getLootTableFromLocation(this.lootTable);
 			this.lootTable = null;
 			Random random;
 
@@ -289,7 +289,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 				random = new Random(this.lootTableSeed);
 			}
 
-			LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer) this.worldObj);
+			LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer) this.world);
 
 			if (player != null) {
 				lootcontext$builder.withLuck(player.getLuck());

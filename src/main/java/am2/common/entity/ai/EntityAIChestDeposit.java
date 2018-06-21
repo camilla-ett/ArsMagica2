@@ -51,7 +51,7 @@ public class EntityAIChestDeposit extends EntityAIBase{
 		if (iLoc == null)
 			return;
 
-		TileEntity te = this.host.worldObj.getTileEntity(iLoc.toBlockPos());
+		TileEntity te = this.host.world.getTileEntity(iLoc.toBlockPos());
 		if (te == null || !(te instanceof IInventory)) return;
 
 		if (new AMVector3(this.host).distanceSqTo(iLoc) > 256){

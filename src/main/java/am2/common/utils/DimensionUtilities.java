@@ -28,17 +28,17 @@ public class DimensionUtilities{
 			EntityPlayerMP player = (EntityPlayerMP)entity;
 			new AMTeleporter(player.mcServer.worldServerForDimension(dimension)).teleport(entity);
 		}else{
-			entity.worldObj.theProfiler.startSection("changeDimension");
+			entity.world.theProfiler.startSection("changeDimension");
 			MinecraftServer minecraftserver = FMLCommonHandler.instance().getMinecraftServerInstance();
 			int j = entity.dimension;
 			WorldServer worldserver = minecraftserver.worldServerForDimension(j);
 			WorldServer worldserver1 = minecraftserver.worldServerForDimension(dimension);
 			entity.dimension = dimension;
-			entity.worldObj.removeEntity(entity);
+			entity.world.removeEntity(entity);
 			entity.isDead = false;
-			entity.worldObj.theProfiler.startSection("reposition");
+			entity.world.theProfiler.startSection("reposition");
 			minecraftserver.getPlayerList().transferEntityToWorld(entity, j, worldserver, worldserver1, new AMTeleporter(worldserver1));
-			entity.worldObj.theProfiler.endStartSection("reloading");
+			entity.world.theProfiler.endStartSection("reloading");
 			Entity e = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
 
 			if (e != null){
@@ -47,10 +47,10 @@ public class DimensionUtilities{
 			}
 
 			entity.isDead = true;
-			entity.worldObj.theProfiler.endSection();
+			entity.world.theProfiler.endSection();
 			worldserver.resetUpdateEntityTick();
 			worldserver1.resetUpdateEntityTick();
-			entity.worldObj.theProfiler.endSection();
+			entity.world.theProfiler.endSection();
 		}
 	}
 	

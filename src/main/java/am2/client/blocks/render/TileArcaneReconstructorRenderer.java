@@ -135,7 +135,7 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 			wr.begin(7, DefaultVertexFormats.BLOCK);
 			World world = te.getWorld();
 			if (world == null)
-				world = Minecraft.getMinecraft().theWorld;
+				world = Minecraft.getMinecraft().world;
 			IBlockState state = world.getBlockState(te.getPos());
 			if (state.getBlock() != BlockDefs.arcaneReconstructor)
 				state = BlockDefs.arcaneReconstructor.getDefaultState();

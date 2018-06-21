@@ -44,8 +44,8 @@ public class EntityWaterElemental extends EntityMob{
 
 	@Override
 	public void onUpdate(){
-		if (this.worldObj != null){
-			if (this.worldObj.isRemote){
+		if (this.world != null){
+			if (this.world.isRemote){
 				spawnLivingParticles();
 			}
 		}
@@ -79,7 +79,7 @@ public class EntityWaterElemental extends EntityMob{
 	 */
 	@Override
 	public boolean isInWater(){
-		return this.worldObj.handleMaterialAcceleration(this.getEntityBoundingBox().expand(0.0D, -0.6000000238418579D, 0.0D), Material.WATER, this);
+		return this.world.handleMaterialAcceleration(this.getEntityBoundingBox().expand(0.0D, -0.6000000238418579D, 0.0D), Material.WATER, this);
 	}
 
 	@Override

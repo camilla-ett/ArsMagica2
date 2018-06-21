@@ -59,9 +59,9 @@ public class BlockOcculus extends BlockContainer {
 			float hitZ) {
 		if (playerIn.isSneaking())
 			return false;
-		if (EntityExtension.For(playerIn).getCurrentLevel() == 0 && !Minecraft.getMinecraft().thePlayer.isCreative()) {
+		if (EntityExtension.For(playerIn).getCurrentLevel() == 0 && !Minecraft.getMinecraft().player.isCreative()) {
 			if (worldIn.isRemote)
-				Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString("Mythical forces prevent you from using this device!"));
+				Minecraft.getMinecraft().player.addChatMessage(new TextComponentString("Mythical forces prevent you from using this device!"));
 			return true;
 		}
 		playerIn.openGui(ArsMagica2.instance, IDDefs.GUI_OCCULUS, worldIn, pos.getX(), pos.getY(), pos.getZ());

@@ -146,11 +146,11 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 
 		if (par1DamageSource == DamageSource.inWall) {
-			if (!this.worldObj.isRemote) {// dead code? (calling canSnowAt() without using the result) could it be a buggy upgrade to 1.7.10?
+			if (!this.world.isRemote) {// dead code? (calling canSnowAt() without using the result) could it be a buggy upgrade to 1.7.10?
 				for (int i = -1; i <= 1; ++i) {
 					for (int j = 0; j < 3; ++j) {
 						for (int k = -1; k <= 1; ++k) {
-							this.worldObj.destroyBlock(this.getPosition().add(i, j, k), true);
+							this.world.destroyBlock(this.getPosition().add(i, j, k), true);
 						}
 					}
 				}
@@ -163,7 +163,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 			if (par1DamageSource.getSourceOfDamage() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) par1DamageSource.getSourceOfDamage();
 				if (player.capabilities.isCreativeMode && player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == ItemDefs.woodenLeg) {
-					if (!this.worldObj.isRemote)
+					if (!this.world.isRemote)
 						this.setDead();
 					return false;
 				}
@@ -209,11 +209,11 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 
 		if (this.parts != null && this.parts[0] != null && this.parts[0].partName == "defaultBody") {
 			this.parts[0].setPosition(this.posX, this.posY, this.posZ);
-			if (this.worldObj.isRemote) {
+			if (this.world.isRemote) {
 				this.parts[0].setVelocity(this.motionX, this.motionY, this.motionZ);
 			}
 			if (!this.parts[0].addedToChunk) {
-				this.worldObj.spawnEntityInWorld(this.parts[0]);
+				this.world.spawnEntityInWorld(this.parts[0]);
 			}
 		}
 
@@ -222,7 +222,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 			this.setCurrentAction(BossActions.IDLE);
 		}
 
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			this.playerCanSee = ArsMagica2.proxy.getLocalPlayer().canEntityBeSeen(this);
 			this.ignoreFrustumCheck = ArsMagica2.proxy.getLocalPlayer().getDistanceToEntity(this) < 32;
 		}

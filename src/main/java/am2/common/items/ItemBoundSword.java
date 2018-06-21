@@ -29,7 +29,7 @@ public class ItemBoundSword extends ItemSword implements IBoundItem {
 		ItemStack copiedStack = stack.copy();
 		ISpellCaster caster = stack.copy().getCapability(SpellCaster.INSTANCE, null);
 		if (caster != null)
-			caster.createSpellData(copiedStack).execute(attacker.worldObj, attacker, target, target.posX, target.posY, target.posZ, null);
+			caster.createSpellData(copiedStack).execute(attacker.world, attacker, target, target.posX, target.posY, target.posZ, null);
 		target.hurtResistantTime = hurtResist;
 		return true;
 	}

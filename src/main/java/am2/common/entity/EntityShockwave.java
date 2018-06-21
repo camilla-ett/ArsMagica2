@@ -43,11 +43,11 @@ public class EntityShockwave extends Entity{
 		int j = MathHelper.floor_double(this.posX);
 		int i = MathHelper.floor_double(this.posY - 0.20000000298023224D);
 		int k = MathHelper.floor_double(this.posZ);
-		IBlockState l = this.worldObj.getBlockState(new BlockPos (j, i, k));
+		IBlockState l = this.world.getBlockState(new BlockPos (j, i, k));
 		if (l.getBlock() != Blocks.AIR) {
 			for (int h = 0; h < (5 * ArsMagica2.config.getGFXLevel()); ++h) {
 				if (this.getEntityWorld().isRemote)
-					this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + (this.rand.nextFloat() - 0.5D) * this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + (this.rand.nextFloat() - 0.5D) * this.width, -this.motionX * 4.0D, 1.5D, -this.motionZ * 4.0D, new int[]{Block.getStateId(l)});
+					this.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + (this.rand.nextFloat() - 0.5D) * this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + (this.rand.nextFloat() - 0.5D) * this.width, -this.motionX * 4.0D, 1.5D, -this.motionZ * 4.0D, new int[]{Block.getStateId(l)});
 			}
 		}
 

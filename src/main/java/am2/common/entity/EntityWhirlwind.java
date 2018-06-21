@@ -68,7 +68,7 @@ public class EntityWhirlwind extends EntityFlying{
 
 		nav.tryMoveFlying(worldObj, this);
 
-		if (this.ticksExisted > 140 && !this.worldObj.isRemote)
+		if (this.ticksExisted > 140 && !this.world.isRemote)
 			this.setDead();
 
 
@@ -79,7 +79,7 @@ public class EntityWhirlwind extends EntityFlying{
 
 	private void generateNewTarget(){
 		EntityPlayer closest = null;
-		for (Object player : this.worldObj.playerEntities){
+		for (Object player : this.world.playerEntities){
 			if (closest == null || ((EntityPlayer)player).getDistanceSqToEntity(this) < this.getDistanceSqToEntity(closest)){
 				closest = (EntityPlayer)player;
 			}

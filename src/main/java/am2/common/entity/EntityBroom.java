@@ -176,7 +176,7 @@ public class EntityBroom extends EntityCreature{
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand){
 		if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == ItemDefs.spellStaffMagitech){
-			if (this.worldObj.isRemote){
+			if (this.world.isRemote){
 				for (int i = 0; i < ArsMagica2.config.getGFXLevel() * 2; ++i){
 					AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke", posX, posY, posZ);
 					if (particle != null){

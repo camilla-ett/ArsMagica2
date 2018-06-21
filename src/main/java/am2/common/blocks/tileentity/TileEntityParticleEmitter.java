@@ -282,7 +282,7 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 	}
 
 	public void syncWithServer(){
-		if (this.worldObj.isRemote){
+		if (this.world.isRemote){
 			AMDataWriter writer = new AMDataWriter();
 			writer.add(this.pos.getX());
 			writer.add(this.pos.getY());

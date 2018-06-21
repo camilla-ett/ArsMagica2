@@ -53,7 +53,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 		categories = CompendiumCategory.getCategories();
 		currentCategory = categories.iterator().next();
 		lines = new ArrayList<String>();
-		String path = am2.common.lore.ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).getPath();
+		String path = am2.common.lore.ArcaneCompendium.For(Minecraft.getMinecraft().player).getPath();
 		if (path != null) {
 			CompendiumCategory category = CompendiumCategory.getCategoryFromID(path);
 			if (category != null)
@@ -61,7 +61,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 		}
 		
 		
-		sk = SkillData.For(Minecraft.getMinecraft().thePlayer);
+		sk = SkillData.For(Minecraft.getMinecraft().player);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 				if (sub.getParentsString().equals(category.getID())) {
 					boolean hasSubItems = false;
 					for (CompendiumEntry entry : category.getEntries()) {
-						if (entry.getRenderObject() == null || ArcaneCompendium.For(mc.thePlayer).isUnlocked(entry.getID())) {
+						if (entry.getRenderObject() == null || ArcaneCompendium.For(mc.player).isUnlocked(entry.getID())) {
 							hasSubItems = true;
 							break;
 						}
@@ -117,7 +117,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 			ArrayList<CompendiumEntry> sortedEntries = Lists.newArrayList(category.getEntries());
 			sortedEntries.sort(new Comparator<CompendiumEntry>() {public int compare(CompendiumEntry o1, CompendiumEntry o2) { return o1.getName().compareTo(o2.getName());}});
 			for (CompendiumEntry entry : sortedEntries) {
-				if (!mc.thePlayer.capabilities.isCreativeMode && entry.getRenderObject() != null && !ArcaneCompendium.For(mc.thePlayer).isUnlocked(entry.getID()))
+				if (!mc.player.capabilities.isCreativeMode && entry.getRenderObject() != null && !ArcaneCompendium.For(mc.player).isUnlocked(entry.getID()))
 					continue;
 				GuiButtonCompendiumLink link = new GuiButtonCompendiumLink(idCount++, buttonX, buttonY, fontRenderer, locPage, entry, null);
 				link.visible = entry.canBeDisplayed(category.getID()) && page == locPage;
@@ -220,7 +220,7 @@ public class GuiCompendiumIndex extends GuiScreen{
 		nextPage.visible = page < numPages;
 		prevPage.visible = page > 0;
 		this.currentCategory = category;
-		am2.common.lore.ArcaneCompendium.For(Minecraft.getMinecraft().thePlayer).setPath(category.getID());
+		am2.common.lore.ArcaneCompendium.For(Minecraft.getMinecraft().player).setPath(category.getID());
 	}
 	
 	@Override

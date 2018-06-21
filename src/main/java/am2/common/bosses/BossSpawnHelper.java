@@ -44,7 +44,7 @@ public class BossSpawnHelper{
 		ticksSinceLastDryadDeath = 0;
 		dryadsKilled++;
 		if (dryadsKilled >= 5){
-			spawnNatureGuardian(dryad.worldObj, dryad.posX, dryad.posY, dryad.posZ);
+			spawnNatureGuardian(dryad.world, dryad.posX, dryad.posY, dryad.posZ);
 			dryadsKilled = 0;
 		}
 	}
@@ -60,7 +60,7 @@ public class BossSpawnHelper{
 		
 		BlockPos pos = villager.getPosition();
 
-		World world = villager.worldObj;
+		World world = villager.world;
 
 		long time = world.getWorldTime() % 24000;
 		if (time < 12500 || time > 23500) //night time
@@ -162,14 +162,14 @@ public class BossSpawnHelper{
 
 	public void onItemInRing(EntityItem item, Block ringID){
 		if (ringID == BlockDefs.redstoneInlay){
-			checkForWaterGuardianSpawn(item.worldObj, item.getPosition());
+			checkForWaterGuardianSpawn(item.world, item.getPosition());
 		}else if (ringID == BlockDefs.ironInlay){
-			checkForArcaneGuardianSpawn(item.worldObj, item.getPosition());
-			checkForEarthGuardianSpawn(item.worldObj, item.getPosition());
+			checkForArcaneGuardianSpawn(item.world, item.getPosition());
+			checkForEarthGuardianSpawn(item.world, item.getPosition());
 		}else if (ringID == BlockDefs.goldInlay){
-			checkForAirGuardianSpawn(item.worldObj, item.getPosition());
-			checkForFireGuardianSpawn(item, item.worldObj, item.getPosition());
-			checkForEnderGuardianSpawn(item.worldObj, item.getPosition());
+			checkForAirGuardianSpawn(item.world, item.getPosition());
+			checkForFireGuardianSpawn(item, item.world, item.getPosition());
+			checkForEnderGuardianSpawn(item.world, item.getPosition());
 		}
 	}
 

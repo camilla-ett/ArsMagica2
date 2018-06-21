@@ -191,7 +191,7 @@ public class EntityThrownRock extends EntityLiving{
 					AMParticle star = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "ember", posX + motionX * i, posY + motionY * i, posZ + motionZ * i);
 					if (star != null){
 						star.setMaxAge(22);
-						float clrMod = Minecraft.getMinecraft().theWorld.rand.nextFloat();
+						float clrMod = Minecraft.getMinecraft().world.rand.nextFloat();
 						int finalColor = -1;
 						if (color == -1)
 							finalColor = MathUtilities.colorFloatsToInt(0.24f * clrMod, 0.58f * clrMod, 0.71f * clrMod);
@@ -293,7 +293,7 @@ public class EntityThrownRock extends EntityLiving{
 					if (this.target == null){
 						this.target = movingobjectposition.hitVec;
 					}
-					this.worldObj.newExplosion(this, this.target.xCoord, this.target.yCoord, this.target.zCoord, 0.8f, false, ArsMagica2.config.moonstoneMeteorsDestroyTerrain());
+					this.world.newExplosion(this, this.target.xCoord, this.target.yCoord, this.target.zCoord, 0.8f, false, ArsMagica2.config.moonstoneMeteorsDestroyTerrain());
 
 					int numOres = rand.nextInt(4) + 1;
 
@@ -301,7 +301,7 @@ public class EntityThrownRock extends EntityLiving{
 						generateSurfaceOreAtOffset(worldObj, new BlockPos(target), i == 0);
 					}
 
-//					if (this.worldObj.isRemote){
+//					if (this.world.isRemote){
 //						for (Object player : worldObj.playerEntities)
 //							if (((EntityPlayer)player).getDistanceSqToEntity(this) < 4096)
 //								CompendiumUnlockHandler.unlockEntry("moonstone_meteors");

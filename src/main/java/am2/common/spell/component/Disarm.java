@@ -71,7 +71,7 @@ public class Disarm extends SpellComponent{
 		if (target instanceof EntityPlayer && (!ArsMagica2.config.getDisarmAffectsPlayers() || (!world.isRemote && !FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled())))
 			return false;
 		
-		if (target instanceof EntityPlayer && ((EntityPlayer)target).getHeldItemOffhand() != null && !target.worldObj.isRemote && (rnd.nextInt(9) + 1 <= damage)
+		if (target instanceof EntityPlayer && ((EntityPlayer)target).getHeldItemOffhand() != null && !target.world.isRemote && (rnd.nextInt(9) + 1 <= damage)
 			&& EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound, ((EntityPlayer)target).getHeldItemOffhand()) <= 0){
 			//Drop mainhand item? 1 line. You want to drop the offhand? You'd better like workarounds.
 			EntityItem item = new EntityItem(world);
@@ -83,7 +83,7 @@ public class Disarm extends SpellComponent{
 			((EntityPlayer)target).inventory.offHandInventory[0] = null;
 		}
 		
-		if (target instanceof EntityPlayer && ((EntityPlayer)target).getHeldItemMainhand() != null && !target.worldObj.isRemote){
+		if (target instanceof EntityPlayer && ((EntityPlayer)target).getHeldItemMainhand() != null && !target.world.isRemote){
 			if (EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound, ((EntityPlayer)target).getHeldItemMainhand()) > 0)
 				return true;
 			((EntityPlayer)target).dropItem(true);

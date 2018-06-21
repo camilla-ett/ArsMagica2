@@ -24,7 +24,7 @@ public class EntityAISummonFollowOwner extends EntityAIBase{
 	float minDist;
 	public EntityAISummonFollowOwner(EntityCreature host, double moveSpeed, float minDist, float maxDist){
 		this.theSummon = host;
-		this.theWorld = host.worldObj;
+		this.world = host.world;
 		this.moveSpeed = moveSpeed;
 		this.petPathfinder = host.getNavigator();
 		this.minDist = minDist;
@@ -51,7 +51,7 @@ public class EntityAISummonFollowOwner extends EntityAIBase{
 	private EntityLivingBase getOwner(){
 		int entityID = EntityUtils.getOwner(theSummon);
 		if (entityID == -1) return null;
-		Entity e = theSummon.worldObj.getEntityByID(entityID);
+		Entity e = theSummon.world.getEntityByID(entityID);
 		if (e instanceof EntityLivingBase)
 			return (EntityLivingBase)e;
 		return null;
@@ -83,7 +83,7 @@ public class EntityAISummonFollowOwner extends EntityAIBase{
 	}
 	
 	private boolean isEmptyBlock(BlockPos pos) {
-		IBlockState iblockstate = this.theWorld.getBlockState(pos);
+		IBlockState iblockstate = this.world.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 		return block == Blocks.AIR ? true : !iblockstate.isFullCube();
 	}
@@ -107,7 +107,7 @@ public class EntityAISummonFollowOwner extends EntityAIBase{
 						for (int l = 0; l <= 4; ++l) {
 							for (int i1 = 0; i1 <= 4; ++i1) {
 								if ((l < 1 || i1 < 1 || l > 3 || i1 > 3)
-										&& this.theWorld.getBlockState(new BlockPos(i + l, k - 1, j + i1))
+										&& this.world.getBlockState(new BlockPos(i + l, k - 1, j + i1))
 												.isFullyOpaque()
 										&& this.isEmptyBlock(new BlockPos(i + l, k, j + i1))
 										&& this.isEmptyBlock(new BlockPos(i + l, k + 1, j + i1))) {

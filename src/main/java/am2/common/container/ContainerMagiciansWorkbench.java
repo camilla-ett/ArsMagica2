@@ -39,7 +39,7 @@ public class ContainerMagiciansWorkbench extends AM2Container{
 		workbenchInventory = tileEntity;
 		workbenchInventory.openInventory(playerInventory.player);
 
-		world = playerInventory.player.worldObj;
+		world = playerInventory.player.world;
 
 		INVENTORY_STORAGE_START = tileEntity.getStorageStart() - 3;
 		if (tileEntity.getUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT))

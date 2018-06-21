@@ -134,7 +134,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk {
 		if (surroundingCheckTicks++ % 100 == 0){
 			checkNearbyBlockState();
 			surroundingCheckTicks = 1;
-			if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
+			if (!worldObj.isRemote && PowerNodeRegistry.For(this.world).checkPower(this, this.capacity * 0.1f)){
 				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
 				for (EntityPlayer p : nearbyPlayers){
 					if (p.isPotionActive(PotionEffectsDefs.MANA_REGEN)) continue;
@@ -144,7 +144,7 @@ public class TileEntityCelestialPrism extends TileEntityObelisk {
 		}
 
 		if (onlyChargeAtNight == isNight()){
-			PowerNodeRegistry.For(this.worldObj).insertPower(this, PowerTypes.LIGHT, 0.25f * powerMultiplier);
+			PowerNodeRegistry.For(this.world).insertPower(this, PowerTypes.LIGHT, 0.25f * powerMultiplier);
 			if (worldObj.isRemote){
 
 				if (particleCounter++ % (ArsMagica2.config.FullGFX() ? 60 : ArsMagica2.config.NoGFX() ? 180 : 120) == 0){

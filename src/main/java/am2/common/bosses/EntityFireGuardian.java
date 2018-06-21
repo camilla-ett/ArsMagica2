@@ -86,7 +86,7 @@ public class EntityFireGuardian extends AM2Boss{
 	}
 
 	private void nova(){
-		if (this.worldObj.isRemote){
+		if (this.world.isRemote){
 			for (int i = 0; i < 36; ++i){
 				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "explosion_2", posX, posY - 3, posZ);
 				if (particle != null){
@@ -180,7 +180,7 @@ public class EntityFireGuardian extends AM2Boss{
 
 		if (par1DamageSource.isFireDamage()){
 			this.heal(par2);
-			if (this.worldObj.isRemote){
+			if (this.world.isRemote){
 				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "sparkle", posX, posY - 1, posZ);
 				if (particle != null){
 					particle.addRandomOffset(1, 1, 1);

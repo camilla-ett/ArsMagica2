@@ -35,11 +35,11 @@ public class ShrinkHandler{
 
 		boolean shrunk = exProps.isShrunk();
 
-		if (!player.worldObj.isRemote && shrunk && !player.isPotionActive(PotionEffectsDefs.SHRINK)){
+		if (!player.world.isRemote && shrunk && !player.isPotionActive(PotionEffectsDefs.SHRINK)){
 			exProps.setShrunk(false);
 			shrunk = false;
 			//player.yOffset = (float)exProps.getOriginalSize().y * 0.9f;
-		}else if (!player.worldObj.isRemote && !shrunk && player.isPotionActive(PotionEffectsDefs.SHRINK)){
+		}else if (!player.world.isRemote && !shrunk && player.isPotionActive(PotionEffectsDefs.SHRINK)){
 			exProps.setShrunk(true);
 			shrunk = true;
 			//player.yOffset = 0.0F;
@@ -77,7 +77,7 @@ public class ShrinkHandler{
 		}
 
 		// update Y offset
-		if (player.worldObj.isRemote && exProps.getPrevShrinkPct() != exProps.getShrinkPct()){
+		if (player.world.isRemote && exProps.getPrevShrinkPct() != exProps.getShrinkPct()){
 			// Vanilla player is 1.8f height with 1.62f yOffset => 0.9f
 			//player.yOffset = (float)exProps.getOriginalSize().y * 0.9f * (1f - 0.5f * exProps.getShrinkPct());
 		}

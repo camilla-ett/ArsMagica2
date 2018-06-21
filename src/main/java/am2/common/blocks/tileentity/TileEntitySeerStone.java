@@ -151,9 +151,9 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	public boolean isActive(){
-		if (this.worldObj == null)
+		if (this.world == null)
 			return false;
-		return PowerNodeRegistry.For(this.worldObj).checkPower(this, PowerTypes.LIGHT, this.hasSight ? 2 : 1) && GetSearchRadius() > 0;
+		return PowerNodeRegistry.For(this.world).checkPower(this, PowerTypes.LIGHT, this.hasSight ? 2 : 1) && GetSearchRadius() > 0;
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 			Class<? extends Entity> searchClass = GetSearchClass();
 			ArrayList<Entity> nearbyMobs = new ArrayList<Entity>();
 			if (searchClass != null){
-				nearbyMobs = (ArrayList<Entity>)this.worldObj.getEntitiesWithinAABB(searchClass, new AxisAlignedBB(pos.add(-radius, -radius, -radius), pos.add(1+radius, 1+radius, 1+radius)));
+				nearbyMobs = (ArrayList<Entity>)this.world.getEntitiesWithinAABB(searchClass, new AxisAlignedBB(pos.add(-radius, -radius, -radius), pos.add(1+radius, 1+radius, 1+radius)));
 
 				if (key > 0){
 					ArrayList<Entity> mobsToIgnore = new ArrayList<Entity>();
@@ -321,10 +321,10 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	}
 
 	private void notifyNeighborsOfPowerChange(){
-		this.worldObj.notifyBlockOfStateChange(pos, BlockDefs.seerStone);
+		this.world.notifyBlockOfStateChange(pos, BlockDefs.seerStone);
 		BlockPos otherPos = pos.offset(worldObj.getBlockState(pos).getValue(BlockSeerStone.FACING));
-		this.worldObj.notifyBlockOfStateChange(otherPos, BlockDefs.seerStone);
-		this.worldObj.markAndNotifyBlock(otherPos, worldObj.getChunkFromBlockCoords(otherPos), worldObj.getBlockState(otherPos), worldObj.getBlockState(otherPos), 3);
+		this.world.notifyBlockOfStateChange(otherPos, BlockDefs.seerStone);
+		this.world.markAndNotifyBlock(otherPos, worldObj.getChunkFromBlockCoords(otherPos), worldObj.getBlockState(otherPos), worldObj.getBlockState(otherPos), 3);
 	}
 
 	public boolean ShouldAnimate(){

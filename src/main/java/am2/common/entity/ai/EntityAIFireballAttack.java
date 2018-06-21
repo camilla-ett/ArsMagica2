@@ -39,7 +39,7 @@ public class EntityAIFireballAttack extends EntityAIBase{
 		rangedAttackTime = 0;
 		field_48367_f = 0;
 		entityHost = par1EntityLiving;
-		worldObj = par1EntityLiving.worldObj;
+		worldObj = par1EntityLiving.world;
 		field_48370_e = par2;
 		rangedAttackID = par3;
 		maxRangedAttackTime = par4;

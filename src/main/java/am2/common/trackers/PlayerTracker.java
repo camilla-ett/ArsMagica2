@@ -70,8 +70,8 @@ public class PlayerTracker{
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerLoggedOutEvent event){
 		//kill any summoned creatures
-		if (!event.player.worldObj.isRemote){
-			List<Entity> list = event.player.worldObj.loadedEntityList;
+		if (!event.player.world.isRemote){
+			List<Entity> list = event.player.world.loadedEntityList;
 			for (Object o : list){
 				if (o instanceof EntityLivingBase && EntityUtils.isSummon((EntityLivingBase)o) && EntityUtils.getOwner((EntityLivingBase)o) == event.player.getEntityId()){
 					((EntityLivingBase)o).setDead();

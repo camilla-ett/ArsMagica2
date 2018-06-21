@@ -49,7 +49,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	}
 
 	private boolean isRedstonePowered(){
-		return this.worldObj.isBlockIndirectlyGettingPowered(pos) > 0;
+		return this.world.isBlockIndirectlyGettingPowered(pos) > 0;
 	}
 
 	@Override
@@ -70,12 +70,12 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 				summonEntityID = -1;
 			}
 			if (isRedstonePowered() && inventory[SUMMON_SLOT] != null){
-				if (PowerNodeRegistry.For(this.worldObj).checkPower(this, maintainCost)){
+				if (PowerNodeRegistry.For(this.world).checkPower(this, maintainCost)){
 					if (ent == null && canSummon()){
 						summonCreature();
 					}else{
 						if (ent != null){
-							PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), maintainCost);
+							PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(this.world).getHighestPowerType(this), maintainCost);
 						}
 					}
 				}else{
@@ -84,7 +84,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 			}else{
 				if (ent != null){
 					unsummonCreature();
-					PowerNodeRegistry.For(this.worldObj).insertPower(this, PowerTypes.NEUTRAL, summonCost / 2);
+					PowerNodeRegistry.For(this.world).insertPower(this, PowerTypes.NEUTRAL, summonCost / 2);
 				}
 			}
 		}
@@ -101,9 +101,9 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	}
 
 	public boolean canSummon(){
-		if (this.worldObj == null)
+		if (this.world == null)
 			return false;
-		return summonCooldown == 0 && PowerNodeRegistry.For(this.worldObj).checkPower(this, getSummonCost() + powerPadding);
+		return summonCooldown == 0 && PowerNodeRegistry.For(this.world).checkPower(this, getSummonCost() + powerPadding);
 	}
 
 	public boolean hasSummon(){
@@ -123,7 +123,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 			if (summon instanceof EntityCreature)
 				EntityUtils.setGuardSpawnLocation((EntityCreature)summon, pos.getX(), pos.getY(), pos.getZ());
 			this.summonEntityID = summon.getEntityId();
-			PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), summonCost);
+			PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(this.world).getHighestPowerType(this), summonCost);
 			this.summonCooldown = TileEntitySummoner.maxSummonCooldown;
 			EntityUtils.setTileSpawned(summon, this);
 			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);

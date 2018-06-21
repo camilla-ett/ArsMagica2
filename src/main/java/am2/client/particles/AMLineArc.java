@@ -158,7 +158,7 @@ public class AMLineArc extends Particle{
 
 		int fxQuality = 8;//AMCore.config.getGFXLevel() * 8;
 
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer player = Minecraft.getMinecraft().player;
 		double interpolatedX = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
 		double interpolatedY = player.prevPosY + (player.posY - player.prevPosY) * partialTicks;
 		double interpolatedZ = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;

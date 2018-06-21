@@ -173,7 +173,7 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 
 			if (isRefining()){
 				setActiveTexture();
-				if (PowerNodeRegistry.For(this.worldObj).checkPower(this, TICK_REFINE_COST)){
+				if (PowerNodeRegistry.For(this.world).checkPower(this, TICK_REFINE_COST)){
 					remainingRefineTime--;
 					if (remainingRefineTime % 10 == 0)
 						worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
@@ -184,7 +184,7 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 						}
 					}
 
-					PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), TICK_REFINE_COST);
+					PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(this.world).getHighestPowerType(this), TICK_REFINE_COST);
 				}
 			}else{
 				setActiveTexture();

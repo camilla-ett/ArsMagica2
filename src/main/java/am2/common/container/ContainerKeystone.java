@@ -114,7 +114,7 @@ public class ContainerKeystone extends Container{
 	@Override
 	public void onContainerClosed(EntityPlayer entityplayer){
 
-		World world = entityplayer.worldObj;
+		World world = entityplayer.world;
 
 		if (!world.isRemote){
 			ItemStack keyStoneItemStack = keystoneStack;
@@ -272,7 +272,7 @@ public class ContainerKeystone extends Container{
 
 		if (!inventoryContainsAllMetas(combo.metas)) return false;
 
-		if (player.worldObj.isRemote){
+		if (player.world.isRemote){
 			AMNetHandler.INSTANCE.sendPacketToServer(AMPacketIDs.SET_KEYSTONE_COMBO, new AMDataWriter().add(comboIndex).generate());
 			return true;
 		}

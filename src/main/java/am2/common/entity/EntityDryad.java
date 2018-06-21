@@ -58,7 +58,7 @@ public class EntityDryad extends EntityCreature{
 	
 	@Override
 	public void onUpdate(){
-		World world = this.worldObj;
+		World world = this.world;
 		super.onUpdate();
 		if (!world.isRemote || world == null){
 			return;

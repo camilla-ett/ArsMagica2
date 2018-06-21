@@ -47,7 +47,7 @@ public class EntitySpellProjectile extends Entity {
 	}
 	
 	public void setTargetWater(){
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 			this.getDataManager().set(DW_TARGETGRASS, true);
 	}
 	

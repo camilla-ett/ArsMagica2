@@ -45,7 +45,7 @@ public class EntityManaCreeper extends EntityCreeper{
 			int var1 = this.getCreeperState();
 
 			if (var1 > 0 && this.timeSinceIgnited_Local == 0){
-				this.worldObj.playSound(posX, posY, posZ, SoundEvents.ENTITY_CREEPER_PRIMED, SoundCategory.HOSTILE, 1.0F, 0.5F, false);
+				this.world.playSound(posX, posY, posZ, SoundEvents.ENTITY_CREEPER_PRIMED, SoundCategory.HOSTILE, 1.0F, 0.5F, false);
 			}
 
 			this.timeSinceIgnited_Local += var1;
@@ -57,7 +57,7 @@ public class EntityManaCreeper extends EntityCreeper{
 			if (this.timeSinceIgnited_Local >= 10){
 				this.timeSinceIgnited_Local = 10;
 
-				if (!this.worldObj.isRemote){
+				if (!this.world.isRemote){
 					createManaVortex();
 					this.onDeath(DamageSource.generic);
 					this.setDead();

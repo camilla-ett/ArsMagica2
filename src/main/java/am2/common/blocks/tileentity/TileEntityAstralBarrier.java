@@ -51,7 +51,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	}
 
 	public boolean IsActive(){
-		return PowerNodeRegistry.For(this.worldObj).checkPower(this, 0.35f * getRadius()) && worldObj.isBlockIndirectlyGettingPowered(pos) > 0 && getRadius() > 0;
+		return PowerNodeRegistry.For(this.world).checkPower(this, 0.35f * getRadius()) && worldObj.isBlockIndirectlyGettingPowered(pos) > 0 && getRadius() > 0;
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 		int radius = getRadius();
 
 		if (IsActive()){
-			PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), 0.35f * radius);
+			PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), 0.35f * radius);
 		}
 
 		if (worldObj.isRemote){
@@ -122,7 +122,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	}
 
 	public void onEntityBlocked(EntityLivingBase entity){
-		if (this.worldObj.isRemote){
+		if (this.world.isRemote){
 			if (PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.DARK, 50)){
 				entity.attackEntityFrom(DamageSource.magic, 5);
 				PowerNodeRegistry.For(worldObj).consumePower(this, PowerTypes.DARK, 50);

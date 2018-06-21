@@ -32,7 +32,7 @@ public class EntityAIWaterElementalAttack extends EntityAIBase{
 	public EntityAIWaterElementalAttack(EntityCreature par1EntityLiving, float par2, boolean par3){
 		this.attackTick = 0;
 		this.attacker = par1EntityLiving;
-		this.worldObj = par1EntityLiving.worldObj;
+		this.world = par1EntityLiving.world;
 		this.field_75440_e = par2;
 		this.field_75437_f = par3;
 	}

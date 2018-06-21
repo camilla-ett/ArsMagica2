@@ -157,7 +157,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	public void onPlaced(){
 		if (!worldObj.isRemote){
-			AMChunkLoader.INSTANCE.requestStaticChunkLoad(this.getClass(), this.pos, this.worldObj);
+			AMChunkLoader.INSTANCE.requestStaticChunkLoad(this.getClass(), this.pos, this.world);
 		}
 	}
 
@@ -166,7 +166,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		ArsMagica2.proxy.blocks.removeKeystonePortal(pos, worldObj.provider.getDimension());
 
 		if (!worldObj.isRemote){
-			AMChunkLoader.INSTANCE.releaseStaticChunkLoad(this.getClass(), pos, this.worldObj);
+			AMChunkLoader.INSTANCE.releaseStaticChunkLoad(this.getClass(), pos, this.world);
 		}
 
 		super.invalidate();
@@ -176,8 +176,8 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		this.isActive = true;
 		this.key = key;
 
-		if (!this.worldObj.isRemote){
-			for (Object player : this.worldObj.playerEntities){
+		if (!this.world.isRemote){
+			for (Object player : this.world.playerEntities){
 				if (player instanceof EntityPlayerMP && new AMVector3((EntityPlayerMP)player).distanceSqTo(new AMVector3(this)) <= 4096){
 					((EntityPlayerMP)player).connection.sendPacket(getUpdatePacket());
 				}
@@ -234,7 +234,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		allGood &= worldObj.isAirBlock(pos.down(2));
 		allGood &= worldObj.isAirBlock(pos.down(3));
 		allGood &= checkStructure();
-		allGood &= PowerNodeRegistry.For(this.worldObj).checkPower(this);
+		allGood &= PowerNodeRegistry.For(this.world).checkPower(this);
 		allGood &= !this.isActive;
 		return allGood;
 	}
@@ -268,7 +268,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	public void deactivate(){
 		this.isActive = false;
-		if (!this.worldObj.isRemote){
+		if (!this.world.isRemote){
 			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 		}
 	}
@@ -276,7 +276,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	private void doTeleport(Entity entity){
 		deactivate();
 
-		AMVector3 newLocation = ArsMagica2.proxy.blocks.getNextKeystonePortalLocation(this.worldObj, pos, false, this.key);
+		AMVector3 newLocation = ArsMagica2.proxy.blocks.getNextKeystonePortalLocation(this.world, pos, false, this.key);
 		AMVector3 myLocation = new AMVector3(pos);
 		double distance = myLocation.distanceTo(newLocation);
 		float essenceCost = (float)(distance * distance * 0.00175f);
@@ -285,7 +285,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 		if (ArsMagica2.config.getHazardousGateways()){
 			//uh-oh!  Not enough power!  The teleporter will still send you though, but I wonder where...
-			float charge = PowerNodeRegistry.For(this.worldObj).getHighestPower(this);
+			float charge = PowerNodeRegistry.For(this.world).getHighestPower(this);
 			if (charge < essenceCost){
 				essenceCost = charge;
 				//get the distance that our charge *will* take us towards the next point
@@ -306,7 +306,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				newLocation = new AMVector3(newX, newY, newZ);
 			}
 		}else{
-			//this.worldObj.playSound(newLocation.x, newLocation.y, newLocation.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
+			//this.world.playSound(newLocation.x, newLocation.y, newLocation.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
 			//return;
 		}
 
@@ -332,12 +332,12 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		if (entity instanceof EntityPlayer)
 			((EntityPlayer) entity).addStat(StatList.getObjectUseStats(Item.getItemFromBlock(blockType)));
 
-		PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), essenceCost);
+		PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(this.world).getHighestPowerType(this), essenceCost);
 		
 		entity.rotationYaw = newRotation;
 		entity.setPositionAndUpdate(newLocation.x + 0.5F, newLocation.y - entity.height, newLocation.z + 0.5);
-		this.worldObj.playSound(myLocation.x, myLocation.y, myLocation.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
-		this.worldObj.playSound(newLocation.x, newLocation.y, newLocation.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
+		this.world.playSound(myLocation.x, myLocation.y, myLocation.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
+		this.world.playSound(newLocation.x, newLocation.y, newLocation.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
 	}
 
 	@Override

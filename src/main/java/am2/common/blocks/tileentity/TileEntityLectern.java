@@ -65,10 +65,10 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 				}
 			}
 		} else if (tickCount % 20 == 0){
-			IBlockState state = this.worldObj.getBlockState(this.pos);
+			IBlockState state = this.world.getBlockState(this.pos);
 			//This is probably the fastest I can get it to go.
 			//If you know of any better way, please feel free to suggest it.
-			this.worldObj.notifyBlockUpdate(this.pos, state, state, 2);
+			this.world.notifyBlockUpdate(this.pos, state, state, 2);
 		}
 	}
 
@@ -148,7 +148,7 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 			if (stack != null)
 				stack.stackSize = 1;
 			this.stack = stack;
-			if (!this.worldObj.isRemote){
+			if (!this.world.isRemote){
 				AMDataWriter writer = new AMDataWriter();
 				writer.add(pos.getX());
 				writer.add(pos.getY());

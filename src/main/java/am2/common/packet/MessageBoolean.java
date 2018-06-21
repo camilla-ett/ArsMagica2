@@ -44,7 +44,7 @@ public class MessageBoolean implements IMessage {
 		
 		@Override
 		public IMessage onMessage(final MessageBoolean message, final MessageContext ctx) {
-			((WorldServer)ctx.getServerHandler().playerEntity.worldObj).addScheduledTask(new Runnable () {
+			((WorldServer)ctx.getServerHandler().playerEntity.world).addScheduledTask(new Runnable () {
 			//Minecraft.getMinecraft().addScheduledTask(new Runnable() {
 				@Override
 				public void run() {

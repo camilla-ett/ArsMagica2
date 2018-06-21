@@ -90,7 +90,7 @@ public class EntityAirGuardian extends AM2Boss{
 			break;
 		case SPINNING:
 			this.spinRotation = (this.spinRotation - 40) % 360;
-			if (this.worldObj.isRemote){
+			if (this.world.isRemote){
 				for (int i = 0; i < ArsMagica2.config.getGFXLevel(); ++i){
 					AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "wind", posX + worldObj.rand.nextDouble() * 4 - 2, posY, posZ + worldObj.rand.nextDouble() * 4 - 2);
 					if (particle != null){

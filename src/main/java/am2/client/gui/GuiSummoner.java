@@ -39,7 +39,7 @@ public class GuiSummoner extends GuiContainer{
 		float cost = summonerInventory.getSummonCost();
 		float maintainCost = summonerInventory.getMaintainCost() * 20;
 		String essenceCostString = cost >= 0 ? String.format("%.2f/s", maintainCost) : "N/A";
-		int color = cost >= 0 ? cost <= PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).getHighestPower(summonerInventory) ? 0x007700 : 0x770000 : 0x333333;
+		int color = cost >= 0 ? cost <= PowerNodeRegistry.For(Minecraft.getMinecraft().world).getHighestPower(summonerInventory) ? 0x007700 : 0x770000 : 0x333333;
 
 		int offset = fontRenderer.getStringWidth(essenceString) + 25;
 
@@ -48,7 +48,7 @@ public class GuiSummoner extends GuiContainer{
 		fontRenderer.drawString(essenceCostString, xSize - offset, ySize - 120, color);
 
 		essenceCostString = cost >= 0 ? String.format("%.2f", cost) : "N/A";
-		color = cost >= 0 ? cost <= PowerNodeRegistry.For(Minecraft.getMinecraft().theWorld).getHighestPower(summonerInventory) ? 0x007700 : 0x770000 : 0x333333;
+		color = cost >= 0 ? cost <= PowerNodeRegistry.For(Minecraft.getMinecraft().world).getHighestPower(summonerInventory) ? 0x007700 : 0x770000 : 0x333333;
 
 		fontRenderer.drawString(essenceString, 20, ySize - 130, 0x777777);
 		fontRenderer.drawString(essenceCostString, 20, ySize - 120, color);

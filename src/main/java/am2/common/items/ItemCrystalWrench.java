@@ -120,7 +120,7 @@ public class ItemCrystalWrench extends ItemArsMagicaRotated{
 	private void doDisconnect(IPowerNode<?> node, World world, double hitX, double hitY, double hitZ, EntityPlayer player){
 		PowerNodeRegistry.For(world).tryDisconnectAllNodes(node);
 		if (world.isRemote){
-			spawnLinkParticles(player.worldObj, hitX, hitY, hitZ, true);
+			spawnLinkParticles(player.world, hitX, hitY, hitZ, true);
 		}else{
 			player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.disconnectPower")));
 		}

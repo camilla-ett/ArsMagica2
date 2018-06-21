@@ -71,9 +71,9 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	public TileEntityFlickerHabitat(){
 		this.initLocationLists();
 
-		if (this.worldObj != null && this.worldObj.isRemote){
-			this.rotateOffset = this.worldObj.rand.nextFloat() * FULL_CIRCLE - 1;
-			this.floatOffset = MAX_FLOAT_DOWN + (this.worldObj.rand.nextFloat() * (MAX_FLOAT_UP - MAX_FLOAT_DOWN) + 1);
+		if (this.world != null && this.world.isRemote){
+			this.rotateOffset = this.world.rand.nextFloat() * FULL_CIRCLE - 1;
+			this.floatOffset = MAX_FLOAT_DOWN + (this.world.rand.nextFloat() * (MAX_FLOAT_UP - MAX_FLOAT_DOWN) + 1);
 		}
 	}
 
@@ -213,11 +213,11 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	public void AddMarkerLocationOut(AMVector3 markerLocation){
 
-		Block out = this.worldObj.getBlockState(markerLocation.toBlockPos()).getBlock();
+		Block out = this.world.getBlockState(markerLocation.toBlockPos()).getBlock();
 		if (out != BlockDefs.crystalMarker)
 			return;
 
-		TileEntity te = this.worldObj.getTileEntity(markerLocation.toBlockPos());
+		TileEntity te = this.world.getTileEntity(markerLocation.toBlockPos());
 		if (te == null || te instanceof TileEntityCrystalMarker == false)
 			return;
 
@@ -521,7 +521,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (this.worldObj.getTileEntity(this.pos) != this){
+		if (this.world.getTileEntity(this.pos) != this){
 			return false;
 		}
 
@@ -544,7 +544,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 
 	private void setUpgradeOfMainHabitat(){
 		if (this.mainHabitatDirection != null){
-			TileEntity te = this.worldObj.getTileEntity(this.pos.offset(this.mainHabitatDirection));
+			TileEntity te = this.world.getTileEntity(this.pos.offset(this.mainHabitatDirection));
 			if (te != null && te instanceof TileEntityFlickerHabitat){
 				((TileEntityFlickerHabitat)te).notifyOfNearbyUpgradeChange(this);
 			}
@@ -573,7 +573,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt){
 		this.readFromNBT(pkt.getNbtCompound());
-		this.worldObj.markAndNotifyBlock(this.pos, this.worldObj.getChunkFromBlockCoords(this.pos), this.worldObj.getBlockState(this.pos), this.worldObj.getBlockState(this.pos), 0);
+		this.world.markAndNotifyBlock(this.pos, this.world.getChunkFromBlockCoords(this.pos), this.world.getBlockState(this.pos), this.world.getBlockState(this.pos), 0);
 	}
 
 	@Override
@@ -585,7 +585,7 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 			this.fadeCounter = 0;
 		}
 
-		if (this.worldObj.isRemote && this.hasFlicker()){
+		if (this.world.isRemote && this.hasFlicker()){
 			this.rotateOffset += ROATATION_RATE;
 
 			if (this.rotateOffset >= FULL_CIRCLE){

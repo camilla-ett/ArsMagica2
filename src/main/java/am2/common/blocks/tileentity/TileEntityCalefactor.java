@@ -207,7 +207,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	}
 
 	protected void sendCookStatusUpdate(boolean isCooking){
-		if (this.worldObj.isRemote)
+		if (this.world.isRemote)
 			return;
 
 		AMDataWriter writer = new AMDataWriter();
@@ -245,7 +245,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 			rotationStepX = worldObj.rand.nextFloat() * 0.03f - 0.015f;
 			isFirstTick = false;
 		}
-		if (this.worldObj.isRemote){
+		if (this.world.isRemote){
 			incrementRotations();
 			if (this.isCooking){
 				particleCount--;
@@ -284,12 +284,12 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 			}
 		}
 		
-		boolean powerCheck = PowerNodeRegistry.For(this.worldObj).checkPower(this, getCookTickPowerCost());
+		boolean powerCheck = PowerNodeRegistry.For(this.world).checkPower(this, getCookTickPowerCost());
 		if (this.canSmelt() && this.isSmelting() && powerCheck){
 			++this.timeSpentCooking;
 			
 			if (this.timeSpentCooking >= getModifiedCookTime()){
-				if (!this.worldObj.isRemote){
+				if (!this.world.isRemote){
 					this.smeltItem();
 				}else{
 					worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(), AMSounds.CALEFACTOR_BURN, SoundCategory.BLOCKS, 0.2f, 1.0f, true);
@@ -304,12 +304,12 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 						PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.NEUTRAL, getCookTickPowerCost()) &&
 						PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.LIGHT, getCookTickPowerCost())){
 
-					PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerTypes.DARK, getCookTickPowerCost());
-					PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerTypes.NEUTRAL, getCookTickPowerCost());
-					PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerTypes.LIGHT, getCookTickPowerCost());
+					PowerNodeRegistry.For(this.world).consumePower(this, PowerTypes.DARK, getCookTickPowerCost());
+					PowerNodeRegistry.For(this.world).consumePower(this, PowerTypes.NEUTRAL, getCookTickPowerCost());
+					PowerNodeRegistry.For(this.world).consumePower(this, PowerTypes.LIGHT, getCookTickPowerCost());
 
 				}else{
-					PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(this.worldObj).getHighestPowerType(this), getCookTickPowerCost());
+					PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(this.world).getHighestPowerType(this), getCookTickPowerCost());
 				}
 			}
 		}else if (!this.isSmelting() && this.canSmelt() && powerCheck){

@@ -64,7 +64,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements ITickabl
 			}
 		}else{
 			if (getDrawerOffset() == drawerMax){
-				this.worldObj.playSound(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, true);
+				this.world.playSound(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F, true);
 			}
 			if (getDrawerOffset() - drawerIncrement > drawerMin){
 				setDrawerOffset(getDrawerOffset() - drawerIncrement);
@@ -107,14 +107,14 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements ITickabl
 		}
 
 		++this.numPlayersUsing;
-		this.worldObj.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
+		this.world.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
 	}
 
 	@Override
 	public void closeInventory(EntityPlayer player){
 		if (this.getBlockType() != null && this.getBlockType() instanceof BlockMagiciansWorkbench){
 			--this.numPlayersUsing;
-			this.worldObj.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
+			this.world.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
 		}
 	}
 

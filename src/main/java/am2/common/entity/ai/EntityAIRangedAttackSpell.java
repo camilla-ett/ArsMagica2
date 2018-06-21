@@ -37,7 +37,7 @@ public class EntityAIRangedAttackSpell extends EntityAIBase{
 		rangedAttackTime = 0;
 		field_48367_f = 0;
 		entityHost = host;
-		worldObj = host.worldObj;
+		worldObj = host.world;
 		field_48370_e = moveSpeed;
 		maxRangedAttackTime = cooldown;
 		this.spellStack = spellStack;

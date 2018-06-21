@@ -230,7 +230,7 @@ public class EntityThrownSickle extends EntityLiving{
 			if (getThrowingEntity() != null && !this.entityHits.contains(movingobjectposition.entityHit.getEntityId())){
 				this.entityHits.add(movingobjectposition.entityHit.getEntityId());
 				if (getThrowingEntity() instanceof EntityPlayer){
-					if (movingobjectposition.entityHit instanceof EntityPlayer && (getThrowingEntity().worldObj.isRemote || !FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled()))
+					if (movingobjectposition.entityHit instanceof EntityPlayer && (getThrowingEntity().world.isRemote || !FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled()))
 						return;
 					movingobjectposition.entityHit.attackEntityFrom(DamageSources.causeCactusDamage(getThrowingEntity(), true), 10);
 				}else{
@@ -277,7 +277,7 @@ public class EntityThrownSickle extends EntityLiving{
 
 	private EntityLivingBase getThrowingEntity(){
 		if (throwingEntity == null){
-			Entity e = this.worldObj.getEntityByID(this.dataManager.get(THROWING_ENTITY));
+			Entity e = this.world.getEntityByID(this.dataManager.get(THROWING_ENTITY));
 			if (e instanceof EntityLivingBase)
 				throwingEntity = (EntityLivingBase)e;
 		}

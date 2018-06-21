@@ -122,7 +122,7 @@ public class AMBeam extends Particle implements IBeamParticle{
 			this.posY = this.updateY;
 			this.posZ = this.updateZ;
 			if (this.fppc){
-				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+				EntityPlayer player = Minecraft.getMinecraft().player;
 				if (player != null){
 					float yaw = player.rotationYaw;
 					float rotationYaw = (float)(yaw * Math.PI / 180);
@@ -181,8 +181,8 @@ public class AMBeam extends Particle implements IBeamParticle{
 		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
 		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		float scaleFactor = 1.0F;
-//		float slide = this.worldObj.getTotalWorldTime();
-		float rot = this.worldObj.provider.getWorldTime() % (360 / this.rotateSpeed) * this.rotateSpeed + this.rotateSpeed * par2;
+//		float slide = this.world.getTotalWorldTime();
+		float rot = this.world.provider.getWorldTime() % (360 / this.rotateSpeed) * this.rotateSpeed + this.rotateSpeed * par2;
 
 		float size = (float)this.particleAge / (float)this.maxLengthAge;
 		if (size > 1) size = 1;

@@ -246,7 +246,7 @@ public class AMParticle extends Particle {
 				remove.add(pmc);
 				continue;
 			}
-			pmc.onUpdate(this.worldObj);
+			pmc.onUpdate(this.world);
 			if (pmc.getExclusive()){
 				break;
 			}
@@ -275,7 +275,7 @@ public class AMParticle extends Particle {
 	
 	@Override
 	public void renderParticle(VertexBuffer tessellator, Entity ent, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch){
-		if (!this.worldObj.isRemote){
+		if (!this.world.isRemote){
 			return;
 		}
 		float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * partialframe - interpPosX);

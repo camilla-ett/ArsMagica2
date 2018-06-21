@@ -52,7 +52,7 @@ public class EntityManaVortex extends Entity{
 	public void onUpdate(){
 		this.ticksExisted++;
 		this.rotation += 5;
-		if (!this.worldObj.isRemote && (this.isDead || this.ticksExisted >= getTicksToExist())){
+		if (!this.world.isRemote && (this.isDead || this.ticksExisted >= getTicksToExist())){
 			this.setDead();
 			return;
 		}
@@ -74,7 +74,7 @@ public class EntityManaVortex extends Entity{
 				Object[] playerArray = players.toArray();
 				for (Object o : playerArray){
 					EntityLivingBase e = (EntityLivingBase)o;
-					RayTraceResult mop = this.worldObj.rayTraceBlocks(new Vec3d(this.posX, this.posY, this.posZ), new Vec3d(e.posX, e.posY + e.getEyeHeight(), e.posZ), false);
+					RayTraceResult mop = this.world.rayTraceBlocks(new Vec3d(this.posX, this.posY, this.posZ), new Vec3d(e.posX, e.posY + e.getEyeHeight(), e.posZ), false);
 					if (mop == null)
 						e.attackEntityFrom(DamageSources.causePhysicalDamage(this), damage);
 				}
@@ -106,7 +106,7 @@ public class EntityManaVortex extends Entity{
 			for (Object o : playerArray){
 				EntityLivingBase e = (EntityLivingBase)o;
 
-				RayTraceResult mop = this.worldObj.rayTraceBlocks(new Vec3d(this.posX, this.posY, this.posZ), new Vec3d(e.posX, e.posY + e.getEyeHeight(), e.posZ), false);
+				RayTraceResult mop = this.world.rayTraceBlocks(new Vec3d(this.posX, this.posY, this.posZ), new Vec3d(e.posX, e.posY + e.getEyeHeight(), e.posZ), false);
 				if (mop != null)
 					continue;
 

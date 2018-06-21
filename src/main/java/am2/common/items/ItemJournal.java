@@ -56,7 +56,7 @@ public class ItemJournal extends ItemArsMagica{
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack journal, World world, EntityPlayer player, EnumHand hand){
 
-		if (!player.worldObj.isRemote){
+		if (!player.world.isRemote){
 			if (getOwner(journal) == null){
 				setOwner(journal, player);
 			}else if (!getOwner(journal).equals(player.getName())){

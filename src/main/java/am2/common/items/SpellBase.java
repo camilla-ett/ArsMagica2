@@ -106,7 +106,7 @@ public class SpellBase extends ItemSpellBase{
 		if (stack.hasCapability(SpellCaster.INSTANCE, null) && caster != null) {
 			ISpellCaster spell = stack.getCapability(SpellCaster.INSTANCE, null);
 			if (spell.createSpellData(stack).isChanneled())
-				spell.cast(stack, caster.worldObj, caster);
+				spell.cast(stack, caster.world, caster);
 		}
 		super.onUsingTick(stack, caster, count);
 	}
@@ -170,7 +170,7 @@ public class SpellBase extends ItemSpellBase{
 
 	@Override
 	public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
-	    player.worldObj.destroyBlock(pos, player.canHarvestBlock(player.worldObj.getBlockState(pos)));
+	    player.world.destroyBlock(pos, player.canHarvestBlock(player.world.getBlockState(pos)));
 	    return true;
 	}
 
@@ -178,7 +178,7 @@ public class SpellBase extends ItemSpellBase{
 	public int getHarvestLevel(ItemStack stack, String toolClass, @Nullable EntityPlayer player, @Nullable IBlockState blockState) {
 		if (stack.hasCapability(SpellCaster.INSTANCE, null) && player != null) {
 			ISpellCaster caster = stack.getCapability(SpellCaster.INSTANCE, null);
-			return (int) caster.createSpellData(stack).getModifiedValue(2, SpellModifiers.MINING_POWER, Operation.ADD, player.worldObj, player, null);
+			return (int) caster.createSpellData(stack).getModifiedValue(2, SpellModifiers.MINING_POWER, Operation.ADD, player.world, player, null);
 		}
 	    return -1;
 	}

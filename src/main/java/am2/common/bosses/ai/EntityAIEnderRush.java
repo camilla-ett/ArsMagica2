@@ -64,7 +64,7 @@ public class EntityAIEnderRush extends AIAnimation{
 				float speed = -5f;
 				guardian.moveEntity(movement.x * speed, movement.y * speed, movement.z * speed);
 			}else{
-				guardian.worldObj.playSound(guardian.posX, guardian.posY, guardian.posZ, ((IArsMagicaBoss)guardian).getAttackSound(), SoundCategory.HOSTILE, 1.0f, (float)(0.5 + guardian.getRNG().nextDouble() * 0.5f), false);
+				guardian.world.playSound(guardian.posX, guardian.posY, guardian.posZ, ((IArsMagicaBoss)guardian).getAttackSound(), SoundCategory.HOSTILE, 1.0f, (float)(0.5 + guardian.getRNG().nextDouble() * 0.5f), false);
 				if (guardian.getAttackTarget().attackEntityFrom(DamageSource.causeMobDamage(guardian), 15) && guardian.getAttackTarget().getHealth() <= 0)
 					guardian.heal(200);
 			}

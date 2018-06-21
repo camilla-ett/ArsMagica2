@@ -131,7 +131,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 				continue;
 			}
 
-			RayTraceResult mop = this.worldObj.rayTraceBlocks(new Vec3d(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5), new Vec3d(ent.posX, ent.posY + ent.getEyeHeight(), ent.posZ), false);
+			RayTraceResult mop = this.world.rayTraceBlocks(new Vec3d(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5), new Vec3d(ent.posX, ent.posY + ent.getEyeHeight(), ent.posZ), false);
 
 			if (EntityUtils.isSummon(ent) || mop != null){
 				continue;
@@ -163,7 +163,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 							if (ent.getHealth() <= 0){
 								ent.setDead();
 								float power = ((int)Math.ceil((ent.getMaxHealth() * (ent.ticksExisted / 20)) % 5000)) * this.powerMultiplier;
-								PowerNodeRegistry.For(this.worldObj).insertPower(this, PowerTypes.DARK, power);
+								PowerNodeRegistry.For(this.world).insertPower(this, PowerTypes.DARK, power);
 							}
 						}
 					}
@@ -186,7 +186,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 		if (surroundingCheckTicks % 100 == 0){
 			checkNearbyBlockState();
 			surroundingCheckTicks = 1;
-			if (!worldObj.isRemote && PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
+			if (!worldObj.isRemote && PowerNodeRegistry.For(this.world).checkPower(this, this.capacity * 0.1f)){
 				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
 				for (EntityPlayer p : nearbyPlayers){
 					if (p.isPotionActive(PotionEffectsDefs.MANA_REGEN)) continue;
@@ -205,7 +205,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 	}
 
 	private void updateNearbyEntities(){
-		List<EntityLivingBase> nearbyEntities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos.add(-10, 0, -10), pos.add(10, 4, 10)));
+		List<EntityLivingBase> nearbyEntities = this.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos.add(-10, 0, -10), pos.add(10, 4, 10)));
 		for (EntityLivingBase entity : nearbyEntities){
 			if (entity.isEntityInvulnerable(DamageSources.darkNexus) ||
 					!entity.isNonBoss() ||

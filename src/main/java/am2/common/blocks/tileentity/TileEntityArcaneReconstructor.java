@@ -92,11 +92,11 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 			isFirstTick = false;
 		}
 
-		if (PowerNodeRegistry.For(this.worldObj).checkPower(this, this.getRepairCost())) {// has enough power
+		if (PowerNodeRegistry.For(this.world).checkPower(this, this.getRepairCost())) {// has enough power
 			if ((repairCounter++ % getRepairRate() == 0) && (!queueRepairableItem())) {// has ticked and already has item queued
 				if (performRepair()){// something to repair
 					if (!worldObj.isRemote){
-						PowerNodeRegistry.For(this.worldObj).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), this.getRepairCost());
+						PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), this.getRepairCost());
 					}
 				}
 			}
@@ -266,7 +266,7 @@ public class TileEntityArcaneReconstructor extends TileEntityAMPower implements 
 
 	private EntityLiving getDummyEntity(){
 		if (dummyEntity == null)
-			dummyEntity = new EntityDummyCaster(this.worldObj);
+			dummyEntity = new EntityDummyCaster(this.world);
 		return dummyEntity;
 	}
 

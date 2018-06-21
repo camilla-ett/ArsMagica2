@@ -117,7 +117,7 @@ public class Appropriation extends SpellComponent{
 					if (state != null){
 						world.setBlockState(pos, state, 2);
 					}else{
-						if (!player.worldObj.isRemote)
+						if (!player.world.isRemote)
 							player.addChatComponentMessage(new TextComponentString(I18n.format("am2.tooltip.approError")));
 						stack.getTagCompound().removeTag(storageKey);
 						return;

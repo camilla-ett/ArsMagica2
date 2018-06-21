@@ -577,13 +577,13 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				setPowerRequests();
 				pickPowerType(stack);
 				for (PowerTypes type : this.currentMainPowerTypes) {
-					if (PowerNodeRegistry.For(this.worldObj).checkPower(this, type, Math.max(0, Math.min(100, stack.stackSize - currentConsumedPower)))) {
+					if (PowerNodeRegistry.For(this.world).checkPower(this, type, Math.max(0, Math.min(100, stack.stackSize - currentConsumedPower)))) {
 						currentConsumedPower += PowerNodeRegistry.For(worldObj).consumePower(this, type, Math.min(100, stack.stackSize - currentConsumedPower));
 					}
 				}
 				if (currentConsumedPower >= stack.stackSize){
 					System.out.println(currentConsumedPower + " vs " + stack.stackSize);
-					//PowerNodeRegistry.For(this.worldObj).setPower(this, this.currentMainPowerTypes, 0);
+					//PowerNodeRegistry.For(this.world).setPower(this, this.currentMainPowerTypes, 0);
 					if (!worldObj.isRemote)
 						addItemToRecipe(new ItemStack(ItemDefs.etherium, stack.stackSize, flags));
 					setNoPowerRequests();
@@ -685,7 +685,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	private List<EntityItem> lookForValidItems(){
 		if (!isCrafting) return new ArrayList<EntityItem>();
 		double radius = worldObj.isRemote ? 2.1 : 2;
-		List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - radius, pos.getY() - 3, pos.getZ() - radius, pos.getX() + radius, pos.getY(), pos.getZ() + radius));
+		List<EntityItem> items = this.world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - radius, pos.getY() - 3, pos.getZ() - radius, pos.getX() + radius, pos.getY(), pos.getZ() + radius));
 		return items;
 	}
 
@@ -732,9 +732,9 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 	}
 
 	private void checkForStartCondition(){
-		if (this.worldObj.isRemote || !structureValid || this.isCrafting) return;
+		if (this.world.isRemote || !structureValid || this.isCrafting) return;
 
-		List<Entity> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - 2, pos.getY() - 3, pos.getZ() - 2, pos.getX() + 2, pos.getY(), pos.getZ() + 2));
+		List<Entity> items = this.world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - 2, pos.getY() - 3, pos.getZ() - 2, pos.getX() + 2, pos.getY(), pos.getZ() + 2));
 		if (items.size() == 1){
 			EntityItem item = (EntityItem)items.get(0);
 			if (item != null && !item.isDead && item.getEntityItem().getItem() == ItemDefs.blankRune){
@@ -753,7 +753,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 
 		double radius = worldObj.isRemote ? 2.2 : 2;
 
-		List<Entity> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - radius, pos.getY() - 3, pos.getZ() - radius, pos.getX() + radius, pos.getY(), pos.getZ() + radius));
+		List<Entity> items = this.world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - radius, pos.getY() - 3, pos.getZ() - radius, pos.getX() + radius, pos.getY(), pos.getZ() + radius));
 		if (items.size() == 1){
 			EntityItem item = (EntityItem)items.get(0);
 			if (item != null && !item.isDead && item.getEntityItem() != null && item.getEntityItem().getItem() == ItemDefs.spellParchment){
@@ -1044,7 +1044,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 		this.readFromNBT(pkt.getNbtCompound());
 		this.markDirty();
         //worldObj.notifyBlockUpdate(pos, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
-		//this.worldObj.markAndNotifyBlock(pos, this.worldObj.getChunkFromBlockCoords(pos), this.worldObj.getBlockState(pos), this.worldObj.getBlockState(pos), 3);
+		//this.world.markAndNotifyBlock(pos, this.world.getChunkFromBlockCoords(pos), this.world.getBlockState(pos), this.world.getBlockState(pos), 3);
 	}
 
 	@Override

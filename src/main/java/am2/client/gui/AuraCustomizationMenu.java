@@ -233,7 +233,7 @@ public class AuraCustomizationMenu extends GuiScreen{
 				index--;
 				if (index < 0) index = AMParticle.particleTypes.length - 1;
 
-				while (AMParticle.particleTypes[index].startsWith("lightning_bolt") && ArsMagica2.proxy.playerTracker.getAAL(Minecraft.getMinecraft().thePlayer) < 3){
+				while (AMParticle.particleTypes[index].startsWith("lightning_bolt") && ArsMagica2.proxy.playerTracker.getAAL(Minecraft.getMinecraft().player) < 3){
 					index--;
 					if (index < 0) index = AMParticle.particleTypes.length - 1;
 				}

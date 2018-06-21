@@ -51,7 +51,7 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 			if (mouseX > cx && mouseX < cx + 16){
 				if (mouseY > cy && mouseY < cy + 16){
 					ArrayList<String> tooltip = new ArrayList<>();
-					tooltip.addAll(element.getTooltip(Minecraft.getMinecraft().thePlayer, false));
+					tooltip.addAll(element.getTooltip(Minecraft.getMinecraft().player, false));
 					drawHoveringText(tooltip, mouseX, mouseY, mc.fontRenderer);
 				}
 			}

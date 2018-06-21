@@ -241,7 +241,7 @@ public class TileEntityObelisk extends TileEntityAMPower implements IMultiblockC
 			if (!worldObj.isRemote && surroundingCheckTicks % 100 == 0){
 				checkNearbyBlockState();
 				surroundingCheckTicks = 1;
-				if (PowerNodeRegistry.For(this.worldObj).checkPower(this, this.capacity * 0.1f)){
+				if (PowerNodeRegistry.For(this.world).checkPower(this, this.capacity * 0.1f)){
 					List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
 					for (EntityPlayer p : nearbyPlayers){
 						if (p.isPotionActive(PotionEffectsDefs.MANA_REGEN)) continue;

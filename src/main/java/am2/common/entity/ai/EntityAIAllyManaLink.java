@@ -35,7 +35,7 @@ public class EntityAIAllyManaLink extends EntityAIBase {
 
 	private EntityPlayer getHostOwner(){
 		int ownerID = EntityUtils.getOwner(host);
-		Entity owner = host.worldObj.getEntityByID(ownerID);
+		Entity owner = host.world.getEntityByID(ownerID);
 		if (owner == null || !(owner instanceof EntityPlayer))
 			return null;
 		return (EntityPlayer)owner;
@@ -51,7 +51,7 @@ public class EntityAIAllyManaLink extends EntityAIBase {
 		else {
 			ISpellCaster caster = spellStack.getCapability(SpellCaster.INSTANCE, null);
 			if (caster != null) {
-				caster.cast(spellStack, host.worldObj, host);
+				caster.cast(spellStack, host.world, host);
 			}
 		}
 	}

@@ -51,8 +51,8 @@ public class EntityManaElemental extends EntityMob{
 
 	@Override
 	public void onUpdate(){
-		if (this.worldObj != null){
-			if (this.worldObj.isRemote){
+		if (this.world != null){
+			if (this.world.isRemote){
 			}else{
 				if (EntityExtension.For(this).getCurrentMana() <= 0){
 					this.attackEntityFrom(DamageSource.generic, 500);

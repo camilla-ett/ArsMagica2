@@ -53,7 +53,7 @@ public class TileEntityManaBattery extends TileEntityAMPower implements ITileEnt
 			this.setNoPowerRequests();
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.world.isRemote) {
 			PowerTypes highest = PowerNodeRegistry.For(worldObj).getHighestPowerType(this);
 			float amt = PowerNodeRegistry.For(worldObj).getPower(this, highest);
 			if (amt > 0) {

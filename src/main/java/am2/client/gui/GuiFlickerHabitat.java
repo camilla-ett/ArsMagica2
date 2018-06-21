@@ -58,7 +58,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 		if (func == null)
 			return;
 
-		String colorCode = Minecraft.getMinecraft().theWorld.isBlockIndirectlyGettingPowered(flickerHabitat.getPos()) > 0 ? "\2474" : "\2472";
+		String colorCode = Minecraft.getMinecraft().world.isBlockIndirectlyGettingPowered(flickerHabitat.getPos()) > 0 ? "\2474" : "\2472";
 
 		int yPos = 5;
 		String curLine;

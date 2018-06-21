@@ -111,7 +111,7 @@ public class EntityFireElemental extends EntityMob{
 		if (isWet()){
 			this.attackEntityFrom(DamageSource.drown, 1);
 		}
-//		if (!this.worldObj.isRemote){
+//		if (!this.world.isRemote){
 //			if (this.getAttackTarget() != null && !this.getAttackTarget().isDead){
 //				if (this.dataManager.getWatchableObjectByte(0) == (byte)0){
 //					this.dataManager.updateObject(0, (byte)1);

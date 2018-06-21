@@ -103,7 +103,7 @@ public class EntityShadowHelper extends EntityLiving{
 	}
 
 	public void setSearchLocationAndItem(AMVector3 location, ItemStack item){
-		if (this.worldObj.isRemote) return;
+		if (this.world.isRemote) return;
 		this.dataManager.set(DW_SEARCH_ITEM, Optional.of(item));
 		this.dataManager.set(DW_TRANS_LOC_X, (int)location.x);
 		this.dataManager.set(DW_TRANS_LOC_Y, (int)location.y);
@@ -171,7 +171,7 @@ public class EntityShadowHelper extends EntityLiving{
 			spawnParticles();
 		}
 		
-		if (this.worldObj.isRemote){
+		if (this.world.isRemote){
 			if (this.getMimicUser() != lastDWString){
 				lastDWString = getMimicUser();
 				this.skinHelper.setupCustomSkin(lastDWString);

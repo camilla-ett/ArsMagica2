@@ -135,7 +135,7 @@ public class EntityLightMage extends EntityCreature{
 	}
 
 	private int getAverageNearbyPlayerMagicLevel(){
-		if (this.worldObj == null) return 0;
+		if (this.world == null) return 0;
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(250, 250, 250));
 		if (players.size() == 0) return 0;
 		int avgLvl = 0;
@@ -177,16 +177,16 @@ public class EntityLightMage extends EntityCreature{
 
 	protected boolean isValidLightLevel(){
 
-		if (this.worldObj.getLightFor(EnumSkyBlock.SKY, getPosition()) > this.rand.nextInt(32)){
+		if (this.world.getLightFor(EnumSkyBlock.SKY, getPosition()) > this.rand.nextInt(32)){
 			return false;
 		}else{
-			int var4 = this.worldObj.getLightFor(EnumSkyBlock.BLOCK, getPosition());
+			int var4 = this.world.getLightFor(EnumSkyBlock.BLOCK, getPosition());
 
-			if (this.worldObj.isThundering()){
-				int var5 = this.worldObj.getSkylightSubtracted();
-				this.worldObj.setSkylightSubtracted(10);
-				var4 = this.worldObj.getLightFor(EnumSkyBlock.BLOCK, getPosition());
-				this.worldObj.setSkylightSubtracted(var5);
+			if (this.world.isThundering()){
+				int var5 = this.world.getSkylightSubtracted();
+				this.world.setSkylightSubtracted(10);
+				var4 = this.world.getLightFor(EnumSkyBlock.BLOCK, getPosition());
+				this.world.setSkylightSubtracted(var5);
 			}
 
 			return var4 <= this.rand.nextInt(8);

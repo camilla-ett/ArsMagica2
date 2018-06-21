@@ -155,7 +155,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 					++k1;
 				}else{
 					aint1[b2] = aint[b2] + k1;
-					Block l1 = this.worldObj.getBlockState(new BlockPos (aint1[0], aint1[1], aint1[2])).getBlock();
+					Block l1 = this.world.getBlockState(new BlockPos (aint1[0], aint1[1], aint1[2])).getBlock();
 
 					if (l1 != Blocks.AIR && l1 != BlockDefs.witchwoodLeaves){
 						++k1;
@@ -365,7 +365,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 				aint3[b1] = par1ArrayOfInteger[b1] + i;
 				aint3[b2] = MathHelper.floor_double((double)par1ArrayOfInteger[b2] + (double)i * d0);
 				aint3[b3] = MathHelper.floor_double((double)par1ArrayOfInteger[b3] + (double)i * d1);
-				Block k = this.worldObj.getBlockState(new BlockPos(aint3[0], aint3[1], aint3[2])).getBlock();
+				Block k = this.world.getBlockState(new BlockPos(aint3[0], aint3[1], aint3[2])).getBlock();
 
 				if (k != Blocks.AIR && k != BlockDefs.witchwoodLeaves){
 					break;
@@ -383,7 +383,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 	boolean validTreeLocation(){
 		int[] aint = new int[]{this.basePos[0], this.basePos[1], this.basePos[2]};
 		int[] aint1 = new int[]{this.basePos[0], this.basePos[1] + this.heightLimit - 1, this.basePos[2]};
-		IBlockState soil = this.worldObj.getBlockState(new BlockPos (this.basePos[0], this.basePos[1] - 1, this.basePos[2]));
+		IBlockState soil = this.world.getBlockState(new BlockPos (this.basePos[0], this.basePos[1] - 1, this.basePos[2]));
 
 		boolean isValidSoil = (soil != null && soil.getBlock().canSustainPlant(soil, worldObj, new BlockPos (basePos[0], basePos[1] - 1, basePos[2]), EnumFacing.UP, (BlockSapling)Blocks.SAPLING));
 		if (!isValidSoil){
@@ -417,7 +417,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 	}
 
 	public boolean generate(World worldIn, Random rand, BlockPos position){
-		this.worldObj = worldIn;
+		this.world = worldIn;
 		long l = rand.nextLong();
 		this.rand.setSeed(l);
 		this.basePos[0] = position.getX();

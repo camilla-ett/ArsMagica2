@@ -163,7 +163,7 @@ public class EntitySpellEffect extends Entity{
 	}
 
 	private void zoneUpdate(){
-		if (this.worldObj.isRemote){
+		if (this.world.isRemote){
 			if (!ArsMagica2.config.NoGFX()){
 				this.rotation += this.rotationSpeed;
 				this.rotation %= 360;

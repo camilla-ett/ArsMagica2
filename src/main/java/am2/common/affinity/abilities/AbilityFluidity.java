@@ -50,13 +50,13 @@ public class AbilityFluidity extends AbstractAffinityAbility {
 		for (int k1 = i; k1 < j; ++k1) {
 			for (int l1 = k; l1 < l; ++l1) {
 				for (int i2 = i1; i2 < j1; ++i2) {
-					IBlockState blockState = entity.worldObj.getBlockState(new BlockPos (k1, l1, i2));
+					IBlockState blockState = entity.world.getBlockState(new BlockPos (k1, l1, i2));
 
 					if (blockState != null && blockState.getMaterial() == Material.WATER) {
 						double d0 = l1 + 1 - BlockLiquid.getLiquidHeightPercent(blockState.getBlock().getMetaFromState(blockState));
 
 						if (l >= d0) {
-							blockState.getBlock().modifyAcceleration(entity.worldObj, new BlockPos (k1, l1, i2), entity, vec3);
+							blockState.getBlock().modifyAcceleration(entity.world, new BlockPos (k1, l1, i2), entity, vec3);
 						}
 					}
 				}

@@ -74,7 +74,7 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 				EntityExtension.For(getAttackTarget()).setDisableGravity(false);
 			}
 
-			if (!this.worldObj.isRemote && this.getDistanceSqToEntity(getAttackTarget()) > 64D && this.getCurrentAction() == BossActions.IDLE){
+			if (!this.world.isRemote && this.getDistanceSqToEntity(getAttackTarget()) > 64D && this.getCurrentAction() == BossActions.IDLE){
 				this.getNavigator().tryMoveToEntityLiving(getAttackTarget(), 0.5f);
 			}
 		}

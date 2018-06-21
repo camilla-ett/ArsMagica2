@@ -137,8 +137,8 @@ public class Recall extends SpellComponent implements IRitualInteraction{
 				return false;
 			}else{
 				RitualShapeHelper.instance.consumeAllReagents(this, world, pos);
-				if (target.worldObj.provider.getDimension() != caster.worldObj.provider.getDimension()){
-					DimensionUtilities.doDimensionTransfer(player, caster.worldObj.provider.getDimension());
+				if (target.world.provider.getDimension() != caster.world.provider.getDimension()){
+					DimensionUtilities.doDimensionTransfer(player, caster.world.provider.getDimension());
 				}
 				((EntityLivingBase)target).setPositionAndUpdate(pos.getX(), pos.getY() + 0.5D, pos.getZ());
 				return true;

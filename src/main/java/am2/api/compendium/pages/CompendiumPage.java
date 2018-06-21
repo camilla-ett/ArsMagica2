@@ -185,7 +185,7 @@ public abstract class CompendiumPage<E> {
     
 	protected void renderItemToolTip(ItemStack stack, int x, int y){
 		try{
-			List<String> list = stack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+			List<String> list = stack.getTooltip(this.mc.player, this.mc.gameSettings.advancedItemTooltips);
 
 			if (stack.getItem() instanceof ItemBlock){
 			}else{

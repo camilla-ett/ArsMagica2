@@ -156,7 +156,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 			if (spawn != null){
 				this.setPosition(spawn.x, spawn.y, spawn.z);
 				this.setCurrentAction(BossActions.IDLE);
-				if (!this.worldObj.isRemote)
+				if (!this.world.isRemote)
 					ArsMagica2.proxy.addDeferredTargetSet(this, null);
 			}else{
 				this.setDead();

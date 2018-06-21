@@ -31,7 +31,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 
 	public SlotMagiciansWorkbenchCrafting(EntityPlayer player, IInventory craftMatrix, IInventory craftResult, ContainerMagiciansWorkbench workbench, int index, int x, int y){
 		super(craftResult, index, x, y);
-		this.thePlayer = player;
+		this.player = player;
 		this.craftMatrix = craftMatrix;
 		this.workbench = workbench;
 	}
@@ -72,7 +72,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	 */
 	@Override
 	protected void onCrafting(ItemStack itemCrafted){
-		itemCrafted.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.amountCrafted);
+		itemCrafted.onCrafting(this.player.world, this.player, this.amountCrafted);
 		this.amountCrafted = 0;
 
 		ItemStack[] components = new ItemStack[this.craftMatrix.getSizeInventory()];

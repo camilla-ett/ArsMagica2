@@ -75,7 +75,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
-		if (this.worldObj.isRemote)
+		if (this.world.isRemote)
 			return false;
 		flick();
 		return !par1DamageSource.isUnblockable();
@@ -222,7 +222,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 	}
 
 	private void flick(){
-		if (this.worldObj.isRemote){
+		if (this.world.isRemote){
 			for (int i = 0; i < 10 * ArsMagica2.config.getGFXLevel(); ++i){
 				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "radiant", posX, posY, posZ);
 				if (particle != null){
@@ -418,7 +418,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 				this.setFlickerType(validAffinities.get(worldObj.rand.nextInt(validAffinities.size())));
 			}
 
-			if (this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox()) && this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this)){
+			if (this.world.checkNoEntityCollision(this.getEntityBoundingBox()) && this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this)){
 				ArsMagica2.proxy.incrementFlickerCount();
 				return true;
 			}

@@ -59,7 +59,7 @@ public class PageEntity extends CompendiumPage<Entity> {
 				GlStateManager.rotate(curRotationH, 0, 1, 0);
 	
 				//entity, x, y, z, yaw, partialtick
-				Entity ent = element.getClass().getConstructor(World.class).newInstance(Minecraft.getMinecraft().theWorld);
+				Entity ent = element.getClass().getConstructor(World.class).newInstance(Minecraft.getMinecraft().world);
 				ent.readFromNBT(compound);
 				renderer.doRender(ent, 0.0, 0.0, 0.0, 90.0F, 0.0F);
 				GlStateManager.disableRescaleNormal();

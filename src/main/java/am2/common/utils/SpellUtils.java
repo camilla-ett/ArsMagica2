@@ -63,7 +63,7 @@ public class SpellUtils {
 	
 	public static boolean attackTargetSpecial(SpellData spellStack, Entity target, DamageSource damagesource, float magnitude){
 
-		if (target.worldObj.isRemote)
+		if (target.world.isRemote)
 			return true;
 
 		EntityPlayer dmgSrcPlayer = null;
@@ -77,7 +77,7 @@ public class SpellUtils {
 					return false;
 				}else if (source instanceof EntityDarkMage && target instanceof EntityDarkMage){
 					return false;
-				}else  if (source instanceof EntityPlayer && target instanceof EntityPlayer && !target.worldObj.isRemote && (!FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled() || ((EntityPlayer)target).capabilities.isCreativeMode)){
+				}else  if (source instanceof EntityPlayer && target instanceof EntityPlayer && !target.world.isRemote && (!FMLCommonHandler.instance().getMinecraftServerInstance().isPVPEnabled() || ((EntityPlayer)target).capabilities.isCreativeMode)){
 					return false;
 				}
 
@@ -122,12 +122,12 @@ public class SpellUtils {
 
 		if (dmgSrcPlayer != null){
 			if (spellStack != null && target instanceof EntityLivingBase){
-				if (!target.worldObj.isRemote &&
+				if (!target.world.isRemote &&
 						((EntityLivingBase)target).getHealth() <= 0 &&
 						spellStack.isModifierPresent(SpellModifiers.DISMEMBERING_LEVEL)){
-					double chance = spellStack.getModifiedValue(0, SpellModifiers.DISMEMBERING_LEVEL, Operation.ADD, dmgSrcPlayer.worldObj, dmgSrcPlayer, target);
-					if (dmgSrcPlayer.worldObj.rand.nextDouble() <= chance){
-						dropHead(target, dmgSrcPlayer.worldObj);
+					double chance = spellStack.getModifiedValue(0, SpellModifiers.DISMEMBERING_LEVEL, Operation.ADD, dmgSrcPlayer.world, dmgSrcPlayer, target);
+					if (dmgSrcPlayer.world.rand.nextDouble() <= chance){
+						dropHead(target, dmgSrcPlayer.world);
 					}
 				}
 			}

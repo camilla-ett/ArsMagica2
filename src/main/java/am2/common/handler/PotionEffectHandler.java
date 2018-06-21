@@ -186,7 +186,7 @@ public class PotionEffectHandler {
 	@SubscribeEvent
 	public void teleportEvent(EnderTeleportEvent e) {
 		ArrayList<Long> keystoneKeys = KeystoneUtilities.instance.GetKeysInInvenory(e.getEntityLiving());
-		TileEntityAstralBarrier blockingBarrier = DimensionUtilities.GetBlockingAstralBarrier(e.getEntityLiving().worldObj, new BlockPos(e.getTargetX(), e.getTargetY(), e.getTargetZ()), keystoneKeys);
+		TileEntityAstralBarrier blockingBarrier = DimensionUtilities.GetBlockingAstralBarrier(e.getEntityLiving().world, new BlockPos(e.getTargetX(), e.getTargetY(), e.getTargetZ()), keystoneKeys);
 
 		if (e.getEntityLiving().isPotionActive(PotionEffectsDefs.ASTRAL_DISTORTION) || blockingBarrier != null){
 			e.setCanceled(true);

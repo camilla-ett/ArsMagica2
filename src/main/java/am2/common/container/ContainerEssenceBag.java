@@ -58,7 +58,7 @@ public class ContainerEssenceBag extends Container{
 
 	@Override
 	public void onContainerClosed(EntityPlayer entityplayer){
-		World world = entityplayer.worldObj;
+		World world = entityplayer.world;
 
 		if (!world.isRemote){
 			ItemStack essenceBagItemStack = bagStack;

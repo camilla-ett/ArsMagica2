@@ -53,8 +53,8 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	public void cyclePriority(){
 		this.priority++;
 		this.priority %= TileEntityFlickerHabitat.PRIORITY_LEVELS;
-		if (!this.worldObj.isRemote){
-			for (EntityPlayerMP player : this.worldObj.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(this.pos).expand(64, 64, 64))){
+		if (!this.world.isRemote){
+			for (EntityPlayerMP player : this.world.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(this.pos).expand(64, 64, 64))){
 				player.connection.sendPacket(this.getUpdatePacket());
 			}
 		}
@@ -348,7 +348,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (this.worldObj.getTileEntity(this.pos) != this){
+		if (this.world.getTileEntity(this.pos) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSq(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D) <= 64D;
@@ -387,7 +387,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	}
 
 	public void linkToHabitat(AMVector3 habLocation, EntityPlayer player){
-		TileEntity te = this.worldObj.getTileEntity(habLocation.toBlockPos());
+		TileEntity te = this.world.getTileEntity(habLocation.toBlockPos());
 
 		if (te instanceof TileEntityFlickerHabitat){
 			AMVector3 myLocation = new AMVector3(this.pos);
@@ -452,14 +452,14 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 
 	@Override
 	public void update() {
-		if (!this.worldObj.isRemote) {
-			IBlockState state = this.worldObj.getBlockState(this.pos);
+		if (!this.world.isRemote) {
+			IBlockState state = this.world.getBlockState(this.pos);
 			if (!state.getValue(BlockCrystalMarker.FACING).equals(facing))
-				this.worldObj.setBlockState(this.pos, state.withProperty(BlockCrystalMarker.FACING, this.facing), 3);
+				this.world.setBlockState(this.pos, state.withProperty(BlockCrystalMarker.FACING, this.facing), 3);
 			//This is probably the fastest I can get it to go.
 			//If you know of any better way, please feel free to suggest it.
 			if (++tickCount % 20 == 0)
-				this.worldObj.notifyBlockUpdate(this.pos, state, state, 2);
+				this.world.notifyBlockUpdate(this.pos, state, state, 2);
 		}
 	}
 	
