@@ -138,9 +138,9 @@ public class FlickerOperatorLight extends AbstractFlickerFunctionality{
 				"ISI",
 				"F L",
 				"ISI",
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE)),
+				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.FIRE)),
 				Character.valueOf('S'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_MOONSTONE),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)),
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.LIGHTNING)),
 				Character.valueOf('I'), ItemDefs.liquidEssenceBottle
 
 		};

@@ -97,7 +97,7 @@ public class FlickerOperatorPackedEarth extends AbstractFlickerFunctionality{
 				Character.valueOf('D'), Blocks.DIRT,
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage()),
 				Character.valueOf('E'), AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH),
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH))
+				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.EARTH))
 
 		};
 	}

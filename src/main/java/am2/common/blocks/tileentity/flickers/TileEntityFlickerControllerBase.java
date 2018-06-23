@@ -43,7 +43,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	public void updateOperator(ItemStack stack){
 		if (stack == null || stack.getItem() != ItemDefs.flickerFocus)
 			return;
-		operator = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(stack.getItemDamage());
+		operator = GameRegistry.findRegistry(AbstractFlickerFunctionality.class).getObjectById(stack.getItemDamage());
 	}
 
 	public void scanForNearbyUpgrades(){
@@ -134,7 +134,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	private Integer getFlagForOperator(AbstractFlickerFunctionality operator){
-		return ArsMagicaAPI.getFlickerFocusRegistry().getId(operator);
+		return GameRegistry.findRegistry(AbstractFlickerFunctionality.class).getId(operator);
 	}
 
 	public void setMetadata(AbstractFlickerFunctionality operator, byte[] meta){

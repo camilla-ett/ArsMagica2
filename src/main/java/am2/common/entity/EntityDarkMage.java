@@ -38,9 +38,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityDarkMage extends EntityMob{
 
-	private static ItemStack diminishedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
-	private static ItemStack normalHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
-	private static ItemStack augmentedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE));
+	private static ItemStack diminishedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE));
+	private static ItemStack normalHeldItem = new ItemStack(ItemDefs.affinityTome, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE));
+	private static ItemStack augmentedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE));
 
 	public static final DataParameter<Integer> MAGE_SKIN = EntityDataManager.createKey(EntityDarkMage.class, DataSerializers.VARINT);
 	public static final DataParameter<Integer> MAGE_BOOK = EntityDataManager.createKey(EntityDarkMage.class, DataSerializers.VARINT);

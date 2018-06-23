@@ -16,8 +16,8 @@ public class FlickerHabitatColorizer implements IBlockColor{
 //		TileEntity te = worldIn.getTileEntity(pos);
 //		if (te == null || !(te instanceof TileEntityFlickerHabitat))
 //			return 0xffffff;
-//		int meta = ArsMagicaAPI.getAffinityRegistry().getId(((TileEntityFlickerHabitat)te).getSelectedAffinity());
-//		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
+//		int meta = GameRegistry.findRegistry(Affinity.class).getId(((TileEntityFlickerHabitat)te).getSelectedAffinity());
+//		Affinity aff = GameRegistry.findRegistry(Affinity.class).getObjectById(meta);
 		TileEntity te = worldIn.getTileEntity(pos);
 		if (te == null || !(te instanceof TileEntityFlickerHabitat))
 			return 0xffffff;

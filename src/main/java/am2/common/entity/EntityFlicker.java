@@ -49,7 +49,7 @@ public class EntityFlicker extends EntityAmbientCreature{
 	public EntityFlicker(World par1World){
 		super(par1World);
 		this.setSize(0.5f, 0.5f);
-		setFlickerType(ArsMagicaAPI.getAffinityRegistry().getRandomObject(getRNG()));
+		setFlickerType(GameRegistry.findRegistry(Affinity.class).getRandomObject(getRNG()));
 	}
 
 	@Override
@@ -66,11 +66,11 @@ public class EntityFlicker extends EntityAmbientCreature{
 	}
 
 	public void setFlickerType(Affinity affinity){
-		this.dataManager.set(WATCHER_FLICKERTYPE, ArsMagicaAPI.getAffinityRegistry().getId(affinity));
+		this.dataManager.set(WATCHER_FLICKERTYPE, GameRegistry.findRegistry(Affinity.class).getId(affinity));
 	}
 
 	public Affinity getFlickerAffinity(){
-		return ArsMagicaAPI.getAffinityRegistry().getObjectById(dataManager.get(WATCHER_FLICKERTYPE));
+		return GameRegistry.findRegistry(Affinity.class).getObjectById(dataManager.get(WATCHER_FLICKERTYPE));
 	}
 
 	@Override

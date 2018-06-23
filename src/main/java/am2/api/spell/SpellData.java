@@ -343,7 +343,7 @@ public class SpellData {
 			NBTTagList parts = tmp.getTagList("Parts", Constants.NBT.TAG_STRING);
 			ArrayList<AbstractSpellPart> pts = new ArrayList<>();
 			for (int j = 0; j < parts.tagCount(); j++) {
-				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(parts.getStringTagAt(j)));
+				AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation(parts.getStringTagAt(j)));
 				if (part != null) {
 					pts.add(part);
 				}

@@ -69,7 +69,7 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 					ItemStack jar = null;
 					for (int i = 0; i < inventory.getSizeInventory(); i++) {
 						ItemStack is = inventory.getStackInSlot(i);
-						if (is == null || is.getItem() != ItemDefs.flickerJar || is.getItemDamage() != ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE)) continue;
+						if (is == null || is.getItem() != ItemDefs.flickerJar || is.getItemDamage() != GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE)) continue;
 						is.stackSize--;
 						if (is.stackSize <= 0)
 							is = null;

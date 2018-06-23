@@ -396,8 +396,8 @@ public class CommonProxy implements IGuiHandler{
 		SoundDefs.createSoundMaps();
 		LoreDefs.postInit();	
 		AMRecipes.addRecipes();
-		for (AbstractSpellPart part : ArsMagicaAPI.getSpellRegistry().getValues()) {
-			if (ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName()) == null)
+		for (AbstractSpellPart part : GameRegistry.findRegistry(AbstractSpellPart.class).getValues()) {
+			if (GameRegistry.findRegistry(Skill.class).getValue(part.getRegistryName()) == null)
 				throw new IllegalStateException("Spell Part " + part.getRegistryName() + " is missing a skill, this would cause severe problems");
 		}
 		ArsMagica2.disabledSkills.getDisabledSkills(true);

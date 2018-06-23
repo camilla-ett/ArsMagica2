@@ -29,7 +29,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
+		for (int i = 0; i < GameRegistry.findRegistry(Affinity.class).getValues().size(); i++) {
 			subItems.add(new ItemStack(itemIn, 1, i));
 		}
 	}
@@ -39,14 +39,14 @@ public class ItemAffinityTome extends ItemArsMagica {
 		
 		if (par2World.isRemote) return super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer, hand);
 		
-		if (par1ItemStack.getItemDamage() == ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE)){
+		if (par1ItemStack.getItemDamage() == GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE)){
 			IAffinityData data = AffinityData.For(par3EntityPlayer);
 			data.setLocked(false);
-			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()){
+			for (Affinity aff : GameRegistry.findRegistry(Affinity.class).getValues()){
 				data.setAffinityDepth(aff, data.getAffinityDepth(aff) * AffinityData.MAX_DEPTH - 20);
 			}
 		}else{
-			AffinityData.For(par3EntityPlayer).incrementAffinity(ArsMagicaAPI.getAffinityRegistry().getObjectById(par1ItemStack.getItemDamage()), 20);
+			AffinityData.For(par3EntityPlayer).incrementAffinity(GameRegistry.findRegistry(Affinity.class).getObjectById(par1ItemStack.getItemDamage()), 20);
 		}
 		par1ItemStack.stackSize--;
 
@@ -56,7 +56,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
-		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(stack.getItemDamage());
+		Affinity aff = GameRegistry.findRegistry(Affinity.class).getObjectById(stack.getItemDamage());
 		return I18n.format("item.arsmagica2:tome.name", aff.getLocalizedName());
 	}
 	

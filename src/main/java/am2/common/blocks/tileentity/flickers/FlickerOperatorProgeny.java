@@ -116,7 +116,7 @@ public class FlickerOperatorProgeny extends AbstractFlickerFunctionality{
 				"EWE",
 				Character.valueOf('E'), Items.EGG,
 				Character.valueOf('L'), AffinityShiftUtils.getEssenceForAffinity(Affinity.LIFE),
-				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
+				Character.valueOf('F'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.LIFE)),
 				Character.valueOf('W'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.WHITE.getDyeDamage())
 
 		};

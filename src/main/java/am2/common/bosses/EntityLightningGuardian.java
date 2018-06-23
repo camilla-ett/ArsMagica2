@@ -164,7 +164,7 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIGHTNING)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.LIGHTNING)), 0.0f);
 		}
 		i = rand.nextInt(10);
 

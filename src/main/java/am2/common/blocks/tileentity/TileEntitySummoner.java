@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import am2.api.ArsMagicaAPI;
 import am2.api.DamageSources;
 import am2.api.blocks.IKeystoneLockable;
+import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.SpellData;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemFocusCharge;
@@ -28,6 +29,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileEntitySummoner extends TileEntityAMPower implements IInventory, IKeystoneLockable<TileEntitySummoner>{
 
@@ -118,7 +120,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 		//FIXME
 		SpellData data = new SpellData(new ItemStack(ItemDefs.spell), Lists.newArrayList(), UUID.randomUUID(), new NBTTagCompound());
 		data.getStoredData().setString("SummonType", inventory[SUMMON_SLOT].getTagCompound().getString("SpawnClassName"));
-		EntityLiving summon = ((Summon)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2:summon"))).summonCreature(data, dummyCaster, dummyCaster, worldObj, pos.getX(), pos.getY() + 1, pos.getZ());
+		EntityLiving summon = ((Summon)GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2:summon"))).summonCreature(data, dummyCaster, dummyCaster, worldObj, pos.getX(), pos.getY() + 1, pos.getZ());
 		if (summon != null){
 			if (summon instanceof EntityCreature)
 				EntityUtils.setGuardSpawnLocation((EntityCreature)summon, pos.getX(), pos.getY(), pos.getZ());

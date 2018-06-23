@@ -25,24 +25,24 @@ public class ItemFlickerJar extends ItemArsMagica{
 	public String getItemStackDisplayName(ItemStack stack){
 		int meta = stack.getItemDamage();
 		String baseName = I18n.format("am2.item.flickerJar");
-		if (meta == ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NONE))
+		if (meta == GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE))
 			return I18n.format("item.arsmagica2:flickerJar.name", I18n.format("am2.tooltip.empty"));
 
-		Affinity aff = ArsMagicaAPI.getAffinityRegistry().getObjectById(meta);
+		Affinity aff = GameRegistry.findRegistry(Affinity.class).getObjectById(meta);
 		baseName = I18n.format("item.arsmagica2:flickerJar.name", aff.getLocalizedName());
 
 		return baseName;
 	}
 
 	public void setFlickerJarTypeFromFlicker(ItemStack stack, EntityFlicker flick){
-		stack.setItemDamage(ArsMagicaAPI.getAffinityRegistry().getId(flick.getFlickerAffinity()));
+		stack.setItemDamage(GameRegistry.findRegistry(Affinity.class).getId(flick.getFlickerAffinity()));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List){
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry()){
-			par3List.add(new ItemStack(this, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)));
+		for (Affinity aff : GameRegistry.findRegistry(Affinity.class)){
+			par3List.add(new ItemStack(this, 1, GameRegistry.findRegistry(Affinity.class).getId(aff)));
 		}
 	}
 }

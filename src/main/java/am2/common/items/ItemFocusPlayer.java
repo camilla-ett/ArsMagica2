@@ -24,7 +24,7 @@ public class ItemFocusPlayer extends ItemFilterFocus{
 		return new Object[]{
 				"L",
 				"F",
-				Character.valueOf('L'), new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.LIFE)),
+				Character.valueOf('L'), new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.LIFE)),
 				Character.valueOf('F'), ItemDefs.standardFocus
 		};
 	}

@@ -61,11 +61,11 @@ public class AMRecipes {
 			return stack.amount * 2;
 		});
 		
-		for (AbstractFlickerFunctionality func : ArsMagicaAPI.getFlickerFocusRegistry().getValues()) {
+		for (AbstractFlickerFunctionality func : GameRegistry.findRegistry(AbstractFlickerFunctionality.class).getValues()) {
 			if (func != null) {
 				Object[] recipeItems = func.getRecipe();
 				if (recipeItems != null) {
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemDefs.flickerFocus, 1, ArsMagicaAPI.getFlickerFocusRegistry().getId(func)), recipeItems));
+					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemDefs.flickerFocus, 1, GameRegistry.findRegistry(AbstractFlickerFunctionality.class).getId(func)), recipeItems));
 				} else {
 					LogHelper.info("Flicker operator %s was registered with no recipe.  It is un-craftable.  This may have been intentional.",func.getClass().getSimpleName());
 				}
@@ -161,7 +161,7 @@ public class AMRecipes {
 				"WPW", "VAV", "WBW",
 				Character.valueOf('B'), "gemBlueTopaz",
 				Character.valueOf('V'), "dustVinteum",
-				Character.valueOf('A'), new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.ARCANE)),
 				Character.valueOf('W'), BlockDefs.magicWall,
 				Character.valueOf('P'), new ItemStack(ItemDefs.core, 1, ItemCore.META_PURE)
 				
@@ -320,7 +320,7 @@ public class AMRecipes {
 				"WWW",
 				Character.valueOf('W'), BlockDefs.witchwoodLog,
 				Character.valueOf('F'), Items.FEATHER,
-				Character.valueOf('A'), new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR))
+				Character.valueOf('A'), new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.AIR))
 		});
 
 		//Flicker Habitat
@@ -565,7 +565,7 @@ public class AMRecipes {
 				});
 
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemDefs.journal), new Object[]{
-				new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)),
+				new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.ARCANE)),
 				new ItemStack(Items.WRITABLE_BOOK)
 		});
 
@@ -823,13 +823,13 @@ public class AMRecipes {
 						Character.valueOf('W'), new ItemStack(Blocks.OBSIDIAN),
 						Character.valueOf('L'), BlockDefs.goldInlay,
 						Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, 1),
-						Character.valueOf('E'), new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER))
+						Character.valueOf('E'), new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.WATER))
 				}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemDefs.battlemageArmor, 1),
 				new Object[]{
 						"RER", "WLW", "WWW",
 						Character.valueOf('W'), new ItemStack(Blocks.OBSIDIAN),
-						Character.valueOf('E'), new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.EARTH)),
+						Character.valueOf('E'), new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.EARTH)),
 						Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, 1),
 						Character.valueOf('L'), BlockDefs.goldInlay
 				}));
@@ -839,7 +839,7 @@ public class AMRecipes {
 						Character.valueOf('W'), new ItemStack(Blocks.OBSIDIAN),
 						Character.valueOf('L'), BlockDefs.goldInlay,
 						Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, 1),
-						Character.valueOf('E'), new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.FIRE))
+						Character.valueOf('E'), new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.FIRE))
 				}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemDefs.battlemageBoots, 1),
 				new Object[]{
@@ -847,7 +847,7 @@ public class AMRecipes {
 						Character.valueOf('W'), new ItemStack(Blocks.OBSIDIAN),
 						Character.valueOf('L'), BlockDefs.goldInlay,
 						Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, 1),
-						Character.valueOf('E'), new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR))
+						Character.valueOf('E'), new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.AIR))
 				}));
 		//ARCHMAGE
 		/*GameRegistry.addRecipe(new ItemStack(archmageHood, 1),

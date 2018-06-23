@@ -27,7 +27,7 @@ public class SkillRegistry {
 	
 	public static ArrayList<Skill> getSkillsForTree (SkillTree tree) {
 		ArrayList<Skill> skillList = new ArrayList<Skill>();
-		for (Skill skill : ArsMagicaAPI.getSkillRegistry().getValues()) {
+		for (Skill skill : GameRegistry.findRegistry(Skill.class).getValues()) {
 			if (skill != null && skill.getTree() != null && skill.getTree().equals(tree))
 				skillList.add(skill);
 		}
@@ -35,7 +35,7 @@ public class SkillRegistry {
 	}
 
 	public static Skill getSkillFromName(String str) {
-		return ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation(str));
+		return GameRegistry.findRegistry(Skill.class).getObject(new ResourceLocation(str));
 	}
 	
 }

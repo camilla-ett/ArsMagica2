@@ -235,7 +235,7 @@ public class EntityHecate extends EntityZombie{
 	@Override
 	protected void dropFewItems(boolean bool, int looting){
 		if (getRNG().nextInt(10) == 5)
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.ENDER)), 0.0f);
 	}
 
 	@Override

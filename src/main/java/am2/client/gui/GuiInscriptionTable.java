@@ -477,7 +477,7 @@ public class GuiInscriptionTable extends GuiContainer{
 		for (String i : ids){
 			Skill part = SkillRegistry.getSkillFromName(i);
 
-			if (part == null || ArsMagicaAPI.getSpellRegistry().getValue(part.getRegistryName()) == null)// && SkillTreeManager.instance.isSkillDisabled(part))
+			if (part == null || GameRegistry.findRegistry(AbstractSpellPart.class).getValue(part.getRegistryName()) == null)// && SkillTreeManager.instance.isSkillDisabled(part))
 				continue;
 
 			String name = part.getName();
@@ -488,7 +488,7 @@ public class GuiInscriptionTable extends GuiContainer{
 			}
 
 			if (iconY < 0 || iconY > 42) return hovering;
-			if (drawIcon(ArsMagicaAPI.getSpellRegistry().getValue(part.getRegistryName()))){
+			if (drawIcon(GameRegistry.findRegistry(AbstractSpellPart.class).getValue(part.getRegistryName()))){
 				hovering = true;
 				labelText.add(name);
 			}

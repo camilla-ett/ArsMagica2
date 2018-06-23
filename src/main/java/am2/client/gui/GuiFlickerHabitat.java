@@ -53,7 +53,7 @@ public class GuiFlickerHabitat extends GuiContainer{
 
 		if (stack == null) return;
 
-		AbstractFlickerFunctionality func = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(stack.getItemDamage());
+		AbstractFlickerFunctionality func = GameRegistry.findRegistry(AbstractFlickerFunctionality.class).getObjectById(stack.getItemDamage());
 
 		if (func == null)
 			return;

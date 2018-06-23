@@ -152,9 +152,9 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 							ItemStack stack = objectToItemStack(o);
 							if (stack != null){
 								if (stack.getItem() == ItemDefs.bindingCatalyst){
-									stack.setItemDamage(((Binding)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "binding"))).getBindingType(spell));
+									stack.setItemDamage(((Binding)GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "binding"))).getBindingType(spell));
 								} else if (stack.getItem() == ItemDefs.crystalPhylactery){
-									ItemDefs.crystalPhylactery.setSpawnClass(stack,((Summon)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "summon"))).getSummonType(spell));
+									ItemDefs.crystalPhylactery.setSpawnClass(stack,((Summon)GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "summon"))).getSummonType(spell));
 									ItemDefs.crystalPhylactery.addFill(stack, 100);
 								}
 
@@ -174,7 +174,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 								ItemStack stack = objectToItemStack(o);
 								if (stack != null){
 									if (stack.getItem() == ItemDefs.bindingCatalyst){
-										stack.setItemDamage(((Binding)ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "binding"))).getBindingType(spell));
+										stack.setItemDamage(((Binding)GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "binding"))).getBindingType(spell));
 									}
 									recipeItems.add(stack.copy());
 								}

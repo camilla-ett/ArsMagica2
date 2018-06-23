@@ -134,7 +134,7 @@ public class AstralDistortion extends SpellComponent implements IRitualInteracti
 	@Override
 	public ItemStack[] getRitualReagents(){
 		int enderMeta = 0;
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+		for (Affinity aff : GameRegistry.findRegistry(Affinity.class).getValues()) {
 			if (aff.equals(Affinity.NONE))
 				continue;				
 			if (aff.equals(Affinity.ENDER))

@@ -377,14 +377,14 @@ public class GuiOcculus extends GuiScreen {
 		} else {
 			boolean isShiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 			RenderUtils.drawBox(posX + 7, posY + 7, 196, 196, zLevel, 0, 0, 1, 1);
-			int affNum = ArsMagicaAPI.getAffinityRegistry().getValues().size() - 1;
+			int affNum = GameRegistry.findRegistry(Affinity.class).getValues().size() - 1;
 			int portion = 360 / affNum;
 			int currentID = 0;
 			int cX = posX + xSize/2;
 			int cY = posY + ySize/2;
 			//float finalPercentage = AffinityData.For(player).getAffinityDepth(SkillDefs.NONE) * 100;
 			ArrayList<String> drawString = new ArrayList<>();
-			for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+			for (Affinity aff : GameRegistry.findRegistry(Affinity.class).getValues()) {
 				if (aff == Affinity.NONE)
 					continue;
 				double depth = AffinityData.For(player).getAffinityDepth(aff);
@@ -418,10 +418,10 @@ public class GuiOcculus extends GuiScreen {
 				yMovement = affDrawTextY == 0 ? 0 : yMovement;
 				int drawX = (int)((affDrawTextX * 1.1) + cX + xMovement);
 				int drawY = (int)((affDrawTextY * 1.1) + cY + yMovement);
-				this.itemRender.renderItemAndEffectIntoGUI(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(aff)) , drawX, drawY);
+				this.itemRender.renderItemAndEffectIntoGUI(new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(aff)) , drawX, drawY);
 				if (mouseX > drawX && mouseX < drawX + 16 && mouseY > drawY && mouseY < drawY + 16) {
 					drawString.add(TextFormatting.RESET.toString() + aff.getLocalizedName());
-					ArrayList<AbstractAffinityAbility> abilites = Lists.newArrayList(ArsMagicaAPI.getAffinityAbilityRegistry().getValues());
+					ArrayList<AbstractAffinityAbility> abilites = Lists.newArrayList(GameRegistry.findRegistry(AbstractAffinityAbility.class).getValues());
 					abilites.sort(new Comparator<AbstractAffinityAbility>() {
 
 						@Override

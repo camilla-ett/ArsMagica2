@@ -425,7 +425,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 				" B ",
 				"CAC",
 				" B ",
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.AIR)),
 				Character.valueOf('C'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE),
 				Character.valueOf('B'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ)
 		};

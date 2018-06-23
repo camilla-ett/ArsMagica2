@@ -123,8 +123,8 @@ public class FlickerOperatorFishing extends AbstractFlickerFunctionality{
 				"N W",
 				" R ",
 				Character.valueOf('F'), Items.FISH,
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER)),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.NATURE)),
+				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.WATER)),
+				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.NATURE)),
 				Character.valueOf('R'), Items.FISHING_ROD
 		};
 	}

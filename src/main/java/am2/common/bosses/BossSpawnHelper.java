@@ -223,7 +223,7 @@ public class BossSpawnHelper{
 		if (pos.getY() < 150) return;
 		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expandXyz(1D));
 		if (itemsInRange.size() != 1) return;
-		if (itemsInRange.get(0).getEntityItem().getItem() != ItemDefs.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != ArsMagicaAPI.getAffinityRegistry().getId(Affinity.AIR))
+		if (itemsInRange.get(0).getEntityItem().getItem() != ItemDefs.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != GameRegistry.findRegistry(Affinity.class).getId(Affinity.AIR))
 			return;
 
 		itemsInRange.get(0).setDead();
@@ -235,7 +235,7 @@ public class BossSpawnHelper{
 	private void checkForArcaneGuardianSpawn(World world, BlockPos pos){
 		List<EntityItem> itemsInRange = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos, pos).expandXyz(1D));
 		if (itemsInRange.size() != 1) return;
-		if (itemsInRange.get(0).getEntityItem().getItem() != ItemDefs.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE))
+		if (itemsInRange.get(0).getEntityItem().getItem() != ItemDefs.essence || itemsInRange.get(0).getEntityItem().getItemDamage() != GameRegistry.findRegistry(Affinity.class).getId(Affinity.ARCANE))
 			return;
 		boolean hasStructure = false;
 		TileEntityLectern lectern = null;
@@ -342,7 +342,7 @@ public class BossSpawnHelper{
 	}
 
 	private void checkForFireGuardianSpawn(EntityItem item, World world, BlockPos pos){
-		if (item.getEntityItem().getItem() != ItemDefs.essence || item.getEntityItem().getItemDamage() != ArsMagicaAPI.getAffinityRegistry().getId(Affinity.WATER))
+		if (item.getEntityItem().getItem() != ItemDefs.essence || item.getEntityItem().getItemDamage() != GameRegistry.findRegistry(Affinity.class).getId(Affinity.WATER))
 			return;
 		boolean hasStructure = false;
 		boolean hasDimension = world.provider.getDimension() == -1;
@@ -458,7 +458,7 @@ public class BossSpawnHelper{
 			if (item.isDead) continue;
 			if (item.getEntityItem().getItem() == Items.ENDER_EYE)
 				hasEyeofEnder = true;
-			else if (item.getEntityItem().getItem() == ItemDefs.essence && item.getEntityItem().getItemDamage() == ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ENDER))
+			else if (item.getEntityItem().getItem() == ItemDefs.essence && item.getEntityItem().getItemDamage() == GameRegistry.findRegistry(Affinity.class).getId(Affinity.ENDER))
 				hasEnderEssence = true;
 		}
 

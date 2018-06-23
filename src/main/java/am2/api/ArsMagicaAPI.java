@@ -14,6 +14,7 @@ import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.*;
 
 public class ArsMagicaAPI {
@@ -29,7 +30,6 @@ public class ArsMagicaAPI {
 	private static boolean enableTier5 = false;
 	private static boolean enableTier6 = false;
 	
-	
 	static {
 		AFFINITY_REGISTRY = new RegistryBuilder<Affinity>().setName(new ResourceLocation("arsmagica2", "affinities")).setType(Affinity.class).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.AFFINITY).create();
 		ABILITY_REGISTRY = new RegistryBuilder<AbstractAffinityAbility>().setName(new ResourceLocation("arsmagica2", "affinityabilities")).setType(AbstractAffinityAbility.class).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.AFFINITY).create();
@@ -38,7 +38,7 @@ public class ArsMagicaAPI {
 		SKILL_REGISTRY = new RegistryBuilder<Skill>().setName(new ResourceLocation("arsmagica2", "skills")).setType(Skill.class).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.SKILL).create();
 		FLICKER_FOCUS_REGISTRY = new RegistryBuilder<AbstractFlickerFunctionality>().setName(new ResourceLocation("arsmagica2", "flicker_focus")).setType(AbstractFlickerFunctionality.class).setIDRange(0, Short.MAX_VALUE).addCallback(ObjectCallbacks.FLICKER_FOCUS).create();
 	}
-	
+		
 	//Bonus to max mana.  Applied additively.
 	public static final IAttribute maxManaBonus = new RangedAttribute(null, "am2.maxManaBonus", 0.0f, 0.0f, Double.MAX_VALUE).setDescription("Mana Bonus").setShouldWatch(true);
 	//Bonus to max burnout.  Applied additively.
@@ -49,14 +49,6 @@ public class ArsMagicaAPI {
 	public static final IAttribute manaRegenTimeModifier = new RangedAttribute(null, "am2.manaRegenModifier", 1.0f, 0.5f, 2.0f).setDescription("Mana Regen Rate Multiplier").setShouldWatch(true);
 	//Bonus to burnout reduction rate.  Applied multiplicatively.
 	public static final IAttribute burnoutReductionRate = new RangedAttribute(null, "am2.burnoutReduction", 1.0f, 0.1f, 2.0f).setDescription("Burnout Reduction Rate").setShouldWatch(true);
-
-	
-	public static FMLControlledNamespacedRegistry<Affinity> getAffinityRegistry() {return (FMLControlledNamespacedRegistry<Affinity>)AFFINITY_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<AbstractAffinityAbility> getAffinityAbilityRegistry() {return (FMLControlledNamespacedRegistry<AbstractAffinityAbility>)ABILITY_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<ArmorImbuement> getArmorImbuementRegistry() {return (FMLControlledNamespacedRegistry<ArmorImbuement>)IMBUEMENTS_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<AbstractSpellPart> getSpellRegistry() {return (FMLControlledNamespacedRegistry<AbstractSpellPart>)SPELL_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<Skill> getSkillRegistry() {return (FMLControlledNamespacedRegistry<Skill>)SKILL_REGISTRY;}
-	public static FMLControlledNamespacedRegistry<AbstractFlickerFunctionality> getFlickerFocusRegistry() {return (FMLControlledNamespacedRegistry<AbstractFlickerFunctionality>)FLICKER_FOCUS_REGISTRY;}
 	
 	/**
 	 * Enable Tier 4, call in static{} for change to take effect.
@@ -94,27 +86,24 @@ public class ArsMagicaAPI {
 		static final ObjectCallbacks<AbstractFlickerFunctionality> FLICKER_FOCUS = new ObjectCallbacks<>();
 
 		@Override
-		public void onCreate(Map<ResourceLocation, ?> slaveset, BiMap<ResourceLocation, ? extends IForgeRegistry<?>> registries) {
-
+		public void onCreate(IForgeRegistryInternal<T> owner, RegistryManager stage) {
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
-		public void onClear(IForgeRegistry<T> is, Map<ResourceLocation, ?> slaveset) {
-
+		public void onClear(IForgeRegistryInternal<T> owner, RegistryManager stage) {
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
-		public void onAdd(T obj, int id, Map<ResourceLocation, ?> slaveset) {
-
+		public void onAdd(IForgeRegistryInternal<T> owner, RegistryManager stage, int id, T obj, T oldObj) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
     
     public static class SpellCallbacks extends ObjectCallbacks<AbstractSpellPart> {
-
-		@Override
-		public void onAdd(AbstractSpellPart ability, int id, Map<ResourceLocation, ?> slaves) {
-		}
-		
 	}
-
 }

@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 import am2.api.ArsMagicaAPI;
+import am2.api.spell.AbstractSpellPart;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class SpellPartConfiguration extends Configuration{
 	
@@ -21,7 +23,7 @@ public class SpellPartConfiguration extends Configuration{
 		if (reload) {
 			load();
 			disabled.clear();
-			for (ResourceLocation rl : ArsMagicaAPI.getSpellRegistry().getKeys()) {
+			for (ResourceLocation rl : GameRegistry.findRegistry(AbstractSpellPart.class).getKeys()) {
 				String name = rl.toString();
 				if (name.startsWith("arsmagica2:")) name = rl.getResourcePath();
 				Property prop = this.get("enabled_spell_part", name, true);
@@ -48,7 +50,7 @@ public class SpellPartConfiguration extends Configuration{
 		for (String disabled : disabled) {
 			ResourceLocation rl = new ResourceLocation(disabled);
 			if (!disabled.contains(":")) rl = new ResourceLocation("arsmagica2:" + disabled);
-			intArray.add(ArsMagicaAPI.getSkillRegistry().getId(rl));
+			intArray.add(GameRegistry.findRegistry(Skill.class).getId(rl));
 		}
 		int[] ret = new int[intArray.size()];
 		for (int i = 0; i < intArray.size(); i++) {
@@ -61,7 +63,7 @@ public class SpellPartConfiguration extends Configuration{
 	public void disableAllSkillsIn(int[] disabledSkills) {
 		disabled.clear();
 		for (int i : disabledSkills) {
-			ResourceLocation rl = ArsMagicaAPI.getSkillRegistry().getObjectById(i).getRegistryName();
+			ResourceLocation rl = GameRegistry.findRegistry(Skill.class).getObjectById(i).getRegistryName();
 			String name = rl.toString();
 			if (name.startsWith("arsmagica2:")) name = rl.getResourcePath();
 			disabled.add(name);

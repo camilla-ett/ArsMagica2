@@ -14,6 +14,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
 import am2.api.ArsMagicaAPI;
+import am2.api.skill.Skill;
+import am2.api.spell.AbstractSpellPart;
 import am2.client.particles.AMParticleIcons;
 import am2.client.texture.SpellIconManager;
 import am2.common.LogHelper;
@@ -40,6 +42,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -306,7 +309,7 @@ public class AMGuiHelper{
 		}else {
 			if (stack.getItem() instanceof ItemSpellComponent) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(LOCATION_BLOCKS_TEXTURE);
-				TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(ArsMagicaAPI.getSpellRegistry().getValue(ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage()).getRegistryName()).getRegistryName().toString());
+				TextureAtlasSprite icon = SpellIconManager.INSTANCE.getSprite(GameRegistry.findRegistry(AbstractSpellPart.class).getValue(GameRegistry.findRegistry(Skill.class).getObjectById(stack.getItemDamage()).getRegistryName()).getRegistryName().toString());
 				GlStateManager.color(1, 1, 1, 1);
 				if (icon != null)
 					DrawIconAtXY(icon, x, y, zLevel + 1, 16, 16, false);

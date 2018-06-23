@@ -64,7 +64,7 @@ public class NPCSpells{
 		nauseate = createSpell(Lists.newArrayList(Projectile(), Nauseate(), ScrambleSynapses()));
 		lightningRune = createSpell(Lists.newArrayList(Projectile(), Rune(), AoE(), LightningDamage(), Damage()));
 		scrambleSynapses = createSpell(Lists.newArrayList(Projectile(), LightningDamage(), AoE(), ScrambleSynapses(), Radius(), Radius(), Radius(), Radius(), Radius()));
-		manaLink = createSpell(Lists.newArrayList(ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation("arsmagica2", "touch")), ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation("arsmagica2", "mana_link"))));
+		manaLink = createSpell(Lists.newArrayList(GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation("arsmagica2", "touch")), GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation("arsmagica2", "mana_link"))));
 	}
 	
 	public final ItemStack createSpell(List<AbstractSpellPart> parts) {
@@ -76,33 +76,33 @@ public class NPCSpells{
 		return is;
 	}
 	
-	private AbstractSpellPart AoE() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "aoe"));}
-	private AbstractSpellPart FrostDamage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "frost_damage"));}
-	private AbstractSpellPart MagicDamage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "magic_damage"));}
-	private AbstractSpellPart Radius() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "radius"));}
-	private AbstractSpellPart PhysicalDamage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "physical_damage"));}
-	private AbstractSpellPart Projectile() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "projectile"));}
-	private AbstractSpellPart ScrambleSynapses() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "scramble_synapses"));}
-	private AbstractSpellPart Damage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "damage"));}
-	private AbstractSpellPart LightningDamage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "lightning_damage"));}
-	private AbstractSpellPart Slow() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "slow"));}
-	private AbstractSpellPart Blind() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "blind"));}
-	private AbstractSpellPart FireDamage() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "fire_damage"));}
-	private AbstractSpellPart Ignition() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "ignition"));}
-	private AbstractSpellPart Knockback() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "knockback"));}
-	private AbstractSpellPart Wave() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "wave"));}
-	private AbstractSpellPart RandomTeleport() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "random_teleport"));}
-	private AbstractSpellPart Silence() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "silence"));}
-	private AbstractSpellPart Speed() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "speed"));}
-	private AbstractSpellPart ManaDrain() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "mana_drain"));}
-	private AbstractSpellPart LifeDrain() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "life_drain"));}
-	private AbstractSpellPart Self() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "self"));}
-	private AbstractSpellPart Dispel() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "dispel"));}
-	private AbstractSpellPart Blink() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "blink"));}
-	private AbstractSpellPart MeltArmor() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "melt_armor"));}
-	private AbstractSpellPart WateryGrave() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "watery_grave"));}
-	private AbstractSpellPart Drown() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "drown"));}
-	private AbstractSpellPart Heal() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "heal"));}
-	private AbstractSpellPart Nauseate() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "nauseate"));}
-	private AbstractSpellPart Rune() {return ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation("arsmagica2", "rune"));}
+	private AbstractSpellPart AoE() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "aoe"));}
+	private AbstractSpellPart FrostDamage() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "frost_damage"));}
+	private AbstractSpellPart MagicDamage() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "magic_damage"));}
+	private AbstractSpellPart Radius() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "radius"));}
+	private AbstractSpellPart PhysicalDamage() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "physical_damage"));}
+	private AbstractSpellPart Projectile() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "projectile"));}
+	private AbstractSpellPart ScrambleSynapses() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "scramble_synapses"));}
+	private AbstractSpellPart Damage() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "damage"));}
+	private AbstractSpellPart LightningDamage() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "lightning_damage"));}
+	private AbstractSpellPart Slow() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "slow"));}
+	private AbstractSpellPart Blind() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "blind"));}
+	private AbstractSpellPart FireDamage() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "fire_damage"));}
+	private AbstractSpellPart Ignition() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "ignition"));}
+	private AbstractSpellPart Knockback() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "knockback"));}
+	private AbstractSpellPart Wave() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "wave"));}
+	private AbstractSpellPart RandomTeleport() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "random_teleport"));}
+	private AbstractSpellPart Silence() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "silence"));}
+	private AbstractSpellPart Speed() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "speed"));}
+	private AbstractSpellPart ManaDrain() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "mana_drain"));}
+	private AbstractSpellPart LifeDrain() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "life_drain"));}
+	private AbstractSpellPart Self() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "self"));}
+	private AbstractSpellPart Dispel() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "dispel"));}
+	private AbstractSpellPart Blink() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "blink"));}
+	private AbstractSpellPart MeltArmor() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "melt_armor"));}
+	private AbstractSpellPart WateryGrave() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "watery_grave"));}
+	private AbstractSpellPart Drown() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "drown"));}
+	private AbstractSpellPart Heal() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "heal"));}
+	private AbstractSpellPart Nauseate() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "nauseate"));}
+	private AbstractSpellPart Rune() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "rune"));}
 }

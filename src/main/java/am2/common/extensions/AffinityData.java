@@ -86,7 +86,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 	@Override
 	public void init(EntityPlayer entity) {
 		HashMap<Affinity, Double> map = new HashMap<>();
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues())
+		for (Affinity aff : GameRegistry.findRegistry(Affinity.class).getValues())
 			map.put(aff, 0D);
 	}
 	
@@ -256,7 +256,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 			this.depths.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
-				Affinity key = ArsMagicaAPI.getAffinityRegistry().getObject(new ResourceLocation(reader.getString()));
+				Affinity key = GameRegistry.findRegistry(Affinity.class).getObject(new ResourceLocation(reader.getString()));
 				double value = reader.getDouble();
 				if (key != null)
 					this.depths.put(key, value);

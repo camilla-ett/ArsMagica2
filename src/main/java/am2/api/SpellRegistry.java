@@ -79,11 +79,11 @@ public class SpellRegistry {
 	}
 	
 	public static Skill getSkillFromPart(AbstractSpellPart part) {
-		return ArsMagicaAPI.getSkillRegistry().getValue(part.getRegistryName());
+		return GameRegistry.findRegistry(Skill.class).getValue(part.getRegistryName());
 	}
 
 	public static AbstractSpellPart getPartByRecipe(ArrayList<ItemStack> currentAddedItems) {
-		for (AbstractSpellPart data : ArsMagicaAPI.getSpellRegistry().getValues()) {
+		for (AbstractSpellPart data : GameRegistry.findRegistry(AbstractSpellPart.class).getValues()) {
 			if (data != null && data.getRecipe() != null) {
 				ArrayList<ItemStack> convRecipe = RecipeUtils.getConvRecipe(data);
 				boolean match = currentAddedItems.size() == convRecipe.size();
@@ -103,17 +103,17 @@ public class SpellRegistry {
 	}
 
 	public static SpellShape getShapeFromName(String shapeName) {
-		AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(shapeName));
+		AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation(shapeName));
 		return part instanceof SpellShape ? (SpellShape) part : null;
 	}
 	
 	public static SpellModifier getModifierFromName(String shapeName) {
-		AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(shapeName));
+		AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation(shapeName));
 		return part instanceof SpellModifier ? (SpellModifier) part : null;
 	}
 	
 	public static SpellComponent getComponentFromName(String shapeName) {
-		AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(shapeName));
+		AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation(shapeName));
 		return part instanceof SpellComponent ? (SpellComponent) part : null;
 	}
 }

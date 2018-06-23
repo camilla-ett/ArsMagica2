@@ -191,7 +191,7 @@ public abstract class CompendiumPage<E> {
 			}else{
 				if (stack.getItem() == ItemDefs.spell_component){
 					list.clear();
-					Skill skill = ArsMagicaAPI.getSkillRegistry().getObjectById(stack.getItemDamage());
+					Skill skill = GameRegistry.findRegistry(Skill.class).getObjectById(stack.getItemDamage());
 					if (skill == null)
 						return;
 					list.add(skill.getName());

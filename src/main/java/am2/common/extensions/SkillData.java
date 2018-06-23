@@ -76,8 +76,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		Skill skill = SkillRegistry.getSkillFromName(name);
 		
 		for (CompendiumEntry entry : CompendiumCategory.getAllEntries()) {
-			if (ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName()) != null) {
-				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(skill.getRegistryName());
+			if (GameRegistry.findRegistry(AbstractSpellPart.class).getObject(skill.getRegistryName()) != null) {
+				AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getObject(skill.getRegistryName());
 				for (Object obj : entry.getObjects()) {
 					if (obj == part) {
 						ArcaneCompendium.For(this.player).unlockEntry(entry.getID());
@@ -120,7 +120,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 
 	public void init(EntityPlayer entity) {
 		this.player = entity;
-		for (Skill aff : ArsMagicaAPI.getSkillRegistry().getValues()) {
+		for (Skill aff : GameRegistry.findRegistry(Skill.class).getValues()) {
 			this.skills.put(aff, false);
 		}
 		for (SkillPoint aff : SkillPointRegistry.getSkillPointMap().values()) {
@@ -168,8 +168,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	@Override
 	public ArrayList<String> getKnownShapes() {
 		ArrayList<String> out = new ArrayList<>();
-		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
-			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
+		for (Skill skill : GameRegistry.findRegistry(Skill.class)) {
+			AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getValue(skill.getRegistryName());
 			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellShape && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(skill.getID());
 		}
@@ -180,8 +180,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	@Override
 	public ArrayList<String> getKnownComponents() {
 		ArrayList<String> out = new ArrayList<>();
-		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
-			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
+		for (Skill skill : GameRegistry.findRegistry(Skill.class)) {
+			AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getValue(skill.getRegistryName());
 			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellComponent && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(skill.getID());
 		}
@@ -192,8 +192,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 	@Override
 	public ArrayList<String> getKnownModifiers() {
 		ArrayList<String> out = new ArrayList<>();
-		for (Skill skill : ArsMagicaAPI.getSkillRegistry()) {
-			AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getValue(skill.getRegistryName());
+		for (Skill skill : GameRegistry.findRegistry(Skill.class)) {
+			AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getValue(skill.getRegistryName());
 			if ((this.hasSkill(skill.getRegistryName().toString()) || this.player.capabilities.isCreativeMode) && part != null && part instanceof SpellModifier && !ArsMagica2.disabledSkills.isSkillDisabled(part.getRegistryName().toString()))
 				out.add(skill.getID());
 		}
@@ -236,7 +236,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			this.skills.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
-				Skill key = ArsMagicaAPI.getSkillRegistry().getObject(new ResourceLocation(reader.getString()));
+				Skill key = GameRegistry.findRegistry(Skill.class).getObject(new ResourceLocation(reader.getString()));
 				boolean value = reader.getBoolean();
 				if (key != null)
 					this.skills.put(key, value);

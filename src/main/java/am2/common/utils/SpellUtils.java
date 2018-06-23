@@ -208,7 +208,7 @@ public class SpellUtils {
 				NBTTagList stageTag = NBTUtils.addCompoundList(NBTUtils.getAM2Tag(stack.getTagCompound()), STAGE + j);
 				for (int i = 0; i < stageTag.tagCount(); i++) {
 					NBTTagCompound tag = stageTag.getCompoundTagAt(i);
-					mods.add(ArsMagicaAPI.getSpellRegistry().getValue(new ResourceLocation(tag.getString(ID))));
+					mods.add(GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation(tag.getString(ID))));
 				}
 			}
 			return mods;
@@ -267,7 +267,7 @@ public class SpellUtils {
 				NBTTagList list = group.getTagList(STAGE + j, Constants.NBT.TAG_COMPOUND);
 				for (int k = 0; k < list.tagCount(); k++) {
 					NBTTagCompound nbt = list.getCompoundTagAt(k);
-					AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(nbt.getString(ID)));
+					AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation(nbt.getString(ID)));
 					if (part != null)
 						parts.add(part);
 				}
@@ -281,7 +281,7 @@ public class SpellUtils {
 			NBTTagList list = am2.getTagList(STAGE + i, Constants.NBT.TAG_COMPOUND);
 			for (int j = 0; j < list.tagCount(); j++) {
 				NBTTagCompound tmp = list.getCompoundTagAt(j);
-				AbstractSpellPart part = ArsMagicaAPI.getSpellRegistry().getObject(new ResourceLocation(tmp.getString(ID)));
+				AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation(tmp.getString(ID)));
 				if (part != null)
 					parts.add(part);				
 			}

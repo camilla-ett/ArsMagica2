@@ -15,7 +15,7 @@ public class FlickerOperatorRenderer implements ItemMeshDefinition{
 	}
 	
 	public FlickerOperatorRenderer addModels(Item item) {
-		for (AbstractFlickerFunctionality func : ArsMagicaAPI.getFlickerFocusRegistry().getValues())
+		for (AbstractFlickerFunctionality func : GameRegistry.findRegistry(AbstractFlickerFunctionality.class).getValues())
 			ModelBakery.registerItemVariants(item, new ModelResourceLocation(func.getTexture(), "inventory"));
 		ModelBakery.registerItemVariants(item, new ModelResourceLocation(new ResourceLocation("arsmagica2:FlickerOperatorBlank"), "inventory"));
 		return this;
@@ -23,7 +23,7 @@ public class FlickerOperatorRenderer implements ItemMeshDefinition{
 	
 	@Override
 	public ModelResourceLocation getModelLocation(ItemStack stack) {
-		AbstractFlickerFunctionality func = ArsMagicaAPI.getFlickerFocusRegistry().getObjectById(stack.getItemDamage());
+		AbstractFlickerFunctionality func = GameRegistry.findRegistry(AbstractFlickerFunctionality.class).getObjectById(stack.getItemDamage());
 		if (func == null) return new ModelResourceLocation(new ResourceLocation("arsmagica2:FlickerOperatorBlank"), "inventory");
 		return new ModelResourceLocation(func.getTexture(), "inventory");
 	}

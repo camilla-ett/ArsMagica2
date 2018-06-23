@@ -309,9 +309,9 @@ public class ItemDefs {
 		
 		renderItem.getItemModelMesher().register(crystalWrench, new CrystalWrenchRenderer(crystalWrench));
 		renderItem.getItemModelMesher().register(flickerFocus, new FlickerOperatorRenderer().addModels(flickerFocus));
-//		Iterator<Affinity> iter = ArsMagicaAPI.getAffinityRegistry().getValues().iterator();
+//		Iterator<Affinity> iter = GameRegistry.findRegistry(Affinity.class).getValues().iterator();
 //		int effMeta = 0;
-//		for (int i = 0; i < ArsMagicaAPI.getAffinityRegistry().getValues().size(); i++) {
+//		for (int i = 0; i < GameRegistry.findRegistry(Affinity.class).getValues().size(); i++) {
 //			if (!iter.hasNext())
 //				break;
 //			Affinity entry = iter.next();

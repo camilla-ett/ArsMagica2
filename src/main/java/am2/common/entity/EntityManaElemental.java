@@ -65,7 +65,7 @@ public class EntityManaElemental extends EntityMob{
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		if (getRNG().nextInt(10) == 0)
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, ArsMagicaAPI.getAffinityRegistry().getId(Affinity.ARCANE)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.ARCANE)), 0.0f);
 		super.dropFewItems(wasRecentlyHit, lootingModifier);
 	}
 	

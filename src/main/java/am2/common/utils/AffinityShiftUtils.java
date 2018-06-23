@@ -67,7 +67,7 @@ public class AffinityShiftUtils {
 	
 	public static ItemStack getEssenceForAffinity (Affinity affinity) {
 		int meta = 0;
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+		for (Affinity aff : GameRegistry.findRegistry(Affinity.class).getValues()) {
 			if (aff.equals(affinity))
 				break;
 			meta++;
@@ -86,7 +86,7 @@ public class AffinityShiftUtils {
 			parts.sort(Comparator.naturalOrder());
 			for (AbstractSpellPart part : parts) {
 				float __multiplier = 0.1F;
-				Skill skill = ArsMagicaAPI.getSkillRegistry().getObject(part.getRegistryName());
+				Skill skill = GameRegistry.findRegistry(Skill.class).getObject(part.getRegistryName());
 				if (skill != null) {
 					SkillPoint point = skill.getPoint();
 					if (point.getTier() > 0) {

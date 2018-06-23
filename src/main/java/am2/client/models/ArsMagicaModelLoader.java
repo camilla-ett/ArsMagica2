@@ -82,7 +82,7 @@ public class ArsMagicaModelLoader implements ICustomModelLoader {
 	
 	@SubscribeEvent
 	public void preStitch(TextureStitchEvent.Pre e) {
-		for (Affinity aff : ArsMagicaAPI.getAffinityRegistry().getValues()) {
+		for (Affinity aff : GameRegistry.findRegistry(Affinity.class).getValues()) {
 			e.getMap().registerSprite(new ResourceLocation(aff.getRegistryName().getResourceDomain(), "blocks/runes/rune_" + aff.getRegistryName().getResourcePath()));
 			sprites.put(aff, e.getMap().registerSprite(new ResourceLocation("arsmagica2", "items/particles/" + aff.getName().toLowerCase() + "_hand")));
 		}
