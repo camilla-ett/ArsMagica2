@@ -35,7 +35,7 @@ import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -255,7 +255,7 @@ public class AMGuiHelper{
 
 		Tessellator tessellator = Tessellator.getInstance();
 
-		boolean drawing = ReflectionHelper.getPrivateValue(VertexBuffer.class, tessellator.getBuffer(), "isDrawing", "field_179010_r");
+		boolean drawing = ReflectionHelper.getPrivateValue(BufferBuilder.class, tessellator.getBuffer(), "isDrawing", "field_179010_r");
 		if (drawing)
 			tessellator.draw();
 

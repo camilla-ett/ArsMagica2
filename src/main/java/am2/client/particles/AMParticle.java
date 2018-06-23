@@ -11,7 +11,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -274,7 +274,7 @@ public class AMParticle extends Particle {
 	}
 	
 	@Override
-	public void renderParticle(VertexBuffer tessellator, Entity ent, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch){
+	public void renderParticle(BufferBuilder tessellator, Entity ent, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch){
 		if (!this.world.isRemote){
 			return;
 		}

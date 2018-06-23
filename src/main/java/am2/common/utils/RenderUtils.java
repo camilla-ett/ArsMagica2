@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +22,7 @@ public class RenderUtils {
 	
 	public static void drawBox (float minX, float minZ, float maxX, float maxZ, float zLevel, float minU, float minV, float maxU, float maxV) {
 		Tessellator t = Tessellator.getInstance();
-		VertexBuffer wr = t.getBuffer();
+		BufferBuilder wr = t.getBuffer();
 		wr.begin(7, DefaultVertexFormats.POSITION_TEX);
 		wr.pos(minX, minZ + maxZ, zLevel).tex(minU, maxV).endVertex();;
 		wr.pos(minX + maxX, minZ + maxZ, zLevel).tex(maxU, maxV).endVertex();
@@ -154,7 +154,7 @@ public class RenderUtils {
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 			Tessellator t = Tessellator.getInstance();
-			VertexBuffer wr = t.getBuffer();
+			BufferBuilder wr = t.getBuffer();
 			wr.begin(7, DefaultVertexFormats.BLOCK);
 			World world = te.getWorld();
 			if (world == null)

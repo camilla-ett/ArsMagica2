@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -126,7 +126,7 @@ public class AMLineArc extends Particle{
 	}
 
 	@Override
-	public void renderParticle(VertexBuffer par1Tessellator, Entity ent, float partialTicks, float rotationX, float rotationXZ, float rotationZ, float rotationYZ, float rotationXY){
+	public void renderParticle(BufferBuilder par1Tessellator, Entity ent, float partialTicks, float rotationX, float rotationXZ, float rotationZ, float rotationYZ, float rotationXY){
 		if (targetEntity != null && sourceEntity != null){
 			drawArcingLine(
 					sourceEntity.prevPosX + (sourceEntity.posX - sourceEntity.prevPosX) * partialTicks,
