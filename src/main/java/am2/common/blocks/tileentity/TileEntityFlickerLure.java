@@ -35,26 +35,26 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 
 	@Override
 	public void update(){
-		if (worldObj.isRemote)
+		if (world.isRemote)
 			return;
 		super.update();
 
-		if (worldObj.isBlockIndirectlyGettingPowered(pos) > 0){
-			if (worldObj.rand.nextDouble() < 0.05f && PowerNodeRegistry.For(worldObj).checkPower(this, 20)){
-				EntityFlicker flicker = new EntityFlicker(worldObj);
+		if (world.isBlockIndirectlyGettingPowered(pos) > 0){
+			if (world.rand.nextDouble() < 0.05f && PowerNodeRegistry.For(world).checkPower(this, 20)){
+				EntityFlicker flicker = new EntityFlicker(world);
 				flicker.setPosition(pos.getX() + 0.5f, pos.getY() + 1.5f, pos.getZ() + 0.5f);
 				flicker.setFlickerType(FlickerGenerationPool.INSTANCE.getWeightedAffinity());
-				worldObj.spawnEntityInWorld(flicker);
-				PowerNodeRegistry.For(worldObj).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), 20);
+				world.spawnEntityInWorld(flicker);
+				PowerNodeRegistry.For(world).consumePower(this, PowerNodeRegistry.For(world).getHighestPowerType(this), 20);
 			}
 		}
 		
 		if (ticksExisted % 200 == 0) {
-			TileEntity eastTile = worldObj.getTileEntity(pos.east());
-			TileEntity westTile = worldObj.getTileEntity(pos.west());
-			TileEntity southTile = worldObj.getTileEntity(pos.south());
-			TileEntity northTile = worldObj.getTileEntity(pos.north());
-			List<EntityFlicker> flickers = worldObj.getEntitiesWithinAABB(EntityFlicker.class, new AxisAlignedBB(pos).expandXyz(5));
+			TileEntity eastTile = world.getTileEntity(pos.east());
+			TileEntity westTile = world.getTileEntity(pos.west());
+			TileEntity southTile = world.getTileEntity(pos.south());
+			TileEntity northTile = world.getTileEntity(pos.north());
+			List<EntityFlicker> flickers = world.getEntitiesWithinAABB(EntityFlicker.class, new AxisAlignedBB(pos).expandXyz(5));
 			for (EntityFlicker flicker : flickers) {
 				IInventory inventory = null;
 				if (northTile != null && northTile instanceof IInventory)
@@ -92,8 +92,8 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 							if (placed) break;
 						}
 						if (!placed) {
-							EntityItem item = new EntityItem(worldObj, pos.getX() + 0.5D, pos.getY() + 1.5D, pos.getZ() + 0.5D, jar);
-							worldObj.spawnEntityInWorld(item);
+							EntityItem item = new EntityItem(world, pos.getX() + 0.5D, pos.getY() + 1.5D, pos.getZ() + 0.5D, jar);
+							world.spawnEntityInWorld(item);
 						}
 						flicker.setDead();
 					}

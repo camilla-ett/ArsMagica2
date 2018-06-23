@@ -156,16 +156,16 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	}
 
 	public void onPlaced(){
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			AMChunkLoader.INSTANCE.requestStaticChunkLoad(this.getClass(), this.pos, this.world);
 		}
 	}
 
 	@Override
 	public void invalidate(){
-		ArsMagica2.proxy.blocks.removeKeystonePortal(pos, worldObj.provider.getDimension());
+		ArsMagica2.proxy.blocks.removeKeystonePortal(pos, world.provider.getDimension());
 
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			AMChunkLoader.INSTANCE.releaseStaticChunkLoad(this.getClass(), pos, this.world);
 		}
 
@@ -183,7 +183,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				}
 			}
 		}else{
-			worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(), AMSounds.GATEWAY_OPEN, SoundCategory.BLOCKS, 1.0f, 1.0f, true);
+			world.playSound(pos.getX(), pos.getY(), pos.getZ(), AMSounds.GATEWAY_OPEN, SoundCategory.BLOCKS, 1.0f, 1.0f, true);
 		}
 	}
 
@@ -193,12 +193,12 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	@Override
 	public void update(){
-		if (worldObj.isRemote)
+		if (world.isRemote)
 			return;
 		super.update();
 
 		AxisAlignedBB bb = new AxisAlignedBB(pos.getX() + 0.3, pos.getY() - 3, pos.getZ() + 0.3, pos.getX() + 0.7, pos.getY(), pos.getZ() + 0.7);
-		List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bb);
+		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, bb);
 
 		if (this.isActive){
 			surroundingCheckTicks--;
@@ -210,15 +210,15 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				doTeleport(entities.get(0));
 			}
 		}else{
-			if (entities.size() == 1 && worldObj.canBlockSeeSky(pos)){
+			if (entities.size() == 1 && world.canBlockSeeSky(pos)){
 				Entity entity = entities.get(0);
 				if (entity instanceof EntityPlayer){
 					EntityPlayer player = (EntityPlayer)entity;
 					if (player.isPotionActive(PotionEffectsDefs.HASTE) && player.isPotionActive(Potion.getPotionFromResourceLocation("speed")) && player.isSprinting()){
 						this.key = 0;
-						if (!worldObj.isRemote){
-							EntityLightningBolt elb = new EntityLightningBolt(worldObj, pos.getX(), pos.getY(), pos.getZ(), false);
-							worldObj.spawnEntityInWorld(elb);
+						if (!world.isRemote){
+							EntityLightningBolt elb = new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), false);
+							world.spawnEntityInWorld(elb);
 						}
 						doTeleport(player);
 					}
@@ -230,9 +230,9 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	public boolean canActivate(){
 		boolean allGood = true;
-		allGood &= worldObj.isAirBlock(pos.down());
-		allGood &= worldObj.isAirBlock(pos.down(2));
-		allGood &= worldObj.isAirBlock(pos.down(3));
+		allGood &= world.isAirBlock(pos.down());
+		allGood &= world.isAirBlock(pos.down(2));
+		allGood &= world.isAirBlock(pos.down(3));
 		allGood &= checkStructure();
 		allGood &= PowerNodeRegistry.For(this.world).checkPower(this);
 		allGood &= !this.isActive;
@@ -253,14 +253,14 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	private boolean checkStructure(){
 		boolean remainActive = true;
 
-		switch (worldObj.getBlockState(pos).getValue(BlockKeystoneReceptacle.FACING)){
+		switch (world.getBlockState(pos).getValue(BlockKeystoneReceptacle.FACING)){
 		case NORTH:
 		case SOUTH:
-			remainActive &= secondary.matches(worldObj, pos);
+			remainActive &= secondary.matches(world, pos);
 			break;
 		case EAST:
 		default:
-			remainActive &= primary.matches(worldObj, pos);
+			remainActive &= primary.matches(world, pos);
 			break;
 		}
 		return remainActive;
@@ -269,7 +269,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 	public void deactivate(){
 		this.isActive = false;
 		if (!this.world.isRemote){
-			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
+			world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 3);
 		}
 	}
 
@@ -281,7 +281,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 		double distance = myLocation.distanceTo(newLocation);
 		float essenceCost = (float)(distance * distance * 0.00175f);
 
-		EnumFacing facing = worldObj.getBlockState(newLocation.toBlockPos()).getValue(BlockKeystoneReceptacle.FACING);
+		EnumFacing facing = world.getBlockState(newLocation.toBlockPos()).getValue(BlockKeystoneReceptacle.FACING);
 
 		if (ArsMagica2.config.getHazardousGateways()){
 			//uh-oh!  Not enough power!  The teleporter will still send you though, but I wonder where...
@@ -299,7 +299,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 				double newZ = myLocation.z + (Math.sin(angleH) * distanceWeCanGo);
 				double newY = myLocation.y;
 				
-				while (!worldObj.isAirBlock(new BlockPos(newX, newY, newZ))){
+				while (!world.isAirBlock(new BlockPos(newX, newY, newZ))){
 					newY++;
 				}
 
@@ -420,7 +420,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSqToCenter(pos) <= 64D;
@@ -466,7 +466,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 			}
 		}
 
-		nbttagcompound.setInteger("keystone_receptacle_dimension_id", worldObj.provider.getDimension());
+		nbttagcompound.setInteger("keystone_receptacle_dimension_id", world.provider.getDimension());
 		nbttagcompound.setTag("KeystoneRecepticleInventory", nbttaglist);
 		nbttagcompound.setBoolean("isActive", this.isActive);
 		return nbttagcompound;

@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityAIWaterElementalAttack extends EntityAIBase{
-	World worldObj;
+	World world;
 	EntityCreature attacker;
 	EntityLivingBase entityTarget;
 
@@ -127,7 +127,7 @@ public class EntityAIWaterElementalAttack extends EntityAIBase{
 				entityTarget.motionY = mY * 8;
 				entityTarget.motionZ = mZ * 8;
 
-				AMNetHandler.INSTANCE.sendVelocityAddPacket(worldObj, entityTarget, mX, mY, mZ);
+				AMNetHandler.INSTANCE.sendVelocityAddPacket(world, entityTarget, mX, mY, mZ);
 
 				entityTarget.addPotionEffect(new BuffEffectWateryGrave(100, 1));
 			}

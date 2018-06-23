@@ -383,8 +383,8 @@ public class AMParticle extends Particle {
 		setPrevPos(posX, posY, posZ);
 	}
 	
-	public World getWorldObj() {
-		return worldObj;
+	public World getWorld() {
+		return world;
 	}
 
 	public void SetParticleTextureByName(String name) {

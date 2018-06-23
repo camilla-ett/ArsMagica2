@@ -62,11 +62,11 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 		summonCooldown--;
 		if (summonCooldown < 0) summonCooldown = 0;
 
-		if (!worldObj.isRemote && summonCooldown == 0 && prevSummonCooldown > 0){
-			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+		if (!world.isRemote && summonCooldown == 0 && prevSummonCooldown > 0){
+			world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 2);
 		}
 
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			EntityLiving ent = getSummonedCreature();
 			if (ent == null){
 				summonEntityID = -1;
@@ -113,14 +113,14 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 	}
 
 	private void summonCreature(){
-		if (worldObj.isRemote || this.summonEntityID != -1) return;
+		if (world.isRemote || this.summonEntityID != -1) return;
 		if (dummyCaster == null){
-			dummyCaster = new DummyEntityPlayer(worldObj);
+			dummyCaster = new DummyEntityPlayer(world);
 		}
 		//FIXME
 		SpellData data = new SpellData(new ItemStack(ItemDefs.spell), Lists.newArrayList(), UUID.randomUUID(), new NBTTagCompound());
 		data.getStoredData().setString("SummonType", inventory[SUMMON_SLOT].getTagCompound().getString("SpawnClassName"));
-		EntityLiving summon = ((Summon)GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2:summon"))).summonCreature(data, dummyCaster, dummyCaster, worldObj, pos.getX(), pos.getY() + 1, pos.getZ());
+		EntityLiving summon = ((Summon)GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2:summon"))).summonCreature(data, dummyCaster, dummyCaster, world, pos.getX(), pos.getY() + 1, pos.getZ());
 		if (summon != null){
 			if (summon instanceof EntityCreature)
 				EntityUtils.setGuardSpawnLocation((EntityCreature)summon, pos.getX(), pos.getY(), pos.getZ());
@@ -128,22 +128,22 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 			PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(this.world).getHighestPowerType(this), summonCost);
 			this.summonCooldown = TileEntitySummoner.maxSummonCooldown;
 			EntityUtils.setTileSpawned(summon, this);
-			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+			world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 2);
 		}
 	}
 
 	private void unsummonCreature(){
-		if (worldObj.isRemote) return;
+		if (world.isRemote) return;
 		EntityLiving ent = getSummonedCreature();
 		if (ent == null) return;
 		ent.attackEntityFrom(DamageSources.unsummon, 1000000);
 		this.summonEntityID = -1;
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+		world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 2);
 	}
 
 	private EntityLiving getSummonedCreature(){
 		if (this.summonEntityID == -1) return null;
-		return (EntityLiving)worldObj.getEntityByID(this.summonEntityID);
+		return (EntityLiving)world.getEntityByID(this.summonEntityID);
 	}
 
 	@Override
@@ -230,7 +230,7 @@ public class TileEntitySummoner extends TileEntityAMPower implements IInventory,
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSqToCenter(pos) <= 64D;

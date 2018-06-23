@@ -65,8 +65,8 @@ public class EntityManaVortex extends Entity{
 
 		if (getTicksToExist() - this.ticksExisted <= 5 && !hasGoneBoom){
 			hasGoneBoom = true;
-			if (!worldObj.isRemote){
-				List<EntityLivingBase> players = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(3 + Math.floor(this.ticksExisted / 50), 2, 3 + Math.floor(this.ticksExisted / 50)));
+			if (!world.isRemote){
+				List<EntityLivingBase> players = world.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(3 + Math.floor(this.ticksExisted / 50), 2, 3 + Math.floor(this.ticksExisted / 50)));
 				float damage = this.dataManager.get(MANA_STOLEN) * 0.005f;
 				if (damage > 100)
 					damage = 100;
@@ -80,7 +80,7 @@ public class EntityManaVortex extends Entity{
 				}
 			}else{
 				for (int i = 0; i < 360; i += ArsMagica2.config.FullGFX() ? 5 : ArsMagica2.config.LowGFX() ? 10 : 20){
-					AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "ember", this.posX, this.posY, this.posZ);
+					AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "ember", this.posX, this.posY, this.posZ);
 					if (effect != null){
 						effect.setIgnoreMaxAge(true);
 						effect.AddParticleController(new ParticleMoveOnHeading(effect, i, 0, 0.7f, 1, false));
@@ -100,7 +100,7 @@ public class EntityManaVortex extends Entity{
 
 		if (getTicksToExist() - this.ticksExisted > 30){
 			//get all players within 5 blocks
-			List<EntityLivingBase> players = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(3 + Math.floor(this.ticksExisted / 50), 2, 3 + Math.floor(this.ticksExisted / 50)));
+			List<EntityLivingBase> players = world.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(3 + Math.floor(this.ticksExisted / 50), 2, 3 + Math.floor(this.ticksExisted / 50)));
 			Object[] playerArray = players.toArray();
 
 			for (Object o : playerArray){
@@ -110,14 +110,14 @@ public class EntityManaVortex extends Entity{
 				if (mop != null)
 					continue;
 
-				if (worldObj.isRemote){
+				if (world.isRemote){
 					if (ArsMagica2.config.NoGFX()){
 						break;
 					}
 					if (ArsMagica2.config.LowGFX() && (this.ticksExisted % 4) != 0){
 						break;
 					}
-					AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "ember", e.posX, e.posY + (e.getEyeHeight() / 2), e.posZ);
+					AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "ember", e.posX, e.posY + (e.getEyeHeight() / 2), e.posZ);
 					if (effect != null){
 						effect.setRGBColorF(0.24f, 0.24f, 0.8f);
 						effect.AddParticleController(new ParticleArcToEntity(effect, 1, this, false).generateControlPoints().setKillParticleOnFinish(true));

@@ -51,12 +51,12 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 
 	@Override
 	public void update(){
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			updateBookRender();
 			if (tooltipStack != null && tickCount % 2 == 0){
-				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "sparkle", pos.getX() + 0.5 + ((worldObj.rand.nextDouble() * 0.2) - 0.1), pos.getY() + 1, pos.getZ() + 0.5 + ((worldObj.rand.nextDouble() * 0.2) - 0.1));
+				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle", pos.getX() + 0.5 + ((world.rand.nextDouble() * 0.2) - 0.1), pos.getY() + 1, pos.getZ() + 0.5 + ((world.rand.nextDouble() * 0.2) - 0.1));
 				if (particle != null){
-					particle.AddParticleController(new ParticleMoveOnHeading(particle, worldObj.rand.nextDouble() * 360, -45 - worldObj.rand.nextInt(90), 0.05f, 1, false));
+					particle.AddParticleController(new ParticleMoveOnHeading(particle, world.rand.nextDouble() * 360, -45 - world.rand.nextInt(90), 0.05f, 1, false));
 					particle.AddParticleController(new ParticleFadeOut(particle, 2, false).setFadeSpeed(0.05f).setKillParticleOnFinish(true));
 					particle.setIgnoreMaxAge(true);
 					if (getOverpowered()){
@@ -87,11 +87,11 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 
 		this.bookSpread += 0.1F;
 
-		if (this.bookSpread < 0.5F || worldObj.rand.nextInt(40) == 0){
+		if (this.bookSpread < 0.5F || world.rand.nextInt(40) == 0){
 			float f1 = this.flipT;
 
 			do{
-				this.flipT += (float)(worldObj.rand.nextInt(4) - worldObj.rand.nextInt(4));
+				this.flipT += (float)(world.rand.nextInt(4) - world.rand.nextInt(4));
 			}
 			while (f1 == this.flipT);
 		}
@@ -159,7 +159,7 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 					writer.add(true);
 					writer.add(stack);
 				}
-				AMNetHandler.INSTANCE.sendPacketToAllClientsNear(worldObj.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 32, AMPacketIDs.LECTERN_DATA, writer.generate());
+				AMNetHandler.INSTANCE.sendPacketToAllClientsNear(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 32, AMPacketIDs.LECTERN_DATA, writer.generate());
 			}
 			return true;
 		}

@@ -155,12 +155,12 @@ public class EntityThrownRock extends EntityLiving{
 		}
 
 		if (!getIsMoonstoneMeteor() && !getIsShootingStar()){
-			if (!worldObj.isRemote && (throwingEntity == null || throwingEntity.isDead)){
+			if (!world.isRemote && (throwingEntity == null || throwingEntity.isDead)){
 				setDead();
 			}else{
 				ticksExisted++;
 				int maxTicksToLive = maxTicksToExist > -1 ? maxTicksToExist : 100;
-				if (ticksExisted >= maxTicksToLive && !worldObj.isRemote){
+				if (ticksExisted >= maxTicksToLive && !world.isRemote){
 					setDead();
 					return;
 				}
@@ -173,9 +173,9 @@ public class EntityThrownRock extends EntityLiving{
 				motionY = -2f;
 		}
 
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			if (getIsMoonstoneMeteor()){
-				AMParticle fire = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "explosion_2", posX, posY, posZ);
+				AMParticle fire = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "explosion_2", posX, posY, posZ);
 				if (fire != null){
 					fire.setMaxAge(20);
 					fire.setRGBColorF(1, 1, 1);
@@ -185,10 +185,10 @@ public class EntityThrownRock extends EntityLiving{
 				}
 			}else if (getIsShootingStar()){
 
-				int color = getSpell().getColor(worldObj, throwingEntity, null);
+				int color = getSpell().getColor(world, throwingEntity, null);
 
 				for (float i = 0; i < Math.abs(motionY); i += 0.1f){
-					AMParticle star = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "ember", posX + motionX * i, posY + motionY * i, posZ + motionZ * i);
+					AMParticle star = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "ember", posX + motionX * i, posY + motionY * i, posZ + motionZ * i);
 					if (star != null){
 						star.setMaxAge(22);
 						float clrMod = Minecraft.getMinecraft().world.rand.nextFloat();
@@ -211,14 +211,14 @@ public class EntityThrownRock extends EntityLiving{
 
 		Vec3d vec3d = new Vec3d(posX, posY, posZ);
 		Vec3d vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-		RayTraceResult movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1);
+		RayTraceResult movingobjectposition = world.rayTraceBlocks(vec3d, vec3d1);
 		vec3d = new Vec3d(posX, posY, posZ);
 		vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 		if (movingobjectposition != null){
 			vec3d1 = new Vec3d(movingobjectposition.hitVec.x, movingobjectposition.hitVec.y, movingobjectposition.hitVec.z);
 		}
 		Entity entity = null;
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d = 0.0D;
 		for (int j = 0; j < list.size(); j++){
 			Entity entity1 = (Entity)list.get(j);
@@ -266,14 +266,14 @@ public class EntityThrownRock extends EntityLiving{
 	
 	
 	protected void HitObject(RayTraceResult movingobjectposition){
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			return;
 		}
 		
 		
 		if (getIsShootingStar()){
-			AMNetHandler.INSTANCE.sendStarImpactToClients(posX, posY + ((movingobjectposition.typeOfHit == RayTraceResult.Type.ENTITY) ? -movingobjectposition.entityHit.getEyeHeight() : 1.5f), posZ, worldObj, this.getSpell());
-			List<EntityLivingBase> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().expand(12, 5, 12));
+			AMNetHandler.INSTANCE.sendStarImpactToClients(posX, posY + ((movingobjectposition.typeOfHit == RayTraceResult.Type.ENTITY) ? -movingobjectposition.entityHit.getEyeHeight() : 1.5f), posZ, world, this.getSpell());
+			List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().expand(12, 5, 12));
 			this.posY++;
 			for (EntityLivingBase e : ents){
 				if (e == throwingEntity) continue;
@@ -298,11 +298,11 @@ public class EntityThrownRock extends EntityLiving{
 					int numOres = rand.nextInt(4) + 1;
 
 					for (int i = 0; i < numOres; ++i){
-						generateSurfaceOreAtOffset(worldObj, new BlockPos(target), i == 0);
+						generateSurfaceOreAtOffset(world, new BlockPos(target), i == 0);
 					}
 
 //					if (this.world.isRemote){
-//						for (Object player : worldObj.playerEntities)
+//						for (Object player : world.playerEntities)
 //							if (((EntityPlayer)player).getDistanceSqToEntity(this) < 4096)
 //								CompendiumUnlockHandler.unlockEntry("moonstone_meteors");
 //					}

@@ -565,7 +565,7 @@ public class ParticleManagerClient extends ParticleManagerServer{
 			return new ParticleArcToPoint(effect, 1, location.x, location.y, location.z, false).generateControlPoints().SetSpeed(0.02f * modifier);
 		case 5: //flee
 			//return new ParticleFleePoint(effect, location.add(new AMVector3(0.5, 0.5, 0.5)), 0.02f * modifier, 1.5f, 1, false);
-			return new ParticleMoveOnHeading(effect, effect.getWorldObj().rand.nextInt(360), 0, 0.02f * modifier, 1, false);
+			return new ParticleMoveOnHeading(effect, effect.getWorld().rand.nextInt(360), 0, 0.02f * modifier, 1, false);
 		case 6: //forward
 			if ((meta & ~0x8) == 3)
 				meta &= ~0x2;

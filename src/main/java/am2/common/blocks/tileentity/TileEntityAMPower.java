@@ -54,7 +54,7 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 					PowerNodeRegistry.For(this.world).insertPower(this, type, amtObtained);
 			}
 		}
-		//worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
+		//world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 3);
 	}
 
 	public int getRequestInterval() {
@@ -72,8 +72,8 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 	}
 
 	@Override
-	public void setWorldObj(World par1World) {
-		super.setWorldObj(par1World);
+	public void setWorld(World par1World) {
+		super.setWorld(par1World);
 		PowerNodeRegistry.For(this.world).registerPowerNode(this);
 	}
 

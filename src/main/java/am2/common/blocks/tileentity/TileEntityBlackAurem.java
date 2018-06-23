@@ -96,7 +96,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 
 	@Override
 	public void update(){
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			Iterator<EntityLivingBase> arcIterator = arcs.keySet().iterator();
 			ArrayList<Entity> toRemove = new ArrayList<Entity>();
 			while (arcIterator.hasNext()){
@@ -113,7 +113,7 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 			surroundingCheckTicks++;
 		}
 
-		if (worldObj.isRemote || ticksSinceLastEntityScan++ > 25){
+		if (world.isRemote || ticksSinceLastEntityScan++ > 25){
 			updateNearbyEntities();
 			ticksSinceLastEntityScan = 0;
 		}
@@ -152,13 +152,13 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 			double distanceVertical = this.pos.getY() - ent.posY;
 			if (distanceHorizontal < 1.3 * Math.max(1, Math.abs(distanceVertical / 2))){
 				if (distanceVertical < -1.5){
-					if (worldObj.isRemote && worldObj.rand.nextInt(10) < 3){
-						ArsMagica2.proxy.particleManager.BoltFromPointToPoint(worldObj, pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, ent.posX, ent.posY, ent.posZ, 4, 0x000000);
+					if (world.isRemote && world.rand.nextInt(10) < 3){
+						ArsMagica2.proxy.particleManager.BoltFromPointToPoint(world, pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, ent.posX, ent.posY, ent.posZ, 4, 0x000000);
 					}
 				}
 				if (distanceVertical < -2){
 					offsetY = 0;
-					if (!worldObj.isRemote){
+					if (!world.isRemote){
 						if (ent.attackEntityFrom(DamageSources.darkNexus, 4)){
 							if (ent.getHealth() <= 0){
 								ent.setDead();
@@ -170,9 +170,9 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 				}
 			}
 
-			if (worldObj.isRemote){
+			if (world.isRemote){
 				if (!arcs.containsKey(ent)){
-					AMLineArc arc = (AMLineArc)ArsMagica2.proxy.particleManager.spawn(worldObj, "textures/blocks/oreblocksunstone.png", pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, ent);
+					AMLineArc arc = (AMLineArc)ArsMagica2.proxy.particleManager.spawn(world, "textures/blocks/oreblocksunstone.png", pos.getX() + 0.5, pos.getY() + 1.3, pos.getZ() + 0.5, ent);
 					if (arc != null){
 						arc.setExtendToTarget();
 						arc.setRBGColorF(1, 1, 1);
@@ -180,14 +180,14 @@ public class TileEntityBlackAurem extends TileEntityObelisk {
 					arcs.put(ent, arc);
 				}
 			}
-			if (!worldObj.isRemote)
+			if (!world.isRemote)
 				ent.moveEntity(offsetX, offsetY, offsetZ);
 		}
 		if (surroundingCheckTicks % 100 == 0){
 			checkNearbyBlockState();
 			surroundingCheckTicks = 1;
-			if (!worldObj.isRemote && PowerNodeRegistry.For(this.world).checkPower(this, this.capacity * 0.1f)){
-				List<EntityPlayer> nearbyPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
+			if (!world.isRemote && PowerNodeRegistry.For(this.world).checkPower(this, this.capacity * 0.1f)){
+				List<EntityPlayer> nearbyPlayers = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.pos.add(-2, 0, -2), pos.add(2, 3, 2)));
 				for (EntityPlayer p : nearbyPlayers){
 					if (p.isPotionActive(PotionEffectsDefs.MANA_REGEN)) continue;
 					p.addPotionEffect(new BuffEffectManaRegen(600, 2));

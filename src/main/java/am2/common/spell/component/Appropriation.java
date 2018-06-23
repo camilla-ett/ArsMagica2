@@ -129,7 +129,7 @@ public class Appropriation extends SpellComponent{
 						if (te != null){
 							te.readFromNBT(storageCompound.getCompoundTag("tileEntity"));
 							te.setPos(pos);
-							te.setWorldObj(world);
+							te.setWorld(world);
 						}
 					}
 				}

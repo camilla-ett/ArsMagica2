@@ -56,7 +56,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 
 		updateRotations();
 
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			int eid = this.dataManager.get(DW_TARGET_ID);
 			int tid = -1;
 			if (this.getAttackTarget() != null){
@@ -189,7 +189,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 	@Override
 	public void setCurrentAction(BossActions action){
 		super.setCurrentAction(action);
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			AMNetHandler.INSTANCE.sendActionUpdateToAllAround(this);
 		}
 	}

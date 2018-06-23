@@ -101,7 +101,7 @@ public class TileEntityKeystoneDoor extends TileEntity implements IInventory, IK
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 

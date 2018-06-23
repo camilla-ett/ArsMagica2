@@ -161,7 +161,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		this.currentPlayerUsing = player;
 		if (!this.world.isRemote){
 			this.markDirty();
-			//worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
+			//world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 3);
 		}
 	}
 
@@ -199,7 +199,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		if (this.world.isRemote && this.getUpgradeState() >= 3)
 			this.candleUpdate();
 		this.markDirty();
-		//worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
+		//world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 3);
 	}
 
 	public int getUpgradeState(){
@@ -851,9 +851,9 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 			bookstack.getTagCompound().setBoolean("spellFinalized", true);
 
-			//worldObj.playSound(getPos().getX(), getPos().getY(), getPos().getZ(), "arsmagica2:misc.inscriptiontable.takebook", 1.0f, 1.0f, true);
+			//world.playSound(getPos().getX(), getPos().getY(), getPos().getZ(), "arsmagica2:misc.inscriptiontable.takebook", 1.0f, 1.0f, true);
 			this.markDirty();
-			//worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+			//world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 2);
 		}
 		return bookstack;
 	}

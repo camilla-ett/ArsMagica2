@@ -28,7 +28,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 	/**
 	 * Reference to the World object.
 	 */
-	World worldObj;
+	World world;
 	int[] basePos = new int[]{0, 0, 0};
 	int heightLimit;
 	int height;
@@ -160,7 +160,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 					if (l1 != Blocks.AIR && l1 != BlockDefs.witchwoodLeaves){
 						++k1;
 					}else{
-						worldObj.setBlockState(new BlockPos (aint1[0], aint1[1], aint1[2]), par6);
+						world.setBlockState(new BlockPos (aint1[0], aint1[1], aint1[2]), par6);
 						++k1;
 					}
 				}
@@ -254,7 +254,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 					}
 				}
 
-				worldObj.setBlockState(new BlockPos (aint3[0], aint3[1], aint3[2]), par3);
+				world.setBlockState(new BlockPos (aint3[0], aint3[1], aint3[2]), par3);
 			}
 		}
 	}
@@ -385,7 +385,7 @@ public class WitchwoodTreeHuge extends WorldGenAbstractTree{
 		int[] aint1 = new int[]{this.basePos[0], this.basePos[1] + this.heightLimit - 1, this.basePos[2]};
 		IBlockState soil = this.world.getBlockState(new BlockPos (this.basePos[0], this.basePos[1] - 1, this.basePos[2]));
 
-		boolean isValidSoil = (soil != null && soil.getBlock().canSustainPlant(soil, worldObj, new BlockPos (basePos[0], basePos[1] - 1, basePos[2]), EnumFacing.UP, (BlockSapling)Blocks.SAPLING));
+		boolean isValidSoil = (soil != null && soil.getBlock().canSustainPlant(soil, world, new BlockPos (basePos[0], basePos[1] - 1, basePos[2]), EnumFacing.UP, (BlockSapling)Blocks.SAPLING));
 		if (!isValidSoil){
 			return false;
 		}else{

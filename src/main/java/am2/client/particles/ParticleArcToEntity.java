@@ -43,8 +43,8 @@ public class ParticleArcToEntity extends ParticleController{
 				start.y + ((target.posY - start.y) / 3 * 2),
 				start.z + ((target.posZ - start.z) / 3 * 2));
 
-		double offsetX = (particle.getWorldObj().rand.nextFloat() * offsetFactor) - halfOffsetFactor;
-		double offsetZ = (particle.getWorldObj().rand.nextFloat() * offsetFactor) - halfOffsetFactor;
+		double offsetX = (particle.getWorld().rand.nextFloat() * offsetFactor) - halfOffsetFactor;
+		double offsetZ = (particle.getWorld().rand.nextFloat() * offsetFactor) - halfOffsetFactor;
 
 		Vec3d offset = new Vec3d(offsetX, 0, offsetZ);
 
@@ -60,7 +60,7 @@ public class ParticleArcToEntity extends ParticleController{
 	}
 
 	private void addParticleAtPoint(Vec3d point){
-		AMParticle p = (AMParticle)ArsMagica2.proxy.particleManager.spawn(particle.getWorldObj(), "smoke", point.x, point.y, point.z);
+		AMParticle p = (AMParticle)ArsMagica2.proxy.particleManager.spawn(particle.getWorld(), "smoke", point.x, point.y, point.z);
 		if (p != null){
 			p.setIgnoreMaxAge(false);
 			p.setMaxAge(200);

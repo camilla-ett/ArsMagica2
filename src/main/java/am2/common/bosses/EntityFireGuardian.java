@@ -80,7 +80,7 @@ public class EntityFireGuardian extends AM2Boss{
 			isUnderground = false;
 		}
 
-		if (!worldObj.isRemote){
+		if (!world.isRemote){
 			AMNetHandler.INSTANCE.sendActionUpdateToAllAround(this);
 		}
 	}
@@ -88,7 +88,7 @@ public class EntityFireGuardian extends AM2Boss{
 	private void nova(){
 		if (this.world.isRemote){
 			for (int i = 0; i < 36; ++i){
-				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "explosion_2", posX, posY - 3, posZ);
+				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "explosion_2", posX, posY - 3, posZ);
 				if (particle != null){
 					particle.AddParticleController(new ParticleMoveOnHeading(particle, i * 10, rand.nextInt(20) - 10, 0.2f, 1, false));
 					particle.AddParticleController(new ParticleLeaveParticleTrail(particle, "explosion_2", false, 10, 1, false)
@@ -101,7 +101,7 @@ public class EntityFireGuardian extends AM2Boss{
 				}
 			}
 		}else{
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2.5, 2.5, 2.5).addCoord(0, -3, 0));
+			List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2.5, 2.5, 2.5).addCoord(0, -3, 0));
 			for (EntityLivingBase ent : entities){
 				if (ent == this)
 					continue;
@@ -112,8 +112,8 @@ public class EntityFireGuardian extends AM2Boss{
 
 	private void flamethrower(){
 		Vec3d look = this.getLook(1.0f);
-		if (worldObj.isRemote){
-			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "explosion_2", posX + (Math.cos(Math.toRadians(this.renderYawOffset + 90)) * 2), posY + 3, posZ + (Math.sin(Math.toRadians(this.renderYawOffset + 90)) * 2));
+		if (world.isRemote){
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "explosion_2", posX + (Math.cos(Math.toRadians(this.renderYawOffset + 90)) * 2), posY + 3, posZ + (Math.sin(Math.toRadians(this.renderYawOffset + 90)) * 2));
 			if (particle != null){
 				particle.AddParticleController(new ParticleMoveOnHeading(particle, this.rotationYaw + 90 + rand.nextInt(20) - 10, rand.nextInt(20) - 10, 0.2f, 1, false));
 				particle.setMaxAge(40);
@@ -121,7 +121,7 @@ public class EntityFireGuardian extends AM2Boss{
 				particle.setIgnoreMaxAge(false);
 			}
 		}else{
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2.5, 2.5, 2.5).addCoord(look.x * 3, 0, look.z * 3));
+			List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(2.5, 2.5, 2.5).addCoord(look.x * 3, 0, look.z * 3));
 			for (EntityLivingBase ent : entities){
 				if (ent == this)
 					continue;
@@ -131,10 +131,10 @@ public class EntityFireGuardian extends AM2Boss{
 	}
 
 	private void doFlameShield(){
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			return;
 		}else{
-			for (Object p : worldObj.playerEntities){
+			for (Object p : world.playerEntities){
 				EntityPlayer player = (EntityPlayer)p;
 				if (this.getDistanceSqToEntity(player) < 9){
 					player.attackEntityFrom(DamageSources.causeFireDamage(this), 2);
@@ -181,7 +181,7 @@ public class EntityFireGuardian extends AM2Boss{
 		if (par1DamageSource.isFireDamage()){
 			this.heal(par2);
 			if (this.world.isRemote){
-				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "sparkle", posX, posY - 1, posZ);
+				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle", posX, posY - 1, posZ);
 				if (particle != null){
 					particle.addRandomOffset(1, 1, 1);
 					particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.1f, 1, false));

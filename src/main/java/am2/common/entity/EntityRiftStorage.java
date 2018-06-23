@@ -50,7 +50,7 @@ public class EntityRiftStorage extends EntityLiving {
 		}else if (this.scale < 0.99f){
 			this.scale = (float)(Math.sin((float)this.ticksExisted / 50));
 		}
-		//LogHelper.info(worldObj.isRemote);
+		//LogHelper.info(world.isRemote);
 
 		this.motionX = 0;
 		this.motionY = 0;
@@ -65,7 +65,7 @@ public class EntityRiftStorage extends EntityLiving {
 			return super.processInteract(player, hand, stack);
 		}
 		RiftStorage.For(player).setAccessLevel(getStorageLevel());
-		player.openGui(ArsMagica2.instance, IDDefs.GUI_RIFT, worldObj, (int)posX, (int)posY, (int)posZ);
+		player.openGui(ArsMagica2.instance, IDDefs.GUI_RIFT, world, (int)posX, (int)posY, (int)posZ);
 		return super.processInteract(player, hand, stack);
 	}
 	

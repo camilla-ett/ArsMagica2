@@ -201,7 +201,7 @@ public class EntityHecate extends EntityZombie{
 				yPos += 0.3;
 			}
 
-			AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke",
+			AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "smoke",
 					this.posX + ((rand.nextFloat() * 0.2) - 0.1f),
 					yPos,
 					this.posZ + ((rand.nextFloat() * 0.4) - 0.2f));
@@ -260,7 +260,7 @@ public class EntityHecate extends EntityZombie{
 
 	private int getAverageNearbyPlayerMagicLevel(){
 		if (this.world == null) return 0;
-		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(250, 250, 250));
+		List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(250, 250, 250));
 		if (players.size() == 0) return 0;
 		int avgLvl = 0;
 		for (EntityPlayer player : players){
@@ -271,7 +271,7 @@ public class EntityHecate extends EntityZombie{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), world, this))
 			return false;
 		if (getAverageNearbyPlayerMagicLevel() < 20){
 			return false;

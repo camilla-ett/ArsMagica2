@@ -103,19 +103,19 @@ public class EntityThrownSickle extends EntityLiving{
 		if (getThrowingEntity() != null && getThrowingEntity() instanceof EntityNatureGuardian){
 			((EntityNatureGuardian)getThrowingEntity()).hasSickle = true;
 		}else if (getThrowingEntity() != null && getThrowingEntity() instanceof EntityPlayer){
-			if (!worldObj.isRemote) {
+			if (!world.isRemote) {
                 ItemStack res = itemNBT == null ? ItemDefs.natureScytheEnchanted.copy() : itemNBT;
                 if (getThrowingEntity().getHealth() <= 0) {
                     PlayerTracker.storeSoulboundItemForRespawn((EntityPlayer) getThrowingEntity(), res);
                 } else {
                     if (!((EntityPlayer) getThrowingEntity()).inventory.addItemStackToInventory(res)) {
-                        EntityItem item = new EntityItem(worldObj);
+                        EntityItem item = new EntityItem(world);
                         item.setPosition(posX, posY, posZ);
                         if (itemNBT != null)
                             item.setEntityItemStack(res);
                         else
                             item.setEntityItemStack(res);
-                        worldObj.spawnEntityInWorld(item);
+                        world.spawnEntityInWorld(item);
                     }
                 }
             }
@@ -125,12 +125,12 @@ public class EntityThrownSickle extends EntityLiving{
 
 	@Override
 	public void onUpdate(){
-		if (!worldObj.isRemote && (getThrowingEntity() == null || getThrowingEntity().isDead)){
+		if (!world.isRemote && (getThrowingEntity() == null || getThrowingEntity().isDead)){
 			setDead();
 			return;
 		}else{
 			ticksExisted++;
-			if (ticksExisted >= maxTicksToExist && !worldObj.isRemote){
+			if (ticksExisted >= maxTicksToExist && !world.isRemote){
 				setDead();
 				return;
 			}
@@ -141,14 +141,14 @@ public class EntityThrownSickle extends EntityLiving{
 		
 		Vec3d vec3d = new Vec3d(posX, posY, posZ);
 		Vec3d vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-		RayTraceResult movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1);
+		RayTraceResult movingobjectposition = world.rayTraceBlocks(vec3d, vec3d1);
 		vec3d = new Vec3d(posX, posY, posZ);
 		vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 		if (movingobjectposition != null){
 			vec3d1 = new Vec3d(movingobjectposition.hitVec.x, movingobjectposition.hitVec.y, movingobjectposition.hitVec.z);
 		}
 		Entity entity = null;
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d = 0.0D;
 		for (int j = 0; j < list.size(); j++){
 			Entity entity1 = list.get(j);
@@ -195,7 +195,7 @@ public class EntityThrownSickle extends EntityLiving{
 		if (isInWater()){
 			for (int k = 0; k < 4; k++){
 				float f3 = 0.25F;
-				worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * f3, posY - motionY * f3, posZ - motionZ * f3, motionX, motionY, motionZ);
+				world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * f3, posY - motionY * f3, posZ - motionZ * f3, motionX, motionY, motionZ);
 			}
 		}
 
@@ -217,7 +217,7 @@ public class EntityThrownSickle extends EntityLiving{
 			this.motionZ = -Math.sin(angle) * speed;
 			this.motionY = Math.sin(pitchRotation) * speed;
 
-			if (this.getDistanceSqToEntity(getThrowingEntity()) < 1.2 && !worldObj.isRemote){
+			if (this.getDistanceSqToEntity(getThrowingEntity()) < 1.2 && !world.isRemote){
 				this.setDead();
 			}
 		}
@@ -242,12 +242,12 @@ public class EntityThrownSickle extends EntityLiving{
 			for (int i = -radius; i <= radius; ++i){
 				for (int j = -radius; j <= radius; ++j){
 					for (int k = -radius; k <= radius; ++k){
-						IBlockState nextBlock = worldObj.getBlockState(movingobjectposition.getBlockPos().add(i, j, k));
+						IBlockState nextBlock = world.getBlockState(movingobjectposition.getBlockPos().add(i, j, k));
 						if (nextBlock == null) continue;
 						if (nextBlock.getBlock() instanceof BlockLeaves || nextBlock.getBlock() instanceof BlockBush || nextBlock.getBlock() instanceof BlockCrops){
 							if (ForgeEventFactory.doPlayerHarvestCheck(DummyEntityPlayer.fromEntityLiving(getThrowingEntity()), nextBlock, true))
-								if (!worldObj.isRemote)
-									worldObj.destroyBlock(movingobjectposition.getBlockPos().add(i, j, k), true);
+								if (!world.isRemote)
+									world.destroyBlock(movingobjectposition.getBlockPos().add(i, j, k), true);
 						}
 					}
 				}

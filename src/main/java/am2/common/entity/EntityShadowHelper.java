@@ -53,16 +53,16 @@ public class EntityShadowHelper extends EntityLiving{
 	@Override
 	public void onDeath(DamageSource par1DamageSource){
 		super.onDeath(par1DamageSource);
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			spawnParticles();
-			worldObj.playSound(posX, posY, posZ, AMSounds.CRAFTING_ALTAR_CREATE_SPELL, SoundCategory.NEUTRAL, 1.0f, 1.0f, true);
+			world.playSound(posX, posY, posZ, AMSounds.CRAFTING_ALTAR_CREATE_SPELL, SoundCategory.NEUTRAL, 1.0f, 1.0f, true);
 		}
 	}
 
 	private void spawnParticles(){
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			for (int i = 0; i < 25 * ArsMagica2.config.getGFXLevel() + 1; ++i){
-				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "arcane", posX, posY, posZ);
+				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "arcane", posX, posY, posZ);
 				if (particle != null){
 					particle.addRandomOffset(1, 1, 1);
 					particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.02f + getRNG().nextFloat() * 0.2f, 1, false));
@@ -166,7 +166,7 @@ public class EntityShadowHelper extends EntityLiving{
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
-		if (worldObj != null && worldObj.isRemote && skinHelper == null) {
+		if (world != null && world.isRemote && skinHelper == null) {
 			this.skinHelper = new ShadowSkinHelper();
 			spawnParticles();
 		}
@@ -177,7 +177,7 @@ public class EntityShadowHelper extends EntityLiving{
 				this.skinHelper.setupCustomSkin(lastDWString);
 			}
 		}
-		if (!worldObj.isRemote && (altarTarget == null || !altarTarget.isCrafting())){
+		if (!world.isRemote && (altarTarget == null || !altarTarget.isCrafting())){
 			this.unSummon();
 		}
 	}

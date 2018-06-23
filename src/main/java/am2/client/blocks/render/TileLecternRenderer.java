@@ -36,7 +36,7 @@ public class TileLecternRenderer extends TileEntitySpecialRenderer<TileEntityLec
 		Minecraft.getMinecraft().mcProfiler.startSection("model");
 		RenderHelper.disableStandardItemLighting();
 		EnumFacing facing = EnumFacing.NORTH;
-		if (podium.hasWorldObj()) {
+		if (podium.hasWorld()) {
 			facing = podium.getWorld().getBlockState(podium.getPos()).getValue(BlockLectern.FACING);
 		}
 		Minecraft.getMinecraft().mcProfiler.startSection("rendering");
@@ -180,7 +180,7 @@ public class TileLecternRenderer extends TileEntitySpecialRenderer<TileEntityLec
 
 //		float var11 = podium.bookRotationPrev + f2 * partialTicks;
 		EnumFacing facing = EnumFacing.NORTH;
-		if (podium.hasWorldObj())
+		if (podium.hasWorld())
 			facing = podium.getWorld().getBlockState(podium.getPos()).getValue(BlockLectern.FACING);
 		GlStateManager.rotate(270 - facing.getHorizontalAngle(), 0, 1, 0);
 //		if (facing == EnumFacing.EAST || facing == EnumFacing.SOUTH)

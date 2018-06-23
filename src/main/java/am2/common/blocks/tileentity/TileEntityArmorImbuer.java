@@ -130,7 +130,7 @@ public class TileEntityArmorImbuer extends TileEntityAMPower implements IInvento
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 

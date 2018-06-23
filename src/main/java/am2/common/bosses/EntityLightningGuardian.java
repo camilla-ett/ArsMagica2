@@ -79,13 +79,13 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 			}
 		}
 
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			int halfDist = 8;
 			int dist = 16;
 			if (this.getCurrentAction() == BossActions.CHARGE){
 				if (ticksInCurrentAction > 50){
 					for (int i = 0; i < 2 * ArsMagica2.config.getGFXLevel(); ++i){
-						AMParticle smoke = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke", posX, posY + 4, posZ);
+						AMParticle smoke = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "smoke", posX, posY + 4, posZ);
 						if (smoke != null){
 							smoke.addRandomOffset(halfDist, 1, halfDist);
 							smoke.SetParticleAlpha(1f);
@@ -98,7 +98,7 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 				}
 				if (ticksInCurrentAction > 66){
 					ArsMagica2.proxy.particleManager.BoltFromPointToPoint(
-							worldObj,
+							world,
 							posX + rand.nextDouble() - 0.5,
 							posY + rand.nextDouble() - 0.5 + 2,
 							posZ + rand.nextDouble() - 0.5,
@@ -109,7 +109,7 @@ public class EntityLightningGuardian extends AM2Boss implements IAnimatedEntity{
 			}else if (this.getCurrentAction() == BossActions.LONG_CASTING){
 				if (ticksInCurrentAction > 25 && ticksInCurrentAction < 150){
 					for (int i = 0; i < 2 * ArsMagica2.config.getGFXLevel(); ++i){
-						AMParticle smoke = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "smoke", posX, posY + 4, posZ);
+						AMParticle smoke = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "smoke", posX, posY + 4, posZ);
 						if (smoke != null){
 							smoke.addRandomOffset(halfDist, 1, halfDist);
 							smoke.SetParticleAlpha(1f);

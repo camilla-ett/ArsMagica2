@@ -66,7 +66,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 				setLidAngle(0f);
 			}
 		}
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
+		world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 3);
 	}
 
 	@Override
@@ -153,7 +153,7 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 

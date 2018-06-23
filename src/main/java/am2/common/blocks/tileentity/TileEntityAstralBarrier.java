@@ -51,7 +51,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	}
 
 	public boolean IsActive(){
-		return PowerNodeRegistry.For(this.world).checkPower(this, 0.35f * getRadius()) && worldObj.isBlockIndirectlyGettingPowered(pos) > 0 && getRadius() > 0;
+		return PowerNodeRegistry.For(this.world).checkPower(this, 0.35f * getRadius()) && world.isBlockIndirectlyGettingPowered(pos) > 0 && getRadius() > 0;
 	}
 
 	@Override
@@ -68,8 +68,8 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	}
 	
 	@Override
-	public void setWorldObj(World par1World) {
-		super.setWorldObj(par1World);
+	public void setWorld(World par1World) {
+		super.setWorld(par1World);
 		DimensionUtilities.registerAstralBarrier(this);
 	}
 	
@@ -86,13 +86,13 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 		int radius = getRadius();
 
 		if (IsActive()){
-			PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(worldObj).getHighestPowerType(this), 0.35f * radius);
+			PowerNodeRegistry.For(this.world).consumePower(this, PowerNodeRegistry.For(world).getHighestPowerType(this), 0.35f * radius);
 		}
 
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			if (IsActive()){
 				if (displayAura){
-					AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "symbols", pos.getX(), pos.getY() + 0.5, pos.getZ());
+					AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "symbols", pos.getX(), pos.getY() + 0.5, pos.getZ());
 					if (effect != null){
 						effect.setIgnoreMaxAge(false);
 						effect.setMaxAge(100);
@@ -107,12 +107,12 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 
 					particleTickCounter = 0;
 
-					AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "sparkle", pos.getX() + 0.5, pos.getY() + 0.1 + worldObj.rand.nextDouble() * 0.5, pos.getZ() + 0.5);
+					AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle", pos.getX() + 0.5, pos.getY() + 0.1 + world.rand.nextDouble() * 0.5, pos.getZ() + 0.5);
 					if (effect != null){
 						effect.setIgnoreMaxAge(false);
 						effect.setMaxAge(100);
 						effect.setParticleScale(0.5f);
-						effect.AddParticleController(new ParticleOrbitPoint(effect, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, false).SetOrbitSpeed(0.005).SetTargetDistance(worldObj.rand.nextDouble() * 0.6 - 0.3));
+						effect.AddParticleController(new ParticleOrbitPoint(effect, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, false).SetOrbitSpeed(0.005).SetTargetDistance(world.rand.nextDouble() * 0.6 - 0.3));
 						effect.AddParticleController(new ParticleHoldPosition(effect, 80, 2, true));
 						effect.AddParticleController(new ParticleFadeOut(effect, 3, false).setFadeSpeed(0.05f));
 					}
@@ -123,9 +123,9 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 
 	public void onEntityBlocked(EntityLivingBase entity){
 		if (this.world.isRemote){
-			if (PowerNodeRegistry.For(worldObj).checkPower(this, PowerTypes.DARK, 50)){
+			if (PowerNodeRegistry.For(world).checkPower(this, PowerTypes.DARK, 50)){
 				entity.attackEntityFrom(DamageSource.magic, 5);
-				PowerNodeRegistry.For(worldObj).consumePower(this, PowerTypes.DARK, 50);
+				PowerNodeRegistry.For(world).consumePower(this, PowerTypes.DARK, 50);
 			}
 		}
 	}
@@ -191,7 +191,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSqToCenter(pos) <= 64D;

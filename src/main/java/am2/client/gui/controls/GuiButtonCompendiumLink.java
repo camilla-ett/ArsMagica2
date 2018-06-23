@@ -72,11 +72,11 @@ public class GuiButtonCompendiumLink extends GuiButton{
 				textColor = 0x6600FF;
 			}
 
-			fontRenderer.drawString(this.displayString, xPosition, yPosition, textColor);
+			fontRenderer.drawString(this.displayString, this.x, this.y, textColor);
 			//GL11.glDisable(GL11.GL_LIGHTING);
 			if (isNewItem){
 				GL11.glColor4f(1, 1, 1, 1);
-				AMGuiHelper.DrawIconAtXY(AMGuiIcons.newEntry, xPosition - 6, yPosition + 2, this.zLevel, 5, 5, true);
+				AMGuiHelper.DrawIconAtXY(AMGuiIcons.newEntry, this.x - 6, this.y + 2, this.zLevel, 5, 5, true);
 			}
 			//GL11.glEnable(GL11.GL_LIGHTING);
 		}

@@ -40,9 +40,9 @@ public class ParticleArcToPoint extends ParticleController{
 				start.y + ((target.y - start.y) / 3 * 2),
 				start.z + ((target.z - start.z) / 3 * 2));
 
-		double offsetX = (particle.getWorldObj().rand.nextFloat() * offsetFactor) - halfOffsetFactor;
-		double offsetZ = (particle.getWorldObj().rand.nextFloat() * offsetFactor) - halfOffsetFactor;
-		double offsetY = (particle.getWorldObj().rand.nextFloat() * offsetFactor) - halfOffsetFactor;
+		double offsetX = (particle.getWorld().rand.nextFloat() * offsetFactor) - halfOffsetFactor;
+		double offsetZ = (particle.getWorld().rand.nextFloat() * offsetFactor) - halfOffsetFactor;
+		double offsetY = (particle.getWorld().rand.nextFloat() * offsetFactor) - halfOffsetFactor;
 
 		Vec3d offset = new Vec3d(offsetX, offsetY, offsetZ);
 

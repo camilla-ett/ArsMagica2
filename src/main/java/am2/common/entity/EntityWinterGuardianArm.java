@@ -94,16 +94,16 @@ public class EntityWinterGuardianArm extends EntityLiving{
 					PlayerTracker.storeSoulboundItemForRespawn((EntityPlayer)getThrowingEntity(), ItemDefs.winterArmEnchanted.copy());
 				}else{
 					if (!((EntityPlayer)getThrowingEntity()).inventory.addItemStackToInventory(ItemDefs.winterArmEnchanted.copy())){
-						EntityItem item = new EntityItem(worldObj);
+						EntityItem item = new EntityItem(world);
 						item.setPosition(posX, posY, posZ);
 						item.setEntityItemStack(ItemDefs.winterArmEnchanted.copy());
-						worldObj.spawnEntityInWorld(item);
+						world.spawnEntityInWorld(item);
 					}
 				}
 			}
 		}
 		if (entityHit != null){
-			Entity entityhit = worldObj.getEntityByID(this.entityHit);
+			Entity entityhit = world.getEntityByID(this.entityHit);
 			if (entityhit != null){
 				entityhit.motionX = 0;
 				entityhit.motionY = 0;
@@ -115,12 +115,12 @@ public class EntityWinterGuardianArm extends EntityLiving{
 
 	@Override
 	public void onUpdate(){
-		if (!worldObj.isRemote && (getThrowingEntity() == null || getThrowingEntity().isDead)){
+		if (!world.isRemote && (getThrowingEntity() == null || getThrowingEntity().isDead)){
 			setDead();
 			return;
 		}else{
 			ticksExisted++;
-			if (ticksExisted >= maxTicksToExist && !worldObj.isRemote){
+			if (ticksExisted >= maxTicksToExist && !world.isRemote){
 				setDead();
 				return;
 			}
@@ -133,14 +133,14 @@ public class EntityWinterGuardianArm extends EntityLiving{
 
 		Vec3d vec3d = new Vec3d(posX, posY, posZ);
 		Vec3d vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-		RayTraceResult movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1);
+		RayTraceResult movingobjectposition = world.rayTraceBlocks(vec3d, vec3d1);
 		vec3d = new Vec3d(posX, posY, posZ);
 		vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 		if (movingobjectposition != null){
 			vec3d1 = new Vec3d(movingobjectposition.hitVec.x, movingobjectposition.hitVec.y, movingobjectposition.hitVec.z);
 		}
 		Entity entity = null;
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 		double d = 0.0D;
 		for (int j = 0; j < list.size(); j++){
 			Entity entity1 = (Entity)list.get(j);
@@ -185,11 +185,11 @@ public class EntityWinterGuardianArm extends EntityLiving{
 		if (isInWater()){
 			for (int k = 0; k < 4; k++){
 				float f3 = 0.25F;
-				worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * f3, posY - motionY * f3, posZ - motionZ * f3, motionX, motionY, motionZ);
+				world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * f3, posY - motionY * f3, posZ - motionZ * f3, motionX, motionY, motionZ);
 			}
 		}else{
 			for (int i = 0; i < 2; ++i){
-				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "ember", posX + rand.nextFloat() * 0.2 - 0.1, posY + 1.2, posZ + rand.nextFloat() * 0.2 - 0.1);
+				AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "ember", posX + rand.nextFloat() * 0.2 - 0.1, posY + 1.2, posZ + rand.nextFloat() * 0.2 - 0.1);
 				if (particle != null){
 					particle.setIgnoreMaxAge(false);
 					particle.setMaxAge(15);
@@ -222,7 +222,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 			this.motionY = Math.sin(pitchRotation) * speed;
 
 			if (this.entityHit != null){
-				Entity entityhit = worldObj.getEntityByID(this.entityHit);
+				Entity entityhit = world.getEntityByID(this.entityHit);
 				if (entityhit != null){
 					entityhit.posX = this.posX;
 					entityhit.posY = this.posY - entityhit.height / 2 + 1.2;
@@ -240,7 +240,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 				}
 			}
 
-			if (this.getDistanceSqToEntity(getThrowingEntity()) < 9 && !worldObj.isRemote){
+			if (this.getDistanceSqToEntity(getThrowingEntity()) < 9 && !world.isRemote){
 				this.setDead();
 			}
 		}

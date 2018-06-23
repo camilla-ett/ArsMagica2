@@ -88,7 +88,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 
 	@Override
 	public float particleOffset(int axis){
-		EnumFacing meta = worldObj.getBlockState(pos).getValue(BlockSeerStone.FACING);
+		EnumFacing meta = world.getBlockState(pos).getValue(BlockSeerStone.FACING);
 
 		if (axis == 0){
 			switch (meta){
@@ -133,7 +133,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	private SpriteRenderInfo GetWeightedRandomAnimation(){
 		currentAnimation.reset(false);
 
-		int randomNumber = worldObj.rand.nextInt(100);
+		int randomNumber = world.rand.nextInt(100);
 		int index = 0;
 
 		SpriteRenderInfo current = animations.get(0);
@@ -173,11 +173,11 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 	public void update(){
 		super.update();
 
-		if (!worldObj.isRemote && isActive()){
+		if (!world.isRemote && isActive()){
 			if (hasSight)
-				PowerNodeRegistry.For(worldObj).consumePower(this, PowerTypes.LIGHT, 0.25f);
+				PowerNodeRegistry.For(world).consumePower(this, PowerTypes.LIGHT, 0.25f);
 			else
-				PowerNodeRegistry.For(worldObj).consumePower(this, PowerTypes.LIGHT, 0.125f);
+				PowerNodeRegistry.For(world).consumePower(this, PowerTypes.LIGHT, 0.125f);
 		}
 
 		ticksToNextCheck--;
@@ -219,7 +219,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 					hasSight = true;
 					notifyNeighborsOfPowerChange();
 
-					if (worldObj.isRemote){
+					if (world.isRemote){
 						currentAnimation.reset(false);
 						currentAnimation = animations.get(0);
 						currentAnimation.reset(true);
@@ -230,7 +230,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 					hasSight = false;
 					notifyNeighborsOfPowerChange();
 
-					if (worldObj.isRemote){
+					if (world.isRemote){
 						currentAnimation.reset(false);
 						currentAnimation = animations.get(0);
 						currentAnimation.reset(false);
@@ -242,7 +242,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 				hasSight = false;
 				notifyNeighborsOfPowerChange();
 
-				if (worldObj.isRemote){
+				if (world.isRemote){
 					currentAnimation.reset(false);
 					currentAnimation = animations.get(0);
 					currentAnimation.reset(false);
@@ -251,7 +251,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 		}
 
 		//animations
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			if (!currentAnimation.isDone){
 				tickCounter++;
 				if (tickCounter == currentAnimation.speed){
@@ -266,7 +266,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 
 			if (isActive() && hasSight){
 
-				EnumFacing meta = worldObj.getBlockState(pos).getValue(BlockSeerStone.FACING);
+				EnumFacing meta = world.getBlockState(pos).getValue(BlockSeerStone.FACING);
 
 				double yaw = 0;
 				double y = pos.getX() + 0.5;
@@ -298,7 +298,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 					break;
 				}
 
-				AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "sparkle2", x, y, z);
+				AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle2", x, y, z);
 				if (effect != null){
 					effect.setIgnoreMaxAge(false);
 					effect.setMaxAge(35);
@@ -322,9 +322,9 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 
 	private void notifyNeighborsOfPowerChange(){
 		this.world.notifyBlockOfStateChange(pos, BlockDefs.seerStone);
-		BlockPos otherPos = pos.offset(worldObj.getBlockState(pos).getValue(BlockSeerStone.FACING));
+		BlockPos otherPos = pos.offset(world.getBlockState(pos).getValue(BlockSeerStone.FACING));
 		this.world.notifyBlockOfStateChange(otherPos, BlockDefs.seerStone);
-		this.world.markAndNotifyBlock(otherPos, worldObj.getChunkFromBlockCoords(otherPos), worldObj.getBlockState(otherPos), worldObj.getBlockState(otherPos), 3);
+		this.world.markAndNotifyBlock(otherPos, world.getChunkFromBlockCoords(otherPos), world.getBlockState(otherPos), world.getBlockState(otherPos), 3);
 	}
 
 	public boolean ShouldAnimate(){
@@ -440,7 +440,7 @@ public class TileEntitySeerStone extends TileEntityAMPower implements IInventory
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSqToCenter(pos) <= 64D;

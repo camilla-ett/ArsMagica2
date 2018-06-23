@@ -60,7 +60,7 @@ public class EntityWaterElemental extends EntityMob{
 	private void spawnLivingParticles(){
 		if (rand.nextBoolean()){
 			double yPos = this.posY + 1.1;
-			AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "water_ball",
+			AMParticle effect = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "water_ball",
 					this.posX + ((rand.nextFloat() * 0.2) - 0.1f),
 					yPos,
 					this.posZ + ((rand.nextFloat() * 0.4) - 0.2f));
@@ -84,7 +84,7 @@ public class EntityWaterElemental extends EntityMob{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), world, this))
 			return false;
 		return super.getCanSpawnHere();
 	}

@@ -33,11 +33,11 @@ public class EntityAirSled extends EntityLiving{
 	public void onUpdate(){
 		this.stepHeight = 1.02f;
 
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			rotation += 1f;
 			if (this.world.isAirBlock(getPosition().down())){
 				for (int i = 0; i < ArsMagica2.config.getGFXLevel(); ++i){
-					AMParticle cloud = (AMParticle)ArsMagica2.proxy.particleManager.spawn(worldObj, "sparkle2", posX, posY + 0.5, posZ);
+					AMParticle cloud = (AMParticle)ArsMagica2.proxy.particleManager.spawn(world, "sparkle2", posX, posY + 0.5, posZ);
 					if (cloud != null){
 						cloud.addRandomOffset(1, 1, 1);
 						cloud.AddParticleController(new ParticleFadeOut(cloud, 1, false).setFadeSpeed(0.01f));
@@ -66,10 +66,10 @@ public class EntityAirSled extends EntityLiving{
 			if (!this.world.isRemote){
 				if (player.isSneaking()){
 					this.setDead();
-					EntityItem item = new EntityItem(worldObj);
+					EntityItem item = new EntityItem(world);
 					item.setPosition(posX, posY, posZ);
 					item.setEntityItemStack(ItemDefs.airSledEnchanted.copy());
-					worldObj.spawnEntityInWorld(item);
+					world.spawnEntityInWorld(item);
 				}else{
 					player.startRiding(this);
 				}

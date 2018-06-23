@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class EntityAISummonFollowOwner extends EntityAIBase{
 	private EntityCreature theSummon;
 	private EntityLivingBase theOwner;
-	World theWorld;
+	World world;
 	private double moveSpeed;
 	private PathNavigate petPathfinder;
 	private int field_75343_h;

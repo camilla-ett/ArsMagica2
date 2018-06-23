@@ -69,12 +69,12 @@ public class EntityManaCreeper extends EntityCreeper{
 	}
 
 	private void createManaVortex(){
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			return;
 		}
-		EntityManaVortex vortex = new EntityManaVortex(worldObj);
+		EntityManaVortex vortex = new EntityManaVortex(world);
 		vortex.setPosition(this.posX, this.posY + 1, this.posZ);
-		worldObj.spawnEntityInWorld(vortex);
+		world.spawnEntityInWorld(vortex);
 	}
 	
 	@Override
@@ -84,7 +84,7 @@ public class EntityManaCreeper extends EntityCreeper{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), world, this))
 			return false;
 		return super.getCanSpawnHere();
 	}

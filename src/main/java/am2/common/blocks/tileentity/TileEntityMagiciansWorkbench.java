@@ -128,8 +128,8 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements ITickabl
 		else
 			upgradeState &= ~flag;
 
-		if (!worldObj.isRemote)
-			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+		if (!world.isRemote)
+			world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 2);
 	}
 
 	public void rememberRecipe(ItemStack output, ItemStack[] recipeItems, boolean is2x2){
@@ -147,7 +147,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements ITickabl
 
 		rememberedRecipes.add(new RememberedRecipe(output, recipeItems, is2x2));
 
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+		world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos), 2);
 	}
 
 	private boolean popRecipe(){
@@ -237,7 +237,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements ITickabl
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer){
-		if (worldObj.getTileEntity(pos) != this){
+		if (world.getTileEntity(pos) != this){
 			return false;
 		}
 		return entityplayer.getDistanceSqToCenter(pos) <= 64D;
@@ -293,7 +293,7 @@ public class TileEntityMagiciansWorkbench extends TileEntity implements ITickabl
 		if (index >= 0 && index < rememberedRecipes.size())
 			rememberedRecipes.get(index).isLocked = locked;
 
-		if (worldObj.isRemote){
+		if (world.isRemote){
 			AMDataWriter writer = new AMDataWriter();
 			writer.add(pos.getX());
 			writer.add(pos.getY());

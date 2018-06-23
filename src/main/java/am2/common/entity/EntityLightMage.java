@@ -136,7 +136,7 @@ public class EntityLightMage extends EntityCreature{
 
 	private int getAverageNearbyPlayerMagicLevel(){
 		if (this.world == null) return 0;
-		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(250, 250, 250));
+		List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(250, 250, 250));
 		if (players.size() == 0) return 0;
 		int avgLvl = 0;
 		for (EntityPlayer player : players){
@@ -147,7 +147,7 @@ public class EntityLightMage extends EntityCreature{
 
 	@Override
 	public boolean getCanSpawnHere(){
-		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), worldObj, this))
+		if (!SpawnBlacklists.entityCanSpawnHere(this.getPosition(), world, this))
 			return false;
 		if (getAverageNearbyPlayerMagicLevel() < 8){
 			return false;
@@ -216,7 +216,7 @@ public class EntityLightMage extends EntityCreature{
 	}
 	@Override
 	public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand){
-		if (worldObj.isRemote)
+		if (world.isRemote)
 			return EnumActionResult.PASS;
 
 		if (stack != null && stack.getItem() instanceof ItemNameTag)
