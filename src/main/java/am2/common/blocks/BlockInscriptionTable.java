@@ -153,14 +153,14 @@ public class BlockInscriptionTable extends BlockAMSpecialRenderContainer{
 		float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 		float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 		do{
-			if (itemstack.stackSize <= 0){
+			if (itemstack.getCount() <= 0){
 				break;
 			}
 			int i1 = world.rand.nextInt(21) + 10;
-			if (i1 > itemstack.stackSize){
-				i1 = itemstack.stackSize;
+			if (i1 > itemstack.getCount()){
+				i1 = itemstack.getCount();
 			}
-			itemstack.stackSize -= i1;
+			itemstack.getCount() -= i1;
 			ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 			EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);
 			float f3 = 0.05F;

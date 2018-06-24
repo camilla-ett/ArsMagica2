@@ -49,7 +49,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 		}else{
 			AffinityData.For(par3EntityPlayer).incrementAffinity(GameRegistry.findRegistry(Affinity.class).getObjectById(par1ItemStack.getItemDamage()), 20);
 		}
-		par1ItemStack.stackSize--;
+		par1ItemStack.setCount(par1ItemStack.getCount()-1);
 
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, par1ItemStack);
 	}

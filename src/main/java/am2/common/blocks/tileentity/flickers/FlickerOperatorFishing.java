@@ -84,7 +84,7 @@ public class FlickerOperatorFishing extends AbstractFlickerFunctionality{
 					TileEntity te = world.getTileEntity(pos.add(i, j, k));
 					if (te != null && te instanceof IInventory){
 						for (EnumFacing facing : EnumFacing.values()){
-							if (InventoryUtilities.mergeIntoInventory((IInventory)te, stack, stack.stackSize, facing))
+							if (InventoryUtilities.mergeIntoInventory((IInventory)te, stack, stack.getCount(), facing))
 								return;
 						}
 					}

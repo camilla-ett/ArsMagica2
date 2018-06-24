@@ -71,8 +71,8 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 					for (int i = 0; i < inventory.getSizeInventory(); i++) {
 						ItemStack is = inventory.getStackInSlot(i);
 						if (is == null || is.getItem() != ItemDefs.flickerJar || is.getItemDamage() != GameRegistry.findRegistry(Affinity.class).getKey(Affinity.NONE)) continue;
-						is.stackSize--;
-						if (is.stackSize <= 0)
+						is.setCount(is.getCount()-1);
+						if (is.getCount() <= 0)
 							is = null;
 						inventory.setInventorySlotContents(i, is);
 						jar = new ItemStack(ItemDefs.flickerJar, 1, 0);
@@ -86,8 +86,8 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 							if (is == null) {
 								inventory.setInventorySlotContents(i, jar);
 								placed = true;
-							} else if (is.isItemEqual(jar) && is.stackSize < 64) {
-								is.stackSize++;
+							} else if (is.isItemEqual(jar) && is.getCount() < 64) {
+								is.setCount(is.getCount()-1);
 								placed = true;
 							}
 							if (placed) break;

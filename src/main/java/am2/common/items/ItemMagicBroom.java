@@ -31,9 +31,9 @@ public class ItemMagicBroom extends ItemArsMagica{
 					broom.setChestLocation(new AMVector3(mop.getBlockPos()));
 					world.spawnEntity(broom);
 
-					stack.stackSize--;
+					stack.setCount(stack.getCount()-1);
 
-					if (stack.stackSize == 0){
+					if (stack.getCount() == 0){
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 					}
 					return EnumActionResult.SUCCESS;

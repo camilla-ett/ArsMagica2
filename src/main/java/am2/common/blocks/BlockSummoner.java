@@ -96,14 +96,14 @@ public class BlockSummoner extends BlockAMPowered{
 			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 			do{
-				if (itemstack.stackSize <= 0){
+				if (itemstack.getCount() <= 0){
 					break;
 				}
 				int i1 = world.rand.nextInt(21) + 10;
-				if (i1 > itemstack.stackSize){
-					i1 = itemstack.stackSize;
+				if (i1 > itemstack.getCount()){
+					i1 = itemstack.getCount();
 				}
-				itemstack.stackSize -= i1;
+				itemstack.getCount() -= i1;
 				ItemStack newStack = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 				if (itemstack.hasTagCompound()){
 					newStack.setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());

@@ -155,8 +155,8 @@ public class ContainerKeystone extends Container{
 
 							runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
 							runeSlot.onSlotChanged();
-							itemstack1.stackSize--;
-							if (itemstack1.stackSize == 0){
+							itemstack1.setCount(itemstack1.getCount()-1);
+							if (itemstack1.getCount() == 0){
 								slot.putStack(null);
 								slot.onSlotChanged();
 							}
@@ -169,8 +169,8 @@ public class ContainerKeystone extends Container{
 
 							runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
 							runeSlot.onSlotChanged();
-							itemstack1.stackSize--;
-							if (itemstack1.stackSize == 0){
+							itemstack1.setCount(itemstack1.getCount()-1);
+							if (itemstack1.getCount() == 0){
 								slot.putStack(null);
 								slot.onSlotChanged();
 							}
@@ -190,8 +190,8 @@ public class ContainerKeystone extends Container{
 
 						runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
 						runeSlot.onSlotChanged();
-						itemstack1.stackSize--;
-						if (itemstack1.stackSize == 0){
+						itemstack1.setCount(itemstack1.getCount()-1);
+						if (itemstack1.getCount() == 0){
 							slot.putStack(null);
 							slot.onSlotChanged();
 						}
@@ -210,8 +210,8 @@ public class ContainerKeystone extends Container{
 
 						runeSlot.putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getItemDamage()));
 						runeSlot.onSlotChanged();
-						itemstack1.stackSize--;
-						if (itemstack1.stackSize == 0){
+						itemstack1.setCount(itemstack1.getCount()-1);
+						if (itemstack1.getCount() == 0){
 							slot.putStack(null);
 							slot.onSlotChanged();
 						}
@@ -224,12 +224,12 @@ public class ContainerKeystone extends Container{
 			}else if (!mergeItemStack(itemstack1, PLAYER_INVENTORY_START, PLAYER_ACTION_BAR_END, false)){
 				return null;
 			}
-			if (itemstack1.stackSize == 0){
+			if (itemstack1.getCount() == 0){
 				slot.putStack(null);
 			}else{
 				slot.onSlotChanged();
 			}
-			if (itemstack1.stackSize != itemstack.stackSize){
+			if (itemstack1.getCount() != itemstack.getCount()){
 				slot.onSlotChange(itemstack1, itemstack);
 			}else{
 				return null;

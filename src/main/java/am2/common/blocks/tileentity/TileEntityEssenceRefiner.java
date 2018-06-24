@@ -54,13 +54,13 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 	@Override
 	public ItemStack decrStackSize(int i, int j){
 		if (inventory[i] != null){
-			if (inventory[i].stackSize <= j){
+			if (inventory[i].getCount() <= j){
 				ItemStack itemstack = inventory[i];
 				inventory[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventory[i].splitStack(j);
-			if (inventory[i].stackSize == 0){
+			if (inventory[i].getCount() == 0){
 				inventory[i] = null;
 			}
 			return itemstack1;
@@ -72,8 +72,8 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
-			itemstack.stackSize = getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()){
+			itemstack.getCount() = getInventoryStackLimit();
 		}
 	}
 
@@ -225,10 +225,10 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 		if (!inventory[OUTPUT_INDEX].isItemEqual(itemstack)){
 			return false;
 		}
-		if (inventory[OUTPUT_INDEX].stackSize < getInventoryStackLimit() && inventory[OUTPUT_INDEX].stackSize < inventory[OUTPUT_INDEX].getMaxStackSize()){
+		if (inventory[OUTPUT_INDEX].getCount() < getInventoryStackLimit() && inventory[OUTPUT_INDEX].getCount() < inventory[OUTPUT_INDEX].getMaxStackSize()){
 			return true;
 		}
-		return inventory[OUTPUT_INDEX].stackSize < itemstack.getMaxStackSize();
+		return inventory[OUTPUT_INDEX].getCount() < itemstack.getMaxStackSize();
 	}
 
 	public void refineItem(){
@@ -239,7 +239,7 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 		if (inventory[OUTPUT_INDEX] == null){
 			inventory[OUTPUT_INDEX] = itemstack.copy();
 		}else if (inventory[OUTPUT_INDEX].getItem() == itemstack.getItem()){
-			inventory[OUTPUT_INDEX].stackSize += itemstack.stackSize;
+			inventory[OUTPUT_INDEX].getCount() += itemstack.getCount();
 		}
 		decrementCraftingGridContents();
 	}
@@ -255,10 +255,10 @@ public class TileEntityEssenceRefiner extends TileEntityAMPower implements IInve
 		if (inventory[slot].getItem().hasContainerItem()){
 			inventory[slot] = new ItemStack(inventory[slot].getItem().getContainerItem());
 		}else{
-			inventory[slot].stackSize--;
+			inventory[slot].setCount(inventory[slot].getCount()-1);
 		}
 
-		if (inventory[slot].stackSize <= 0){
+		if (inventory[slot].getCount() <= 0){
 			inventory[slot] = null;
 		}
 	}

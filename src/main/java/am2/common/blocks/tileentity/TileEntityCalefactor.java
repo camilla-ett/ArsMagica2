@@ -132,7 +132,7 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 			if (var1 == null) return false;
 			if (this.calefactorItemStacks[1] == null) return true;
 			if (!this.calefactorItemStacks[1].isItemEqual(var1)) return false;
-			int result = calefactorItemStacks[1].stackSize + var1.stackSize;
+			int result = calefactorItemStacks[1].getCount() + var1.getCount();
 			return (result <= getInventoryStackLimit() && result <= var1.getMaxStackSize());
 		}
 	}
@@ -147,12 +147,12 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				if (PowerNodeRegistry.For(world).checkPower(this, PowerTypes.DARK, getCookTickPowerCost()))
 					if (PowerNodeRegistry.For(world).checkPower(this, PowerTypes.NEUTRAL, getCookTickPowerCost()))
 						if (PowerNodeRegistry.For(world).checkPower(this, PowerTypes.LIGHT, getCookTickPowerCost()))
-							smeltStack.stackSize++;
+							smeltStack.setCount(smeltStack.getCount()+1);
 			}
 
 			if (this.calefactorItemStacks[0].getItem() instanceof ItemFood){
-				if (smeltStack.stackSize == var1.stackSize && world.rand.nextDouble() < 0.15f){
-					smeltStack.stackSize++;
+				if (smeltStack.getCount() == var1.getCount() && world.rand.nextDouble() < 0.15f){
+					smeltStack.setCount(smeltStack.getCount()+1);
 				}
 			}
 
@@ -163,9 +163,9 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 				if (this.calefactorItemStacks[1] == null){
 					this.calefactorItemStacks[1] = smeltStack.copy();
 				}else if (this.calefactorItemStacks[1].isItemEqual(smeltStack)){
-					calefactorItemStacks[1].stackSize += smeltStack.stackSize;
-					if (calefactorItemStacks[1].stackSize > calefactorItemStacks[1].getMaxStackSize()){
-						calefactorItemStacks[1].stackSize = calefactorItemStacks[1].getMaxStackSize();
+					calefactorItemStacks[1].setCount(calefactorItemStacks[1].getCount()+smeltStack.getCount());
+					if (calefactorItemStacks[1].getCount() > calefactorItemStacks[1].getMaxStackSize()){
+						calefactorItemStacks[1].setCount(calefactorItemStacks[1].getMaxStackSize());
 					}
 				}
 
@@ -173,17 +173,17 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 					if (calefactorItemStacks[5] == null){
 						calefactorItemStacks[5] = new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_VINTEUM);
 					}else{
-						calefactorItemStacks[5].stackSize++;
-						if (calefactorItemStacks[5].stackSize > calefactorItemStacks[5].getMaxStackSize()){
-							calefactorItemStacks[5].stackSize = calefactorItemStacks[5].getMaxStackSize();
+						calefactorItemStacks[5].setCount(calefactorItemStacks[5].getCount()+1);
+						if (calefactorItemStacks[5].getCount() > calefactorItemStacks[5].getMaxStackSize()){
+							calefactorItemStacks[5].setCount(calefactorItemStacks[5].getMaxStackSize());
 						}
 					}
 				}
 			}
 
-			--this.calefactorItemStacks[0].stackSize;
+			this.calefactorItemStacks[0].setCount(this.calefactorItemStacks[0].getCount()-1);
 
-			if (this.calefactorItemStacks[0].stackSize <= 0){
+			if (this.calefactorItemStacks[0].getCount() <= 0){
 				this.calefactorItemStacks[0] = null;
 			}
 		}
@@ -366,13 +366,13 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	@Override
 	public ItemStack decrStackSize(int i, int j){
 		if (calefactorItemStacks[i] != null){
-			if (calefactorItemStacks[i].stackSize <= j){
+			if (calefactorItemStacks[i].getCount() <= j){
 				ItemStack itemstack = calefactorItemStacks[i];
 				calefactorItemStacks[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = calefactorItemStacks[i].splitStack(j);
-			if (calefactorItemStacks[i].stackSize == 0){
+			if (calefactorItemStacks[i].getCount() == 0){
 				calefactorItemStacks[i] = null;
 			}
 			return itemstack1;
@@ -395,8 +395,8 @@ public class TileEntityCalefactor extends TileEntityAMPower implements IInventor
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		calefactorItemStacks[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
-			itemstack.stackSize = getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()){
+			itemstack.getCount() = getInventoryStackLimit();
 		}
 	}
 

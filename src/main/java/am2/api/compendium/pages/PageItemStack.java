@@ -128,8 +128,8 @@ public class PageItemStack extends CompendiumPage<ItemStack> {
 		if (element != null){
 			AMGuiHelper.DrawItemAtXY(element, sx, sy, this.zLevel);
 	
-			if (element.stackSize > 1)
-				mc.fontRenderer.drawString("x" + element.stackSize, sx + 16, sy + 8, 0, false);
+			if (element.getCount() > 1)
+				mc.fontRenderer.drawString("x" + element.getCount(), sx + 16, sy + 8, 0, false);
 	
 			if (mousex > sx && mousex < sx + 16){
 				if (mousey > sy && mousey < sy + 16){

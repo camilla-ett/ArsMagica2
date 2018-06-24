@@ -171,7 +171,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 			stack = alternates.get(new Random(new Random(AMGuiHelper.instance.getSlowTicker()).nextLong()).nextInt(alternates.size()));
 		}
 		if (forcedMetas.containsKey(stack.getItem()))
-			stack = new ItemStack(stack.getItem(), stack.stackSize, forcedMetas.get(stack.getItem()));
+			stack = new ItemStack(stack.getItem(), stack.getCount(), forcedMetas.get(stack.getItem()));
 	
 		try{
 			AMGuiHelper.DrawItemAtXY(stack, sx, sy, this.zLevel);

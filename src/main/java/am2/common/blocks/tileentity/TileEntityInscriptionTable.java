@@ -113,13 +113,13 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	@Override
 	public ItemStack decrStackSize(int i, int j){
 		if (this.inscriptionTableItemStacks[i] != null){
-			if (this.inscriptionTableItemStacks[i].stackSize <= j){
+			if (this.inscriptionTableItemStacks[i].getCount() <= j){
 				ItemStack itemstack = this.inscriptionTableItemStacks[i];
 				this.inscriptionTableItemStacks[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = this.inscriptionTableItemStacks[i].splitStack(j);
-			if (this.inscriptionTableItemStacks[i].stackSize == 0){
+			if (this.inscriptionTableItemStacks[i].getCount() == 0){
 				this.inscriptionTableItemStacks[i] = null;
 			}
 			return itemstack1;
@@ -131,8 +131,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		this.inscriptionTableItemStacks[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()){
-			itemstack.stackSize = this.getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > this.getInventoryStackLimit()){
+			itemstack.getCount() = this.getInventoryStackLimit();
 		}
 	}
 

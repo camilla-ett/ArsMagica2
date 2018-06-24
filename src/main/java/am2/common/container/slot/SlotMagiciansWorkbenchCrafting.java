@@ -51,7 +51,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	@Override
 	public ItemStack decrStackSize(int par1){
 		if (this.getHasStack()){
-			this.amountCrafted += Math.min(par1, this.getStack().stackSize);
+			this.amountCrafted += Math.min(par1, this.getStack().getCount());
 		}
 
 		return super.decrStackSize(par1);
@@ -90,7 +90,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	public void onSlotChange(ItemStack par1ItemStack, ItemStack par2ItemStack){
 		if (par1ItemStack != null && par2ItemStack != null){
 			if (par1ItemStack.getItem() == par2ItemStack.getItem()){
-				int i = par2ItemStack.stackSize - par1ItemStack.stackSize;
+				int i = par2ItemStack.count() - par1ItemStack.count();
 
 				if (i > 0){
 					this.onCrafting(par1ItemStack, i);
@@ -113,7 +113,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 			ItemStack itemstack1 = this.craftMatrix.getStackInSlot(i);
 
 			if (itemstack1 != null){
-				if (itemstack1.stackSize > 1 || !searchAndDecrement(itemstack1)){
+				if (itemstack1.count() > 1 || !searchAndDecrement(itemstack1)){
 					doStandardDecrement(this.craftMatrix, itemstack1, i);
 				}else{
 					this.workbench.onCraftMatrixChanged(craftMatrix);

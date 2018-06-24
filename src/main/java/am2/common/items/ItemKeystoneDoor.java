@@ -73,7 +73,7 @@ public class ItemKeystoneDoor extends Item{
 	                int j = enumfacing.getFrontOffsetZ();
 					boolean flag = i < 0 && hitZ < 0.5F || i > 0 && hitZ > 0.5F || j < 0 && hitX > 0.5F || j > 0 && hitX < 0.5F;
 					ItemDoor.placeDoor(worldIn, pos, enumfacing, block, flag);
-					--stack.stackSize;
+					stack.setCount(stack.getCount()-1);
 					return EnumActionResult.SUCCESS;
 				}
 			}else{

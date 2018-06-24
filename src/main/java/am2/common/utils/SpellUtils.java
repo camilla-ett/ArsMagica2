@@ -306,7 +306,7 @@ public class SpellUtils {
 //							ItemStack is = player.inventory.getStackInSlot(i);
 //							if (is == null) continue;
 //							if (is.getItem() == stack.getItem() && (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE || is.getItemDamage() == stack.getItemDamage())) {
-//								if (is.stackSize >= stack.stackSize) {
+//								if (is.getCount() >= stack.getCount()) {
 //									foundMatch = true;
 //									break;
 //								}
@@ -335,7 +335,7 @@ public class SpellUtils {
 //							ItemStack is = player.inventory.getStackInSlot(i);
 //							if (is == null) continue;
 //							if (is.getItem() == stack.getItem() && (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE || is.getItemDamage() == stack.getItemDamage())) {
-//								if (is.stackSize >= stack.stackSize) {
+//								if (is.getCount() >= stack.getCount()) {
 //									foundMatch = true;
 //									break;
 //								}
@@ -343,7 +343,7 @@ public class SpellUtils {
 //						}
 //						if (!foundMatch)  {
 //							if (!first) string.append(", ");
-//							string.append(stack.stackSize).append("x ").append(stack.getDisplayName());
+//							string.append(stack.getCount()).append("x ").append(stack.getDisplayName());
 //							first = false;
 //						}
 //					}
@@ -366,9 +366,9 @@ public class SpellUtils {
 //							ItemStack is = player.inventory.getStackInSlot(i);
 //							if (is == null) continue;
 //							if (is.getItem() == stack.getItem() && (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE || is.getItemDamage() == stack.getItemDamage())) {
-//								if (is.stackSize >= stack.stackSize) {
-//									is.stackSize -= stack.stackSize;
-//									if (is.stackSize <= 0) {
+//								if (is.getCount() >= stack.getCount()) {
+//									is.getCount() -= stack.getCount();
+//									if (is.getCount() <= 0) {
 //										player.inventory.setInventorySlotContents(i, null);
 //									} else {
 //										player.inventory.setInventorySlotContents(i, is);

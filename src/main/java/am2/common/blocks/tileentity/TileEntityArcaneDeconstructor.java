@@ -197,13 +197,13 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 				return false;
 			Object[] recipeParts = RecipeUtils.getRecipeItems(recipe);
 			if (recipeParts != null && checkStack != null && recipe.getRecipeOutput() != null){
-				if (recipe.getRecipeOutput().getItem() == checkStack.getItem() && recipe.getRecipeOutput().getItemDamage() == checkStack.getItemDamage() && recipe.getRecipeOutput().stackSize > 1)
+				if (recipe.getRecipeOutput().getItem() == checkStack.getItem() && recipe.getRecipeOutput().getItemDamage() == checkStack.getItemDamage() && recipe.getRecipeOutput().getCount() > 1)
 					return false;
 
 				for (Object o : recipeParts){
 					ItemStack stack = objectToItemStack(o);
 					if (stack != null && !stack.getItem().hasContainerItem(stack)){
-						stack.stackSize = 1;
+						stack.getCount() = 1;
 						recipeItems.add(stack.copy());
 					}
 				}
@@ -229,8 +229,8 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 			output = objectToItemStack(((List<?>) o).get(0));
 
 		if (output != null){
-			if (output.stackSize == 0)
-				output.stackSize = 1;
+			if (output.getCount() == 0)
+				output.getCount() = 1;
 		}
 
 		return output;
@@ -248,7 +248,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 					TileEntity te = world.getTileEntity(pos.add(i, j, k));
 					if (te != null && te instanceof IInventory){
 						for (EnumFacing side : EnumFacing.values()){
-							if (InventoryUtilities.mergeIntoInventory((IInventory)te, stack, stack.stackSize, side))
+							if (InventoryUtilities.mergeIntoInventory((IInventory)te, stack, stack.getCount(), side))
 								return;
 						}
 					}
@@ -290,13 +290,13 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	@Override
 	public ItemStack decrStackSize(int i, int j){
 		if (inventory[i] != null){
-			if (inventory[i].stackSize <= j){
+			if (inventory[i].getCount() <= j){
 				ItemStack itemstack = inventory[i];
 				inventory[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventory[i].splitStack(j);
-			if (inventory[i].stackSize == 0){
+			if (inventory[i].getCount() == 0){
 				inventory[i] = null;
 			}
 			this.syncCode |= SYNC_INVENTORY;
@@ -322,8 +322,8 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		inventory[i] = itemstack;
 		this.syncCode |= SYNC_INVENTORY;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
-			itemstack.stackSize = getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()){
+			itemstack.getCount() = getInventoryStackLimit();
 		}
 	}
 

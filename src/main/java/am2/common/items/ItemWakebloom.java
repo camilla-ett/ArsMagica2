@@ -42,7 +42,7 @@ public class ItemWakebloom extends ItemBlock{
 					worldIn.setBlockState(mop.getBlockPos().up(), BlockDefs.wakebloom.getDefaultState());
 
 					if (!playerIn.capabilities.isCreativeMode){
-						--itemStackIn.stackSize;
+						itemStackIn.setCount(itemStackIn.getCount()-1);
 					}
 				}
 			}

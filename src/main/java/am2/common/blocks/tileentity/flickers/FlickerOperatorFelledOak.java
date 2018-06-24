@@ -189,7 +189,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 			int index = InventoryUtilities.getInventorySlotIndexFor(inv, new ItemStack(Blocks.SAPLING, 1, Short.MAX_VALUE));
 			if (index > -1){
 				ItemStack stack = inv.getStackInSlot(index).copy();
-				stack.stackSize = 1;
+				stack.getCount() = 1;
 				return stack;
 			}
 		}

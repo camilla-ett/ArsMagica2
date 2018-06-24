@@ -57,8 +57,8 @@ public class ItemInfinityOrb extends ItemArsMagica {
 				player.addChatMessage(new TextComponentString(I18n.format("am2.tooltip.infOrb" + type.toString())));
 			}
 			if (!player.capabilities.isCreativeMode)
-			stack.stackSize--;
-			if (stack.stackSize < 1){
+			stack.setCount(stack.getCount()-1);
+			if (stack.getCount() < 1){
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			}
 		}else{

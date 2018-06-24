@@ -134,7 +134,7 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 		if (this.hasFilterItems()){
 			for (int i = 0; i < this.filterItems.length; i++){
 				if (this.filterItems[i] != null && InventoryUtilities.compareItemStacks(this.filterItems[i], stack, true, false, true, true)){
-					totalCount += this.filterItems[i].stackSize;
+					totalCount += this.filterItems[i].getCount();
 				}
 			}
 		}
@@ -293,13 +293,13 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	@Override
 	public ItemStack decrStackSize(int i, int j){
 		if (this.filterItems[i] != null){
-			if (this.filterItems[i].stackSize <= j){
+			if (this.filterItems[i].getCount() <= j){
 				ItemStack itemstack = this.filterItems[i];
 				this.filterItems[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = this.filterItems[i].splitStack(j);
-			if (this.filterItems[i].stackSize == 0){
+			if (this.filterItems[i].getCount() == 0){
 				this.filterItems[i] = null;
 			}
 			return itemstack1;
@@ -322,8 +322,8 @@ public class TileEntityCrystalMarker extends TileEntity implements IInventory, I
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		this.filterItems[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()){
-			itemstack.stackSize = this.getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > this.getInventoryStackLimit()){
+			itemstack.getCount() = this.getInventoryStackLimit();
 		}
 	}
 

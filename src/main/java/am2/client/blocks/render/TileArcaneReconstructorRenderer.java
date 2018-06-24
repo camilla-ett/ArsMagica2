@@ -148,7 +148,7 @@ public class TileArcaneReconstructorRenderer extends TileEntitySpecialRenderer<T
 	}
 
 	private void RenderItemAtCoords(ItemStack item, double x, double y, double z, float partialTick){
-		item.stackSize = 1;
+		item.getCount() = 1;
 		AMGuiHelper.instance.dummyItem.setEntityItemStack(item);
 		renderItem.doRender(AMGuiHelper.instance.dummyItem, x, y, z, AMGuiHelper.instance.dummyItem.rotationYaw, partialTick);
 	}

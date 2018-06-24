@@ -89,7 +89,8 @@ public class ItemManaPotionBundle extends ItemArsMagica{
 
 		if (getUses(par1ItemStack.getItemDamage()) == 0){
 			giveOrDropItem(par3EntityPlayer, new ItemStack(Items.STRING));
-			if (par1ItemStack.stackSize-- == 0)
+			par1ItemStack.setCount(par1ItemStack.getCount()-1);
+			if (par1ItemStack.getCount() == 0)
 				par1ItemStack = null;
 		}
 

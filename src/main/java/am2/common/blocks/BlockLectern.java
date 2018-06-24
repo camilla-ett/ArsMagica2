@@ -71,8 +71,8 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 		}else{
 			if (player.getHeldItem(hand) != null){
 				if (te.setStack(player.getHeldItem(hand).copy())){
-					player.getHeldItem(hand).stackSize--;
-					if (player.getHeldItem(hand).stackSize <= 0){
+					player.getHeldItem(hand).setCount(player.getHeldItem(hand).getCount()-1);
+					if (player.getHeldItem(hand).getCount() <= 0){
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 					}
 				}

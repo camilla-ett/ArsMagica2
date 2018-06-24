@@ -71,7 +71,7 @@ public class EntityAIChestDeposit extends EntityAIBase{
 
 			if (this.depositCounter > 10){
 				ItemStack mergeStack = InventoryUtilities.getFirstStackInInventory(this.host.getBroomInventory()).copy();
-				int originalSize = mergeStack.stackSize;
+				int originalSize = mergeStack.getCount();
 				if (!InventoryUtilities.mergeIntoInventory(inventory, mergeStack, 1)){
 					if (te instanceof TileEntityChest){
 						TileEntityChest chest = (TileEntityChest)te;
@@ -90,7 +90,7 @@ public class EntityAIChestDeposit extends EntityAIBase{
 						}
 					}
 				}
-				InventoryUtilities.deductFromInventory(this.host.getBroomInventory(), mergeStack, originalSize - mergeStack.stackSize, null);
+				InventoryUtilities.deductFromInventory(this.host.getBroomInventory(), mergeStack, originalSize - mergeStack.getCount(), null);
 			}
 
 			if (this.depositCounter > 10 && (InventoryUtilities.isInventoryEmpty(this.host.getBroomInventory()) || !InventoryUtilities.canMergeHappen(this.host.getBroomInventory(), inventory))){

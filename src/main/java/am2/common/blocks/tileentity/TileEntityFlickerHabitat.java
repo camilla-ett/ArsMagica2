@@ -505,8 +505,8 @@ public class TileEntityFlickerHabitat extends TileEntityFlickerControllerBase im
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		this.flickerJar = itemstack;
-		if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()){
-			itemstack.stackSize = this.getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > this.getInventoryStackLimit()){
+			itemstack.getCount() = this.getInventoryStackLimit();
 		}
 
 	}

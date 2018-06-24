@@ -81,8 +81,8 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack){
 		phylactery = itemstack;
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()){
-			itemstack.stackSize = getInventoryStackLimit();
+		if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()){
+			itemstack.getCount() = getInventoryStackLimit();
 		}
 
 	}
@@ -136,7 +136,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 						this.getStackInSlot(0) == null &&
 						stack != null &&
 						stack.getItem() == ItemDefs.crystalPhylactery &&
-						stack.stackSize == 1 &&
+						stack.getCount() == 1 &&
 						((ItemCrystalPhylactery)stack.getItem()).isFull(stack);
 	}
 

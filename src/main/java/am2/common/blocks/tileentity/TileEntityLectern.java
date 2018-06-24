@@ -146,7 +146,7 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 	public boolean setStack(ItemStack stack){
 		if (stack == null || getValidItems().contains(stack.getItem())){
 			if (stack != null)
-				stack.stackSize = 1;
+				stack.getCount() = 1;
 			this.stack = stack;
 			if (!this.world.isRemote){
 				AMDataWriter writer = new AMDataWriter();

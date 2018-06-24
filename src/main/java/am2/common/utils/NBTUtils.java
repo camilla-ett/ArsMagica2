@@ -137,7 +137,7 @@ public class NBTUtils {
 			NBTTagCompound tmp = list.getCompoundTagAt(i);
 			ItemStack is = ItemStack.loadItemStackFromNBT(tmp);
 			if (is != null)
-				is.stackSize = tmp.getInteger("ActualStackSize");
+				is.getCount() = tmp.getInteger("ActualStackSize");
 			array[tmp.getInteger("ID")] = is;
 		}
 		return array;
@@ -148,7 +148,7 @@ public class NBTUtils {
 		for (int i = 0; i < recipeData.length; i++) {
 			NBTTagCompound tmp = new NBTTagCompound();
 			tmp.setInteger("ID", i);
-			tmp.setInteger("ActualStackSize", recipeData[i].stackSize);
+			tmp.setInteger("ActualStackSize", recipeData[i].getCount());
 			recipeData[i].writeToNBT(tmp);
 			list.appendTag(tmp);
 		}

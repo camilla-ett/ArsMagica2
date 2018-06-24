@@ -37,13 +37,13 @@ public class InventoryEssenceBag implements IInventory{
 	public ItemStack decrStackSize(int i, int j){
 
 		if (inventoryItems[i] != null){
-			if (inventoryItems[i].stackSize <= j){
+			if (inventoryItems[i].getCount() <= j){
 				ItemStack itemstack = inventoryItems[i];
 				inventoryItems[i] = null;
 				return itemstack;
 			}
 			ItemStack itemstack1 = inventoryItems[i].splitStack(j);
-			if (inventoryItems[i].stackSize == 0){
+			if (inventoryItems[i].getCount() == 0){
 				inventoryItems[i] = null;
 			}
 			return itemstack1;

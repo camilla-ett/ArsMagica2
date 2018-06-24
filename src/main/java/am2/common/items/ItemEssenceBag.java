@@ -60,7 +60,7 @@ public class ItemEssenceBag extends ItemArsMagica{
 				itemStack.getTagCompound().removeTag("essencebagmeta" + i);
 				continue;
 			}else{
-				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.stackSize);
+				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.getCount());
 				itemStack.getTagCompound().setInteger("essencebagmeta" + i, stack.getItemDamage());
 			}
 		}
@@ -75,7 +75,7 @@ public class ItemEssenceBag extends ItemArsMagica{
 			if (stack == null){
 				continue;
 			}else{
-				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.stackSize);
+				itemStack.getTagCompound().setInteger("essencebagstacksize" + i, stack.getCount());
 				itemStack.getTagCompound().setInteger("essencebagmeta" + i, stack.getItemDamage());
 			}
 		}

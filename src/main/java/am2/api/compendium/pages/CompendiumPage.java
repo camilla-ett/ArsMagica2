@@ -198,7 +198,7 @@ public abstract class CompendiumPage<E> {
 					list.add(skill.getName());
 				}else if (stack.getItem() == ItemDefs.etherium){
 					list.clear();
-					list.add(stack.stackSize + " " + I18n.format("item.arsmagica2:etherium.name"));
+					list.add(stack.getCount() + " " + I18n.format("item.arsmagica2:etherium.name"));
 					ArrayList<String> subList = new ArrayList<>();
 					for (PowerTypes type : PowerTypes.all()) {
 						if ((stack.getItemDamage() & type.ID()) == type.ID()) {

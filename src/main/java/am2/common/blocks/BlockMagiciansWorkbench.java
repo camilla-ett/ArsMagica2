@@ -89,9 +89,9 @@ public class BlockMagiciansWorkbench extends BlockAMSpecialRenderContainer{
 					((TileEntityMagiciansWorkbench)te).setUpgradeStatus(TileEntityMagiciansWorkbench.UPG_CRAFT, true);
 
 					if (!worldIn.isRemote){
-						heldItem.stackSize--;
+						heldItem.setCount(heldItem.getCount()-1);
 
-						if (heldItem.stackSize <= 0)
+						if (heldItem.getCount() <= 0)
 							heldItem = null;
 
 						playerIn.setItemStackToSlot(hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND, heldItem);
@@ -142,14 +142,14 @@ public class BlockMagiciansWorkbench extends BlockAMSpecialRenderContainer{
 			float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
 			float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
 			do{
-				if (itemstack.stackSize <= 0){
+				if (itemstack.getCount() <= 0){
 					break;
 				}
 				int i1 = world.rand.nextInt(21) + 10;
-				if (i1 > itemstack.stackSize){
-					i1 = itemstack.stackSize;
+				if (i1 > itemstack.getCount()){
+					i1 = itemstack.getCount();
 				}
-				itemstack.stackSize -= i1;
+				itemstack.getCount() -= i1;
 				ItemStack newItem = new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage());
 				newItem.setTagCompound(itemstack.getTagCompound());
 				EntityItem entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, newItem);

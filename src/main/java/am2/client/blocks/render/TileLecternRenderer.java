@@ -80,7 +80,7 @@ public class TileLecternRenderer extends TileEntitySpecialRenderer<TileEntityLec
 
 
 		ItemStack stack = podium.getTooltipStack().copy();
-		stack.stackSize = 1;
+		stack.getCount() = 1;
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.translate(x +0.5f, y+1.4f, z+0.5f);
 		GlStateManager.rotate(deg, 0, f, 0);

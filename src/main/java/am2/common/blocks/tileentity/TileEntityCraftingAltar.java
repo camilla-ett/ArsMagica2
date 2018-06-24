@@ -577,15 +577,15 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				setPowerRequests();
 				pickPowerType(stack);
 				for (PowerTypes type : this.currentMainPowerTypes) {
-					if (PowerNodeRegistry.For(this.world).checkPower(this, type, Math.max(0, Math.min(100, stack.stackSize - currentConsumedPower)))) {
-						currentConsumedPower += PowerNodeRegistry.For(world).consumePower(this, type, Math.min(100, stack.stackSize - currentConsumedPower));
+					if (PowerNodeRegistry.For(this.world).checkPower(this, type, Math.max(0, Math.min(100, stack.getCount() - currentConsumedPower)))) {
+						currentConsumedPower += PowerNodeRegistry.For(world).consumePower(this, type, Math.min(100, stack.getCount() - currentConsumedPower));
 					}
 				}
-				if (currentConsumedPower >= stack.stackSize){
-					System.out.println(currentConsumedPower + " vs " + stack.stackSize);
+				if (currentConsumedPower >= stack.getCount()){
+					System.out.println(currentConsumedPower + " vs " + stack.getCount());
 					//PowerNodeRegistry.For(this.world).setPower(this, this.currentMainPowerTypes, 0);
 					if (!world.isRemote)
-						addItemToRecipe(new ItemStack(ItemDefs.etherium, stack.stackSize, flags));
+						addItemToRecipe(new ItemStack(ItemDefs.etherium, stack.getCount(), flags));
 					setNoPowerRequests();
 					flipSwitch();
 				}
