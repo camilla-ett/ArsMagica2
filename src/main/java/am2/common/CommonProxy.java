@@ -41,8 +41,10 @@ import am2.api.extensions.IEntityExtension;
 import am2.api.extensions.IRiftStorage;
 import am2.api.extensions.ISkillData;
 import am2.api.extensions.ISpellCaster;
+import am2.api.flickers.AbstractFlickerFunctionality;
 import am2.api.math.AMVector3;
 import am2.api.power.IPowerNode;
+import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
 import am2.client.particles.ParticleManagerServer;
 import am2.common.affinity.AffinityAbilityHelper;
@@ -502,19 +504,19 @@ public class CommonProxy implements IGuiHandler{
 	}
 	
 	private void registerFlickerOperators(){
-		GameRegistry.register(FlickerOperatorItemTransport.instance, new ResourceLocation("arsmagica2", "item_transport"));
-		GameRegistry.register(FlickerOperatorButchery.instance, new ResourceLocation("arsmagica2", "butchery"));
-		GameRegistry.register(FlickerOperatorContainment.instance, new ResourceLocation("arsmagica2", "containment"));
-		GameRegistry.register(FlickerOperatorFelledOak.instance, new ResourceLocation("arsmagica2", "felled_oak"));
-		GameRegistry.register(FlickerOperatorFlatLands.instance, new ResourceLocation("arsmagica2", "flat_lands"));
-		GameRegistry.register(FlickerOperatorGentleRains.instance, new ResourceLocation("arsmagica2", "gentle_rains"));
-		GameRegistry.register(FlickerOperatorInterdiction.instance, new ResourceLocation("arsmagica2", "interdiction"));
-		GameRegistry.register(FlickerOperatorLight.instance, new ResourceLocation("arsmagica2", "light"));
-		GameRegistry.register(FlickerOperatorMoonstoneAttractor.instance, new ResourceLocation("arsmagica2", "moonstone_attractor"));
-		GameRegistry.register(FlickerOperatorNaturesBounty.instance, new ResourceLocation("arsmagica2", "natures_bounty"));
-		GameRegistry.register(FlickerOperatorPackedEarth.instance, new ResourceLocation("arsmagica2", "packed_earth"));
-		GameRegistry.register(FlickerOperatorProgeny.instance, new ResourceLocation("arsmagica2", "progeny"));
-		GameRegistry.register(FlickerOperatorFishing.instance, new ResourceLocation("arsmagica2", "fishing"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorItemTransport.instance.setRegistryName(ArsMagica2.MODID, "flicker_itemtransport"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorButchery.instance.setRegistryName(ArsMagica2.MODID ,"flicker_butchery"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorContainment.instance.setRegistryName(ArsMagica2.MODID ,"flicker_containment"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorFelledOak.instance.setRegistryName(ArsMagica2.MODID ,"flicker_felledoak"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorFlatLands.instance.setRegistryName(ArsMagica2.MODID ,"flicker_flatlands"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorGentleRains.instance.setRegistryName(ArsMagica2.MODID ,"flicker_gentlerains"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorInterdiction.instance.setRegistryName(ArsMagica2.MODID ,"flicker_interdiction"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorLight.instance.setRegistryName(ArsMagica2.MODID ,"flicker_light"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorMoonstoneAttractor.instance.setRegistryName(ArsMagica2.MODID ,"flicker_moonstoneattractor"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorNaturesBounty.instance.setRegistryName(ArsMagica2.MODID ,"flicker_naturesbounty"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorPackedEarth.instance.setRegistryName(ArsMagica2.MODID ,"flicker_packedearth"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorProgeny.instance.setRegistryName(ArsMagica2.MODID ,"flicker_progeny"));
+		GameRegistry.findRegistry(AbstractFlickerFunctionality.class).register(FlickerOperatorFishing.instance.setRegistryName(ArsMagica2.MODID ,"flicker_fishing"));
 	}
 	
 	public AM2WorldDecorator getWorldGenerator() {

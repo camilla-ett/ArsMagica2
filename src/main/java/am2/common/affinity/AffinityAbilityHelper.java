@@ -58,58 +58,58 @@ public class AffinityAbilityHelper {
 	
 	static {
 		//AIR
-		GameRegistry.register(new AbilityLightAsAFeather());
-		GameRegistry.register(new AbilityAgile());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityLightAsAFeather());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityAgile());
 		
 		//ARCANE
-		GameRegistry.register(new AbilityClearCaster());
-		GameRegistry.register(new AbilityMagicWeakness());
-		GameRegistry.register(new AbilityOneWithMagic());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityClearCaster());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityMagicWeakness());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityOneWithMagic());
 		
 		//EARTH
-		GameRegistry.register(new AbilitySolidBones());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilitySolidBones());
 		
 		//ENDER
-		GameRegistry.register(new AbilityRelocation());
-		GameRegistry.register(new AbilityNightVision());
-		GameRegistry.register(new AbilityWaterWeakness(Affinity.ENDER));
-		GameRegistry.register(new AbilityPoisonResistance());
-		GameRegistry.register(new AbilitySunlightWeakness());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityRelocation());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityNightVision());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityWaterWeakness(Affinity.ENDER));
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityPoisonResistance());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilitySunlightWeakness());
 		
 		//FIRE
-		GameRegistry.register(new AbilityFireResistance());
-		GameRegistry.register(new AbilityFirePunch());
-		GameRegistry.register(new AbilityWaterWeakness(Affinity.FIRE));
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityFireResistance());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityFirePunch());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityWaterWeakness(Affinity.FIRE));
 		
 		//ICE
-		GameRegistry.register(new AbilityLavaFreeze());
-		GameRegistry.register(new AbilityWaterFreeze());
-		GameRegistry.register(new AbilityColdBlooded());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityLavaFreeze());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityWaterFreeze());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityColdBlooded());
 		
 		//LIFE
-		GameRegistry.register(new AbilityFastHealing());
-		GameRegistry.register(new AbilityPacifist());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityFastHealing());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityPacifist());
 		
 		//WATER
-		GameRegistry.register(new AbilityExpandedLungs());
-		GameRegistry.register(new AbilityFluidity());
-		GameRegistry.register(new AbilitySwiftSwim());
-		GameRegistry.register(new AbilityFireWeakness());
-		GameRegistry.register(new AbilityAntiEndermen());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityExpandedLungs());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityFluidity());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilitySwiftSwim());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityFireWeakness());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityAntiEndermen());
 		
 		//NATURE
-		GameRegistry.register(new AbilityRooted());
-		GameRegistry.register(new AbilityThorns());
-		GameRegistry.register(new AbilityLeafLike());
-		GameRegistry.register(new AbilityPhotosynthesis());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityRooted());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityThorns());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityLeafLike());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityPhotosynthesis());
 		
 		//LIGHTNING
-		GameRegistry.register(new AbilityLightningStep());
-		GameRegistry.register(new AbilityReflexes());
-		GameRegistry.register(new AbilityFulmination());
-		GameRegistry.register(new AbilityShortCircuit());
-		GameRegistry.register(new AbilityThunderPunch());
-		GameRegistry.register(new AbilityWaterWeakness(Affinity.LIGHTNING));
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityLightningStep());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityReflexes());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityFulmination());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityShortCircuit());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityThunderPunch());
+		GameRegistry.findRegistry(AbstractAffinityAbility.class).register(new AbilityWaterWeakness(Affinity.LIGHTNING));
 	}
 	
 	

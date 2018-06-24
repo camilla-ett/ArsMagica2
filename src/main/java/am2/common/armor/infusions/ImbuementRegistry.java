@@ -2,6 +2,7 @@ package am2.common.armor.infusions;
 
 import java.util.ArrayList;
 
+import am2.ArsMagica2;
 import am2.api.ArsMagicaAPI;
 import am2.api.items.armor.ArmorImbuement;
 import am2.api.items.armor.IImbuementRegistry;
@@ -24,20 +25,20 @@ public class ImbuementRegistry implements IImbuementRegistry{
 
 	@Override
 	public void registerImbuement(ArmorImbuement imbuementInstance) {
-		GameRegistry.register(imbuementInstance, new ResourceLocation(ArsMagicaAPI.getCurrentModId(), imbuementInstance.getID()));
+		GameRegistry.findRegistry(ArmorImbuement.class).register(imbuementInstance.setRegistryName(ArsMagica2.MODID,  "imbuement_" + imbuementInstance.getID()));
 		LogHelper.info(String.format("Registered imbuement: %s", imbuementInstance.getID()));
 	}
 
 	@Override
 	public ArmorImbuement getImbuementByID(ResourceLocation ID){
-		return ArsMagicaAPI.getArmorImbuementRegistry().getObject(ID);
+		return GameRegistry.findRegistry(ArmorImbuement.class).getValue(ID);
 	}
 
 	@Override
 	public ArmorImbuement[] getImbuementsForTier(ImbuementTiers tier, EntityEquipmentSlot armorType){
 		ArrayList<ArmorImbuement> list = new ArrayList<ArmorImbuement>();
 
-		for (ArmorImbuement imbuement : ArsMagicaAPI.getArmorImbuementRegistry().getValues()){
+		for (ArmorImbuement imbuement : GameRegistry.findRegistry(ArmorImbuement.class).getValues()){
 			if (imbuement.getTier() == tier){
 				for (EntityEquipmentSlot i : imbuement.getValidSlots()){
 					if (i == armorType){
