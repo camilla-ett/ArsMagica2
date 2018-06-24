@@ -336,56 +336,56 @@ public class EntityFlicker extends EntityAmbientCreature{
 		Biome biome = this.getEntityWorld().getBiome(this.getPosition());
 		if (biome != null){
 			//get the tags on this biome
-			Type[] biomeTags = BiomeDictionary.getTypesForBiome(biome);
+			Type[] biomeTags = BiomeDictionary.getTypes(biome).toArray(new Type[0]);
 			//pick a random tag to focus on
 			Type tagType = biomeTags[world.rand.nextInt(biomeTags.length)];
 			//create a list of valid types based on that tag
 			ArrayList<Affinity> validAffinities = new ArrayList<Affinity>();
 			//populate the list
 			//DO NOT USE THIS LIST FOR AIR/EARTH/LIFE - they are handled by special cases.
-			switch (tagType){
-			case DEAD:
-			case END:
+			switch (tagType.getName()){
+			case "DEAD":
+			case "END":
 				validAffinities.add(Affinity.ENDER);
 				break;
-			case PLAINS:
-			case FOREST:
-			case CONIFEROUS:
-			case JUNGLE:
+			case "PLAINS":
+			case "FOREST":
+			case "CONIFEROUS":
+			case "JUNGLE":
 				validAffinities.add(Affinity.NATURE);
 				break;
-			case COLD:
-			case SNOWY:
+			case "COLD":
+			case "SNOWY":
 				validAffinities.add(Affinity.ICE);
 				break;
-			case MAGICAL:
+			case "MAGICAL":
 				validAffinities.add(Affinity.ARCANE);
 				break;
-			case DRY:
-			case HOT:
-			case SAVANNA:
-			case NETHER:
+			case "DRY":
+			case "HOT":
+			case "SAVANNA":
+			case "NETHER":
 				validAffinities.add(Affinity.FIRE);
 				break;
-			case OCEAN:
+			case "OCEAN":
 				validAffinities.add(Affinity.LIGHTNING);
-			case SWAMP:
-			case WATER:
-			case RIVER:
-			case WET:
-			case BEACH:
+			case "SWAMP":
+			case "WATER":
+			case "RIVER":
+			case "WET":
+			case "BEACH":
 				validAffinities.add(Affinity.WATER);
 				break;
-			case DENSE:
-			case LUSH:
-			case MESA:
-			case SANDY:
-			case SPARSE:
-			case SPOOKY:
-			case WASTELAND:
-			case HILLS:
-			case MOUNTAIN:
-			case MUSHROOM:
+			case "DENSE":
+			case "LUSH":
+			case "MESA":
+			case "SANDY":
+			case "SPARSE":
+			case "SPOOKY":
+			case "WASTELAND":
+			case "HILLS":
+			case "MOUNTAIN":
+			case "MUSHROOM":
 			default:
 				break;
 			}
