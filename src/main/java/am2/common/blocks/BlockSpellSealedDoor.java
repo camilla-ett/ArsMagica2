@@ -115,7 +115,7 @@ public class BlockSpellSealedDoor extends BlockDoor implements ITileEntityProvid
 			entityitem.motionX = (float)worldIn.rand.nextGaussian() * f3;
 			entityitem.motionY = (float)worldIn.rand.nextGaussian() * f3 + 0.2F;
 			entityitem.motionZ = (float)worldIn.rand.nextGaussian() * f3;
-			worldIn.spawnEntityInWorld(entityitem);
+			worldIn.spawnEntity(entityitem);
 		}while (true);
 
 		worldIn.setBlockToAir(pos.up());

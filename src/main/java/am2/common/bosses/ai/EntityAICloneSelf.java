@@ -55,7 +55,7 @@ public class EntityAICloneSelf extends EntityAIBase{
 		EntityWaterGuardian clone = new EntityWaterGuardian(host.world);
 		clone.setMaster(host);
 		clone.setPosition(host.posX, host.posY, host.posZ);
-		host.world.spawnEntityInWorld(clone);
+		host.world.spawnEntity(clone);
 		return clone;
 	}
 }

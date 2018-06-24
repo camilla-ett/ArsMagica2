@@ -67,7 +67,7 @@ public class EntityAISpawnWhirlwind extends EntityAIBase{
 					host.world.playSound(host.posX, host.posY, host.posZ, ((IArsMagicaBoss)host).getAttackSound(), SoundCategory.HOSTILE, 1.0f, 1.0f, false);
 				EntityWhirlwind whirlwind = new EntityWhirlwind(host.world);
 				whirlwind.setPosition(host.posX, host.posY + host.getEyeHeight(), host.posZ);
-				host.world.spawnEntityInWorld(whirlwind);
+				host.world.spawnEntity(whirlwind);
 			}
 		}
 		if (windTicks >= 23){

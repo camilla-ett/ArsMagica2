@@ -58,7 +58,7 @@ public class EntityAIThrowRock extends EntityAIBase{
 				host.faceEntity(target, 180, 180);
 				if (!host.world.isRemote){
 					EntityThrownRock projectile = new EntityThrownRock(host.world, host, 2.0f);
-					host.world.spawnEntityInWorld(projectile);
+					host.world.spawnEntity(projectile);
 				}
 			}
 		}

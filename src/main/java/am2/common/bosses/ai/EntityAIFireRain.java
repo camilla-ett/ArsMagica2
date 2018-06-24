@@ -51,7 +51,7 @@ public class EntityAIFireRain extends EntityAIBase{
 				fire.setRainOfFire(true);
 				fire.setRadius(10);
 				fire.SetCasterAndStack(host, null);
-				host.world.spawnEntityInWorld(fire);
+				host.world.spawnEntity(fire);
 			}
 		}
 		if (boltTicks >= 23){

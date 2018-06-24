@@ -213,7 +213,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 				this.parts[0].setVelocity(this.motionX, this.motionY, this.motionZ);
 			}
 			if (!this.parts[0].addedToChunk) {
-				this.world.spawnEntityInWorld(this.parts[0]);
+				this.world.spawnEntity(this.parts[0]);
 			}
 		}
 

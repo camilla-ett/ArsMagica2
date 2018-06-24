@@ -75,7 +75,7 @@ public class EntityWinterGuardianLaunchArm extends EntityAIBase{
 					EntityWinterGuardianArm projectile = new EntityWinterGuardianArm(host.world, host, 1.25f);
 					projectile.setThrowingEntity(host);
 					projectile.setProjectileSpeed(2.0);
-					host.world.spawnEntityInWorld(projectile);
+					host.world.spawnEntity(projectile);
 				}
 			}
 		}

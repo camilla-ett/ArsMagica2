@@ -158,7 +158,7 @@ public class SpellUtils {
 		ItemStack stack = new ItemStack(Items.SKULL, 1, type);
 		item.setEntityItemStack(stack);
 		item.setPosition(x, y, z);
-		world.spawnEntityInWorld(item);
+		world.spawnEntity(item);
 	}
 	
 	public static NBTTagCompound encode(KeyValuePair<ArrayList<AbstractSpellPart>, NBTTagCompound> toEncode) {

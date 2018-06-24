@@ -20,7 +20,7 @@ public class FlickerEvents {
 			EntityFlicker flicker = new EntityFlicker(ent.world);
 			flicker.setPosition(ent.posX, ent.posY, ent.posZ);
 			flicker.setFlickerType(Affinity.ENDER);
-			ent.world.spawnEntityInWorld(flicker);
+			ent.world.spawnEntity(flicker);
 		}
 	}
 	

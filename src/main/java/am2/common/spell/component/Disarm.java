@@ -61,7 +61,7 @@ public class Disarm extends SpellComponent{
 				item.setEntityItemStack(dropstack);
 				item.setPosition(target.posX, target.posY, target.posZ);
 				item.setPickupDelay(15);
-				world.spawnEntityInWorld(item);
+				world.spawnEntity(item);
 				((EntityDarkMage)target).setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
 				((EntityDarkMage)target).disarm();
 
@@ -79,7 +79,7 @@ public class Disarm extends SpellComponent{
 			item.setEntityItemStack(dropstack);
 			item.setPosition(target.posX, target.posY, target.posZ);
 			item.setDefaultPickupDelay();
-			world.spawnEntityInWorld(item);
+			world.spawnEntity(item);
 			((EntityPlayer)target).inventory.offHandInventory[0] = null;
 		}
 		
@@ -98,7 +98,7 @@ public class Disarm extends SpellComponent{
 				EntityItem item = new EntityItem(world);
 				item.setEntityItemStack(dropstack);
 				item.setPosition(target.posX, target.posY, target.posZ);
-				world.spawnEntityInWorld(item);
+				world.spawnEntity(item);
 			}
 			((EntityMob)target).setAttackTarget(caster);
 			
@@ -113,7 +113,7 @@ public class Disarm extends SpellComponent{
 				item.setEntityItemStack(dropstack);
 				item.setPosition(target.posX, target.posY, target.posZ);
 				item.setDefaultPickupDelay();
-				world.spawnEntityInWorld(item);
+				world.spawnEntity(item);
 			}
 			((EntityMob)target).setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);;
 

@@ -86,7 +86,7 @@ public class EntityAISmash extends EntityAIBase{
 					EntityShockwave shockwave = new EntityShockwave(host.world);
 					shockwave.setPosition(host.posX, host.posY, host.posZ);
 					shockwave.setMoveSpeedAndAngle(0.5f, MathHelper.wrapDegrees(host.rotationYaw + (90 * i)));
-					host.world.spawnEntityInWorld(shockwave);
+					host.world.spawnEntity(shockwave);
 				}
 			}
 		}

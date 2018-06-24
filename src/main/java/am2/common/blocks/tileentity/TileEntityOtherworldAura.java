@@ -111,7 +111,7 @@ public class TileEntityOtherworldAura extends TileEntityAMPower{
 		this.helper.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
 		if (this.watchTarget != null)
 			this.helper.setAltarTarget(watchTarget);
-		this.world.spawnEntityInWorld(helper);
+		this.world.spawnEntity(helper);
 
 		if (this.watchTarget != null){
 			this.helper.setDropoffLocation(new AMVector3(watchTarget.getPos().down(2)));

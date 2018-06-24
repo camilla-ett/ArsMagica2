@@ -91,7 +91,7 @@ public class ItemWinterGuardianArm extends ItemArsMagica{
 			EntityWinterGuardianArm projectile = new EntityWinterGuardianArm(world, player, 1.25f);
 			projectile.setThrowingEntity(player);
 			projectile.setProjectileSpeed(2.0);
-			world.spawnEntityInWorld(projectile);
+			world.spawnEntity(projectile);
 		}
 		EntityExtension.For(player).deductMana(250f);
 		return true;

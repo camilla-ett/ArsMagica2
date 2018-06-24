@@ -783,7 +783,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 					if (getNextPlannedItem() == null || getNextPlannedItem().getItem() != ItemDefs.spellParchment)
 						craftStack.setTagCompound(null);
 					craftedItem.setEntityItemStack(craftStack);
-					world.spawnEntityInWorld(craftedItem);
+					world.spawnEntity(craftedItem);
 					
 					allAddedItems.clear();
 					currentAddedItems.clear();
@@ -844,7 +844,7 @@ public class TileEntityCraftingAltar extends TileEntityAMPower implements IMulti
 				EntityItem eItem = new EntityItem(world);
 				eItem.setPosition(pos.getX(), pos.getY() - 1, pos.getZ());
 				eItem.setEntityItemStack(stack);
-				world.spawnEntityInWorld(eItem);
+				world.spawnEntity(eItem);
 			}
 			allAddedItems.clear();
 		}

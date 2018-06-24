@@ -104,7 +104,7 @@ public class Appropriation extends SpellComponent{
 						Entity ent = (Entity)Class.forName(clazz).getConstructor(World.class).newInstance(world);
 						ent.readFromNBT(entData);
 						ent.setPosition(hitX, hitY, hitZ);
-						world.spawnEntityInWorld(ent);
+						world.spawnEntity(ent);
 					}catch (Throwable t){
 						t.printStackTrace();
 					}

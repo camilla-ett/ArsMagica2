@@ -115,7 +115,7 @@ public class EntityThrownSickle extends EntityLiving{
                             item.setEntityItemStack(res);
                         else
                             item.setEntityItemStack(res);
-                        world.spawnEntityInWorld(item);
+                        world.spawnEntity(item);
                     }
                 }
             }

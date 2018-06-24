@@ -72,7 +72,7 @@ public class Projectile extends SpellShape {
 			projectile.setHoming(spell.isModifierPresent(SpellModifiers.HOMING));
 			projectile.setSpell(spell);
 			projectile.setIcon(AMParticleDefs.getParticleForAffinity(spell.getMainShift()));
-			world.spawnEntityInWorld(projectile);
+			world.spawnEntity(projectile);
 		}
 		return SpellCastResult.SUCCESS;
 	}

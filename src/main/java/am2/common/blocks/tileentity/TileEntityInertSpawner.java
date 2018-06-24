@@ -213,7 +213,7 @@ public class TileEntityInertSpawner extends TileEntityAMPower implements ISidedI
 							if (entity == null)
 								return;
 							setEntityPosition(entity);
-							world.spawnEntityInWorld(entity);
+							world.spawnEntity(entity);
 						}
 					}
 				}

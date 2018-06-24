@@ -218,7 +218,7 @@ public class TileEntityKeystoneRecepticle extends TileEntityAMPower implements I
 						this.key = 0;
 						if (!world.isRemote){
 							EntityLightningBolt elb = new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), false);
-							world.spawnEntityInWorld(elb);
+							world.spawnEntity(elb);
 						}
 						doTeleport(player);
 					}

@@ -74,7 +74,7 @@ public class EntityManaCreeper extends EntityCreeper{
 		}
 		EntityManaVortex vortex = new EntityManaVortex(world);
 		vortex.setPosition(this.posX, this.posY + 1, this.posZ);
-		world.spawnEntityInWorld(vortex);
+		world.spawnEntity(vortex);
 	}
 	
 	@Override

@@ -54,7 +54,7 @@ public class EntityAIPlantGuardianThrowSickle extends EntityAIBase{
 					EntityThrownSickle projectile = new EntityThrownSickle(host.world, host, 2.0f);
 					projectile.setThrowingEntity(host);
 					projectile.setProjectileSpeed(2.0);
-					host.world.spawnEntityInWorld(projectile);
+					host.world.spawnEntity(projectile);
 				}
 			}
 		}

@@ -97,7 +97,7 @@ public class EntityWinterGuardianArm extends EntityLiving{
 						EntityItem item = new EntityItem(world);
 						item.setPosition(posX, posY, posZ);
 						item.setEntityItemStack(ItemDefs.winterArmEnchanted.copy());
-						world.spawnEntityInWorld(item);
+						world.spawnEntity(item);
 					}
 				}
 			}

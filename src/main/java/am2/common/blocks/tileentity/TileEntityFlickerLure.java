@@ -45,7 +45,7 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 				EntityFlicker flicker = new EntityFlicker(world);
 				flicker.setPosition(pos.getX() + 0.5f, pos.getY() + 1.5f, pos.getZ() + 0.5f);
 				flicker.setFlickerType(FlickerGenerationPool.INSTANCE.getWeightedAffinity());
-				world.spawnEntityInWorld(flicker);
+				world.spawnEntity(flicker);
 				PowerNodeRegistry.For(world).consumePower(this, PowerNodeRegistry.For(world).getHighestPowerType(this), 20);
 			}
 		}
@@ -94,7 +94,7 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 						}
 						if (!placed) {
 							EntityItem item = new EntityItem(world, pos.getX() + 0.5D, pos.getY() + 1.5D, pos.getZ() + 0.5D, jar);
-							world.spawnEntityInWorld(item);
+							world.spawnEntity(item);
 						}
 						flicker.setDead();
 					}

@@ -154,7 +154,7 @@ public class BossSpawnHelper{
 		for (EntityLivingBase ent : queuedBosses.keySet()){
 			World world = queuedBosses.get(ent);
 			if (!world.isRemote){
-				world.spawnEntityInWorld(ent);
+				world.spawnEntity(ent);
 				onBossSpawn(ent, world, ent.getPosition());
 			}
 		}
@@ -418,7 +418,7 @@ public class BossSpawnHelper{
 
 		EntityWinterGuardian guardian = new EntityWinterGuardian(world);
 		guardian.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-		world.spawnEntityInWorld(guardian);
+		world.spawnEntity(guardian);
 	}
 
 	public void onLightningEffigyBuilt(World world, BlockPos pos){
@@ -434,7 +434,7 @@ public class BossSpawnHelper{
 
 		EntityLightningGuardian guardian = new EntityLightningGuardian(world);
 		guardian.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-		world.spawnEntityInWorld(guardian);
+		world.spawnEntity(guardian);
 
 		world.thunderingStrength = 1.0f;
 	}
@@ -493,7 +493,7 @@ public class BossSpawnHelper{
 
 			EntityEnderGuardian guardian = new EntityEnderGuardian(world);
 			guardian.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-			world.spawnEntityInWorld(guardian);
+			world.spawnEntity(guardian);
 		}
 	}
 

@@ -40,7 +40,7 @@ public class EntityWhirlwind extends EntityFlying{
 							EntityItem item = new EntityItem(world);
 							item.setPosition(player.posX, player.posY, player.posZ);
 							item.setVelocity(rand.nextDouble() * 0.2 - 0.1, rand.nextDouble() * 0.2 - 0.1, rand.nextDouble() * 0.2 - 0.1);
-							world.spawnEntityInWorld(item);
+							world.spawnEntity(item);
 						}
 						player.inventory.setInventorySlotContents(slot, null);
 					}

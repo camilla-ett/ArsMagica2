@@ -260,7 +260,7 @@ public class TileEntityArcaneDeconstructor extends TileEntityAMPower implements 
 		EntityItem item = new EntityItem(world);
 		item.setPosition(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
 		item.setEntityItemStack(stack);
-		world.spawnEntityInWorld(item);
+		world.spawnEntity(item);
 	}
 	
 	private void setDeconstructionTime(int time) {

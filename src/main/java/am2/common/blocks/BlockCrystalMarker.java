@@ -315,7 +315,7 @@ public class BlockCrystalMarker extends BlockAMContainer{
 			IBlockState block = world.getBlockState(pos);
 			ItemStack itemStack = new ItemStack(block.getBlock(), 1, block.getBlock().getMetaFromState(block));
 			EntityItem entityItem = new EntityItem((World) world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
-			((World) world).spawnEntityInWorld(entityItem);
+			((World) world).spawnEntity(entityItem);
 			((World) world).setBlockToAir(pos);
 		}
 	}

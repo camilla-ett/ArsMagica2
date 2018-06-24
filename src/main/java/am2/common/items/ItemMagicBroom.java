@@ -29,7 +29,7 @@ public class ItemMagicBroom extends ItemArsMagica{
 					EntityBroom broom = new EntityBroom(world);
 					broom.setPosition(player.posX, player.posY, player.posZ);
 					broom.setChestLocation(new AMVector3(mop.getBlockPos()));
-					world.spawnEntityInWorld(broom);
+					world.spawnEntity(broom);
 
 					stack.stackSize--;
 

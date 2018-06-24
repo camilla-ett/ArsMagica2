@@ -43,7 +43,7 @@ public class DimensionUtilities{
 
 			if (e != null){
 				e.readFromNBT(entity.writeToNBT(new NBTTagCompound()));
-				worldserver1.spawnEntityInWorld(e);
+				worldserver1.spawnEntity(e);
 			}
 
 			entity.isDead = true;

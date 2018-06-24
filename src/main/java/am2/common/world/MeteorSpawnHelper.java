@@ -84,7 +84,7 @@ public class MeteorSpawnHelper{
 			meteor.setPosition(spawnCoord.x + rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2), ws.getActualHeight(), spawnCoord.z + rand.nextInt(meteorOffsetRadius) - (meteorOffsetRadius / 2));
 			meteor.setMoonstoneMeteor();
 			meteor.setMoonstoneMeteorTarget(spawnCoord.toVec3D());
-			ws.spawnEntityInWorld(meteor);
+			ws.spawnEntity(meteor);
 		}
 
 	}

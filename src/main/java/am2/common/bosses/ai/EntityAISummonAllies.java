@@ -77,7 +77,7 @@ public class EntityAISummonAllies extends EntityAIBase{
 					EntityUtils.makeSummon_MonsterFaction(mob, false);
 					EntityUtils.setOwner(mob, host);
 					EntityUtils.setSummonDuration(mob, 1800);
-					host.world.spawnEntityInWorld(mob);
+					host.world.spawnEntity(mob);
 
 					host.queued_minions.add(mob);
 				}catch (Throwable e){

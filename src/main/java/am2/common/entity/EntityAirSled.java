@@ -69,7 +69,7 @@ public class EntityAirSled extends EntityLiving{
 					EntityItem item = new EntityItem(world);
 					item.setPosition(posX, posY, posZ);
 					item.setEntityItemStack(ItemDefs.airSledEnchanted.copy());
-					world.spawnEntityInWorld(item);
+					world.spawnEntity(item);
 				}else{
 					player.startRiding(this);
 				}

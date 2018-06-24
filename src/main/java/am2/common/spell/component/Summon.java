@@ -61,7 +61,7 @@ public class Summon extends SpellComponent{
 			((EntityHorse)entity).setTamedBy(((EntityPlayer)caster));
 		}
 		entity.setPosition(x, y, z);
-		world.spawnEntityInWorld(entity);
+		world.spawnEntity(entity);
 		if (caster instanceof EntityPlayer){
 			EntityUtils.makeSummon_PlayerFaction((EntityCreature)entity, (EntityPlayer)caster, false);
 		}else{

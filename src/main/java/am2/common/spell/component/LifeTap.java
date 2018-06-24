@@ -51,7 +51,7 @@ public class LifeTap extends SpellComponent implements IRitualInteraction{
 					EntityItem item = new EntityItem(world);
 					item.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 					item.setEntityItemStack(new ItemStack(BlockDefs.inertSpawner));
-					world.spawnEntityInWorld(item);
+					world.spawnEntity(item);
 				}else{
 
 				}
