@@ -73,7 +73,7 @@ public class PotionEffectHandler {
 	public void entityDamageEvent(LivingHurtEvent event) {
 		if (event.isCanceled()) return;
 		
-		if (event.getSource().damageType.equals(DamageSource.outOfWorld.damageType)) return;
+		if (event.getSource().damageType.equals(DamageSource.OUT_OF_WORLD.damageType)) return;
 		
 		if (event.getEntityLiving().isPotionActive(PotionEffectsDefs.MAGIC_SHIELD))
 			event.setAmount(event.getAmount() * 0.25f);

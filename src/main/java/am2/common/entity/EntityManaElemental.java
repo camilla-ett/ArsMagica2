@@ -56,7 +56,7 @@ public class EntityManaElemental extends EntityMob{
 			if (this.world.isRemote){
 			}else{
 				if (EntityExtension.For(this).getCurrentMana() <= 0){
-					this.attackEntityFrom(DamageSource.generic, 500);
+					this.attackEntityFrom(DamageSource.GENERIC, 500);
 				}
 			}
 		}

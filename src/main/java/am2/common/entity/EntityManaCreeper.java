@@ -59,7 +59,7 @@ public class EntityManaCreeper extends EntityCreeper{
 
 				if (!this.world.isRemote){
 					createManaVortex();
-					this.onDeath(DamageSource.generic);
+					this.onDeath(DamageSource.GENERIC);
 					this.setDead();
 				}
 			}

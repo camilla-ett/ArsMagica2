@@ -96,7 +96,7 @@ public class EntityDryad extends EntityCreature{
 
 	@Override
 	public void onDeath(DamageSource par1DamageSource){
-		if (par1DamageSource.getSourceOfDamage() instanceof EntityPlayer){
+		if (par1DamageSource.getTrueSource() instanceof EntityPlayer){
 			BossSpawnHelper.instance.onDryadKilled(this);
 		}
 		super.onDeath(par1DamageSource);

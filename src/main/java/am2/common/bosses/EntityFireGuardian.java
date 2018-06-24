@@ -207,7 +207,7 @@ public class EntityFireGuardian extends AM2Boss{
 
 	@Override
 	protected float modifyDamageAmount(DamageSource source, float damageAmt){
-		if (source == DamageSource.drown)
+		if (source == DamageSource.DROWN)
 			damageAmt *= 2;
 		else if (source instanceof DamageSourceFrost)
 			damageAmt /= 3;

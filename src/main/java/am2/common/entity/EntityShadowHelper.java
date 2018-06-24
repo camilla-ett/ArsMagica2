@@ -188,7 +188,7 @@ public class EntityShadowHelper extends EntityLiving{
 	}
 
 	public void unSummon(){
-		this.attackEntityFrom(DamageSource.generic, 5000);
+		this.attackEntityFrom(DamageSource.GENERIC, 5000);
 	}
 
 	public ResourceLocation getLocationSkin(){

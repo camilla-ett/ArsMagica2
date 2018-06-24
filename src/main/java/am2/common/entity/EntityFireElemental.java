@@ -109,7 +109,7 @@ public class EntityFireElemental extends EntityMob{
 	@Override
 	public void onLivingUpdate(){
 		if (isWet()){
-			this.attackEntityFrom(DamageSource.drown, 1);
+			this.attackEntityFrom(DamageSource.DROWN, 1);
 		}
 //		if (!this.world.isRemote){
 //			if (this.getAttackTarget() != null && !this.getAttackTarget().isDead){

@@ -59,13 +59,13 @@ public class EntityShockwave extends Entity{
 
 	@Override
 	public void applyEntityCollision(Entity par1Entity){
-		par1Entity.attackEntityFrom(DamageSource.magic, 2);
+		par1Entity.attackEntityFrom(DamageSource.MAGIC, 2);
 		super.applyEntityCollision(par1Entity);
 	}
 
 	@Override
 	public void onCollideWithPlayer(EntityPlayer par1EntityPlayer){
-		par1EntityPlayer.attackEntityFrom(DamageSource.generic, 2);
+		par1EntityPlayer.attackEntityFrom(DamageSource.GENERIC, 2);
 	}
 
 	@Override

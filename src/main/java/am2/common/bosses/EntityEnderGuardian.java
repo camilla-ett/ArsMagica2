@@ -147,8 +147,8 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 		
 		//Thanks but I'm not reading all the code, just fixing.
 		
-		if (par1DamageSource.getSourceOfDamage() instanceof EntityEnderman){
-			((EntityEnderman)par1DamageSource.getSourceOfDamage()).attackEntityFrom(DamageSources.wtfBoom, 5000);
+		if (par1DamageSource.getTrueSource() instanceof EntityEnderman){
+			((EntityEnderman)par1DamageSource.getTrueSource()).attackEntityFrom(DamageSources.wtfBoom, 5000);
 			this.heal(10);
 			return false;
 		}
@@ -167,7 +167,7 @@ public class EntityEnderGuardian extends AM2Boss implements IAnimatedEntity{
 
 		ticksSinceLastAttack = 0;
 
-		if (!world.isRemote && par1DamageSource.getSourceOfDamage() != null && par1DamageSource.getSourceOfDamage() instanceof EntityPlayer){
+		if (!world.isRemote && par1DamageSource.getTrueSource() != null && par1DamageSource.getTrueSource() instanceof EntityPlayer){
 			if (par1DamageSource.damageType == this.lastDamageType){
 				hitCount++;
 				if (hitCount > 5)

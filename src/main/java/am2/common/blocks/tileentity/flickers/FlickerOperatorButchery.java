@@ -60,7 +60,7 @@ public class FlickerOperatorButchery extends AbstractFlickerFunctionality{
 						particle.AddParticleController(new ParticleFloatUpward(particle, 0, 0.05f, 1, false));
 					}
 				}else{
-					creature.attackEntityFrom(DamageSource.generic, 500);
+					creature.attackEntityFrom(DamageSource.GENERIC, 500);
 				}
 				return true;
 			}

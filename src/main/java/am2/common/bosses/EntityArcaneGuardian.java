@@ -101,7 +101,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
-		if (par1DamageSource.getSourceOfDamage() == null){
+		if (par1DamageSource.getTrueSource() == null){
 			return super.attackEntityFrom(par1DamageSource, par2);
 		}
 
@@ -112,7 +112,7 @@ public class EntityArcaneGuardian extends AM2Boss{
 	}
 
 	private boolean checkRuneRetaliation(DamageSource damagesource){
-		Entity source = damagesource.getSourceOfDamage();
+		Entity source = damagesource.getTrueSource();
 		if (source instanceof EntityArcaneGuardian) {
 			return true;
 		}

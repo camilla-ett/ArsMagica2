@@ -145,7 +145,7 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 
-		if (par1DamageSource == DamageSource.inWall) {
+		if (par1DamageSource == DamageSource.IN_WALL) {
 			if (!this.world.isRemote) {// dead code? (calling canSnowAt() without using the result) could it be a buggy upgrade to 1.7.10?
 				for (int i = -1; i <= 1; ++i) {
 					for (int j = 0; j < 3; ++j) {
@@ -158,30 +158,30 @@ public abstract class AM2Boss extends EntityMob implements IEntityMultiPart, IAr
 			return false;
 		}
 
-		if (par1DamageSource.getSourceOfDamage() != null) {
+		if (par1DamageSource.getTrueSource() != null) {
 
-			if (par1DamageSource.getSourceOfDamage() instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) par1DamageSource.getSourceOfDamage();
+			if (par1DamageSource.getTrueSource() instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) par1DamageSource.getTrueSource();
 				if (player.capabilities.isCreativeMode && player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == ItemDefs.woodenLeg) {
 					if (!this.world.isRemote)
 						this.setDead();
 					return false;
 				}
-			} else if (par1DamageSource.getSourceOfDamage() instanceof EntityArrow) {
-				Entity shooter = ((EntityArrow) par1DamageSource.getSourceOfDamage()).shootingEntity;
+			} else if (par1DamageSource.getTrueSource() instanceof EntityArrow) {
+				Entity shooter = ((EntityArrow) par1DamageSource.getTrueSource()).shootingEntity;
 				if (shooter != null && this.getDistanceSqToEntity(shooter) > 900) {
 					this.setPositionAndUpdate(shooter.posX, shooter.posY, shooter.posZ);
 				}
 				return false;
-			} else if (this.getDistanceSqToEntity(par1DamageSource.getSourceOfDamage()) > 900) {
-				Entity shooter = (par1DamageSource.getSourceOfDamage());
+			} else if (this.getDistanceSqToEntity(par1DamageSource.getTrueSource()) > 900) {
+				Entity shooter = (par1DamageSource.getTrueSource());
 				if (shooter != null) {
 					this.setPositionAndUpdate(shooter.posX, shooter.posY, shooter.posZ);
 				}
 			}
 		}
 
-		if (par2 > 7 && !par1DamageSource.damageType.equals(DamageSource.outOfWorld.damageType)) par2 = 7;
+		if (par2 > 7 && !par1DamageSource.damageType.equals(DamageSource.OUT_OF_WORLD.damageType)) par2 = 7;
 
 		par2 = this.modifyDamageAmount(par1DamageSource, par2);
 

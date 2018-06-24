@@ -157,9 +157,9 @@ public class EntityWaterGuardian extends AM2Boss {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2){
-		if (par1DamageSource.getSourceOfDamage() instanceof EntityWaterGuardian)
+		if (par1DamageSource.getTrueSource() instanceof EntityWaterGuardian)
 			return false;
-		if (par1DamageSource.damageType.equals(DamageSource.outOfWorld.damageType))
+		if (par1DamageSource.damageType.equals(DamageSource.OUT_OF_WORLD.damageType))
 			return super.attackEntityFrom(par1DamageSource, par2);
 		if (this.isClone() && this.master != null){
 			this.master.enableUberAttack();
@@ -180,7 +180,7 @@ public class EntityWaterGuardian extends AM2Boss {
 	protected float modifyDamageAmount(DamageSource source, float damageAmt){
 		if (source instanceof DamageSourceLightning)
 			damageAmt *= 2.0f;
-		if (source.getSourceOfDamage() != null && source.getSourceOfDamage() instanceof EntityWaterGuardian)
+		if (source.getTrueSource() != null && source.getTrueSource() instanceof EntityWaterGuardian)
 			damageAmt = 0;
 		if (source instanceof DamageSourceFrost)
 			damageAmt = 0;

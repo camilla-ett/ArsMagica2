@@ -124,7 +124,7 @@ public class TileEntityAstralBarrier extends TileEntityAMPower implements IInven
 	public void onEntityBlocked(EntityLivingBase entity){
 		if (this.world.isRemote){
 			if (PowerNodeRegistry.For(world).checkPower(this, PowerTypes.DARK, 50)){
-				entity.attackEntityFrom(DamageSource.magic, 5);
+				entity.attackEntityFrom(DamageSource.MAGIC, 5);
 				PowerNodeRegistry.For(world).consumePower(this, PowerTypes.DARK, 50);
 			}
 		}
