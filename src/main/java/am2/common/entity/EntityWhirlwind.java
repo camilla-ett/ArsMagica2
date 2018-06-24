@@ -33,7 +33,7 @@ public class EntityWhirlwind extends EntityFlying{
 			Integer cd = cooldownList.get(player);
 			if (cd == null || cd <= 0){
 				if (!world.isRemote && rand.nextInt(100) < 10){
-					int slot = player.inventory.mainInventory.length + rand.nextInt(4);
+					int slot = player.inventory.mainInventory.size() + rand.nextInt(4);
 					if (player.inventory.getStackInSlot(slot) != null){
 						ItemStack armorStack = player.inventory.getStackInSlot(slot).copy();
 						if (!player.inventory.addItemStackToInventory(armorStack)){

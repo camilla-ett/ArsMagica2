@@ -130,8 +130,8 @@ public class PlayerTracker{
 		for (ItemStack stack : player.inventory.armorInventory){
 			int soulbound_level = EnchantmentHelper.getEnchantmentLevel(AMEnchantments.soulbound, stack);
 			if (soulbound_level > 0 || ArmorHelper.isInfusionPreset(stack, GenericImbuement.soulbound)){
-				soulboundItems.put(slotCount + player.inventory.mainInventory.length, stack.copy());
-				player.inventory.setInventorySlotContents(slotCount + player.inventory.mainInventory.length, null);
+				soulboundItems.put(slotCount + player.inventory.mainInventory.size(), stack.copy());
+				player.inventory.setInventorySlotContents(slotCount + player.inventory.mainInventory.size(), null);
 			}
 			slotCount++;
 		}
@@ -148,8 +148,8 @@ public class PlayerTracker{
 		int slotTest = 0;
 		while (soulboundItems.containsKey(slotTest)){
 			slotTest++;
-			if (slotTest == player.inventory.mainInventory.length)
-				slotTest += player.inventory.armorInventory.length;
+			if (slotTest == player.inventory.mainInventory.size())
+				slotTest += player.inventory.armorInventory.size();
 		}
 
 		soulboundItems.put(slotTest, stack);

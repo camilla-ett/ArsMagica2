@@ -167,7 +167,7 @@ public class EntityHecate extends EntityZombie{
 
 			if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.world.canBlockSeeSky(getPosition())){
 				AMNetHandler.INSTANCE.sendHecateDeathToAllAround(this);
-				this.attackEntityFrom(DamageSource.onFire, 5000);
+				this.attackEntityFrom(DamageSource.ON_FIRE, 5000);
 			}
 		}
 		super.onLivingUpdate();

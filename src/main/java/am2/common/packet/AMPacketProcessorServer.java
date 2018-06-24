@@ -55,7 +55,7 @@ public class AMPacketProcessorServer{
 			//constant details all packets share:  ID, player, and remaining data
 			packetID = bbis.readByte();
 			NetHandlerPlayServer srv = (NetHandlerPlayServer)event.getPacket().handler();
-			EntityPlayerMP player = srv.playerEntity;
+			EntityPlayerMP player = srv.player;
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);
 			switch (packetID){

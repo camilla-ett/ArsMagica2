@@ -20,7 +20,7 @@ public class SlotMagiciansWorkbenchCrafting extends Slot{
 	/**
 	 * The player that is using the GUI where this slot resides.
 	 */
-	private final EntityPlayer thePlayer;
+	private final EntityPlayer player;
 
 	private final ContainerMagiciansWorkbench workbench;
 

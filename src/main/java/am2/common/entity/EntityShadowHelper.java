@@ -30,15 +30,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class EntityShadowHelper extends EntityLiving{
 
 	private static final DataParameter<String> DW_MIMIC_USER = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.STRING); //who are we going to mimic (MC skin)?	
-	private static final DataParameter<Optional<ItemStack>> DW_SEARCH_ITEM = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.OPTIONAL_ITEM_STACK); //what are we currently looking for?
+	private static final DataParameter<ItemStack> DW_SEARCH_ITEM = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.ITEM_STACK); //what are we currently looking for?
 	private static final DataParameter<Integer> DW_TRANS_LOC_X = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //x-coordinate of search
 	private static final DataParameter<Integer> DW_TRANS_LOC_Y = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //y-coordinate of search
 	private static final DataParameter<Integer> DW_TRANS_LOC_Z = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //z-coordinate of search
-	private static final DataParameter<Optional<ItemStack>> DW_HELD_ITEM = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.OPTIONAL_ITEM_STACK); //current held item
+	private static final DataParameter<ItemStack> DW_HELD_ITEM = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.ITEM_STACK); //current held item
 	private static final DataParameter<Integer> DW_DROP_LOC_X = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //x-coordinate of search
 	private static final DataParameter<Integer> DW_DROP_LOC_Y = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //y-coordinate of search
 	private static final DataParameter<Integer> DW_DROP_LOC_Z = EntityDataManager.createKey(EntityShadowHelper.class, DataSerializers.VARINT); //z-coordinate of search
-
 	private TileEntityCraftingAltar altarTarget = null;
 	private String lastDWString = "";
 

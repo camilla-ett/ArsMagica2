@@ -99,7 +99,7 @@ public class KeystoneUtilities {
 				}
 			}
 		}else{
-			for (int i = 0; i < player.inventory.mainInventory.length; ++i){
+			for (int i = 0; i < player.inventory.mainInventory.size(); ++i){
 				ItemStack stack = player.inventory.getStackInSlot(i);
 				if (stack == null || stack.getItem() != ItemDefs.keystone) continue;
 				if (((ItemKeystone)stack.getItem()).getKey(stack) == key){

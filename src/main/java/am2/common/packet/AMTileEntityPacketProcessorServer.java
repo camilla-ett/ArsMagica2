@@ -24,7 +24,7 @@ public class AMTileEntityPacketProcessorServer {
 
 			packetID = bbis.readByte();
 			NetHandlerPlayServer srv = (NetHandlerPlayServer)event.getPacket().handler();
-			EntityPlayerMP player = srv.playerEntity;
+			EntityPlayerMP player = srv.player;
 			World world = player.world;
 			byte[] remaining = new byte[bbis.available()];
 			bbis.readFully(remaining);

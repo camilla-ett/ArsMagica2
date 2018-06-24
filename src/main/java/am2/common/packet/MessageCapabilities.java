@@ -50,7 +50,7 @@ public class MessageCapabilities implements IMessage, IMessageHandler<MessageCap
 
 	@Override
 	public IMessage onMessage(final MessageCapabilities message, final MessageContext ctx) {
-		((WorldServer)ctx.getServerHandler().playerEntity.world).addScheduledTask(new Runnable () {
+		((WorldServer)ctx.getServerHandler().player.world).addScheduledTask(new Runnable () {
 			@Override
 			public void run() {
 				if (message.player == null)
