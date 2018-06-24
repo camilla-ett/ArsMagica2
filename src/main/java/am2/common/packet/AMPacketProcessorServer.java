@@ -38,6 +38,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class AMPacketProcessorServer{
@@ -151,7 +152,7 @@ public class AMPacketProcessorServer{
 		Entity target = player.getEntityWorld().getEntityByID(reader.getInt());
 		if (target == null || !(target instanceof EntityPlayer))
 			return;
-		AbstractAffinityAbility ability = GameRegistry.findRegistry(AbstractAffinityAbility.class).getObject(new ResourceLocation(reader.getString()));
+		AbstractAffinityAbility ability = GameRegistry.findRegistry(AbstractAffinityAbility.class).getValue(new ResourceLocation(reader.getString()));
 		if (ability != null && ability.canApply((EntityPlayer) target))
 			ability.applyKeyPress((EntityPlayer) target);
 	}

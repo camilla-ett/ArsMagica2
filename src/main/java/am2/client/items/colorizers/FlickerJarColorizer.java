@@ -4,6 +4,7 @@ import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class FlickerJarColorizer implements IItemColor{
 

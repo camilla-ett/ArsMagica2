@@ -39,6 +39,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class SpellData {
 	
@@ -343,7 +344,7 @@ public class SpellData {
 			NBTTagList parts = tmp.getTagList("Parts", Constants.NBT.TAG_STRING);
 			ArrayList<AbstractSpellPart> pts = new ArrayList<>();
 			for (int j = 0; j < parts.tagCount(); j++) {
-				AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation(parts.getStringTagAt(j)));
+				AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation(parts.getStringTagAt(j)));
 				if (part != null) {
 					pts.add(part);
 				}

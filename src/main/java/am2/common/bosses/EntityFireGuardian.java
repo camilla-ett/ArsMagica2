@@ -31,6 +31,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class EntityFireGuardian extends AM2Boss{
 
@@ -245,7 +246,7 @@ public class EntityFireGuardian extends AM2Boss{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.FIRE)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.FIRE)), 0.0f);
 		}
 
 		i = rand.nextInt(10);

@@ -22,6 +22,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.BossInfo.Color;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class EntityAirGuardian extends AM2Boss{
 	private boolean useLeftArm = false;
@@ -152,7 +153,7 @@ public class EntityAirGuardian extends AM2Boss{
 		int i = rand.nextInt(4);
 
 		for (int j = 0; j < i; j++){
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.AIR)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.AIR)), 0.0f);
 		}
 
 		i = rand.nextInt(10);

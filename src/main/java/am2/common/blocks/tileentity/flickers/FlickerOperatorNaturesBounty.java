@@ -19,6 +19,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class FlickerOperatorNaturesBounty extends AbstractFlickerFunctionality{
 	
@@ -115,9 +116,9 @@ public class FlickerOperatorNaturesBounty extends AbstractFlickerFunctionality{
 				Character.valueOf('B'), new ItemStack(Items.DYE, 1, 15),
 				Character.valueOf('G'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.GREEN.getDyeDamage()),
 				Character.valueOf('N'), AffinityShiftUtils.getEssenceForAffinity(Affinity.NATURE),
-				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.LIFE)),
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.NATURE)),
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.WATER))
+				Character.valueOf('L'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.LIFE)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.NATURE)),
+				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.WATER))
 
 		};
 	}

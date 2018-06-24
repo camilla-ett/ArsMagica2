@@ -10,6 +10,7 @@ import java.util.Random;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.event.SpellRecipeItemsEvent;
+import am2.api.skill.Skill;
 import am2.api.spell.AbstractSpellPart;
 import am2.api.spell.SpellModifier;
 import am2.api.spell.SpellModifiers;
@@ -28,6 +29,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
@@ -60,7 +62,7 @@ public class PageSpellComponent extends CompendiumPage<AbstractSpellPart> {
 		
 		if (mouseX > cx && mouseX < cx + 16){
 			if (mouseY > cy && mouseY < cy + 16){
-				stackTip = new ItemStack(ItemDefs.spell_component, 1, GameRegistry.findRegistry(Skill.class).getId(element.getRegistryName()));
+				stackTip = new ItemStack(ItemDefs.spell_component, 1, GameRegistry.findRegistry(Skill.class).getKey(element.getRegistryName()));
 				tipX = mouseX;
 				tipY = mouseY;
 			}

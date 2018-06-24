@@ -20,6 +20,7 @@ import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class EntityManaElemental extends EntityMob{
 
@@ -65,7 +66,7 @@ public class EntityManaElemental extends EntityMob{
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		if (getRNG().nextInt(10) == 0)
-			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.ARCANE)), 0.0f);
+			this.entityDropItem(new ItemStack(ItemDefs.essence, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.ARCANE)), 0.0f);
 		super.dropFewItems(wasRecentlyHit, lootingModifier);
 	}
 	

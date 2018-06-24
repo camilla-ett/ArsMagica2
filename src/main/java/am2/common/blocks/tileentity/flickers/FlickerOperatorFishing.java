@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class FlickerOperatorFishing extends AbstractFlickerFunctionality{
 
@@ -123,8 +124,8 @@ public class FlickerOperatorFishing extends AbstractFlickerFunctionality{
 				"N W",
 				" R ",
 				Character.valueOf('F'), Items.FISH,
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.WATER)),
-				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.NATURE)),
+				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.WATER)),
+				Character.valueOf('N'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.NATURE)),
 				Character.valueOf('R'), Items.FISHING_ROD
 		};
 	}

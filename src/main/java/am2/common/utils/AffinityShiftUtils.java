@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.Comparator;
 import java.util.List;
@@ -86,7 +87,7 @@ public class AffinityShiftUtils {
 			parts.sort(Comparator.naturalOrder());
 			for (AbstractSpellPart part : parts) {
 				float __multiplier = 0.1F;
-				Skill skill = GameRegistry.findRegistry(Skill.class).getObject(part.getRegistryName());
+				Skill skill = GameRegistry.findRegistry(Skill.class).getValue(part.getRegistryName());
 				if (skill != null) {
 					SkillPoint point = skill.getPoint();
 					if (point.getTier() > 0) {

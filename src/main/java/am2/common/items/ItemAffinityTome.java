@@ -15,6 +15,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -39,7 +40,7 @@ public class ItemAffinityTome extends ItemArsMagica {
 		
 		if (par2World.isRemote) return super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer, hand);
 		
-		if (par1ItemStack.getItemDamage() == GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE)){
+		if (par1ItemStack.getItemDamage() == GameRegistry.findRegistry(Affinity.class).getKey(Affinity.NONE)){
 			IAffinityData data = AffinityData.For(par3EntityPlayer);
 			data.setLocked(false);
 			for (Affinity aff : GameRegistry.findRegistry(Affinity.class).getValues()){

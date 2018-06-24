@@ -17,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class FlickerOperatorFlatLands extends AbstractFlickerFunctionality{
 	
@@ -99,9 +100,9 @@ public class FlickerOperatorFlatLands extends AbstractFlickerFunctionality{
 				" R ",
 				Character.valueOf('S'), Items.IRON_SHOVEL,
 				Character.valueOf('P'), Items.IRON_PICKAXE,
-				Character.valueOf('E'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.EARTH)),
+				Character.valueOf('E'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.EARTH)),
 				Character.valueOf('N'), AffinityShiftUtils.getEssenceForAffinity(Affinity.EARTH),
-				Character.valueOf('I'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.ICE)),
+				Character.valueOf('I'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.ICE)),
 				Character.valueOf('R'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLACK.getDyeDamage())
 		};
 	}

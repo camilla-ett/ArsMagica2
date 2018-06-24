@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileEntityFlickerControllerBase extends TileEntityAMPower implements IFlickerController<TileEntityFlickerControllerBase>{
 	private HashMap<Integer, byte[]> sigilMetadata;
@@ -134,7 +135,7 @@ public class TileEntityFlickerControllerBase extends TileEntityAMPower implement
 	}
 
 	private Integer getFlagForOperator(AbstractFlickerFunctionality operator){
-		return GameRegistry.findRegistry(AbstractFlickerFunctionality.class).getId(operator);
+		return GameRegistry.findRegistry(AbstractFlickerFunctionality.class).getKey(operator);
 	}
 
 	public void setMetadata(AbstractFlickerFunctionality operator, byte[] meta){

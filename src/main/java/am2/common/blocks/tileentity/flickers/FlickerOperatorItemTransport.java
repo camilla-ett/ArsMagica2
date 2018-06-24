@@ -25,6 +25,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 	private static final float BASE_POWERED_ACTIVATION_TIME = 10.0f;
@@ -425,7 +426,7 @@ public class FlickerOperatorItemTransport extends AbstractFlickerFunctionality{
 				" B ",
 				"CAC",
 				" B ",
-				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.AIR)),
+				Character.valueOf('A'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.AIR)),
 				Character.valueOf('C'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_CHIMERITE),
 				Character.valueOf('B'), new ItemStack(ItemDefs.itemOre, 1, ItemOre.META_BLUE_TOPAZ)
 		};

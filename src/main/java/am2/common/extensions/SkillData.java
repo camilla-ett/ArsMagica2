@@ -30,6 +30,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySerializable<NBTBase> {
 	
@@ -76,8 +77,8 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 		Skill skill = SkillRegistry.getSkillFromName(name);
 		
 		for (CompendiumEntry entry : CompendiumCategory.getAllEntries()) {
-			if (GameRegistry.findRegistry(AbstractSpellPart.class).getObject(skill.getRegistryName()) != null) {
-				AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getObject(skill.getRegistryName());
+			if (GameRegistry.findRegistry(AbstractSpellPart.class).getValue(skill.getRegistryName()) != null) {
+				AbstractSpellPart part = GameRegistry.findRegistry(AbstractSpellPart.class).getValue(skill.getRegistryName());
 				for (Object obj : entry.getObjects()) {
 					if (obj == part) {
 						ArcaneCompendium.For(this.player).unlockEntry(entry.getID());
@@ -236,7 +237,7 @@ public class SkillData implements ISkillData, ICapabilityProvider, ICapabilitySe
 			this.skills.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
-				Skill key = GameRegistry.findRegistry(Skill.class).getObject(new ResourceLocation(reader.getString()));
+				Skill key = GameRegistry.findRegistry(Skill.class).getValue(new ResourceLocation(reader.getString()));
 				boolean value = reader.getBoolean();
 				if (key != null)
 					this.skills.put(key, value);

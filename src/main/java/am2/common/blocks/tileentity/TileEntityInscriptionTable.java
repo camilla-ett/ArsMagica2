@@ -52,6 +52,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.*;
@@ -344,7 +345,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			ArrayList<AbstractSpellPart> parts = new ArrayList<>();
 			for (int j = 0; j < tmplist.tagCount(); j++) {
 				NBTTagCompound tmp = tmplist.getCompoundTagAt(j);
-				parts.add(tmp.getInteger("Slot"), GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation(tmp.getString("ID"))));
+				parts.add(tmp.getInteger("Slot"), GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation(tmp.getString("ID"))));
 			}
 			this.shapeGroups.add(parts);
 		}
@@ -352,7 +353,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		NBTTagList recipe = par1NBTTagCompound.getTagList("CurrentRecipe", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < recipe.tagCount(); i++){
 			NBTTagCompound tmp = recipe.getCompoundTagAt(i);
-			this.currentRecipe.add(tmp.getInteger("Slot"), GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation(tmp.getString("ID"))));
+			this.currentRecipe.add(tmp.getInteger("Slot"), GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation(tmp.getString("ID"))));
 		}
 		this.numStageGroups = Math.max(par1NBTTagCompound.getInteger("numShapeGroupSlots"), 2);
 	}
@@ -433,7 +434,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			int partLength = rdr.getInt();
 			for (int i = 0; i < partLength; ++i){
 				Skill part = GameRegistry.findRegistry(Skill.class).getObjectById(rdr.getInt());
-				AbstractSpellPart spellPart = GameRegistry.findRegistry(AbstractSpellPart.class).getObject(part.getRegistryName());
+				AbstractSpellPart spellPart = GameRegistry.findRegistry(AbstractSpellPart.class).getValue(part.getRegistryName());
 				if (spellPart != null)
 					this.currentRecipe.add(spellPart);
 			}
@@ -445,7 +446,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				int[] partData = rdr.getIntArray();
 				for (int n : partData){
 					Skill part = GameRegistry.findRegistry(Skill.class).getObjectById(n);
-					AbstractSpellPart spellPart = GameRegistry.findRegistry(AbstractSpellPart.class).getObject(part.getRegistryName());
+					AbstractSpellPart spellPart = GameRegistry.findRegistry(AbstractSpellPart.class).getValue(part.getRegistryName());
 					if (spellPart != null)
 						group.add(spellPart);
 				}

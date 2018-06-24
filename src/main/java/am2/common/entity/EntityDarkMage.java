@@ -33,14 +33,15 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityDarkMage extends EntityMob{
 
-	private static ItemStack diminishedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE));
-	private static ItemStack normalHeldItem = new ItemStack(ItemDefs.affinityTome, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE));
-	private static ItemStack augmentedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE));
+	private static ItemStack diminishedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.NONE));
+	private static ItemStack normalHeldItem = new ItemStack(ItemDefs.affinityTome, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.NONE));
+	private static ItemStack augmentedHeldItem = new ItemStack(ItemDefs.affinityTome, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.NONE));
 
 	public static final DataParameter<Integer> MAGE_SKIN = EntityDataManager.createKey(EntityDarkMage.class, DataSerializers.VARINT);
 	public static final DataParameter<Integer> MAGE_BOOK = EntityDataManager.createKey(EntityDarkMage.class, DataSerializers.VARINT);

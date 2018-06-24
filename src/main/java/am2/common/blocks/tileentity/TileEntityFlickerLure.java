@@ -14,6 +14,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileEntityFlickerLure extends TileEntityAMPower{
 	
@@ -69,7 +70,7 @@ public class TileEntityFlickerLure extends TileEntityAMPower{
 					ItemStack jar = null;
 					for (int i = 0; i < inventory.getSizeInventory(); i++) {
 						ItemStack is = inventory.getStackInSlot(i);
-						if (is == null || is.getItem() != ItemDefs.flickerJar || is.getItemDamage() != GameRegistry.findRegistry(Affinity.class).getId(Affinity.NONE)) continue;
+						if (is == null || is.getItem() != ItemDefs.flickerJar || is.getItemDamage() != GameRegistry.findRegistry(Affinity.class).getKey(Affinity.NONE)) continue;
 						is.stackSize--;
 						if (is.stackSize <= 0)
 							is = null;

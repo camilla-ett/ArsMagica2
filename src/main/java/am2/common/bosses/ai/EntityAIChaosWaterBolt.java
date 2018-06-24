@@ -12,14 +12,15 @@ import am2.common.utils.NPCSpells;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class EntityAIChaosWaterBolt extends EntityAIBase{
 	private final EntityWaterGuardian host;
 	private static final ItemStack castStack = createDummyStack();
-	private static AbstractSpellPart WateryGrave() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "watery_grave"));}
-	private static AbstractSpellPart Projectile() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "projectile"));}
-	private static AbstractSpellPart MagicDamage() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "magic_damage"));}
-	private static AbstractSpellPart Knockback() {return GameRegistry.findRegistry(AbstractSpellPart.class).getObject(new ResourceLocation("arsmagica2", "knockback"));}
+	private static AbstractSpellPart WateryGrave() {return GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation("arsmagica2", "watery_grave"));}
+	private static AbstractSpellPart Projectile() {return GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation("arsmagica2", "projectile"));}
+	private static AbstractSpellPart MagicDamage() {return GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation("arsmagica2", "magic_damage"));}
+	private static AbstractSpellPart Knockback() {return GameRegistry.findRegistry(AbstractSpellPart.class).getValue(new ResourceLocation("arsmagica2", "knockback"));}
 
 	private static ItemStack createDummyStack(){
 		ItemStack stack = NPCSpells.instance.createSpell(Lists.newArrayList(Projectile(), WateryGrave(), MagicDamage(), Knockback()));

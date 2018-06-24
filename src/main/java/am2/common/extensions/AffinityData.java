@@ -21,6 +21,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabilitySerializable<NBTBase> {
 	public static final ResourceLocation ID = new ResourceLocation("arsmagica2:AffinityData");
@@ -256,7 +257,7 @@ public class AffinityData implements IAffinityData, ICapabilityProvider, ICapabi
 			this.depths.clear();
 			int size = reader.getInt();
 			for (int i = 0; i < size; i++) {
-				Affinity key = GameRegistry.findRegistry(Affinity.class).getObject(new ResourceLocation(reader.getString()));
+				Affinity key = GameRegistry.findRegistry(Affinity.class).getValue(new ResourceLocation(reader.getString()));
 				double value = reader.getDouble();
 				if (key != null)
 					this.depths.put(key, value);

@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class FlickerOperatorGentleRains extends AbstractFlickerFunctionality{
 
@@ -100,7 +101,7 @@ public class FlickerOperatorGentleRains extends AbstractFlickerFunctionality{
 				" B ",
 				Character.valueOf('C'), BlockDefs.essenceConduit,
 				Character.valueOf('T'), BlockDefs.tarmaRoot,
-				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getId(Affinity.WATER)),
+				Character.valueOf('W'), new ItemStack(ItemDefs.flickerJar, 1, GameRegistry.findRegistry(Affinity.class).getKey(Affinity.WATER)),
 				Character.valueOf('B'), new ItemStack(ItemDefs.rune, 1, EnumDyeColor.BLUE.getDyeDamage())
 		};
 	}
